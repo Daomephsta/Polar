@@ -1,0 +1,16 @@
+[
+{
+  "modid": "polar",
+  "name": "Polar",
+  "description": "A magic mod about two opposing schools of magic",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Leviathan143"],
+  "credits": "",
+  "logoFile": "/assets/polar/misc/polar_logo.png",
+  "screenshots": [],
+  "dependencies": []
+}
+]
