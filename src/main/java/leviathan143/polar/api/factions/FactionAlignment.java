@@ -1,6 +1,6 @@
 package leviathan143.polar.api.factions;
 
-import leviathan143.polar.common.Polar.Constants;
+import leviathan143.polar.common.Polar;
 
 /**Declares the alignment of an object, such as an item or player. Objects may only have one alignment.**/
 public enum FactionAlignment 
@@ -16,7 +16,7 @@ public enum FactionAlignment
 	
 	private FactionAlignment(int factionColour) 
 	{
-		this.langKey = Constants.MODID + ".alignment." + this.name();
+		this.langKey = Polar.MODID + ".alignment." + this.name();
 		this.factionColour = factionColour;
 	}
 

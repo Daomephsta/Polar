@@ -2,7 +2,7 @@ package leviathan143.polar.common.items;
 
 import javax.annotation.Nullable;
 
-import leviathan143.polar.common.Polar.Constants;
+import leviathan143.polar.common.Polar;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.event.RegistryEvent;
@@ -10,8 +10,8 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 
-@ObjectHolder(Constants.MODID)
-@EventBusSubscriber(modid = Constants.MODID)
+@ObjectHolder(Polar.MODID)
+@EventBusSubscriber(modid = Polar.MODID)
 public class ItemRegistry 
 {
 	@SubscribeEvent
