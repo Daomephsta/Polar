@@ -1,6 +1,6 @@
 package leviathan143.polar.api.factions;
 
-import mezz.jei.config.Constants;
+import leviathan143.polar.common.Polar;
 
 /**
  * Represents the rank of a player or NPC entity within a faction. Unaligned players always have the rank NONE. 
@@ -21,6 +21,6 @@ public enum FactionRank
 	public String getLangKey(FactionAlignment alignment)
 	{
 		if(alignment == FactionAlignment.UNALIGNED) return "";
-		return Constants.MOD_ID + ".rank." + alignment.name() + "_" + this.name();
+		return Polar.MODID + ".rank." + alignment.name() + "_" + this.name();
 	}
 }
