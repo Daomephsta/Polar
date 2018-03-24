@@ -23,6 +23,8 @@ public class ItemRegistry
 	private static final List<Item> items = new ArrayList<>();
 	private static final Queue<ItemBlock> itemBlockQueue = new ArrayDeque<>();
 	
+	public static final Item RESEARCH_JOURNAL = null;
+	
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> e)
 	{

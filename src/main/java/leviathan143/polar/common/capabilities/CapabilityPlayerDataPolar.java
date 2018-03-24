@@ -76,6 +76,11 @@ public class CapabilityPlayerDataPolar
 		// The player's rank within their faction. Defaults to none.
 		private FactionRank rank = FactionRank.NONE;
 		
+		public static PlayerDataPolar get(EntityPlayer player)
+		{
+			return player.getCapability(CapabilityPlayerDataPolar.PLAYER_DATA_POLAR, null);
+		}
+		
 		public FactionAlignment getFaction()
 		{
 			return faction;
