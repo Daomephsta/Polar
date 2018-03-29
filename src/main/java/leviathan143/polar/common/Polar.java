@@ -1,6 +1,7 @@
 package leviathan143.polar.common;
 
 import leviathan143.polar.common.capabilities.CapabilityPlayerDataPolar;
+import leviathan143.polar.common.capabilities.WorldTaskScheduler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -23,5 +24,6 @@ public class Polar
 	public static void preinit(FMLPreInitializationEvent event)
 	{
 		CapabilityPlayerDataPolar.register();
+		WorldTaskScheduler.initialise();
 	}
 }
