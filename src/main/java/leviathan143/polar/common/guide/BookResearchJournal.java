@@ -2,19 +2,15 @@ package leviathan143.polar.common.guide;
 
 import amerifrance.guideapi.api.GuideBook;
 import amerifrance.guideapi.api.IGuideBook;
-import amerifrance.guideapi.api.impl.*;
+import amerifrance.guideapi.api.impl.Book;
+import amerifrance.guideapi.api.impl.BookBinder;
 import amerifrance.guideapi.api.impl.abstraction.CategoryAbstract;
-import amerifrance.guideapi.api.impl.abstraction.EntryAbstract;
 import amerifrance.guideapi.category.CategoryItemStack;
-import amerifrance.guideapi.page.PageFurnaceRecipe;
-import leviathan143.polar.api.PolarGuideConstructionEvent;
 import leviathan143.polar.common.Polar;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.MinecraftForge;
 
 @GuideBook
 public class BookResearchJournal implements IGuideBook
@@ -58,14 +54,8 @@ public class BookResearchJournal implements IGuideBook
 		}
 		builder.addCategory(building);
 		
-		gatherAddonGuideContent(builder);
 		BOOK_INSTANCE = builder.build();
 		return BOOK_INSTANCE;
-	}
-	
-	private void gatherAddonGuideContent(BookBinder builder)
-	{
-		MinecraftForge.EVENT_BUS.post(new PolarGuideConstructionEvent(builder));
 	}
 
 	private static String createCategoryName(String name)

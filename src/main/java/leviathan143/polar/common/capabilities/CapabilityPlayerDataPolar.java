@@ -1,6 +1,6 @@
 package leviathan143.polar.common.capabilities;
 
-import leviathan143.polar.api.IReadablePlayerDataPolar;
+import leviathan143.polar.api.IPlayerDataPolar;
 import leviathan143.polar.api.PolarAPI;
 import leviathan143.polar.api.factions.FactionAlignment;
 import leviathan143.polar.api.factions.FactionRank;
@@ -14,9 +14,6 @@ import net.minecraftforge.common.util.INBTSerializable;
 /**A capability used by Polar to store data associated with a player, such as rank and faction**/
 public class CapabilityPlayerDataPolar
 {
-	@CapabilityInject(PlayerDataPolar.class)
-	public static final Capability<PlayerDataPolar> PLAYER_DATA_POLAR = null;
-
 	public static void register()
 	{
 		CapabilityManager.INSTANCE.register(PlayerDataPolar.class,
@@ -45,13 +42,13 @@ public class CapabilityPlayerDataPolar
 		@Override
 		public boolean hasCapability(Capability<?> capability, EnumFacing facing)
 		{
-			return capability == PLAYER_DATA_POLAR;
+			return capability == PolarAPI.PLAYER_DATA_POLAR;
 		}
 
 		@Override
 		public <T> T getCapability(Capability<T> capability, EnumFacing facing)
 		{
-			if(capability == PLAYER_DATA_POLAR) return PLAYER_DATA_POLAR.cast(data);
+			if(capability == PolarAPI.PLAYER_DATA_POLAR) return PolarAPI.PLAYER_DATA_POLAR.cast(data);
 			return null;
 		}
 
@@ -69,16 +66,16 @@ public class CapabilityPlayerDataPolar
 	}
 
 	/**Stores data associated with a player. Non-API class, other mods should access player data through {@link PolarAPI#getPlayerData(EntityPlayer)}**/
-	public static class PlayerDataPolar implements IReadablePlayerDataPolar,  INBTSerializable<NBTTagCompound>
+	public static class PlayerDataPolar implements IPlayerDataPolar,  INBTSerializable<NBTTagCompound>
 	{
 		// The faction the player is aligned with. Defaults to unaligned.
 		private FactionAlignment faction = FactionAlignment.UNALIGNED;
 		// The player's rank within their faction. Defaults to none.
 		private FactionRank rank = FactionRank.NONE;
 		
-		public static PlayerDataPolar get(EntityPlayer player)
+		public static IPlayerDataPolar get(EntityPlayer player)
 		{
-			return player.getCapability(CapabilityPlayerDataPolar.PLAYER_DATA_POLAR, null);
+			return player.getCapability(PolarAPI.PLAYER_DATA_POLAR, null);
 		}
 		
 		public FactionAlignment getFaction()

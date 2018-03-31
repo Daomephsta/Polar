@@ -1,7 +1,8 @@
 package leviathan143.polar.common;
 
+import leviathan143.polar.api.PolarAPI;
 import leviathan143.polar.common.capabilities.CapabilityPlayerDataPolar;
-import leviathan143.polar.common.capabilities.WorldTaskScheduler;
+import leviathan143.polar.common.core.InternalMethodAccessors;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -23,7 +24,7 @@ public class Polar
 	@Mod.EventHandler
 	public static void preinit(FMLPreInitializationEvent event)
 	{
+		PolarAPI.initialiseAPI(new InternalMethodAccessors());
 		CapabilityPlayerDataPolar.register();
-		WorldTaskScheduler.initialise();
 	}
 }

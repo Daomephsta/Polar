@@ -5,6 +5,7 @@ import amerifrance.guideapi.api.impl.abstraction.CategoryAbstract;
 import amerifrance.guideapi.api.impl.abstraction.EntryAbstract;
 import amerifrance.guideapi.gui.GuiBase;
 import amerifrance.guideapi.gui.GuiCategory;
+import leviathan143.polar.api.IPlayerDataPolar;
 import leviathan143.polar.api.factions.FactionAlignment;
 import leviathan143.polar.api.factions.FactionRank;
 import leviathan143.polar.common.capabilities.CapabilityPlayerDataPolar.PlayerDataPolar;
@@ -29,7 +30,7 @@ public class EntryGated extends EntryAbstract
 	@Override
 	public boolean canSee(EntityPlayer player, ItemStack bookStack)
 	{
-		PlayerDataPolar playerData = PlayerDataPolar.get(player);
+		IPlayerDataPolar playerData = PlayerDataPolar.get(player);
 		boolean correctFaction = playerData.getFaction() == requiredAlignment || playerData.getFaction() == FactionAlignment.UNALIGNED; 
 		return playerData.getRank() == requiredRank && correctFaction && wrappedEntry.canSee(player, bookStack);
 	}
