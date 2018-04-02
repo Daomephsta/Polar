@@ -15,7 +15,11 @@ public class PolarAPI
 
 	private static IInternalMethodAccessors internalAccessors = new DummyAccessors();
 
-	
+	/**
+	 * Provides access to internal methods without creating a hard dependency on them.
+	 * All the methods of {@link IInternalMethodAccessors} are part of the API.
+	 * @return dummy accessors if Polar is not loaded or if it is before preinit. Otherwise the real accessors are returned.
+	 */
 	public static IInternalMethodAccessors internalAccessors()
 	{
 		return internalAccessors;
