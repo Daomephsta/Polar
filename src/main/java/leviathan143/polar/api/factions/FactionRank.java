@@ -1,6 +1,6 @@
 package leviathan143.polar.api.factions;
 
-import leviathan143.polar.common.Polar;
+import leviathan143.polar.api.PolarAPI;
 
 /**
  * Represents the rank of a player or NPC entity within a faction. Unaligned players always have the rank NONE. 
@@ -21,6 +21,6 @@ public enum FactionRank
 	public String getLangKey(FactionAlignment alignment)
 	{
 		if(alignment == FactionAlignment.UNALIGNED) return "";
-		return Polar.MODID + ".rank." + alignment.name() + "_" + this.name();
+		return PolarAPI.PROVIDER_MOD_ID + ".rank." + alignment.name() + "_" + this.name();
 	}
 }
