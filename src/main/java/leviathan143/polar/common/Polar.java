@@ -19,7 +19,7 @@ public class Polar
 	public static final String SERVER_PROXY_PATH = "leviathan143.polar.server.ServerProxy";
 	
 	@SidedProxy(serverSide=Polar.SERVER_PROXY_PATH, clientSide=Polar.CLIENT_PROXY_PATH)
-	public static CommonProxy proxy;
+	public static AbstractProxy proxy;
 	
 	@Mod.EventHandler
 	public static void preInit(FMLPreInitializationEvent event)
