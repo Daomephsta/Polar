@@ -1,5 +1,6 @@
 package leviathan143.polar.common.capabilities;
 
+import daomephsta.umbra.CapabilityHelper;
 import leviathan143.polar.api.IPlayerDataPolar;
 import leviathan143.polar.api.PolarAPI;
 import leviathan143.polar.api.factions.FactionAlignment;
@@ -9,7 +10,6 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.*;
-import net.minecraftforge.common.util.INBTSerializable;
 
 /**A capability used by Polar to store data associated with a player, such as rank and faction**/
 public class CapabilityPlayerDataPolar
@@ -17,25 +17,24 @@ public class CapabilityPlayerDataPolar
 	public static void register()
 	{
 		CapabilityManager.INSTANCE.register(PlayerDataPolar.class,
-				new Capability.IStorage<PlayerDataPolar>()
-				{
-					@Override
-					public NBTBase writeNBT(
-							Capability<PlayerDataPolar> capability,
-							PlayerDataPolar instance, EnumFacing side)
+				CapabilityHelper.fromLambdas(
+					(Capability<PlayerDataPolar> capability, PlayerDataPolar instance, EnumFacing side, NBTBase nbt) -> 
 					{
-						return null;
-					}
-
-					@Override
-					public void readNBT(Capability<PlayerDataPolar> capability,
-							PlayerDataPolar instance, EnumFacing side,
-							NBTBase nbt)
-					{}
-				}, () -> null);
+						NBTTagCompound compoundNBT = (NBTTagCompound) nbt;
+						instance.setFaction(FactionAlignment.valueOf(compoundNBT.getString("faction")));
+						instance.setRank(FactionRank.valueOf(compoundNBT.getString("rank")));
+					},
+					(Capability<PlayerDataPolar> capability, PlayerDataPolar instance, EnumFacing side) -> 
+					{
+						NBTTagCompound nbt = new NBTTagCompound();
+						nbt.setString("faction", instance.getFaction().name());
+						nbt.setString("rank", instance.getRank().name());
+						return nbt;
+					}), 
+					PlayerDataPolar::new);
 	}
 	
-	public static class PlayerDataProvider implements ICapabilitySerializable<NBTTagCompound>
+	public static class PlayerDataProvider implements ICapabilitySerializable<NBTBase>
 	{
 		private PlayerDataPolar data = new PlayerDataPolar();
 
@@ -53,20 +52,20 @@ public class CapabilityPlayerDataPolar
 		}
 
 		@Override
-		public NBTTagCompound serializeNBT()
+		public NBTBase serializeNBT()
 		{
-			return data.serializeNBT();
+			return PolarAPI.PLAYER_DATA_POLAR.getStorage().writeNBT(PolarAPI.PLAYER_DATA_POLAR, data, null);
 		}
 
 		@Override
-		public void deserializeNBT(NBTTagCompound nbt)
+		public void deserializeNBT(NBTBase nbt)
 		{
-			data.deserializeNBT(nbt);
+			PolarAPI.PLAYER_DATA_POLAR.getStorage().readNBT(PolarAPI.PLAYER_DATA_POLAR, data, null, nbt);
 		}
 	}
 
 	/**Stores data associated with a player. Non-API class, other mods should access player data through {@link PolarAPI#getPlayerData(EntityPlayer)}**/
-	public static class PlayerDataPolar implements IPlayerDataPolar,  INBTSerializable<NBTTagCompound>
+	public static class PlayerDataPolar implements IPlayerDataPolar
 	{
 		// The faction the player is aligned with. Defaults to unaligned.
 		private FactionAlignment faction = FactionAlignment.UNALIGNED;
@@ -78,40 +77,28 @@ public class CapabilityPlayerDataPolar
 			return player.getCapability(PolarAPI.PLAYER_DATA_POLAR, null);
 		}
 		
+		@Override
 		public FactionAlignment getFaction()
 		{
 			return faction;
 		}
 
+		@Override
 		public void setFaction(FactionAlignment faction)
 		{
 			this.faction = faction;
 		}
 
+		@Override
 		public FactionRank getRank()
 		{
 			return rank;
 		}
 
+		@Override
 		public void setRank(FactionRank rank)
 		{
 			this.rank = rank;
-		}
-
-		@Override
-		public NBTTagCompound serializeNBT()
-		{
-			NBTTagCompound nbt = new NBTTagCompound();
-			nbt.setString("faction", faction.name());
-			nbt.setString("rank", rank.name());
-			return nbt;
-		}
-
-		@Override
-		public void deserializeNBT(NBTTagCompound nbt)
-		{
-			this.faction = FactionAlignment.valueOf(nbt.getString("faction"));
-			this.rank = FactionRank.valueOf(nbt.getString("rank"));
 		}
 	}
 }
