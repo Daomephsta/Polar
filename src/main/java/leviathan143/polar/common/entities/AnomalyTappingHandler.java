@@ -2,7 +2,6 @@ package leviathan143.polar.common.entities;
 
 import leviathan143.polar.api.Polarity;
 import leviathan143.polar.api.capabilities.ITappable;
-import leviathan143.polar.common.config.PolarConfig;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.INBTSerializable;
 
