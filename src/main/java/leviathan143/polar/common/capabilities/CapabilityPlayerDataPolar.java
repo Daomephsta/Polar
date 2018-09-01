@@ -16,15 +16,15 @@ public class CapabilityPlayerDataPolar
 {
 	public static void register()
 	{
-		CapabilityManager.INSTANCE.register(PlayerDataPolar.class,
+		CapabilityManager.INSTANCE.register(IPlayerDataPolar.class,
 				CapabilityHelper.fromLambdas(
-					(Capability<PlayerDataPolar> capability, PlayerDataPolar instance, EnumFacing side, NBTBase nbt) -> 
+					(Capability<IPlayerDataPolar> capability, IPlayerDataPolar instance, EnumFacing side, NBTBase nbt) -> 
 					{
 						NBTTagCompound compoundNBT = (NBTTagCompound) nbt;
 						instance.setFaction(FactionAlignment.valueOf(compoundNBT.getString("faction")));
 						instance.setRank(FactionRank.valueOf(compoundNBT.getString("rank")));
 					},
-					(Capability<PlayerDataPolar> capability, PlayerDataPolar instance, EnumFacing side) -> 
+					(Capability<IPlayerDataPolar> capability, IPlayerDataPolar instance, EnumFacing side) -> 
 					{
 						NBTTagCompound nbt = new NBTTagCompound();
 						nbt.setString("faction", instance.getFaction().name());
@@ -36,7 +36,7 @@ public class CapabilityPlayerDataPolar
 	
 	public static class PlayerDataProvider implements ICapabilitySerializable<NBTBase>
 	{
-		private PlayerDataPolar data = new PlayerDataPolar();
+		private IPlayerDataPolar data = new PlayerDataPolar();//PolarAPI.PLAYER_DATA_POLAR.getDefaultInstance();
 
 		@Override
 		public boolean hasCapability(Capability<?> capability, EnumFacing facing)
