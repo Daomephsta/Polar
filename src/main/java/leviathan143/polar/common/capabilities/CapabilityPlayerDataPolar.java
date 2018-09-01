@@ -1,6 +1,6 @@
 package leviathan143.polar.common.capabilities;
 
-import daomephsta.umbra.CapabilityHelper;
+import daomephsta.umbra.capabilities.CapabilityHelper;
 import leviathan143.polar.api.IPlayerDataPolar;
 import leviathan143.polar.api.PolarAPI;
 import leviathan143.polar.api.factions.FactionAlignment;

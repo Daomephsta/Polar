@@ -1,6 +1,6 @@
 package leviathan143.polar.common.capabilities.tapping;
 
-import daomephsta.umbra.CapabilityHelper;
+import daomephsta.umbra.capabilities.CapabilityHelper;
 import leviathan143.polar.api.capabilities.ITappable;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 
