@@ -1,3 +1,13 @@
+//Blocks
+tile.polar.anomaly_tapper.name=Anomaly Tapper
+
+//Items
+
+//Creative Tabs
+itemGroup.polar.red=Vermillis Magic (Polar)
+itemGroup.polar.blue=Azuras Magic (Polar)
+itemGroup.polar.other=Other (Polar)
+
 //Guide Book
 polar.guide.title=Research Journal
 polar.guide.name=Research Journal

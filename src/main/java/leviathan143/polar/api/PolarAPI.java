@@ -1,5 +1,6 @@
 package leviathan143.polar.api;
 
+import leviathan143.polar.api.capabilities.ITappable;
 import leviathan143.polar.api.internal.DummyAccessors;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -12,6 +13,8 @@ public class PolarAPI
 	public static final String PROVIDER_MOD_ID = "polar";
 	@CapabilityInject(IPlayerDataPolar.class)
 	public static final Capability<IPlayerDataPolar> PLAYER_DATA_POLAR = null;
+	@CapabilityInject(ITappable.class)
+	public static final Capability<ITappable> CAPABILITY_TAPPABLE = null;
 
 	private static IInternalMethodAccessors internalAccessors = new DummyAccessors();
 

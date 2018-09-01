@@ -1,0 +1,9 @@
+{
+	"parent": "block/cube_bottom_top",
+	"textures":
+	{
+		"top": "minecraft:blocks/concrete_blue",
+		"bottom": "minecraft:blocks/planks_oak",
+		"side": "minecraft:blocks/planks_oak"
+	}
+}
