@@ -1,5 +1,6 @@
 package leviathan143.polar.common.config;
 
+import daomephsta.umbra.TimeOfDay;
 import it.unimi.dsi.fastutil.ints.IntArraySet;
 import it.unimi.dsi.fastutil.ints.IntSet;
 import leviathan143.polar.common.Polar;
@@ -17,7 +18,7 @@ public class PolarConfig
 	
 	public static class Anomalies
 	{
-		public int spawnTime = 12000;
+		public int spawnTime = TimeOfDay.SUNSET.getTicks();
 		@Name("Minimum Spawn Percentage")
 		public float minGenPercentage = 0.5F;
 		@Name("Maximum Spawn Percentage")
