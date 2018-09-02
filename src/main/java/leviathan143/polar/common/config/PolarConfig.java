@@ -18,11 +18,16 @@ public class PolarConfig
 	
 	public static class Anomalies
 	{
+		@Name("Spawning Time")
 		public int spawnTime = TimeOfDay.SUNSET.getTicks();
 		@Name("Minimum Spawn Percentage")
-		public float minGenPercentage = 0.5F;
+		public float minChunkPercentage = 0.1F;
 		@Name("Maximum Spawn Percentage")
-		public float maxGenPercentage = 1.5F;
+		public float maxChunkPercentage = 0.2F;
+		@Name("Minimum Spawn Y")
+		public int minSpawnY = 0;
+		@Name("Maximum Spawn Y")
+		public int maxSpawnY = 256;
 		@Name("Maximum Anomaly Count")
 		public int maxAnomalyCount = 50;
 		@Name("Dimension Blacklist")
