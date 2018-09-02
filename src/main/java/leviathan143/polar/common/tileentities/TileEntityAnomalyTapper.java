@@ -29,7 +29,6 @@ public class TileEntityAnomalyTapper extends TileEntity implements ITickable
 	@Override
 	public void update()
 	{
-		IBlockState state = world.getBlockState(getPos());
 		//Decrement anomalyCheckCountdown, wrapping around to 10 when 0 is reached 
 		anomalyCheckCountdown = Math.floorMod(anomalyCheckCountdown - 1, 10);
 		if(anomalyCheckCountdown == 0 && !validateAnomaly())
@@ -68,12 +67,14 @@ public class TileEntityAnomalyTapper extends TileEntity implements ITickable
 	
 	private void attachTo(EntityAnomaly anomaly)
 	{
+		anomaly.open();
 		this.attachedAnomaly = anomaly;
 		this.anomalyTapper = anomaly.getCapability(PolarAPI.CAPABILITY_TAPPABLE, null);
 	}
 	
 	private void detachFromAnomaly()
 	{
+		attachedAnomaly.close();
 		this.attachedAnomaly = null;
 		this.anomalyTapper = null;
 	}

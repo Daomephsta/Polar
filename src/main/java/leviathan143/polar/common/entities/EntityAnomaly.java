@@ -21,6 +21,7 @@ public class EntityAnomaly extends Entity
 	private static final DataParameter<Polarity> POLARITY = EntityDataManager.createKey(EntityAnomaly.class, Polarity.getDataSerializer());
 	private static final DataParameter<Long> CLOSING_TIMESTAMP = EntityDataManager.createKey(EntityAnomaly.class, UmbraDataSerializers.LONG);
 	private final ITappable tappingHandler;
+	private boolean open = false;
 	
 	public EntityAnomaly(World world)
 	{
@@ -46,7 +47,7 @@ public class EntityAnomaly extends Entity
 	{
 		super.onEntityUpdate();
 		long closeIn = getDataManager().get(CLOSING_TIMESTAMP) - world.getTotalWorldTime();
-		if(closeIn <= 0 || tappingHandler.getStoredCharge() == 0)
+		if((closeIn <= 0 && !open) || tappingHandler.getStoredCharge() == 0)
 		{
 			this.setDead();
 			return;
@@ -72,6 +73,21 @@ public class EntityAnomaly extends Entity
 	public Polarity getPolarity()
 	{
 		return getDataManager().get(POLARITY);
+	}
+	
+	public boolean isOpen()
+	{
+		return open;
+	}
+	
+	public void open()
+	{
+		this.open = true;
+	}
+	
+	public void close()
+	{
+		this.open = false;
 	}
 
 	@Override
