@@ -5,6 +5,7 @@ import leviathan143.polar.api.Polarity;
 import leviathan143.polar.common.blocks.BlockRegistry;
 import leviathan143.polar.common.capabilities.CapabilityPlayerDataPolar;
 import leviathan143.polar.common.capabilities.tapping.CapabilityTappable;
+import leviathan143.polar.common.config.PolarConfig;
 import leviathan143.polar.common.core.InternalMethodAccessors;
 import leviathan143.polar.common.items.IPolarisedItem;
 import net.minecraft.creativetab.CreativeTabs;
@@ -61,6 +62,7 @@ public class Polar
 		PolarAPI.initialiseAPI(new InternalMethodAccessors());
 		CapabilityPlayerDataPolar.register();
 		CapabilityTappable.register();
+		PolarConfig.finishLoading();
 	}
 	
 	@Mod.EventHandler

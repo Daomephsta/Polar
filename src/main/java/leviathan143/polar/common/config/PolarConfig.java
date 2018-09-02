@@ -45,7 +45,7 @@ public class PolarConfig
 		}
 	}
 
-	private static void finishLoading()
+	public static void finishLoading()
 	{
 		anomalies.dimBlackList = new IntArraySet(anomalies.__dimBlackList);
 	}
