@@ -2,6 +2,7 @@ package leviathan143.polar.common.blocks;
 
 import java.util.Random;
 
+import daomephsta.umbra.bitmanipulation.IBitEncoderDecoder;
 import leviathan143.polar.api.CommonWords;
 import leviathan143.polar.api.Polarity;
 import leviathan143.polar.client.ISpecialRender;
@@ -62,24 +63,25 @@ public class BlockAnomalyTapper extends BlockDirectional implements IHasSpecialI
 		}
 	}
 	
+	//Direction in the first 3 bits, polarity in the last bit
 	@Override
 	public int getMetaFromState(IBlockState state)
 	{	
-		int meta = state.getValue(FACING).getIndex();
-		meta |= state.getValue(POLARITY).getPolarisedIndex() << 3;
-		return meta;
+		IBitEncoderDecoder bitEncoderDecoder = IBitEncoderDecoder.fixedBitCount(4);
+		bitEncoderDecoder.encode(0, 3, state.getValue(FACING).getIndex());
+		bitEncoderDecoder.encode(3, state.getValue(POLARITY).getPolarisedIndex());
+		return bitEncoderDecoder.decode();
 	}
-	
+
+	//Direction in the first 3 bits, polarity in the last bit
 	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
-		IBlockState state = getDefaultState();
-		//ANDing with 0b1110 ensures we're only dealing with the first 3 bits
-		state.withProperty(FACING, EnumFacing.getFront(meta & 0b0111));
-		/* ANDing with 0b0001 ensures we're only dealing with the last bit.
-		 * The right shift shifts the polarity from the last bit to the actual number */
-		state.withProperty(POLARITY, Polarity.fromPolarisedIndex((meta & 0b1000) >> 3));
-		return state;
+		IBitEncoderDecoder bitEncoderDecoder = IBitEncoderDecoder.fixedBitCount(4);
+		bitEncoderDecoder.encode(meta);
+		return getDefaultState()
+			.withProperty(FACING, EnumFacing.getFront(bitEncoderDecoder.decode(0, 3)))
+			.withProperty(POLARITY, Polarity.fromPolarisedIndex(bitEncoderDecoder.decode(3)));
 	}
 	
 	@Override
