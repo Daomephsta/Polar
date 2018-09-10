@@ -1,6 +1,7 @@
 package leviathan143.polar.common.entities;
 
 import leviathan143.polar.common.Polar;
+import leviathan143.polar.common.entities.anomalies.EntityAnomaly;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;

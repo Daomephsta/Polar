@@ -1,4 +1,4 @@
-package leviathan143.polar.common.entities;
+package leviathan143.polar.common.entities.anomalies;
 
 import leviathan143.polar.api.Polarity;
 import leviathan143.polar.api.capabilities.ITappable;

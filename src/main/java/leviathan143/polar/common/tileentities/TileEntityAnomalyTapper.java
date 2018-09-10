@@ -9,7 +9,7 @@ import com.google.common.math.DoubleMath;
 import leviathan143.polar.api.PolarAPI;
 import leviathan143.polar.api.capabilities.ITappable;
 import leviathan143.polar.common.blocks.BlockAnomalyTapper;
-import leviathan143.polar.common.entities.EntityAnomaly;
+import leviathan143.polar.common.entities.anomalies.EntityAnomaly;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;

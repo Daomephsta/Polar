@@ -1,4 +1,4 @@
-package leviathan143.polar.common.entities;
+package leviathan143.polar.common.entities.anomalies;
 
 
 import daomephsta.umbra.network.datasync.UmbraDataSerializers;

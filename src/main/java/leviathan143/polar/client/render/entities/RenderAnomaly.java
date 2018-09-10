@@ -2,7 +2,7 @@ package leviathan143.polar.client.render.entities;
 
 import leviathan143.polar.api.Polarity;
 import leviathan143.polar.common.Polar;
-import leviathan143.polar.common.entities.EntityAnomaly;
+import leviathan143.polar.common.entities.anomalies.EntityAnomaly;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
