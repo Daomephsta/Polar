@@ -1,4 +1,4 @@
-package leviathan143.polar.api;
+package leviathan143.polar.api.capabilities;
 
 import leviathan143.polar.api.factions.FactionAlignment;
 import leviathan143.polar.api.factions.FactionRank;

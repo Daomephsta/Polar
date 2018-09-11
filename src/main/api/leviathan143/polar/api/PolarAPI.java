@@ -1,5 +1,6 @@
 package leviathan143.polar.api;
 
+import leviathan143.polar.api.capabilities.IPlayerDataPolar;
 import leviathan143.polar.api.capabilities.ITappable;
 import leviathan143.polar.api.internal.DummyAccessors;
 import net.minecraftforge.common.capabilities.Capability;

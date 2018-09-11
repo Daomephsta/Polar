@@ -1,8 +1,8 @@
 package leviathan143.polar.common.capabilities;
 
 import daomephsta.umbra.capabilities.CapabilityHelper;
-import leviathan143.polar.api.IPlayerDataPolar;
 import leviathan143.polar.api.PolarAPI;
+import leviathan143.polar.api.capabilities.IPlayerDataPolar;
 import leviathan143.polar.api.factions.FactionAlignment;
 import leviathan143.polar.api.factions.FactionRank;
 import net.minecraft.entity.player.EntityPlayer;

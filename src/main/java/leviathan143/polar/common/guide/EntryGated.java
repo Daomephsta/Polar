@@ -5,7 +5,7 @@ import amerifrance.guideapi.api.impl.abstraction.CategoryAbstract;
 import amerifrance.guideapi.api.impl.abstraction.EntryAbstract;
 import amerifrance.guideapi.gui.GuiBase;
 import amerifrance.guideapi.gui.GuiCategory;
-import leviathan143.polar.api.IPlayerDataPolar;
+import leviathan143.polar.api.capabilities.IPlayerDataPolar;
 import leviathan143.polar.api.factions.FactionAlignment;
 import leviathan143.polar.api.factions.FactionRank;
 import leviathan143.polar.common.capabilities.CapabilityPlayerDataPolar.PlayerDataPolar;
