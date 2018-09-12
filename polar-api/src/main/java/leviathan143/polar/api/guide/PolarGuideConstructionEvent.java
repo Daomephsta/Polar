@@ -2,7 +2,6 @@ package leviathan143.polar.api.guide;
 
 import amerifrance.guideapi.api.impl.BookBinder;
 import amerifrance.guideapi.api.impl.abstraction.CategoryAbstract;
-import leviathan143.polar.common.guide.BookResearchJournal;
 import net.minecraftforge.fml.common.eventhandler.Event;
 
 /**
