@@ -52,7 +52,7 @@ allprojects {
 }
 
 version = "${rootProject.mcVersion}-${rootProject.modVersion}"
-group= "com.leviathan143.polar" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group= "leviathan143.polar" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "Polar"
 
 dependencies {
