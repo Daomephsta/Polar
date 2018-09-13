@@ -2,4 +2,9 @@ dependencies {
 	compile "daomephsta.umbra:Umbra:${rootProject.umbraVersion}"
 }
 
+compileJava.doFirst {
+	println 'Applying generators'
+	apply from: 'generators.gradle'
+}
+
 version = "${rootProject.mcVersion}-${rootProject.modVersion}-${rootProject.apiVersion}"
