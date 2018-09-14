@@ -75,7 +75,7 @@ public enum Polarity implements IStringSerializable
 	
 	public static Polarity fromPolarisedIndex(int polarisedIndex)
 	{
-		if(polarisedIndex < values().length) return POLARISED[polarisedIndex];
+		if(polarisedIndex < POLARISED.length) return POLARISED[polarisedIndex];
 		throw new IllegalArgumentException("No constant exists with the polarised index " + polarisedIndex);
 	}
 	
