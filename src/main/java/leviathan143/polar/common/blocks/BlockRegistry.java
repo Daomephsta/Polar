@@ -34,7 +34,7 @@ public class BlockRegistry
 	private static Block setupBlock(Block block, String name)
 	{
 		block.setRegistryName(Polar.MODID, name);
-		block.setUnlocalizedName(Polar.MODID + '.' + name);
+		block.setTranslationKey(Polar.MODID + '.' + name);
 		blocks.add(block);
 		
 		//Setup itemblock

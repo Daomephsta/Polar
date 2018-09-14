@@ -54,9 +54,9 @@ public class TileEntityAnomalyTapper extends TileEntity implements ITickable
 			getPos().getX() - 0.5D, 
 			getPos().getY() + 1.0D, 
 			getPos().getZ() - 0.5D, 
-			getPos().getX() + facing.getFrontOffsetX() * 3.0D + 1.5D, 
-			getPos().getY() + facing.getFrontOffsetY() * 3.0D, 
-			getPos().getZ() + facing.getFrontOffsetZ() * 3.0D + 1.5D);
+			getPos().getX() + facing.getXOffset() * 3.0D + 1.5D, 
+			getPos().getY() + facing.getYOffset() * 3.0D, 
+			getPos().getZ() + facing.getZOffset() * 3.0D + 1.5D);
 		List<EntityAnomaly> anomalies = world.getEntitiesWithinAABB(EntityAnomaly.class, anomalySearchArea);
 		//Find the closest anomaly in the search area that is of the correct polarity, and attach to it
 		anomalies.stream().filter(anomaly -> anomaly.getPolarity() == state.getValue(BlockAnomalyTapper.POLARITY))

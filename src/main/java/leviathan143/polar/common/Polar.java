@@ -33,7 +33,7 @@ public class Polar
 	TAB_RED = new CreativeTabs(MODID + ".red")
 	{	
 		@Override
-		public ItemStack getTabIconItem()
+		public ItemStack createIcon()
 		{
 			return IPolarisedItem.getPolarisedStack(BlockRegistry.ANOMALY_TAPPER, Polarity.RED);
 		}
@@ -41,7 +41,7 @@ public class Polar
 	TAB_BLUE = new CreativeTabs(MODID + ".blue")
 	{	
 		@Override
-		public ItemStack getTabIconItem()
+		public ItemStack createIcon()
 		{
 			return IPolarisedItem.getPolarisedStack(BlockRegistry.ANOMALY_TAPPER, Polarity.BLUE);
 		}
@@ -49,7 +49,7 @@ public class Polar
 	TAB_OTHER = new CreativeTabs(MODID + ".other")
 	{	
 		@Override
-		public ItemStack getTabIconItem()
+		public ItemStack createIcon()
 		{
 			return new ItemStack(Blocks.OBSIDIAN);
 		}

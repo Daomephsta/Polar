@@ -80,7 +80,7 @@ public class BlockAnomalyTapper extends BlockDirectional implements IHasSpecialI
 		IBitEncoderDecoder bitEncoderDecoder = IBitEncoderDecoder.fixedBitCount(4);
 		bitEncoderDecoder.encode(meta);
 		return getDefaultState()
-			.withProperty(FACING, EnumFacing.getFront(bitEncoderDecoder.decode(0, 3)))
+			.withProperty(FACING, EnumFacing.byIndex(bitEncoderDecoder.decode(0, 3)))
 			.withProperty(POLARITY, Polarity.fromPolarisedIndex(bitEncoderDecoder.decode(3)));
 	}
 	

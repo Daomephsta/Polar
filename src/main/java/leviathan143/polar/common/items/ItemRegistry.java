@@ -35,7 +35,7 @@ public class ItemRegistry
 	private static Item setupItem(Item item, String name)
 	{
 		item.setRegistryName(Polar.MODID, name);
-		item.setUnlocalizedName(Polar.MODID + '.' + name);
+		item.setTranslationKey(Polar.MODID + '.' + name);
 		items.add(item);
 		return item;
 	}
