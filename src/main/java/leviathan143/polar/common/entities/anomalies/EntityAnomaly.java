@@ -1,28 +1,26 @@
 package leviathan143.polar.common.entities.anomalies;
 
 
-import daomephsta.umbra.network.datasync.UmbraDataSerializers;
+import io.netty.buffer.ByteBuf;
 import leviathan143.polar.api.PolarAPI;
 import leviathan143.polar.api.Polarity;
 import leviathan143.polar.api.capabilities.ITappable;
 import leviathan143.polar.common.core.Constants;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 
-public class EntityAnomaly extends Entity
+public class EntityAnomaly extends Entity implements IEntityAdditionalSpawnData
 {
 	private static final int MIN_DAYS = 3, MAX_DAYS = 8;
-	//TODO: Replace both data parameters with data sent using IEntityAdditionalSpawnData
-	private static final DataParameter<Polarity> POLARITY = EntityDataManager.createKey(EntityAnomaly.class, Polarity.getDataSerializer());
-	private static final DataParameter<Long> CLOSING_TIMESTAMP = EntityDataManager.createKey(EntityAnomaly.class, UmbraDataSerializers.LONG);
 	private final ITappable tappingHandler;
+	private Polarity polarity;
+	private long closingTimestamp;
 	private boolean open = false;
-	
+
 	public EntityAnomaly(World world)
 	{
 		super(world);
@@ -31,24 +29,29 @@ public class EntityAnomaly extends Entity
 		//1000-2000 charge
 		this.tappingHandler = new AnomalyTappingHandler(this, 1000 + rand.nextInt(1000));
 	}
-
-	@Override
-	protected void entityInit() 
+	
+	public EntityAnomaly(World world, Polarity polarity)
 	{
-		getDataManager().register(POLARITY, world.rand.nextBoolean() ? Polarity.RED : Polarity.BLUE);
+		this(world);
+
+		this.polarity = polarity;
 		int days = MIN_DAYS + world.rand.nextInt(MAX_DAYS - MIN_DAYS); //3 - 7 days
 		int additionalTicks = (int) Math.floor(world.rand.nextDouble() * Constants.MC_DAY_TICKS); //Random portion of a day
 		//3 - 8 days
-		getDataManager().register(CLOSING_TIMESTAMP, world.getTotalWorldTime() + days * Constants.MC_DAY_TICKS + additionalTicks);
+		this.closingTimestamp = world.getTotalWorldTime() + days * Constants.MC_DAY_TICKS + additionalTicks;
 	}
+
+	@Override
+	protected void entityInit() {}
 	
 	@Override
 	public void onEntityUpdate()
 	{
 		super.onEntityUpdate();
-		long closeIn = getDataManager().get(CLOSING_TIMESTAMP) - world.getTotalWorldTime();
+		long closeIn = closingTimestamp - world.getTotalWorldTime();
 		if((closeIn <= 0 && !open) || tappingHandler.getStoredCharge() == 0)
 		{
+			System.out.println(closingTimestamp + ":" + world.getTotalWorldTime());
 			this.setDead();
 			return;
 		}
@@ -72,7 +75,7 @@ public class EntityAnomaly extends Entity
 	
 	public Polarity getPolarity()
 	{
-		return getDataManager().get(POLARITY);
+		return polarity;
 	}
 	
 	public boolean isOpen()
@@ -93,15 +96,31 @@ public class EntityAnomaly extends Entity
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound compound)
 	{
-		getDataManager().set(POLARITY, Polarity.valueOf(compound.getString("polarity")));
-		if(compound.hasKey("closeIn")) getDataManager().set(CLOSING_TIMESTAMP, world.getTotalWorldTime() + compound.getLong("closeIn"));
-		else getDataManager().set(CLOSING_TIMESTAMP, compound.getLong("closingTimestamp"));
+		this.polarity = Polarity.valueOf(compound.getString("polarity"));
+		if(compound.hasKey("closeIn")) 
+			this.closingTimestamp = world.getTotalWorldTime() + compound.getLong("closeIn");
+		else
+			this.closingTimestamp = compound.getLong("closingTimestamp");
 	}
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound compound)
 	{
-		compound.setString("polarity", dataManager.get(POLARITY).name());
-		compound.setLong("closingTimestamp", getDataManager().get(CLOSING_TIMESTAMP));
+		compound.setString("polarity", this.polarity.name());
+		compound.setLong("closingTimestamp", this.closingTimestamp);
+	}
+	
+	@Override
+	public void readSpawnData(ByteBuf additionalData)
+	{
+		this.polarity = Polarity.fromIndex(additionalData.readInt());
+		this.closingTimestamp = additionalData.readLong();
+	}
+	
+	@Override
+	public void writeSpawnData(ByteBuf additionalData)
+	{
+		additionalData.writeInt(polarity.getIndex());
+		additionalData.writeLong(closingTimestamp);
 	}
 }
