@@ -51,7 +51,6 @@ public class EntityAnomaly extends Entity implements IEntityAdditionalSpawnData
 		long closeIn = closingTimestamp - world.getTotalWorldTime();
 		if((closeIn <= 0 && !open) || tappingHandler.getStoredCharge() == 0)
 		{
-			System.out.println(closingTimestamp + ":" + world.getTotalWorldTime());
 			this.setDead();
 			return;
 		}

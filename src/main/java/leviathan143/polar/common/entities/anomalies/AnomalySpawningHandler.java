@@ -7,8 +7,10 @@ import org.apache.logging.log4j.Logger;
 
 import com.google.common.collect.Iterables;
 
+import daomephsta.umbra.TimeOfDay;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
+import leviathan143.polar.api.Polarity;
 import leviathan143.polar.common.Polar;
 import leviathan143.polar.common.config.PolarConfig;
 import net.minecraft.entity.Entity;
@@ -38,41 +40,51 @@ public class AnomalySpawningHandler
 				continue;
 			
 			WorldServer world = DimensionManager.getWorld(loadedDimID);
-			if(world.getWorldTime() != PolarConfig.anomalies.spawnTime) continue; 
-			
-			List<EntityAnomaly> anomalies = getAnomaliesInLoadedChunks(world);
-			//Don't spawn anomalies if the cap has been reached
-			if (anomalies.size() == PolarConfig.anomalies.maxAnomalyCount) 
-				continue;
-			//If there are more anomalies than the cap, cull them.
-			else if (anomalies.size() > PolarConfig.anomalies.maxAnomalyCount)
-			{
-				cullAnomalies(anomalies);
-				continue;
-			}
-				
-			Collection<Chunk> loadedChunks = world.getChunkProvider().getLoadedChunks();
-			//The percentage of loaded chunks to spawn an anomaly in
-			float spawnChunkPercentage = PolarConfig.anomalies.minChunkPercentage + world.rand.nextFloat() * (PolarConfig.anomalies.maxChunkPercentage - PolarConfig.anomalies.minChunkPercentage);
-			//The number of loaded chunks to spawn an anomaly in
-			int spawnChunkCount = (int) Math.min(Math.ceil(spawnChunkPercentage * loadedChunks.size()), PolarConfig.anomalies.maxAnomalyCount - anomalies.size());
-			logger.debug("{} chunks loaded, {} anomalies in loaded chunks (Max {}). Attempting to spawn anomalies in {} percent of loaded chunks, actually spawning {} anomalies",
-					loadedChunks.size(), anomalies.size(), PolarConfig.anomalies.maxAnomalyCount, spawnChunkPercentage * 10.0F, spawnChunkCount);
-			for (Chunk randomChunk : pickRandomChunks(world.rand, loadedChunks, spawnChunkCount))
-			{
-				spawnAnomalyInChunk(randomChunk);
-			}
+			if(world.getWorldTime() % 24000 == TimeOfDay.SUNRISE.getTicks() + 1)
+				spawnAnomalies(world, Polarity.BLUE);
+			else if(world.getWorldTime() % 24000 == TimeOfDay.SUNSET.getTicks())
+				spawnAnomalies(world, Polarity.RED);
 		}
 	}
 	
-	private static List<EntityAnomaly> getAnomaliesInLoadedChunks(WorldServer worldServer)
+	private static void spawnAnomalies(WorldServer world, Polarity polarity)
+	{
+		List<EntityAnomaly> anomalies = getAnomaliesOfPolarityInLoadedChunks(world, polarity);
+		//The cap is allocated half to red anomalies, and half to blue
+		//Don't spawn anomalies if the cap has been reached
+		if (anomalies.size() == PolarConfig.anomalies.maxAnomalyCount / 2.0F) 
+			return;
+		//If there are more anomalies than the cap, cull them.
+		else if (anomalies.size() > PolarConfig.anomalies.maxAnomalyCount / 2.0F)
+		{
+			cullAnomalies(anomalies);
+			return;
+		}
+			
+		Collection<Chunk> loadedChunks = world.getChunkProvider().getLoadedChunks();
+		//The percentage of loaded chunks to spawn an anomaly in
+		float spawnChunkPercentage = PolarConfig.anomalies.minChunkPercentage + world.rand.nextFloat() * (PolarConfig.anomalies.maxChunkPercentage - PolarConfig.anomalies.minChunkPercentage);
+		//The number of loaded chunks to spawn an anomaly in
+		int spawnChunkCount = (int) Math.min(Math.ceil(spawnChunkPercentage * loadedChunks.size()), PolarConfig.anomalies.maxAnomalyCount - anomalies.size());
+		logger.debug("{} chunks loaded, {} anomalies in loaded chunks (Max {}). Attempting to spawn {} anomalies in {} percent of loaded chunks, actually spawning {} anomalies",
+				loadedChunks.size(), anomalies.size(), PolarConfig.anomalies.maxAnomalyCount, polarity.getName(), spawnChunkPercentage * 10.0F, spawnChunkCount);
+		for (Chunk randomChunk : pickRandomChunks(world.rand, loadedChunks, spawnChunkCount))
+		{
+			spawnAnomalyInChunk(randomChunk, polarity);
+		}
+	}
+	
+	private static List<EntityAnomaly> getAnomaliesOfPolarityInLoadedChunks(WorldServer worldServer, Polarity polarity)
 	{
 		List<EntityAnomaly> anomalies = new ArrayList<>(); 
 		for(Chunk loadedChunk : worldServer.getChunkProvider().getLoadedChunks())
 		{
 			for(ClassInheritanceMultiMap<Entity> entityList : loadedChunk.getEntityLists())
 			{
-				Iterables.addAll(anomalies, entityList.getByClass(EntityAnomaly.class));
+				for (EntityAnomaly anomaly : entityList.getByClass(EntityAnomaly.class))
+				{
+					if (anomaly.getPolarity() == polarity) anomalies.add(anomaly);
+				}
 			}
 		}
 		return anomalies;
@@ -97,7 +109,7 @@ public class AnomalySpawningHandler
 		return randomChunks;
 	}
 	
-	private static void spawnAnomalyInChunk(Chunk chunk)
+	private static void spawnAnomalyInChunk(Chunk chunk, Polarity polarity)
 	{
 		World world = chunk.getWorld();
 		int x = chunk.x * 16 + world.rand.nextInt(16);
@@ -135,9 +147,9 @@ public class AnomalySpawningHandler
 				? lowerBound + world.rand.nextInt(upperBound - lowerBound)
 				: lowerBound;
 		
-		EntityAnomaly anomaly = new EntityAnomaly(world);
+		EntityAnomaly anomaly = new EntityAnomaly(world, polarity);
 		anomaly.setPosition(x, y, z);
 		world.spawnEntity(anomaly);
-		logger.debug("Spawned anomaly at {}, {}, {}", x, y, z);
+		logger.debug("Spawned {} anomaly at {}, {}, {}", polarity.getName(), x, y, z);
 	}
 }
