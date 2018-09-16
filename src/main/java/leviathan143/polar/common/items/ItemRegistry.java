@@ -21,10 +21,15 @@ public class ItemRegistry
 	private static final Queue<ItemBlock> itemBlockQueue = new ArrayDeque<>();
 	
 	public static final Item RESEARCH_JOURNAL = null;
+	public static final Item RED_IRRADIATED_REDSTONE = null;
+	public static final Item BLUE_IRRADIATED_LAPIS = null;
 	
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> e)
 	{
+		e.getRegistry().registerAll(
+			setupItem(new Item(), "red_irradiated_redstone"),
+			setupItem(new Item(), "blue_irradiated_lapis"));
 		while(!itemBlockQueue.isEmpty())
 		{
 			ItemBlock itemBlock = itemBlockQueue.remove();
