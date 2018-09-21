@@ -1,20 +1,16 @@
 package leviathan143.polar.common;
 
 import leviathan143.polar.api.PolarAPI;
-import leviathan143.polar.api.Polarity;
-import leviathan143.polar.common.blocks.BlockRegistry;
 import leviathan143.polar.common.capabilities.CapabilityPlayerDataPolar;
 import leviathan143.polar.common.capabilities.tapping.CapabilityTappable;
 import leviathan143.polar.common.config.PolarConfig;
 import leviathan143.polar.common.core.InternalMethodAccessors;
-import leviathan143.polar.common.items.IPolarisedItem;
+import leviathan143.polar.common.items.ItemRegistry;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.*;
-
 
 @Mod(modid = Polar.MODID, name = Polar.MODNAME, version = Polar.VERSION, dependencies = Polar.DEPENDENCIES)
 public class Polar
@@ -35,7 +31,7 @@ public class Polar
 		@Override
 		public ItemStack createIcon()
 		{
-			return IPolarisedItem.getPolarisedStack(BlockRegistry.ANOMALY_TAPPER, Polarity.RED);
+			return new ItemStack(ItemRegistry.RED_IRRADIATED_REDSTONE);
 		}
 	},
 	TAB_BLUE = new CreativeTabs(MODID + ".blue")
@@ -43,7 +39,7 @@ public class Polar
 		@Override
 		public ItemStack createIcon()
 		{
-			return IPolarisedItem.getPolarisedStack(BlockRegistry.ANOMALY_TAPPER, Polarity.BLUE);
+			return new ItemStack(ItemRegistry.BLUE_IRRADIATED_LAPIS);
 		}
 	},
 	TAB_OTHER = new CreativeTabs(MODID + ".other")
@@ -51,7 +47,7 @@ public class Polar
 		@Override
 		public ItemStack createIcon()
 		{
-			return new ItemStack(Blocks.OBSIDIAN);
+			return new ItemStack(ItemRegistry.RESEARCH_JOURNAL);
 		}
 	};
 	

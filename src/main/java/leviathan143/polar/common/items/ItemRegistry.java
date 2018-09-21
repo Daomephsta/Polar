@@ -29,9 +29,9 @@ public class ItemRegistry
 	public static void registerItems(RegistryEvent.Register<Item> e)
 	{
 		e.getRegistry().registerAll(
-			setupItem(new IrradiatedItem(Items.REDSTONE, Polarity.RED), "red_irradiated_redstone"),
+			setupItem(new IrradiatedItem(Items.REDSTONE, Polarity.RED), "red_irradiated_redstone").setCreativeTab(Polar.TAB_RED),
 			setupItem(new IrradiatedItem(new ItemStack(Items.DYE, 1, EnumDyeColor.BLUE.getDyeDamage()), Polarity.BLUE), 
-				"blue_irradiated_lapis"));
+				"blue_irradiated_lapis").setCreativeTab(Polar.TAB_BLUE));
 		while(!itemBlockQueue.isEmpty())
 		{
 			ItemBlock itemBlock = itemBlockQueue.remove();

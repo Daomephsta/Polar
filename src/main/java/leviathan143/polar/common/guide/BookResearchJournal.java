@@ -24,10 +24,12 @@ public class BookResearchJournal implements IGuideBook
 		builder.setGuideTitle(Polar.MODID + ".guide.title");
 		builder.setItemName(Polar.MODID + ".guide.name");
 		builder.setHeader("");
+		builder.setCreativeTab(Polar.TAB_OTHER);
 
 		// Add categories, entries and pages
 		builder.addCategory(PolarCategories.BASICS);
 		{
+			
 		}
 		builder.addCategory(PolarCategories.COMBAT);
 		{
