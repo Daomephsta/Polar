@@ -54,17 +54,18 @@ public enum Polarity implements IStringSerializable
 	private final int index;
 	//Index for the subset of constants that are polarised(not NONE). NONE has a polarised index of -1.
 	private final int polarisedIndex;
+	private final String translationKey;
 	
 	private Polarity(int index)
 	{
-		this.index = index;
-		this.polarisedIndex = -1;
+		this(index, -1);
 	}
 	
 	private Polarity(int index, int polarisedIndex)
 	{
 		this.index = index;
 		this.polarisedIndex = polarisedIndex;
+		this.translationKey = PolarAPI.PROVIDER_MOD_ID + ".polarity." + getName();
 	}
 	
 	public static Polarity fromIndex(int index)
@@ -88,6 +89,11 @@ public enum Polarity implements IStringSerializable
 	public String getName()
 	{
 		return name().toLowerCase(Locale.ROOT);
+	}
+	
+	public String getTranslationKey()
+	{
+		return translationKey;
 	}
 	
 	public int getIndex()
