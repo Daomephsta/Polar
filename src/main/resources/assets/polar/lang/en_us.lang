@@ -3,6 +3,10 @@ tile.polar.anomaly_tapper.name=Anomaly Tapper
 
 //Items
 
+//Misc
+polar.polarity.red.irradiated=Vermillis Irradiated %s
+polar.polarity.blue.irradiated=Azuras Irradiated %s
+
 //Creative Tabs
 itemGroup.polar.red=Vermillis Magic (Polar)
 itemGroup.polar.blue=Azuras Magic (Polar)

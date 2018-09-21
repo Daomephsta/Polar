@@ -2,11 +2,12 @@ package leviathan143.polar.common.items;
 
 import java.util.*;
 
+import leviathan143.polar.api.Polarity;
 import leviathan143.polar.client.ISpecialRender;
 import leviathan143.polar.common.Polar;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.init.Items;
+import net.minecraft.item.*;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -28,8 +29,9 @@ public class ItemRegistry
 	public static void registerItems(RegistryEvent.Register<Item> e)
 	{
 		e.getRegistry().registerAll(
-			setupItem(new Item(), "red_irradiated_redstone"),
-			setupItem(new Item(), "blue_irradiated_lapis"));
+			setupItem(new IrradiatedItem(Items.REDSTONE, Polarity.RED), "red_irradiated_redstone"),
+			setupItem(new IrradiatedItem(new ItemStack(Items.DYE, 1, EnumDyeColor.BLUE.getDyeDamage()), Polarity.BLUE), 
+				"blue_irradiated_lapis"));
 		while(!itemBlockQueue.isEmpty())
 		{
 			ItemBlock itemBlock = itemBlockQueue.remove();
