@@ -13,26 +13,23 @@ public class RenderAnomaly extends Render<EntityAnomaly>
 	private static final ResourceLocation 
 		TEXTURE_RED = new ResourceLocation(Polar.MODID, "textures/entity/anomaly_red.png"), 
 		TEXTURE_BLUE = new ResourceLocation(Polar.MODID, "textures/entity/anomaly_blue.png");
-	private /*final*/ ModelAnomaly model = new ModelAnomaly();
+	private final ModelAnomaly model = new ModelAnomaly();
 
 	public RenderAnomaly(RenderManager renderManager)
 	{
-		super(renderManager);
+		super/**/(renderManager);
 	}
 
 	@Override
 	public void doRender(EntityAnomaly entity, double x, double y, double z, float entityYaw, float partialTicks)
 	{
-		///model = new ModelAnomaly();
 		GlStateManager.pushMatrix();
 		{
-			//GlStateManager.enableBlend();
 			this.bindEntityTexture(entity);
 			GlStateManager.translate(x, y, z);
 			model.setRotationAngles(1.0F, 1.0F, entity.ticksExisted, 1.0F, 1.0F, 0.1F, entity);
 			model.render(entity, 1.0F, 1.0F, entity.ticksExisted, 1.0F, 1.0F, 0.1F);
 			GlStateManager.color(1.0F, 1.0F, 1.0F);
-			//GlStateManager.disableBlend();
 		}
 		GlStateManager.popMatrix();
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);
