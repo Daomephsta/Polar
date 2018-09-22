@@ -10,8 +10,10 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderAnomaly extends Render<EntityAnomaly>
 {
-	private static final ResourceLocation TEXTURE = new ResourceLocation(Polar.MODID, "textures/entity/anomaly.png");
-	private final ModelAnomaly model = new ModelAnomaly();
+	private static final ResourceLocation 
+		TEXTURE_RED = new ResourceLocation(Polar.MODID, "textures/entity/anomaly_red.png"), 
+		TEXTURE_BLUE = new ResourceLocation(Polar.MODID, "textures/entity/anomaly_blue.png");
+	private /*final*/ ModelAnomaly model = new ModelAnomaly();
 
 	public RenderAnomaly(RenderManager renderManager)
 	{
@@ -21,15 +23,16 @@ public class RenderAnomaly extends Render<EntityAnomaly>
 	@Override
 	public void doRender(EntityAnomaly entity, double x, double y, double z, float entityYaw, float partialTicks)
 	{
+		///model = new ModelAnomaly();
 		GlStateManager.pushMatrix();
 		{
+			//GlStateManager.enableBlend();
 			this.bindEntityTexture(entity);
-			if(entity.getPolarity() == Polarity.RED) GlStateManager.color(1.0F, 0.0F, 0.0F);
-			else if(entity.getPolarity() == Polarity.BLUE) GlStateManager.color(0.0F, 0.0F, 1.0F);
 			GlStateManager.translate(x, y, z);
 			model.setRotationAngles(1.0F, 1.0F, entity.ticksExisted, 1.0F, 1.0F, 0.1F, entity);
 			model.render(entity, 1.0F, 1.0F, entity.ticksExisted, 1.0F, 1.0F, 0.1F);
 			GlStateManager.color(1.0F, 1.0F, 1.0F);
+			//GlStateManager.disableBlend();
 		}
 		GlStateManager.popMatrix();
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);
@@ -38,6 +41,8 @@ public class RenderAnomaly extends Render<EntityAnomaly>
 	@Override
 	protected ResourceLocation getEntityTexture(EntityAnomaly entity)
 	{
-		return TEXTURE;
+		if(entity.getPolarity() == Polarity.RED) return TEXTURE_RED;
+		else if(entity.getPolarity() == Polarity.BLUE) return TEXTURE_BLUE;
+		else return null;
 	}
 }
