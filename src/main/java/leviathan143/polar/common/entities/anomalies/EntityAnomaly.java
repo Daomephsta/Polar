@@ -90,7 +90,6 @@ public class EntityAnomaly extends Entity implements IEntityAdditionalSpawnData
 						{
 							ItemStack fullStack = output.copy();
 							fullStack.setCount(output.getMaxStackSize());
-							System.out.println(fullStack);
 							// Spawn up to half a block out
 							double x = entityItem.posX + (rand.nextDouble() - 0.5D);
 							double z = entityItem.posZ + (rand.nextDouble() - 0.5D);
@@ -100,7 +99,6 @@ public class EntityAnomaly extends Entity implements IEntityAdditionalSpawnData
 						// Spawn remainder stack
 						ItemStack remainderStack = output.copy();
 						remainderStack.setCount(output.getCount() % output.getMaxStackSize());
-						System.out.println(remainderStack);
 						// Spawn up to half a block out
 						double x = entityItem.posX + (rand.nextDouble() - 0.5D);
 						double z = entityItem.posZ + (rand.nextDouble() - 0.5D);
