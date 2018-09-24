@@ -27,17 +27,17 @@ public class ModelAnomaly extends ModelBase
     	this.textureWidth = 44;
         this.textureHeight = 44;
         this.overlay = new ModelRenderer(this, 0, 22);
-        this.overlay.setRotationPoint(0.0F, 16.0F, 0.0F);
-        this.overlay.addBox(-6.0F, -6.0F, -6.0F, 11, 11, 11, 0.0F);
+        this.overlay.setRotationPoint(0.0F, 5.5F, 0.0F);
+        this.overlay.addBox(-5.5F, -5.5F, -5.5F, 11, 11, 11, 0.0F);
         this.anomaly = new ModelRenderer(this, 0, 0);
-        this.anomaly.setRotationPoint(0.0F, 16.0F, 0.0F);
-        this.anomaly.addBox(-6.0F, -6.0F, -6.0F, 11, 11, 11, 0.0F);
+        this.anomaly.setRotationPoint(0.0F, 5.5F, 0.0F);
+        this.anomaly.addBox(-5.5F, -5.5F, -5.5F, 11, 11, 11, 0.0F);
     }
 
     @Override
     public void render(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale)
 	{
-    	double overlayOffsetScale = 1.005D;
+    	double overlayOffsetScale = 1.001D;
     	super.render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
     	GlStateManager.pushMatrix();
     	{

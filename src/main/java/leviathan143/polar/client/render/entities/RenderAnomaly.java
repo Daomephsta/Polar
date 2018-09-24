@@ -17,7 +17,7 @@ public class RenderAnomaly extends Render<EntityAnomaly>
 
 	public RenderAnomaly(RenderManager renderManager)
 	{
-		super/**/(renderManager);
+		super(renderManager);
 	}
 
 	@Override
