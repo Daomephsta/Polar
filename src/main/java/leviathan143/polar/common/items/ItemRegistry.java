@@ -21,6 +21,7 @@ public class ItemRegistry
 	private static final List<Item> items = new ArrayList<>();
 	private static final Queue<ItemBlock> itemBlockQueue = new ArrayDeque<>();
 	
+	@ObjectHolder("guideapi:polar-research_journal")
 	public static final Item RESEARCH_JOURNAL = null;
 	public static final Item RED_IRRADIATED_REDSTONE = null;
 	public static final Item BLUE_IRRADIATED_LAPIS = null;
