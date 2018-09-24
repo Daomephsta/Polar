@@ -4,13 +4,17 @@ import io.netty.buffer.ByteBuf;
 import leviathan143.polar.api.PolarAPI;
 import leviathan143.polar.api.Polarity;
 import leviathan143.polar.api.capabilities.ITappable;
+import leviathan143.polar.common.advancements.triggers.TriggerRegistry;
 import leviathan143.polar.common.core.Constants;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
@@ -27,7 +31,7 @@ public class EntityAnomaly extends Entity implements IEntityAdditionalSpawnData
 	{
 		super(world);
 		setEntityInvulnerable(true);
-		setSize(0.8F, 0.8F);
+		setSize(1.1F, 1.1F);
 		// 1000-2000 charge
 		this.tappingHandler = new AnomalyTappingHandler(this, 1000 + rand.nextInt(1000));
 	}
@@ -106,6 +110,36 @@ public class EntityAnomaly extends Entity implements IEntityAdditionalSpawnData
 				}
 			}
 		}
+	}
+	
+	@Override
+	public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, EnumHand hand)
+	{
+		if (player instanceof EntityPlayerMP)
+			TriggerRegistry.PLAYER_ANOMALY_INTERACTION.trigger((EntityPlayerMP) player);
+		return EnumActionResult.SUCCESS;
+	}
+	
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount)
+	{
+		Entity trueSource = source.getTrueSource();
+		if (trueSource instanceof EntityPlayerMP)
+			TriggerRegistry.PLAYER_ANOMALY_INTERACTION.trigger((EntityPlayerMP) trueSource);
+		return super.attackEntityFrom(source, amount);
+	}
+	
+	@Override
+	public void onCollideWithPlayer(EntityPlayer player)
+	{
+		if (player instanceof EntityPlayerMP)
+			TriggerRegistry.PLAYER_ANOMALY_INTERACTION.trigger((EntityPlayerMP) player);
+	}
+	
+	@Override
+	public boolean canBeCollidedWith()
+	{
+		return true;
 	}
 
 	@Override

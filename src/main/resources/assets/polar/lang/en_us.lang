@@ -7,6 +7,10 @@ tile.polar.anomaly_tapper.name=Anomaly Tapper
 polar.polarity.red.irradiated=Vermillis Irradiated %s
 polar.polarity.blue.irradiated=Azuras Irradiated %s
 
+//Advancements
+polar.advancements.root.title=Polar
+polar.advancements.root.desc=A tale of two opposing magics
+
 //Creative Tabs
 itemGroup.polar.red=Vermillis Magic (Polar)
 itemGroup.polar.blue=Azuras Magic (Polar)

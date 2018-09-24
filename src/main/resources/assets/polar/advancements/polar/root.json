@@ -1,0 +1,20 @@
+{
+	"display":
+	{
+		"icon":
+		{
+			"item": "guideapi:polar-research_journal"
+		},
+		"title": {"translate": "polar.advancements.root.title"},
+		"description": {"translate": "polar.advancements.root.desc"},
+		"background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
+		"announce_to_chat": false
+	},
+	"criteria":
+	{
+		"interact_anomaly":
+		{
+			"trigger": "polar:player_anomaly_interaction"
+		}
+	}
+}

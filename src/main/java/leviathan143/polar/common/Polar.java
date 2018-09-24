@@ -1,6 +1,7 @@
 package leviathan143.polar.common;
 
 import leviathan143.polar.api.PolarAPI;
+import leviathan143.polar.common.advancements.triggers.TriggerRegistry;
 import leviathan143.polar.common.capabilities.CapabilityPlayerDataPolar;
 import leviathan143.polar.common.capabilities.tapping.CapabilityTappable;
 import leviathan143.polar.common.config.PolarConfig;
@@ -59,6 +60,7 @@ public class Polar
 		CapabilityPlayerDataPolar.register();
 		CapabilityTappable.register();
 		PolarConfig.finishLoading();
+		TriggerRegistry.init();
 	}
 	
 	@Mod.EventHandler
