@@ -6,6 +6,7 @@ tile.polar.anomaly_tapper.name=Anomaly Tapper
 //Misc
 polar.polarity.red.irradiated=Vermillis Irradiated %s
 polar.polarity.blue.irradiated=Azuras Irradiated %s
+polar.message.research_journal_prompt=What a strange object! You think you should make a research journal to record your findings as you investigate it.
 
 //Advancements
 polar.advancements.root.title=Polar

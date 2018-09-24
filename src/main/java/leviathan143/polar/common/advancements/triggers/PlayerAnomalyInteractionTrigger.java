@@ -13,7 +13,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentTranslation;
 
-public class TriggerPlayerAnomalyInteraction implements ICriterionTrigger<TriggerPlayerAnomalyInteraction.Instance>
+public class PlayerAnomalyInteractionTrigger implements ICriterionTrigger<PlayerAnomalyInteractionTrigger.Instance>
 {
 	private static final ResourceLocation ID = new ResourceLocation(Polar.MODID, "player_anomaly_interaction");
 	private final Multimap<PlayerAdvancements, Listener<Instance>> listeners = MultimapBuilder.hashKeys().hashSetValues().build();
@@ -22,11 +22,13 @@ public class TriggerPlayerAnomalyInteraction implements ICriterionTrigger<Trigge
 	{
 		//No special criteria per listener
 		Collection<Listener<Instance>> playerListeners = listeners.get(player.getAdvancements());
+		//Listeners are removed when their criterion is granted, so check before
+		boolean hasListeners = !playerListeners.isEmpty();
 		for (Listener<Instance> listener : playerListeners)
 		{
 			listener.grantCriterion(player.getAdvancements());
 		}
-		if (!playerListeners.isEmpty())
+		if (hasListeners)
 			player.sendMessage(new TextComponentTranslation(Polar.MODID + ".message.research_journal_prompt"));
 	}
 	

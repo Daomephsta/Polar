@@ -16,5 +16,9 @@
 		{
 			"trigger": "polar:player_anomaly_interaction"
 		}
+	},
+	"rewards":
+	{
+		"recipes": ["polar:research_journal"]
 	}
 }
