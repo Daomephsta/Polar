@@ -93,6 +93,7 @@ task generateDependencyMetaFiles {doLast{
 }}
 
 jar {
+	from project('polar-api').sourceSets.main.output
 	//Package contained dependencies
 	into('/META-INF/libraries') {
 		from configurations.containedDep, file("${buildDir}/dependencyMeta")
