@@ -4,9 +4,8 @@ import amerifrance.guideapi.api.GuideBook;
 import amerifrance.guideapi.api.IGuideBook;
 import amerifrance.guideapi.api.impl.Book;
 import amerifrance.guideapi.api.impl.BookBinder;
-import amerifrance.guideapi.api.impl.abstraction.CategoryAbstract;
-import leviathan143.polar.api.guide.PolarCategories;
-import leviathan143.polar.api.guide.PolarGuideConstructionEvent;
+import amerifrance.guideapi.page.PageText;
+import leviathan143.polar.api.guide.*;
 import leviathan143.polar.common.Polar;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
@@ -29,7 +28,11 @@ public class BookResearchJournal implements IGuideBook
 		// Add categories, entries and pages
 		builder.addCategory(PolarCategories.BASICS);
 		{
-			
+			CategoryPopulationHelper populator = new CategoryPopulationHelper(PolarCategories.BASICS, Polar.MODID);
+			populator.addEntry("anomalies")
+				.wrap(e -> new EntryAdvancementLocked(e, new ResourceLocation(Polar.MODID, "polar/root")))
+				.addPage(new PageText(Polar.MODID + ".guide.anomalies.page1.text"))
+				.resourceLocation(new ResourceLocation(Polar.MODID, "textures/guide/misc/anomaly_thumb.png"));		
 		}
 		builder.addCategory(PolarCategories.COMBAT);
 		{
@@ -43,10 +46,5 @@ public class BookResearchJournal implements IGuideBook
 		MinecraftForge.EVENT_BUS.post(new PolarGuideConstructionEvent(builder));
 		BOOK_INSTANCE = builder.build();
 		return BOOK_INSTANCE;
-	}
-
-	private static String createEntryName(CategoryAbstract category, String entryName)
-	{
-		return PolarCategories.CATEGORY_PREFIX + category.name + ".entry." + entryName + ".name";
 	}
 }

@@ -1,3 +1,4 @@
+#PARSE_ESCAPES
 //Blocks
 tile.polar.anomaly_tapper.name=Anomaly Tapper
 
@@ -24,3 +25,5 @@ polar.guide.category.basics.name=Basics of Polar Magic
 polar.guide.category.combat.name=Combat
 polar.guide.category.farming.name=Farming
 polar.guide.category.building.name=Building
+polar.guide.entry.anomalies=Anomalies
+polar.guide.anomalies.page1.text=This is a dank meme
