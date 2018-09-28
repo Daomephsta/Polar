@@ -13,7 +13,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentTranslation;
 
-public class PlayerAnomalyInteractionTrigger implements ICriterionTrigger<PlayerAnomalyInteractionTrigger.Instance>
+public class TriggerPlayerAnomalyInteraction implements ICriterionTrigger<TriggerPlayerAnomalyInteraction.Instance>
 {
 	private static final ResourceLocation ID = new ResourceLocation(Polar.MODID, "player_anomaly_interaction");
 	private final Multimap<PlayerAdvancements, Listener<Instance>> listeners = MultimapBuilder.hashKeys().hashSetValues().build();
