@@ -36,7 +36,7 @@ public class PolarAPI
 		ModContainer activeMod = Loader.instance().activeModContainer();
 		if (!activeMod.getModId().equals(PROVIDER_MOD_ID))
 			throw new UnsupportedOperationException(String.format(
-					"{0} ({1}) has attempted to initialise the Polar API. Only Polar should do this, please report this to the author of {0}",
+					"%s (%s) has attempted to initialise the Polar API. Only Polar should do this, please report this to the author of {0}",
 					activeMod.getName(), activeMod.getModId()));
 		PolarAPI.internalAccessors = internalAccessors;
 	}
