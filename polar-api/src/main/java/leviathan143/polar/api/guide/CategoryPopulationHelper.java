@@ -1,11 +1,8 @@
 package leviathan143.polar.api.guide;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
-
-import com.google.common.base.Functions;
 
 import amerifrance.guideapi.api.IPage;
 import amerifrance.guideapi.api.impl.abstraction.CategoryAbstract;
@@ -41,6 +38,12 @@ public class CategoryPopulationHelper
 		private EntryBuilder(String name)
 		{
 			this.name = modid + ".guide.entry." + name;
+		}
+		
+		public EntryBuilder addPages(Collection<IPage> pagesToAdd)
+		{
+			pages.addAll(pagesToAdd);
+			return this;
 		}
 		
 		public EntryBuilder addPage(IPage page)
