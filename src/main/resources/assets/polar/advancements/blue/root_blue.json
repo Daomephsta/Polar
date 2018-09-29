@@ -7,7 +7,7 @@
 		},
 		"title": {"translate": "polar.advancements.blue.root.title"},
 		"description": {"translate": "polar.advancements.blue.root.desc"},
-		"background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
+		"background": "polar:textures/gui/advancements/background_blue.png",
 		"announce_to_chat": false
 	},
 	"criteria":
