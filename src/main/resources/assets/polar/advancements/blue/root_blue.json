@@ -1,0 +1,27 @@
+{
+	"display":
+	{
+		"icon":
+		{
+			"item": "polar:blue_irradiated_lapis"
+		},
+		"title": {"translate": "polar.advancements.blue.root.title"},
+		"description": {"translate": "polar.advancements.blue.root.desc"},
+		"background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
+		"announce_to_chat": false
+	},
+	"criteria":
+	{
+		"acquire_blue_irradiated_lapis":
+		{
+			"trigger": "minecraft:inventory_changed",
+			"conditions":
+			{
+				"items":
+				[
+					{"item": "polar:blue_irradiated_lapis"}
+				]
+			}
+		}
+	}
+}

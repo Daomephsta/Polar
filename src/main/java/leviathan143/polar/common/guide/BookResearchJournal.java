@@ -4,7 +4,8 @@ import amerifrance.guideapi.api.GuideBook;
 import amerifrance.guideapi.api.IGuideBook;
 import amerifrance.guideapi.api.impl.Book;
 import amerifrance.guideapi.api.impl.BookBinder;
-import amerifrance.guideapi.page.PageText;
+import amerifrance.guideapi.api.util.PageHelper;
+import amerifrance.guideapi.api.util.TextHelper;
 import leviathan143.polar.api.guide.*;
 import leviathan143.polar.common.Polar;
 import net.minecraft.util.ResourceLocation;
@@ -14,6 +15,7 @@ import net.minecraftforge.common.MinecraftForge;
 public class BookResearchJournal implements IGuideBook
 {
 	public static Book BOOK_INSTANCE = null;
+	private static final int PAGE_CUTOFF = 260;
 
 	@Override
 	public Book buildBook()
@@ -30,9 +32,10 @@ public class BookResearchJournal implements IGuideBook
 		{
 			CategoryPopulationHelper populator = new CategoryPopulationHelper(PolarCategories.BASICS, Polar.MODID);
 			populator.addEntry("anomalies")
-				.wrap(e -> new EntryAdvancementLocked(e, new ResourceLocation(Polar.MODID, "polar/root")))
-				.addPage(new PageText(Polar.MODID + ".guide.anomalies.page1.text"))
-				.resourceLocation(new ResourceLocation(Polar.MODID, "textures/guide/misc/anomaly_thumb.png"));		
+				.wrap(e -> new EntryAdvancementLocked(e, new ResourceLocation(Polar.MODID, "root")))
+				.addPages(PageHelper.pagesForLongText(TextHelper.localizeEffect(Polar.MODID + ".guide.anomalies.part1.text"), PAGE_CUTOFF))
+				.addPages(PageHelper.pagesForLongText(TextHelper.localizeEffect(Polar.MODID + ".guide.anomalies.part2.text"), PAGE_CUTOFF))
+				.resourceLocation(new ResourceLocation(Polar.MODID, "textures/guide/misc/anomalies_thumb.png"));		
 		}
 		builder.addCategory(PolarCategories.COMBAT);
 		{

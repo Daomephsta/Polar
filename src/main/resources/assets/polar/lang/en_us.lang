@@ -7,11 +7,15 @@ tile.polar.anomaly_tapper.name=Anomaly Tapper
 //Misc
 polar.polarity.red.irradiated=Vermillis Irradiated %s
 polar.polarity.blue.irradiated=Azuras Irradiated %s
-polar.message.research_journal_prompt=What a strange object! You think you should make a research journal to record your findings as you investigate it.
+polar.message.research_journal_prompt=What a strange object! I think I should make a research journal to record my findings as I investigate it.
 
 //Advancements
 polar.advancements.root.title=Polar
-polar.advancements.root.desc=A tale of two opposing magics
+polar.advancements.root.desc=Discover an anomaly
+polar.advancements.blue.root.title=Azuras Magic
+polar.advancements.blue.root.desc=Insert witty description here
+polar.advancements.red.root.title=Vermillis Magic
+polar.advancements.red.root.desc=I am very good at writing descriptions
 
 //Creative Tabs
 itemGroup.polar.red=Vermillis Magic (Polar)
@@ -26,4 +30,7 @@ polar.guide.category.combat.name=Combat
 polar.guide.category.farming.name=Farming
 polar.guide.category.building.name=Building
 polar.guide.entry.anomalies=Anomalies
-polar.guide.anomalies.page1.text=This is a dank meme
+polar.guide.anomalies.part1.text=While exploring I found a strange object that seemed to radiate an unknown form of energy. There are two colours of these 'anomalies', blue anomalies, which seem to appear shortly after sunrise; and red anomalies, which appear near sunset.
+polar.guide.anomalies.part2.text=My next step is to find a way to focus the power of the anomalies. I will leave samples of candidate materials near both kinds of anomaly. Redstone, lapis, glowstone, and gold seem like good candidates to start with.
+
+

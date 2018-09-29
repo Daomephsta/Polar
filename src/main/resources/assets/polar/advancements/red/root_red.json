@@ -1,0 +1,27 @@
+{
+	"display":
+	{
+		"icon":
+		{
+			"item": "polar:red_irradiated_redstone"
+		},
+		"title": {"translate": "polar.advancements.red.root.title"},
+		"description": {"translate": "polar.advancements.red.root.desc"},
+		"background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
+		"announce_to_chat": false
+	},
+	"criteria":
+	{
+		"acquire_red_irradiated_redstone":
+		{
+			"trigger": "minecraft:inventory_changed",
+			"conditions":
+			{
+				"items":
+				[
+					{"item": "polar:red_irradiated_redstone"}
+				]
+			}
+		}
+	}
+}
