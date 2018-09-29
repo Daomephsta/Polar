@@ -87,7 +87,7 @@ public class AnomalyIrradiationCrafting
 			if (recipe.matches(input))
 			{
 				ItemStack output = recipe.getOutput().copy();
-				output.setCount(input.getCount());
+				output.setCount(input.getCount() * output.getCount());
 				return output;
 			}
 		}
