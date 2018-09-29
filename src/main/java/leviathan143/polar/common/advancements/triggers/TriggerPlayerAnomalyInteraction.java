@@ -1,5 +1,6 @@
 package leviathan143.polar.common.advancements.triggers;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import com.google.common.collect.Multimap;
@@ -24,9 +25,13 @@ public class TriggerPlayerAnomalyInteraction implements ICriterionTrigger<Trigge
 		Collection<Listener<Instance>> playerListeners = listeners.get(player.getAdvancements());
 		//Listeners are removed when their criterion is granted, so check before
 		boolean hasListeners = !playerListeners.isEmpty();
-		for (Listener<Instance> listener : playerListeners)
+		/* Avoid CME by adding criterions that have passed to a list, then iterating over that list
+		 * and granting them. In this case all criterions pass, so the passed list is initialised with
+		 * the criterion list*/
+		Collection<Listener<Instance>> passedCriteria = new ArrayList<>(playerListeners);
+		for (Listener<Instance> passedCriterion : passedCriteria)
 		{
-			listener.grantCriterion(player.getAdvancements());
+			passedCriterion.grantCriterion(player.getAdvancements());
 		}
 		if (hasListeners)
 			player.sendMessage(new TextComponentTranslation(Polar.MODID + ".message.research_journal_prompt"));
