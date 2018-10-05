@@ -1,3 +1,7 @@
+//Disable run configuration generation
+makeEclipseCleanRunClient.enabled = false
+makeEclipseCleanRunServer.enabled = false
+	
 dependencies {
 	compile "daomephsta.umbra:Umbra:${rootProject.umbraVersion}"
 }
