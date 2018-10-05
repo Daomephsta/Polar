@@ -9,6 +9,8 @@ import amerifrance.guideapi.api.impl.abstraction.CategoryAbstract;
 import amerifrance.guideapi.api.impl.abstraction.EntryAbstract;
 import amerifrance.guideapi.entry.EntryItemStack;
 import amerifrance.guideapi.entry.EntryResourceLocation;
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
@@ -37,7 +39,7 @@ public class CategoryPopulationHelper
 
 		private EntryBuilder(String name)
 		{
-			this.name = modid + ".guide.entry." + name;
+			this.name = modid + ".guide.entry." + name + ".name";
 		}
 		
 		public EntryBuilder addPages(Collection<IPage> pagesToAdd)
@@ -65,6 +67,16 @@ public class CategoryPopulationHelper
 			else
 				this.wrappingFunction = wrappingFunctionIn.compose(this.wrappingFunction);
 			return this;
+		}
+		
+		public EntryAbstract itemstack(Block block)
+		{
+			return itemstack(new ItemStack(block));
+		}
+		
+		public EntryAbstract itemstack(Item item)
+		{
+			return itemstack(new ItemStack(item));
 		}
 		
 		public EntryAbstract itemstack(ItemStack stack)
