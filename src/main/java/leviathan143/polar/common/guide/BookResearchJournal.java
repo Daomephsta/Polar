@@ -8,6 +8,7 @@ import amerifrance.guideapi.api.util.PageHelper;
 import amerifrance.guideapi.api.util.TextHelper;
 import leviathan143.polar.api.guide.*;
 import leviathan143.polar.common.Polar;
+import net.minecraft.init.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -33,12 +34,21 @@ public class BookResearchJournal implements IGuideBook
 			CategoryPopulationHelper populator = new CategoryPopulationHelper(PolarCategories.BASICS, Polar.MODID);
 			populator.addEntry("anomalies")
 				.wrap(e -> new EntryAdvancementLocked(e, new ResourceLocation(Polar.MODID, "root")))
-				.addPages(PageHelper.pagesForLongText(TextHelper.localizeEffect(Polar.MODID + ".guide.anomalies.part1.text"), PAGE_CUTOFF))
-				.addPages(PageHelper.pagesForLongText(TextHelper.localizeEffect(Polar.MODID + ".guide.anomalies.part2.text"), PAGE_CUTOFF))
+				.addPages(PageHelper.pagesForLongText(TextHelper.localizeEffect(Polar.MODID + ".guide.entry.anomalies.part1.text"), PAGE_CUTOFF))
+				.addPages(PageHelper.pagesForLongText(TextHelper.localizeEffect(Polar.MODID + ".guide.entry.anomalies.part2.text"), PAGE_CUTOFF))
 				.resourceLocation(new ResourceLocation(Polar.MODID, "textures/guide/misc/anomalies_thumb.png"));		
 		}
 		builder.addCategory(PolarCategories.COMBAT);
 		{
+			CategoryPopulationHelper populator = new CategoryPopulationHelper(PolarCategories.COMBAT, Polar.MODID);
+			populator.addEntry("buff_sword")
+				.wrap(e -> new EntryAdvancementLocked(e, new ResourceLocation(Polar.MODID, "blue/root_blue")))
+				.addPages(PageHelper.pagesForLongText(TextHelper.localizeEffect(Polar.MODID + ".guide.entry.buff_sword.text"), PAGE_CUTOFF))
+				.itemstack(Items.IRON_SWORD);
+			populator.addEntry("buff_armour")
+				.wrap(e -> new EntryAdvancementLocked(e, new ResourceLocation(Polar.MODID, "red/root_red")))
+				.addPages(PageHelper.pagesForLongText(TextHelper.localizeEffect(Polar.MODID + ".guide.entry.buff_armour.text"), PAGE_CUTOFF))
+				.itemstack(Items.IRON_CHESTPLATE);
 		}
 		builder.addCategory(PolarCategories.FARMING);
 		{

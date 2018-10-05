@@ -1,0 +1,22 @@
+{
+	"type": "polar:add_attribute_modifiers",
+	"validator": "is_sword",
+	"modifiers":
+	{
+		"mainhand":
+		[
+			{
+				"uuid": "FA233E1C-4180-4865-B01B-BCCE9785ACA3",
+				"attribute_name": "generic.attackDamage",
+				"name": "polar.azuras_sword_buff",
+				"operation": "additive",
+				"amount": 1.0
+			}
+		]
+	},
+	"additional_ingredients":
+	[
+		{"item": "polar:blue_irradiated_lapis"}
+	]
+
+}

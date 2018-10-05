@@ -1,0 +1,21 @@
+{
+	"type": "polar:add_attribute_modifiers",
+	"validator": "equips_to_head",
+	"modifiers":
+	{
+		"head":
+		[
+			{
+				"uuid": "4565926a-96f5-40e8-95e3-fd7ee0aa57a5",
+				"attribute_name": "generic.armor",
+				"name": "polar.vermillis_armour_buff",
+				"operation": "additive",
+				"amount": 0.5
+			}
+		]
+	},
+	"additional_ingredients":
+	[
+		{"item": "polar:red_irradiated_redstone"}
+	]
+}
