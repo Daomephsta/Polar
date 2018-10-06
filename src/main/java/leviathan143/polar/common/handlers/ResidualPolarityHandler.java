@@ -20,7 +20,9 @@ public class ResidualPolarityHandler
 	@SubscribeEvent
 	public static void handleArmour(LivingAttackEvent event)
 	{
-		if (event.getEntityLiving() instanceof EntityPlayer)
+		/*Ignore unblockable damage sources because they ignore armour, so are not considered to
+		 * "activate" it; and to avoid stack overflow*/
+		if (event.getEntityLiving() instanceof EntityPlayer && !event.getSource().isUnblockable())
 		{
 			for (ItemStack armour : event.getEntityLiving().getArmorInventoryList())
 			{
@@ -85,6 +87,7 @@ public class ResidualPolarityHandler
 			playerData.setResidualPolarity(itemPolarity);
 		else if (residualCharge != itemPolarity)
 		{
+			//Damage source must be unblockable to avoid stack overflow
 			player.attackEntityFrom(DamageSource.MAGIC, 0.5F);
 			playerData.setResidualPolarity(Polarity.NONE);
 		}
