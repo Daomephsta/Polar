@@ -85,7 +85,8 @@ public class ResidualPolarityHandler
 		Polarity itemPolarity = stack.getItem() instanceof IPolarisedItem 
 			? ((IPolarisedItem) stack.getItem()).getPolarity(stack)
 			: Enum.valueOf(Polarity.class, stack.getTagCompound().getString(CommonWords.POLARITY).toUpperCase());
-		if (residualCharge == Polarity.NONE)
+		//1 in 10 activations should leave a residual charge
+		if (residualCharge == Polarity.NONE && player.world.rand.nextFloat() <= 0.1F)
 			playerData.setResidualPolarity(itemPolarity);
 		else if (residualCharge != itemPolarity)
 		{
