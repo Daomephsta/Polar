@@ -8,10 +8,13 @@ tile.polar.anomaly_tapper.name=Anomaly Tapper
 polar.polarity.red.irradiated=Vermillis Irradiated %s
 polar.polarity.blue.irradiated=Azuras Irradiated %s
 polar.message.research_journal_prompt=What a strange object! I think I should make a research journal to record my findings as I investigate it.
+polar.message.polar_reaction=Oof! Ouch! My bones hurt!
 
 //Advancements
 polar.advancements.root.title=Polar
 polar.advancements.root.desc=Discover an anomaly
+polar.advancements.shocking_discovery.title=A Shocking Discovery
+polar.advancements.shocking_discovery.desc=Azuras and Vermillis do not get along...
 polar.advancements.blue.root.title=Azuras Magic
 polar.advancements.blue.root.desc=Insert witty description here
 polar.advancements.red.root.title=Vermillis Magic

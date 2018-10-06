@@ -3,9 +3,11 @@ package leviathan143.polar.common.handlers;
 import leviathan143.polar.api.CommonWords;
 import leviathan143.polar.api.Polarity;
 import leviathan143.polar.common.Polar;
+import leviathan143.polar.common.advancements.triggers.TriggerRegistry;
 import leviathan143.polar.common.capabilities.CapabilityPlayerDataPolar.PlayerDataPolar;
 import leviathan143.polar.common.items.IPolarisedItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -90,7 +92,8 @@ public class ResidualPolarityHandler
 			//Damage source must be unblockable to avoid stack overflow
 			player.attackEntityFrom(DamageSource.MAGIC, 0.5F);
 			playerData.setResidualPolarity(Polarity.NONE);
+			if (player instanceof EntityPlayerMP)
+				TriggerRegistry.POLAR_REACTION.trigger((EntityPlayerMP) player, 0);
 		}
-		System.out.println("Residual charge: " + playerData.getResidualPolarity());
 	}
 }
