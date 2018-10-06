@@ -56,6 +56,12 @@ public class ItemBlockAnomalyTapper extends ItemBlock implements IPolarisedItem
 	}
 	
 	@Override
+	public Polarity getPolarity(ItemStack stack)
+	{
+		return Polarity.valueOf(stack.getTagCompound().getString(CommonWords.POLARITY));
+	}
+	
+	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
 	{
 		if (!isInCreativeTab(tab)) return;

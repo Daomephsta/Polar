@@ -11,6 +11,8 @@ public interface IPolarisedItem
 	
 	public Polarity[] getValidPolarities();
 	
+	public Polarity getPolarity(ItemStack stack);
+	
 	public static ItemStack getPolarisedStack(Block polarisedBlock, Polarity polarity)
 	{
 		return getPolarisedStack(Item.getItemFromBlock(polarisedBlock), polarity);

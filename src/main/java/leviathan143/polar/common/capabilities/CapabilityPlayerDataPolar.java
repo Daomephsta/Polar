@@ -1,7 +1,9 @@
 package leviathan143.polar.common.capabilities;
 
 import daomephsta.umbra.capabilities.CapabilityHelper;
+import daomephsta.umbra.nbt.NBTExtensions;
 import leviathan143.polar.api.PolarAPI;
+import leviathan143.polar.api.Polarity;
 import leviathan143.polar.api.capabilities.IPlayerDataPolar;
 import leviathan143.polar.api.factions.FactionAlignment;
 import leviathan143.polar.api.factions.FactionRank;
@@ -20,15 +22,19 @@ public class CapabilityPlayerDataPolar
 				CapabilityHelper.fromLambdas(
 					(Capability<IPlayerDataPolar> capability, IPlayerDataPolar instance, EnumFacing side, NBTBase nbt) -> 
 					{
+						PlayerDataPolar internalImpl = (PlayerDataPolar) instance;
 						NBTTagCompound compoundNBT = (NBTTagCompound) nbt;
-						instance.setFaction(FactionAlignment.valueOf(compoundNBT.getString("faction")));
-						instance.setRank(FactionRank.valueOf(compoundNBT.getString("rank")));
+						internalImpl.setFaction(NBTExtensions.getEnumConstant(compoundNBT, FactionAlignment.class, "faction", FactionAlignment.UNALIGNED));
+						internalImpl.setRank(NBTExtensions.getEnumConstant(compoundNBT, FactionRank.class, "rank", FactionRank.NONE));
+						internalImpl.setResidualPolarity(NBTExtensions.getEnumConstant(compoundNBT, Polarity.class, "residual_polarity", Polarity.NONE));
 					},
 					(Capability<IPlayerDataPolar> capability, IPlayerDataPolar instance, EnumFacing side) -> 
 					{
+						PlayerDataPolar internalImpl = (PlayerDataPolar) instance;
 						NBTTagCompound nbt = new NBTTagCompound();
-						nbt.setString("faction", instance.getFaction().name());
-						nbt.setString("rank", instance.getRank().name());
+						NBTExtensions.setEnumConstant(nbt, "faction", internalImpl.getFaction());
+						NBTExtensions.setEnumConstant(nbt, "rank", internalImpl.getRank());
+						NBTExtensions.setEnumConstant(nbt, "residual_polarity", internalImpl.getResidualPolarity());
 						return nbt;
 					}), 
 					PlayerDataPolar::new);
@@ -71,10 +77,12 @@ public class CapabilityPlayerDataPolar
 		private FactionAlignment faction = FactionAlignment.UNALIGNED;
 		// The player's rank within their faction. Defaults to none.
 		private FactionRank rank = FactionRank.NONE;
+		// The player's residual charge. Defaults to none;
+		private Polarity residualPolarity = Polarity.NONE;
 		
-		public static IPlayerDataPolar get(EntityPlayer player)
+		public static PlayerDataPolar get(EntityPlayer player)
 		{
-			return player.getCapability(PolarAPI.PLAYER_DATA_POLAR, null);
+			return (PlayerDataPolar) player.getCapability(PolarAPI.PLAYER_DATA_POLAR, null);
 		}
 		
 		@Override
@@ -99,6 +107,16 @@ public class CapabilityPlayerDataPolar
 		public void setRank(FactionRank rank)
 		{
 			this.rank = rank;
+		}
+
+		public Polarity getResidualPolarity()
+		{
+			return residualPolarity;
+		}
+
+		public void setResidualPolarity(Polarity residualPolarity)
+		{
+			this.residualPolarity = residualPolarity;
 		}
 	}
 }
