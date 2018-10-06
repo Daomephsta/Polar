@@ -1,0 +1,1 @@
+tellraw @s {"translate": "polar.message.research_journal_prompt"}

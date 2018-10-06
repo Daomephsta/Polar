@@ -12,7 +12,6 @@ import leviathan143.polar.common.Polar;
 import net.minecraft.advancements.*;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextComponentTranslation;
 
 public class TriggerPlayerAnomalyInteraction implements ICriterionTrigger<TriggerPlayerAnomalyInteraction.Instance>
 {
@@ -23,8 +22,6 @@ public class TriggerPlayerAnomalyInteraction implements ICriterionTrigger<Trigge
 	{
 		//No special criteria per listener
 		Collection<Listener<Instance>> playerListeners = listeners.get(player.getAdvancements());
-		//Listeners are removed when their criterion is granted, so check before
-		boolean hasListeners = !playerListeners.isEmpty();
 		/* Avoid CME by adding criterions that have passed to a list, then iterating over that list
 		 * and granting them. In this case all criterions pass, so the passed list is initialised with
 		 * the criterion list*/
@@ -33,8 +30,6 @@ public class TriggerPlayerAnomalyInteraction implements ICriterionTrigger<Trigge
 		{
 			passedCriterion.grantCriterion(player.getAdvancements());
 		}
-		if (hasListeners)
-			player.sendMessage(new TextComponentTranslation(Polar.MODID + ".message.research_journal_prompt"));
 	}
 	
 	@Override

@@ -19,6 +19,7 @@
 	},
 	"rewards":
 	{
-		"recipes": ["polar:research_journal"]
+		"recipes": ["polar:research_journal"],
+		"function": "polar:anomaly_discovery_message"
 	}
 }

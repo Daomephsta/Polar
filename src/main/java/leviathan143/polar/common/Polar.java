@@ -1,5 +1,6 @@
 package leviathan143.polar.common;
 
+import daomephsta.umbra.mcfunctions.FunctionLoader;
 import leviathan143.polar.api.PolarAPI;
 import leviathan143.polar.common.advancements.triggers.TriggerRegistry;
 import leviathan143.polar.common.capabilities.CapabilityPlayerDataPolar;
@@ -73,5 +74,11 @@ public class Polar
 	public static void postInit(FMLPostInitializationEvent event)
 	{
 		proxy.postInit(event);
+	}
+	
+	@Mod.EventHandler
+	public static void serverStarting(FMLServerStartingEvent event)
+	{
+		FunctionLoader.loadFunctionsFor(event.getServer(), Polar.MODID);
 	}
 }
