@@ -30,9 +30,9 @@ polar.guide.category.combat.name=Combat
 polar.guide.category.farming.name=Farming
 polar.guide.category.building.name=Building
 
-polar.guide.entry.anomalies=Anomalies
-polar.guide.anomalies.part1.text=While exploring I found a strange object that seemed to radiate an unknown form of energy. There are two colours of these 'anomalies', blue anomalies, which appear shortly after sunrise; and red anomalies, which appear near sunset. 
-polar.guide.anomalies.part2.text=After a few days, anomalies disappear naturally. I suspect it may be possible to prevent or hasten this event.\n\nMy next step is to find a way to focus the power of the anomalies. I will leave samples of candidate materials near both kinds of anomaly. Redstone, lapis, glowstone, and gold seem like good candidates to start with.
+polar.guide.entry.anomalies.name=Anomalies
+polar.guide.entry.anomalies.part1.text=While exploring I found a strange object that seemed to radiate an unknown form of energy. There are two colours of these 'anomalies', blue anomalies, which appear shortly after sunrise; and red anomalies, which appear near sunset. 
+polar.guide.entry.anomalies.part2.text=After a few days, anomalies disappear naturally. I suspect it may be possible to prevent or hasten this event.\n\nMy next step is to find a way to focus the power of the anomalies. I will leave samples of candidate materials near both kinds of anomaly. Redstone, lapis, glowstone, and gold seem like good candidates to start with.
 
 polar.guide.entry.buff_sword.name=Improving Swords
 polar.guide.entry.buff_sword.text=Now that I have samples of Azuras in the form of Azuras Irradiated Lapis I can begin investigating its uses. It seems to have an affinity for offense, so I've designed a simple charm that should increase the damage done by any sword. I simply need to combine the sword with a little Azuras Irradiated Lapis.
