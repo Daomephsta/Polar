@@ -8,7 +8,7 @@
 		},
 		"title": {"translate": "polar.advancements.shocking_discovery.title"},
 		"description": {"translate": "polar.advancements.shocking_discovery.desc"},
-		"hidden": true
+		"frame": "goal"
 	},
 	"criteria":
 	{

@@ -8,6 +8,7 @@
 		"title": {"translate": "polar.advancements.red.root.title"},
 		"description": {"translate": "polar.advancements.red.root.desc"},
 		"background": "polar:textures/gui/advancements/background_red.png",
+		"frame": "goal",
 		"announce_to_chat": false
 	},
 	"criteria":
