@@ -35,7 +35,7 @@ public class CategoryPopulationHelper
 		final String name;
 		private final List<IPage> pages = new ArrayList<>();
 		private boolean unicode = false;
-		private Function<EntryAbstract, EntryAbstract> wrappingFunction;
+		private Function<EntryAbstract, EntryAbstract> wrappingFunction = Function.identity();
 
 		private EntryBuilder(String name)
 		{
