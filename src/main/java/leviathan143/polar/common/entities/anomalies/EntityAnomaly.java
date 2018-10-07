@@ -5,6 +5,7 @@ import leviathan143.polar.api.PolarAPI;
 import leviathan143.polar.api.Polarity;
 import leviathan143.polar.api.capabilities.ITappable;
 import leviathan143.polar.common.advancements.triggers.TriggerRegistry;
+import leviathan143.polar.common.config.PolarConfig;
 import leviathan143.polar.common.core.Constants;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -21,7 +22,6 @@ import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 
 public class EntityAnomaly extends Entity implements IEntityAdditionalSpawnData
 {
-	private static final int MIN_DAYS = 3, MAX_DAYS = 8;
 	private final ITappable tappingHandler;
 	private Polarity polarity;
 	private long closingTimestamp;
@@ -41,13 +41,8 @@ public class EntityAnomaly extends Entity implements IEntityAdditionalSpawnData
 		this(world);
 
 		this.polarity = polarity;
-		int days = MIN_DAYS + world.rand.nextInt(MAX_DAYS - MIN_DAYS); // 3 - 7
-																		// days
-		int additionalTicks = (int) Math.floor(world.rand.nextDouble() * Constants.MC_DAY_TICKS); // Random
-																									// portion
-																									// of
-																									// a
-																									// day
+		int days = PolarConfig.anomalies.minLifetime + world.rand.nextInt(PolarConfig.anomalies.maxLifetime - PolarConfig.anomalies.minLifetime); // min to max - 1 days
+		int additionalTicks = (int) Math.floor(world.rand.nextDouble() * Constants.MC_DAY_TICKS); // Random portion of a day
 		// 3 - 8 days
 		this.closingTimestamp = world.getTotalWorldTime() + days * Constants.MC_DAY_TICKS + additionalTicks;
 	}
