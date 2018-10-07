@@ -33,6 +33,9 @@ polar.guide.category.combat.name=Combat
 polar.guide.category.farming.name=Farming
 polar.guide.category.building.name=Building
 
+polar.guide.entry.progressing.name=Progression
+polar.guide.entry.progressing.part1.text=Welcome to Polar! Progression in Polar is fairly simple, there are two ways to progress in Polar. The first is by completing certain tasks, which are tracked using advancements. Most of the initial advancements are in the Adventure tab, the first one is called Polar, all other Polar advancements in that tab are descendants of it. The rest of Polar's advancements are in Polar's own tabs. Any Polar advancement that is a goal advancement (has curved top and bottom borders) will unlock one or more entries once completed. The description of an advancement hints at how to unlock it, as does one of the entries unlocked by the parent advancement. The second way will be revealed later, when it's useful.
+
 polar.guide.entry.anomalies.name=Anomalies
 polar.guide.entry.anomalies.part1.text=While exploring I found a strange object that seemed to radiate an unknown form of energy. There are two colours of these 'anomalies', blue anomalies, which appear shortly after sunrise; and red anomalies, which appear near sunset. 
 polar.guide.entry.anomalies.part2.text=After a few days, anomalies disappear naturally. I suspect it may be possible to prevent or hasten this event.\n\nMy next step is to find a way to focus the power of the anomalies. I will leave samples of candidate materials near both kinds of anomaly. Redstone, lapis, glowstone, and gold seem like good candidates to start with.

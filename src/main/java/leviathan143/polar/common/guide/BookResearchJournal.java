@@ -32,6 +32,9 @@ public class BookResearchJournal implements IGuideBook
 		builder.addCategory(PolarCategories.BASICS);
 		{
 			CategoryPopulationHelper populator = new CategoryPopulationHelper(PolarCategories.BASICS, Polar.MODID);
+			populator.addEntry("progressing")
+				 .addPages(PageHelper.pagesForLongText(TextHelper.localizeEffect(Polar.MODID + ".guide.entry.progressing.part1.text"), PAGE_CUTOFF))
+				.itemstack(Items.BOOK);
 			populator.addEntry("anomalies")
 				.wrap(e -> new EntryAdvancementLocked(e, new ResourceLocation(Polar.MODID, "root")))
 				.addPages(PageHelper.pagesForLongText(TextHelper.localizeEffect(Polar.MODID + ".guide.entry.anomalies.part1.text"), PAGE_CUTOFF))
