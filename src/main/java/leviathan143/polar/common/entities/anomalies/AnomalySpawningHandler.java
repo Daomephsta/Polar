@@ -63,11 +63,15 @@ public class AnomalySpawningHandler
 			
 		Collection<Chunk> loadedChunks = world.getChunkProvider().getLoadedChunks();
 		//The percentage of loaded chunks to spawn an anomaly in
-		float spawnChunkPercentage = PolarConfig.anomalies.minChunkPercentage + world.rand.nextFloat() * (PolarConfig.anomalies.maxChunkPercentage - PolarConfig.anomalies.minChunkPercentage);
+		float spawnChunkPercentage = PolarConfig.anomalies.minChunkPercentage + world.rand.nextFloat() 
+			* (PolarConfig.anomalies.maxChunkPercentage - PolarConfig.anomalies.minChunkPercentage);
 		//The number of loaded chunks to spawn an anomaly in
-		int spawnChunkCount = (int) Math.min(Math.ceil(spawnChunkPercentage * loadedChunks.size()), PolarConfig.anomalies.maxAnomalyCount - anomalies.size());
-		logger.debug("{} chunks loaded, {} anomalies in loaded chunks (Max {}). Attempting to spawn {} anomalies in {} percent of loaded chunks, actually spawning {} anomalies",
-				loadedChunks.size(), anomalies.size(), PolarConfig.anomalies.maxAnomalyCount, polarity.getName(), spawnChunkPercentage * 10.0F, spawnChunkCount);
+		int spawnChunkCount = (int) Math.min(Math.ceil(spawnChunkPercentage * loadedChunks.size()),
+			PolarConfig.anomalies.maxAnomalyCount - anomalies.size());
+		logger.debug("{} chunks loaded, {} anomalies in loaded chunks (Max {}). Attempting to spawn {} anomalies in {} percent of "
+			+ "loaded chunks, actually spawning {} anomalies",
+			loadedChunks.size(), anomalies.size(), PolarConfig.anomalies.maxAnomalyCount, polarity.getName(), spawnChunkPercentage * 10.0F, 
+			spawnChunkCount);
 		for (Chunk randomChunk : pickRandomChunks(world.rand, loadedChunks, spawnChunkCount))
 		{
 			spawnAnomalyInChunk(randomChunk, polarity);
