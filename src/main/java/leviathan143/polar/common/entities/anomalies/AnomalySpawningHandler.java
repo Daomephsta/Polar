@@ -28,7 +28,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.ServerTickEvent;
 @Mod.EventBusSubscriber(modid = Polar.MODID)
 public class AnomalySpawningHandler
 {
-	private static final Logger logger = LogManager.getLogger(AnomalySpawningHandler.class.getSimpleName());
+	private static final Logger logger = LogManager.getLogger(AnomalySpawningHandler.class);
 	
 	@SubscribeEvent
 	public static void onServerTick(ServerTickEvent e)
