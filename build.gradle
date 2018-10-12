@@ -56,7 +56,8 @@ group= "leviathan143.polar" // http://maven.apache.org/guides/mini/guide-naming-
 archivesBaseName = "Polar"
 
 dependencies {
-	containedDep "daomephsta.umbra:Umbra:${project.umbraVersion}"
+	containedDep "daomephsta.umbra:umbra-minecraft:${project.umbraMCVersion}"
+	containedDep "daomephsta.umbra:umbra-java:${project.umbraJavaVersion}"
 	compile project('polar-api')
 }
 

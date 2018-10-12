@@ -3,7 +3,8 @@ makeEclipseCleanRunClient.enabled = false
 makeEclipseCleanRunServer.enabled = false
 	
 dependencies {
-	compile "daomephsta.umbra:Umbra:${rootProject.umbraVersion}"
+	compile "daomephsta.umbra:umbra-minecraft:${project.umbraMCVersion}"
+	compile "daomephsta.umbra:umbra-java:${project.umbraJavaVersion}"
 }
 
 version = "${rootProject.mcVersion}-${rootProject.modVersion}-${rootProject.apiVersion}"
