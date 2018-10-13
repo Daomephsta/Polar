@@ -14,7 +14,9 @@ buildscript {
 
 configurations {
 	//Jars to package using ContainedDeps
-	containedDep
+	containedDep {
+		transitive = false
+	}
 	compile.extendsFrom containedDep
 }
 
