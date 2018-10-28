@@ -2,7 +2,6 @@
 	"parent": "item/generated",
 	"textures":
 	{
-		"layer0": "minecraft:items/redstone_dust",
-		"layer1": "polar:items/red_irradiated_overlay"
+		"layer0": "polar:items/red_irradiated_redstone"
 	}
 }

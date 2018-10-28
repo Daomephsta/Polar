@@ -2,7 +2,6 @@
 	"parent": "item/generated",
 	"textures":
 	{
-		"layer0": "minecraft:items/dye_powder_blue",
-		"layer1": "polar:items/blue_irradiated_overlay"
+		"layer0": "polar:items/blue_irradiated_lapis"
 	}
 }
