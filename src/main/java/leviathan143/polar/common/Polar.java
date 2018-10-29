@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.*;
+import vazkii.patchouli.common.item.ItemModBook;
 
 @Mod(modid = Polar.MODID, name = Polar.MODNAME, version = Polar.VERSION, dependencies = Polar.DEPENDENCIES)
 public class Polar
@@ -49,7 +50,7 @@ public class Polar
 		@Override
 		public ItemStack createIcon()
 		{
-			return new ItemStack(ItemRegistry.RESEARCH_JOURNAL);
+			return ItemModBook.forBook(MODID + ":research_journal");
 		}
 	};
 	

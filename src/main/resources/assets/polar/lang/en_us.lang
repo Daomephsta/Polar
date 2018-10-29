@@ -3,6 +3,7 @@
 tile.polar.anomaly_tapper.name=Anomaly Tapper
 
 //Items
+item.polar.research_journal.name=Research Journal
 
 //Misc
 polar.polarity.red.irradiated=Vermillis Irradiated %s
@@ -24,26 +25,5 @@ polar.advancements.red.root.desc=I am very good at writing descriptions
 itemGroup.polar.red=Vermillis Magic (Polar)
 itemGroup.polar.blue=Azuras Magic (Polar)
 itemGroup.polar.other=Other (Polar)
-
-//Guide Book
-polar.guide.title=Research Journal
-polar.guide.name=Research Journal
-polar.guide.category.basics.name=Basics of Polar Magic
-polar.guide.category.combat.name=Combat
-polar.guide.category.farming.name=Farming
-polar.guide.category.building.name=Building
-
-polar.guide.entry.progressing.name=Progression
-polar.guide.entry.progressing.part1.text=Welcome to Polar! Progression in Polar is fairly simple, there are two ways to progress in Polar. The first is by completing certain tasks, which are tracked using advancements. Most of the initial advancements are in the Adventure tab, the first one is called Polar, all other Polar advancements in that tab are descendants of it. The rest of Polar's advancements are in Polar's own tabs. Any Polar advancement that is a goal advancement (has curved top and bottom borders) will unlock one or more entries once completed. The description of an advancement hints at how to unlock it, as does one of the entries unlocked by the parent advancement. The second way will be revealed later, when it's useful.
-
-polar.guide.entry.anomalies.name=Anomalies
-polar.guide.entry.anomalies.part1.text=While exploring I found a strange object that seemed to radiate an unknown form of energy. There are two colours of these 'anomalies', blue anomalies, which appear shortly after sunrise; and red anomalies, which appear near sunset. 
-polar.guide.entry.anomalies.part2.text=After a few days, anomalies disappear naturally. I suspect it may be possible to prevent or hasten this event.\n\nMy next step is to find a way to focus the power of the anomalies. I will leave samples of candidate materials near both kinds of anomaly. Redstone, lapis, glowstone, and gold seem like good candidates to start with.
-
-polar.guide.entry.buff_sword.name=Improving Swords
-polar.guide.entry.buff_sword.text=Now that I have samples of Azuras in the form of Azuras Irradiated Lapis I can begin investigating its uses. It seems to have an affinity for offense, so I've designed a simple charm that should increase the damage done by any sword. I simply need to combine the sword with a little Azuras Irradiated Lapis.
-
-polar.guide.entry.buff_armour.name=Improving Armour
-polar.guide.entry.buff_armour.text=Now that I have samples of Vermillis in the form of Vermillis Irradiated Redstone I can begin investigating its uses. It seems to have an affinity for defense, so I've designed a simple ward that should increase the protection of any piece of armour. I simply need to combine the armour with a little Vermillis Irradiated Redstone.
 
 

@@ -1,0 +1,12 @@
+{
+    "name": "Improving Swords",
+    "icon": "minecraft:iron_sword",
+    "category": "combat",
+    "pages":
+    [
+        {
+            "type": "text",
+            "text": "Now that I have samples of Azuras in the form of Azuras Irradiated Lapis I can begin investigating its uses. It seems to have an affinity for offense, so I've designed a simple charm that should increase the damage done by any sword. I simply need to combine the sword with a little Azuras Irradiated Lapis."
+        }
+    ]
+}

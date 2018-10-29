@@ -1,0 +1,11 @@
+{
+    "name": "item.polar.research_journal.name",
+    "creative_tab": "polar.other",
+    "advancement_namespaces": ["polar"],
+    "book_texture": "patchouli:textures/gui/book_brown",
+    "macros": 
+    {
+        "$(red_magic)": "Vermillis",
+        "$(blue_magic)": "Azuras"
+    }
+}

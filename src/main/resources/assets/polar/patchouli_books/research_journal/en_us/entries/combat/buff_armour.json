@@ -1,0 +1,12 @@
+{
+    "name": "Improving Armour",
+    "icon": "minecraft:iron_chestplate",
+    "category": "combat",
+    "pages":
+    [
+        {
+            "type": "text",
+            "text": "Now that I have samples of Vermillis in the form of Vermillis Irradiated Redstone I can begin investigating its uses. It seems to have an affinity for defense, so I've designed a simple ward that should increase the protection of any piece of armour. I simply need to combine the armour with a little Vermillis Irradiated Redstone."
+        }
+    ]
+}

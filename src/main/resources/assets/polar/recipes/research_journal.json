@@ -1,6 +1,10 @@
 {
 	"type": "minecraft:crafting_shapeless",
-	"result": {"item": "guideapi:polar-research_journal"},
+	"result": 
+    {
+        "item": "patchouli:guide_book",
+            "nbt": "{\"patchouli:book\": \"polar:research_journal\"}"
+    },
 	"ingredients":
 	[
 		{"type": "forge:ore_dict", "ore": "dyeGreen"},
