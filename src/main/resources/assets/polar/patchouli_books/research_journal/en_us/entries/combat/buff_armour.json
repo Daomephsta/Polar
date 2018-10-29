@@ -2,6 +2,7 @@
     "name": "Improving Armour",
     "icon": "minecraft:iron_chestplate",
     "category": "combat",
+    "advancement": "polar:red/root_red",
     "pages":
     [
         {
