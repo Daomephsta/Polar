@@ -142,8 +142,16 @@ public class AnomalySpawningHandler
 			else if (airRanges.size() % 2 != 0)
 				airRanges.add(h - 1);
 		}
+		//If the last range is still open, close it.
+		if (airRanges.size() % 2 != 0)
+			airRanges.add(maxY);
+		if (airRanges.size() < 2) 
+		{
+			logger.debug("Failed to spawn anomaly at {}, {} as there were no air gaps", x, z);
+			return;
+		}
 		//Pick a random air filled gap
-		int chosenAirRange = world.rand.nextInt(airRanges.size() / 2);
+		int chosenAirRange = world.rand.nextInt((int) Math.ceil(airRanges.size() / 2.0F));
 		//Pick a random y coordinate inside the gap
 		int lowerBound = airRanges.getInt(chosenAirRange * 2);
 		int upperBound = airRanges.getInt(chosenAirRange * 2 + 1);
