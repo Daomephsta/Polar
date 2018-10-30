@@ -1,0 +1,17 @@
+{
+    "name": "Polaric Annihilation",
+    "icon": "polar:textures/guide/misc/logo.png",
+    "category": "basics",
+    "advancement": "polar:shocking_discovery",
+    "pages":
+    [
+        {
+            "type": "text",
+            "text": "While using some of the artifacts I have created, I discovered that $(blue_magic) and $(red_magic) react violently with each other if they come into contact. Because it has two opposing forces, I have decided to call magic using either $(blue_magic) or $(red_magic) polar magic. When I use a polar artifact, it sometimes leaves a small residual charge on me,"
+        },
+        {
+            "type": "text",
+            "text": "which gives me a small shock when I use an artifact of the opposing magic. Since the reaction destroys an equal amount of both magics, I will call it 'polaric annihilation'. It seems I will have to choose between $(blue_magic) and $(red_magic), as more energetic polaric annihilations will cause major damage. Continuing to use the low power artifacts created only using irradiated lapis and redstone should be safe enough however."
+        }
+    ]
+}
