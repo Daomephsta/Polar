@@ -7,7 +7,7 @@ import com.google.common.base.Functions;
 import com.google.common.collect.ImmutableSet;
 
 import leviathan143.polar.client.ISpecialRender;
-import leviathan143.polar.common.items.ItemBlockRune;
+import leviathan143.polar.common.items.itemblocks.ItemBlockRune;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;

@@ -1,4 +1,4 @@
-package leviathan143.polar.common.items;
+package leviathan143.polar.common.items.itemblocks;
 
 import daomephsta.umbra.nbt.NBTExtensions;
 import leviathan143.polar.common.Polar;

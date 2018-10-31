@@ -6,7 +6,7 @@ import daomephsta.umbra.bitmanipulation.IBitEncoderDecoder;
 import leviathan143.polar.api.CommonWords;
 import leviathan143.polar.api.Polarity;
 import leviathan143.polar.client.ISpecialRender;
-import leviathan143.polar.common.items.ItemBlockAnomalyTapper;
+import leviathan143.polar.common.items.itemblocks.ItemBlockAnomalyTapper;
 import leviathan143.polar.common.tileentities.TileEntityAnomalyTapper;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.SoundType;
