@@ -1,9 +1,6 @@
 package leviathan143.polar.common.blocks;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import leviathan143.polar.client.ISpecialRender;
+import leviathan143.polar.client.ModelRegistry;
 import leviathan143.polar.common.Polar;
 import leviathan143.polar.common.items.ItemRegistry;
 import leviathan143.polar.common.tileentities.TileEntityAnomalyTapper;
@@ -20,7 +17,6 @@ import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 @EventBusSubscriber(modid = Polar.MODID)
 public class BlockRegistry
 {
-	private static final List<Block> blocks = new ArrayList<>();
 	public static final BlockAnomalyTapper ANOMALY_TAPPER = null;
 	public static final BlockRune RUNE = null;
 	
@@ -28,16 +24,25 @@ public class BlockRegistry
 	public static void registerBlocks(RegistryEvent.Register<Block> e)
 	{
 		e.getRegistry().registerAll(
-			setupBlock(new BlockAnomalyTapper(), "anomaly_tapper"),
-			setupBlock(new BlockRune(), "rune"));
+			setupBlockSpecialRender(new BlockAnomalyTapper(), "anomaly_tapper"),
+			setupBlockSpecialRender(new BlockRune(), "rune"));
 		GameRegistry.registerTileEntity(TileEntityAnomalyTapper.class, new ResourceLocation(Polar.MODID, "anomaly_tapper"));
 	}
 	
 	private static Block setupBlock(Block block, String name)
 	{
+		return setupBlock(block, name, true);
+	}
+	
+	private static Block setupBlockSpecialRender(Block block, String name)
+	{
+		return setupBlock(block, name, false);
+	}
+	
+	private static Block setupBlock(Block block, String name, boolean standardRender)
+	{
 		block.setRegistryName(Polar.MODID, name);
 		block.setTranslationKey(Polar.MODID + '.' + name);
-		blocks.add(block);
 		
 		//Setup itemblock
 		ItemBlock itemBlock;
@@ -48,15 +53,9 @@ public class BlockRegistry
 			itemBlock.setRegistryName(block.getRegistryName());
 			ItemRegistry.queueItemBlock(itemBlock);
 		}
+		if (standardRender)
+			ModelRegistry.enqueue(itemBlock);
 		
 		return block;
-	}
-	
-	public static void registerModels()
-	{
-		for(Block block : blocks)
-		{
-			if(block instanceof ISpecialRender) ((ISpecialRender) block).registerRender();
-		}
 	}
 }

@@ -37,9 +37,14 @@ public class ItemBlockAnomalyTapper extends ItemBlock implements IPolarisedItem
 		stack.setTagCompound(tag);
 		return stack;
 	}
-
+	
 	@Override
 	public Polarity getPolarity(ItemStack stack)
+	{
+		return getPolarityStatic(stack);
+	}
+	
+	public static Polarity getPolarityStatic(ItemStack stack)
 	{
 		return NBTExtensions.getEnumConstant(stack.getTagCompound(), Polarity.class, CommonWords.POLARITY); 
 	}

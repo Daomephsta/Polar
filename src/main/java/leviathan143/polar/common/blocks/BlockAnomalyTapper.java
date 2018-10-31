@@ -5,7 +5,6 @@ import java.util.Random;
 import daomephsta.umbra.bitmanipulation.IBitEncoderDecoder;
 import leviathan143.polar.api.CommonWords;
 import leviathan143.polar.api.Polarity;
-import leviathan143.polar.client.ISpecialRender;
 import leviathan143.polar.common.items.itemblocks.ItemBlockAnomalyTapper;
 import leviathan143.polar.common.tileentities.TileEntityAnomalyTapper;
 import net.minecraft.block.BlockDirectional;
@@ -15,20 +14,19 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.*;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.ModelLoader;
 
-public class BlockAnomalyTapper extends BlockDirectional implements IHasSpecialItemBlock, ISpecialRender
+public class BlockAnomalyTapper extends BlockDirectional implements IHasSpecialItemBlock
 {
 	public static final IProperty<Polarity> POLARITY = PropertyEnum.create(CommonWords.POLARITY, Polarity.class, Polarity.POLARISED);
 	
@@ -125,16 +123,6 @@ public class BlockAnomalyTapper extends BlockDirectional implements IHasSpecialI
 	public ItemBlock createItemBlock()
 	{
 		return new ItemBlockAnomalyTapper(this);
-	}
-	
-	@Override
-	public void registerRender()
-	{
-		//Create blockstate variant strings
-		ModelResourceLocation redTapper = new ModelResourceLocation(getRegistryName(), String.format("%s=%s,%s=%s", BlockAnomalyTapper.FACING.getName(), EnumFacing.UP.getName(), BlockAnomalyTapper.POLARITY.getName(), Polarity.RED.getName())),
-			blueTapper = new ModelResourceLocation(getRegistryName(), String.format("%s=%s,%s=%s", BlockAnomalyTapper.FACING.getName(), EnumFacing.UP.getName(), BlockAnomalyTapper.POLARITY.getName(), Polarity.BLUE.getName()));
-		ModelLoader.setCustomMeshDefinition(Item.getItemFromBlock(this), stack -> getPolarity(stack) == Polarity.RED ? redTapper : blueTapper);
-		ModelLoader.registerItemVariants(Item.getItemFromBlock(this), redTapper, blueTapper);
 	}
 	
 	private Polarity getPolarity(ItemStack itemBlockStack)

@@ -1,30 +1,27 @@
 package leviathan143.polar.common.blocks;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Collection;
+import java.util.Locale;
 
-import com.google.common.base.Functions;
 import com.google.common.collect.ImmutableSet;
 
-import leviathan143.polar.client.ISpecialRender;
 import leviathan143.polar.common.items.itemblocks.ItemBlockRune;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.*;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.ModelLoader;
 
-public class BlockRune extends Block implements IHasSpecialItemBlock, ISpecialRender
+public class BlockRune extends Block implements IHasSpecialItemBlock
 {
 	public static enum Variant implements IStringSerializable
 	{
@@ -108,15 +105,6 @@ public class BlockRune extends Block implements IHasSpecialItemBlock, ISpecialRe
 	public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
 	{
 		drops.add(ItemBlockRune.forVariant(state.getValue(VARIANT)));
-	}
-	
-	@Override
-	public void registerRender()
-	{
-		//Create blockstate variant strings
-		Map<Variant, ModelResourceLocation> variantLocations = Arrays.stream(Variant.values()).collect(Collectors.toMap(Functions.identity(), v -> new ModelResourceLocation(getRegistryName(), VARIANT.getName() + "=" + v.getName())));
-		ModelLoader.setCustomMeshDefinition(Item.getItemFromBlock(this), stack -> variantLocations.get(ItemBlockRune.getVariant(stack)));
-		ModelLoader.registerItemVariants(Item.getItemFromBlock(this), variantLocations.values().toArray(new ModelResourceLocation[0]));
 	}
 
 	@Override

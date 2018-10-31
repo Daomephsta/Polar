@@ -1,14 +1,13 @@
 package leviathan143.polar.common.items;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Queue;
 
 import leviathan143.polar.api.Polarity;
-import leviathan143.polar.client.ISpecialRender;
+import leviathan143.polar.client.ModelRegistry;
 import leviathan143.polar.common.Polar;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.init.Items;
 import net.minecraft.item.*;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -18,7 +17,6 @@ import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 @EventBusSubscriber(modid = Polar.MODID)
 public class ItemRegistry 
 {
-	private static final List<Item> items = new ArrayList<>();
 	private static final Queue<ItemBlock> itemBlockQueue = new ArrayDeque<>();
 	
 	public static final Item RED_IRRADIATED_REDSTONE = null;
@@ -40,19 +38,21 @@ public class ItemRegistry
 	
 	private static Item setupItem(Item item, String name)
 	{
-		item.setRegistryName(Polar.MODID, name);
-		item.setTranslationKey(Polar.MODID + '.' + name);
-		items.add(item);
-		return item;
+		return setupItem(item, name, true);
 	}
 	
-	public static void registerModels()
+	private static Item setupItemSpecialRender(Item item, String name)
 	{
-		for(Item item : items)
-		{
-			if(item instanceof ISpecialRender) ((ISpecialRender) item).registerRender();
-			else ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
-		}
+		return setupItem(item, name, false);
+	}
+	
+	private static Item setupItem(Item item, String name, boolean standardRender)
+	{
+		item.setRegistryName(Polar.MODID, name);
+		item.setTranslationKey(Polar.MODID + '.' + name);
+		if (standardRender)
+			ModelRegistry.enqueue(item);
+		return item;
 	}
 	
 	public static void queueItemBlock(ItemBlock itemBlock)
