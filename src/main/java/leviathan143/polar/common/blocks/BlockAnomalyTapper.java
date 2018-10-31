@@ -6,7 +6,6 @@ import daomephsta.umbra.bitmanipulation.IBitEncoderDecoder;
 import leviathan143.polar.api.CommonWords;
 import leviathan143.polar.api.Polarity;
 import leviathan143.polar.client.ISpecialRender;
-import leviathan143.polar.common.items.IPolarisedItem;
 import leviathan143.polar.common.items.ItemBlockAnomalyTapper;
 import leviathan143.polar.common.tileentities.TileEntityAnomalyTapper;
 import net.minecraft.block.BlockDirectional;
@@ -101,13 +100,13 @@ public class BlockAnomalyTapper extends BlockDirectional implements IHasSpecialI
 	@Override
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
 	{
-		return IPolarisedItem.getPolarisedStack(BlockRegistry.ANOMALY_TAPPER, state.getValue(POLARITY));
+		return ItemBlockAnomalyTapper.forPolarity(state.getValue(POLARITY));
 	}
 	
 	@Override
 	public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
 	{
-		drops.add(IPolarisedItem.getPolarisedStack(BlockRegistry.ANOMALY_TAPPER, state.getValue(POLARITY)));
+		drops.add(ItemBlockAnomalyTapper.forPolarity(state.getValue(POLARITY)));
 	}
 	
 	@Override

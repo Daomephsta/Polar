@@ -1,8 +1,10 @@
 package leviathan143.polar.common.items;
 
+import daomephsta.umbra.nbt.NBTExtensions;
 import leviathan143.polar.api.CommonWords;
 import leviathan143.polar.api.Polarity;
 import leviathan143.polar.common.Polar;
+import leviathan143.polar.common.blocks.BlockRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemBlock;
@@ -16,56 +18,36 @@ public class ItemBlockAnomalyTapper extends ItemBlock implements IPolarisedItem
 	{
 		super(block);
 	}
-	
+
 	@Override
 	public CreativeTabs[] getCreativeTabs()
 	{
 		return new CreativeTabs[] {Polar.TAB_RED, Polar.TAB_BLUE};
 	}
-	
-	@Override
-	public ItemStack getPolarisedStack(Polarity polarity)
+
+	public static ItemStack forPolarity(Polarity polarity)
 	{
-		switch(polarity)
-		{
-		case BLUE:
-		{
-			NBTTagCompound tag = new NBTTagCompound();
-			tag.setString(CommonWords.POLARITY, Polarity.BLUE.name());
-			ItemStack stack = new ItemStack(this);
-			stack.setTagCompound(tag);
-			return stack;
-		}
-		case RED:
-		{
-			NBTTagCompound tag = new NBTTagCompound();
-			tag.setString(CommonWords.POLARITY, Polarity.RED.name());
-			ItemStack stack = new ItemStack(this);
-			stack.setTagCompound(tag);
-			return stack;
-		}
-		default:
+		if (!polarity.isPolarised())
 			return ItemStack.EMPTY;
-		} 
+
+		ItemStack stack = new ItemStack(BlockRegistry.ANOMALY_TAPPER);
+		NBTTagCompound tag = new NBTTagCompound();
+		NBTExtensions.setEnumConstant(tag, CommonWords.POLARITY, polarity);
+		stack.setTagCompound(tag);
+		return stack;
 	}
-	
-	@Override
-	public Polarity[] getValidPolarities()
-	{
-		return Polarity.POLARISED;
-	}
-	
+
 	@Override
 	public Polarity getPolarity(ItemStack stack)
 	{
-		return Polarity.valueOf(stack.getTagCompound().getString(CommonWords.POLARITY));
+		return NBTExtensions.getEnumConstant(stack.getTagCompound(), Polarity.class, CommonWords.POLARITY); 
 	}
-	
+
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
 	{
 		if (!isInCreativeTab(tab)) return;
-		if(tab == Polar.TAB_RED) items.add(getPolarisedStack(Polarity.RED));
-		else if(tab == Polar.TAB_BLUE) items.add(getPolarisedStack(Polarity.BLUE));
+		if(tab == Polar.TAB_RED) items.add(forPolarity(Polarity.RED));
+		else if(tab == Polar.TAB_BLUE) items.add(forPolarity(Polarity.BLUE));
 	}
 }

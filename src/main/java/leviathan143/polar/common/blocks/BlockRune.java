@@ -28,7 +28,6 @@ public class BlockRune extends Block implements IHasSpecialItemBlock, ISpecialRe
 {
 	public static enum Variant implements IStringSerializable
 	{
-		//Blue
 		RAL(0),
 		SAI(1),
 		DEL(2),
