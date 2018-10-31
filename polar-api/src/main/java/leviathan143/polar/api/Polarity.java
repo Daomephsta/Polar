@@ -105,4 +105,9 @@ public enum Polarity implements IStringSerializable
 	{
 		return polarisedIndex;
 	}
+	
+	public boolean isPolarised()
+	{
+		return polarisedIndex > -1;
+	}
 }

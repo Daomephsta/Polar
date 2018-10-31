@@ -22,12 +22,14 @@ public class BlockRegistry
 {
 	private static final List<Block> blocks = new ArrayList<>();
 	public static final BlockAnomalyTapper ANOMALY_TAPPER = null;
+	public static final BlockRune RUNE = null;
 	
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> e)
 	{
 		e.getRegistry().registerAll(
-			setupBlock(new BlockAnomalyTapper(), "anomaly_tapper"));
+			setupBlock(new BlockAnomalyTapper(), "anomaly_tapper"),
+			setupBlock(new BlockRune(), "rune"));
 		GameRegistry.registerTileEntity(TileEntityAnomalyTapper.class, new ResourceLocation(Polar.MODID, "anomaly_tapper"));
 	}
 	
