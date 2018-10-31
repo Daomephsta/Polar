@@ -79,10 +79,22 @@ version = "${rootProject.mcVersion}-${rootProject.modVersion}"
 group= "leviathan143.polar" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "Polar"
 
+repositories {
+	maven
+	{
+		name 'MMD'
+		url 'https://maven.mcmoddev.com'
+	}
+}
+
 dependencies {
 	containedDep "daomephsta.umbra:umbra-minecraft:${project.umbraMCVersion}"
 	containedDep "daomephsta.umbra:umbra-java:${project.umbraJavaVersion}"
 	compile project('polar-api')
+	// compile against the Baubles API
+	deobfCompile "com.azanor:Baubles:${project.baublesVersion}:api"
+  	// at runtime, use the full Baubles jar
+  	runtime "com.azanor:Baubles:${project.baublesVersion}"
 }
 
 minecraft {
