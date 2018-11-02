@@ -18,10 +18,10 @@ public class PolarConfig
 	{
 		@Name("Minimum Spawn Percentage")
 		@Comment("The minimum percentage of chunks to spawn anomalies in")
-		public float minChunkPercentage = 0.1F;
+		public float minChunkPercentage = 0.01F;
 		@Name("Maximum Spawn Percentage")
 		@Comment("The maximum percentage of chunks to spawn anomalies in")
-		public float maxChunkPercentage = 0.2F;
+		public float maxChunkPercentage = 0.02F;
 		@Name("Minimum Spawn Y")
 		@Comment("The minimum height anomalies can spawn at")
 		public int minSpawnY = 0;
