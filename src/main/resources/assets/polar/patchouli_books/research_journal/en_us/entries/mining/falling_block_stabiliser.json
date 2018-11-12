@@ -1,0 +1,18 @@
+{
+    "name": "Gravitic Stabiliser",
+    "icon": "polar:falling_block_stabiliser",
+    "category": "mining",
+    "advancement": "polar:red/root_red",
+    "pages":
+    [
+        {
+            "type": "text",
+            "text": "While mining I often have trouble mining through deposits of gravel and other similar blocks. As soon as I mine one block, the gap is immediately filled by another falling from above!$(br)To solve this problem I have designed a trinket that stabilises these blocks using the power of $(red_magic)."
+        },
+        {
+            "type": "crafting",
+            "recipe": "polar:red/falling_block_stabiliser",
+            "text": "The $(item)Gravitic Stabiliser$() uses a small amount of $(thing)Charge$() per block stabilised, and is charged by the method described in $(l:basics/item_charging)Charging Items$()."
+        }
+    ]
+}

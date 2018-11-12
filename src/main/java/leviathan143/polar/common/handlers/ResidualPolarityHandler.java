@@ -30,7 +30,7 @@ public class ResidualPolarityHandler
 			{
 				if (isPolarisedItem(armour))
 				{
-					handlePolarisedItem(armour, (EntityPlayer) event.getEntityLiving());
+					itemActivated(armour, (EntityPlayer) event.getEntityLiving());
 				}
 			}
 		}
@@ -40,35 +40,35 @@ public class ResidualPolarityHandler
 	public static void handleAttackEntity(AttackEntityEvent event)
 	{
 		if (isPolarisedItem(event.getEntityPlayer().getHeldItemMainhand()))
-			handlePolarisedItem(event.getEntityPlayer().getHeldItemMainhand(), event.getEntityPlayer());
+			itemActivated(event.getEntityPlayer().getHeldItemMainhand(), event.getEntityPlayer());
 	}
 
 	@SubscribeEvent
 	public static void handleAttackBlock(PlayerInteractEvent.LeftClickBlock event)
 	{
 		if (isPolarisedItem(event.getItemStack()))
-			handlePolarisedItem(event.getItemStack(), event.getEntityPlayer());
+			itemActivated(event.getItemStack(), event.getEntityPlayer());
 	}
 	
 	@SubscribeEvent
 	public static void handleUseItem(PlayerInteractEvent.RightClickItem event)
 	{
 		if (isPolarisedItem(event.getItemStack()))
-			handlePolarisedItem(event.getItemStack(), event.getEntityPlayer());
+			itemActivated(event.getItemStack(), event.getEntityPlayer());
 	}
 	
 	@SubscribeEvent
 	public static void handleUseItemOnBlock(PlayerInteractEvent.RightClickBlock event)
 	{
 		if (isPolarisedItem(event.getItemStack()))
-			handlePolarisedItem(event.getItemStack(), event.getEntityPlayer());
+			itemActivated(event.getItemStack(), event.getEntityPlayer());
 	}
 	
 	@SubscribeEvent
 	public static void handleUseItemOnEntity(PlayerInteractEvent.EntityInteract event)
 	{
 		if (isPolarisedItem(event.getItemStack()))
-			handlePolarisedItem(event.getItemStack(), event.getEntityPlayer());
+			itemActivated(event.getItemStack(), event.getEntityPlayer());
 	}
 	
 	private static boolean isPolarisedItem(ItemStack stack)
@@ -78,19 +78,23 @@ public class ResidualPolarityHandler
 		return stack.getTagCompound().hasKey(CommonWords.POLARITY);
 	}
 	
-	private static void handlePolarisedItem(ItemStack stack, EntityPlayer player)
+	public static void itemActivated(ItemStack stack, EntityPlayer player)
 	{
 		PlayerDataPolar playerData = PlayerDataPolar.get(player);
 		Polarity residualCharge = playerData.getResidualPolarity();
 		Polarity itemPolarity = stack.getItem() instanceof IPolarisedItem 
 			? ((IPolarisedItem) stack.getItem()).getPolarity(stack)
 			: Enum.valueOf(Polarity.class, stack.getTagCompound().getString(CommonWords.POLARITY).toUpperCase());
-		//1 in 10 activations should leave a residual charge
-		if (residualCharge == Polarity.NONE && player.world.rand.nextFloat() <= 0.1F)
-			playerData.setResidualPolarity(itemPolarity);
+		// Ifs are nested to avoid shocking if a residual charge is not left, regardless of polarities
+		if (residualCharge == Polarity.NONE)
+		{
+			// 1 in 10 activations should leave a residual charge
+			if (player.world.rand.nextFloat() <= 0.1F)
+				playerData.setResidualPolarity(itemPolarity);
+		}
 		else if (residualCharge != itemPolarity)
 		{
-			//Damage source must be unblockable to avoid stack overflow
+			// Damage source must be unblockable to avoid stack overflow
 			player.attackEntityFrom(DamageSource.MAGIC, 0.5F);
 			playerData.setResidualPolarity(Polarity.NONE);
 			if (player instanceof EntityPlayerMP)

@@ -1,0 +1,12 @@
+{
+    "name": "Charging Items",
+    "icon": "polar:textures/guide/misc/icons/item_charging.png",
+    "category": "basics",
+    "pages":
+    [
+        {
+            "type": "text",
+            "text": "Certain items, such as the $(item)Gravitic Stabiliser$(), require Polar magic to function. $(red_magic) and $(blue_magic) items are charged by crafting them with $(red_resource) and $(blue_resource), respectively. The charge of an item is displayed in its tooltip."
+        }
+    ]
+}

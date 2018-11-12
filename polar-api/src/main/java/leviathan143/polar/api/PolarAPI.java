@@ -1,7 +1,6 @@
 package leviathan143.polar.api;
 
-import leviathan143.polar.api.capabilities.IPlayerDataPolar;
-import leviathan143.polar.api.capabilities.ITappable;
+import leviathan143.polar.api.capabilities.*;
 import leviathan143.polar.api.internal.DummyAccessors;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -16,6 +15,8 @@ public class PolarAPI
 	public static final Capability<IPlayerDataPolar> PLAYER_DATA_POLAR = null;
 	@CapabilityInject(ITappable.class)
 	public static final Capability<ITappable> CAPABILITY_TAPPABLE = null;
+	@CapabilityInject(IPolarChargeStorage.class)
+	public static final Capability<IPolarChargeStorage> CAPABILITY_CHARGEABLE = null;
 
 	private static IInternalMethodAccessors internalAccessors = new DummyAccessors();
 

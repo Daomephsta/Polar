@@ -32,7 +32,7 @@ public class ModelRegistry
 		{
 			Item item = modelRegistrationQueue.remove();
 			ModelLoader.setCustomModelResourceLocation(item, 0, 
-				new ModelResourceLocation(item.getRegistryName(), "inventory"));
+				new ModelResourceLocation(item.getRegistryName(), "normal"));
 		}
 		registerSpecialItemModels();
 		registerSpecialBlockModels();

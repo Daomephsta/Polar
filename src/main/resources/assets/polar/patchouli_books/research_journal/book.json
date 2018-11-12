@@ -2,11 +2,13 @@
     "name": "item.polar.research_journal.name",
     "creative_tab": "polar.other",
     "advancement_namespaces": ["polar"],
-    "book_texture": "patchouli:textures/gui/book_brown",
+    "book_texture": "patchouli:textures/gui/book_brown.png",
     "landing_text": "",
     "macros": 
     {
         "$(red_magic)": "Vermillis",
-        "$(blue_magic)": "Azuras"
+        "$(red_resource)": "Vermillis Irradiated Redstone",
+        "$(blue_magic)": "Azuras",
+        "$(blue_resource)": "Azuras Irradiated Lapis Lazuli"
     }
 }

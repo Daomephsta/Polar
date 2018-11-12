@@ -16,8 +16,10 @@ tile.polar.rune.tir.name=Tir Rune
 
 //Items
 item.polar.research_journal.name=Research Journal
+item.polar.falling_block_stabiliser.name=Gravitic Stabiliser
 
 //Misc
+polar.tooltip.charge=Charge: %d/%d
 polar.polarity.red.irradiated=Vermillis Irradiated %s
 polar.polarity.blue.irradiated=Azuras Irradiated %s
 polar.message.research_journal_prompt=What a strange object! I think I should make a research journal to record my findings as I investigate it.

@@ -12,7 +12,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 @Config(modid = Polar.MODID, category = "")
 public class PolarConfig
 {
-	public static Anomalies anomalies = new Anomalies();
+	public static final Anomalies anomalies = new Anomalies();
+	public static final Charge charge = new Charge();
 	
 	public static class Anomalies
 	{
@@ -48,6 +49,17 @@ public class PolarConfig
 		}
 	}
 	
+	public static class Charge
+	{
+		@RequiresMcRestart
+		@Name("Gravitic Stabiliser Maximum Charge")
+		@Comment("The maximum charge a Gravitic Stabiliser can hold")
+		public int graviticStabiliserMaxCharge = 128;
+		@Name("Gravitic Stabiliser Activation Cost")
+		@Comment("How much charge it costs to stabilise a block")
+		public int graviticStabiliserActivationCost = 2;
+	}
+	
 	@SubscribeEvent
 	public static void onConfigChanged(ConfigChangedEvent e)
 	{
@@ -58,8 +70,17 @@ public class PolarConfig
 		}
 	}
 
-	public static void finishLoading()
+	private static void finishLoading()
 	{
-		anomalies.dimBlackList = new IntArraySet(anomalies.__dimBlackList);
+		anomalies.dimBlackList = new IntArraySet(anomalies.__dimBlackList);	
 	}
+	
+	public static void preInit()
+	{
+		finishLoading();
+	}
+	
+	public static void init(){}
+	
+	public static void postInit() {}
 }
