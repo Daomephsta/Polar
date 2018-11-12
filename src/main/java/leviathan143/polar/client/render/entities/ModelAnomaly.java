@@ -17,7 +17,8 @@ import net.minecraft.util.math.MathHelper;
  */
 public class ModelAnomaly extends ModelBase 
 {
-	private static final FloatBuffer FLOAT_BUF = GLAllocation.createDirectFloatBuffer(4); 
+	private static final FloatBuffer STANDARD_LIGHTING_BUF = GLAllocation.createDirectFloatBuffer(16);
+	private static final FloatBuffer GLOW_BUF = GLAllocation.createDirectFloatBuffer(4); 
     private ModelRenderer 
     	anomaly,
     	overlay;
@@ -42,9 +43,10 @@ public class ModelAnomaly extends ModelBase
     	GlStateManager.pushMatrix();
     	{
     		//Make runes pulse
-    		GlStateManager.enableLighting();
     		float speed = 0.05F;
     		float light = -(MathHelper.sin(speed * ageInTicks + MathHelper.cos(speed * ageInTicks)));
+    		//Store the original light model
+    		GlStateManager.getFloat(GL11.GL_LIGHT_MODEL_AMBIENT, STANDARD_LIGHTING_BUF);
     		GlStateManager.glLightModel(GL11.GL_LIGHT_MODEL_AMBIENT, setFloatBuffer(light, light, light, light));
         	GlStateManager.translate(overlay.offsetX, overlay.offsetY, overlay.offsetZ);
         	GlStateManager.translate(overlay.rotationPointX * scale, overlay.rotationPointY * scale, overlay.rotationPointZ * scale);
@@ -52,18 +54,21 @@ public class ModelAnomaly extends ModelBase
         	GlStateManager.translate(-overlay.offsetX, -overlay.offsetY, -overlay.offsetZ);
         	GlStateManager.translate(-overlay.rotationPointX * scale, -overlay.rotationPointY * scale, -overlay.rotationPointZ * scale);
         	overlay.render(scale);
+        	//Reset the light model
+        	GlStateManager.glLightModel(GL11.GL_LIGHT_MODEL_AMBIENT, STANDARD_LIGHTING_BUF);
         	GlStateManager.disableLighting();
+            anomaly.render(scale);
+        	GlStateManager.enableLighting();
     	}
         GlStateManager.popMatrix();
-        anomaly.render(scale);
     }
     
     private FloatBuffer setFloatBuffer(float a, float b, float c, float d)
     {
-    	FLOAT_BUF.clear();
-    	FLOAT_BUF.put(a).put(b).put(c).put(d);
-    	FLOAT_BUF.flip();
-    	return FLOAT_BUF;
+    	GLOW_BUF.clear();
+    	GLOW_BUF.put(a).put(b).put(c).put(d);
+    	GLOW_BUF.flip();
+    	return GLOW_BUF;
     }
 	
 	@Override
