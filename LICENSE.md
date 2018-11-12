@@ -1,4 +1,4 @@
-Unless otherwise specified in credits.md, all assets and code are under the MIT license
+Unless otherwise specified in CREDITS.md, all assets and code are under the MIT license
 
 MIT License
 
