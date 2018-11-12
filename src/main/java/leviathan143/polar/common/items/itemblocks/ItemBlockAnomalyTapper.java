@@ -1,11 +1,9 @@
 package leviathan143.polar.common.items.itemblocks;
 
 import daomephsta.umbra.nbt.NBTExtensions;
-import leviathan143.polar.api.CommonWords;
-import leviathan143.polar.api.Polarity;
+import leviathan143.polar.api.*;
 import leviathan143.polar.common.Polar;
 import leviathan143.polar.common.blocks.BlockRegistry;
-import leviathan143.polar.common.items.IPolarisedItem;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemBlock;

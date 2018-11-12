@@ -4,14 +4,12 @@ import java.util.List;
 
 import baubles.api.BaubleType;
 import baubles.api.IBauble;
-import leviathan143.polar.api.PolarAPI;
-import leviathan143.polar.api.Polarity;
+import leviathan143.polar.api.*;
 import leviathan143.polar.api.capabilities.IPolarChargeStorage;
 import leviathan143.polar.api.factions.FactionAlignment;
 import leviathan143.polar.common.Polar;
 import leviathan143.polar.common.capabilities.CapabilityPolarChargeable;
 import leviathan143.polar.common.config.PolarConfig;
-import leviathan143.polar.common.items.IPolarisedItem;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;

@@ -3,6 +3,8 @@ package leviathan143.polar.api;
 import java.io.IOException;
 import java.util.Locale;
 
+import daomephsta.umbra.nbt.NBTExtensions;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.*;
 import net.minecraft.util.IStringSerializable;
@@ -83,6 +85,22 @@ public enum Polarity implements IStringSerializable
 	public static DataSerializer<Polarity> getDataSerializer()
 	{
 		return DATA_SERIALIZER;
+	}
+	
+	public static Polarity ofStack(ItemStack stack)
+	{
+		if (stack.getItem() instanceof IPolarisedItem)
+			return ((IPolarisedItem) stack.getItem()).getPolarity(stack);
+		if (stack.hasTagCompound() && stack.getTagCompound().hasKey(CommonWords.POLARITY))
+			return NBTExtensions.getEnumConstant(stack.getTagCompound(), Polarity.class, CommonWords.POLARITY);
+		return Polarity.NONE;
+	}
+	
+	public static boolean isStackPolarised(ItemStack stack)
+	{
+		if (stack.getItem() instanceof IPolarisedItem) return true;
+		if (!stack.hasTagCompound()) return false;
+		return stack.getTagCompound().hasKey(CommonWords.POLARITY);
 	}
 	
 	@Override

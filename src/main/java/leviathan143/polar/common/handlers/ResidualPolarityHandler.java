@@ -1,11 +1,9 @@
 package leviathan143.polar.common.handlers;
 
-import leviathan143.polar.api.CommonWords;
-import leviathan143.polar.api.Polarity;
+import leviathan143.polar.api.*;
 import leviathan143.polar.common.Polar;
 import leviathan143.polar.common.advancements.triggers.TriggerRegistry;
 import leviathan143.polar.common.capabilities.CapabilityPlayerDataPolar.PlayerDataPolar;
-import leviathan143.polar.common.items.IPolarisedItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -28,7 +26,7 @@ public class ResidualPolarityHandler
 		{
 			for (ItemStack armour : event.getEntityLiving().getArmorInventoryList())
 			{
-				if (isPolarisedItem(armour))
+				if (Polarity.isStackPolarised(armour))
 				{
 					itemActivated(armour, (EntityPlayer) event.getEntityLiving());
 				}
@@ -39,52 +37,43 @@ public class ResidualPolarityHandler
 	@SubscribeEvent
 	public static void handleAttackEntity(AttackEntityEvent event)
 	{
-		if (isPolarisedItem(event.getEntityPlayer().getHeldItemMainhand()))
+		if (Polarity.isStackPolarised(event.getEntityPlayer().getHeldItemMainhand()))
 			itemActivated(event.getEntityPlayer().getHeldItemMainhand(), event.getEntityPlayer());
 	}
 
 	@SubscribeEvent
 	public static void handleAttackBlock(PlayerInteractEvent.LeftClickBlock event)
 	{
-		if (isPolarisedItem(event.getItemStack()))
+		if (Polarity.isStackPolarised(event.getItemStack()))
 			itemActivated(event.getItemStack(), event.getEntityPlayer());
 	}
 	
 	@SubscribeEvent
 	public static void handleUseItem(PlayerInteractEvent.RightClickItem event)
 	{
-		if (isPolarisedItem(event.getItemStack()))
+		if (Polarity.isStackPolarised(event.getItemStack()))
 			itemActivated(event.getItemStack(), event.getEntityPlayer());
 	}
 	
 	@SubscribeEvent
 	public static void handleUseItemOnBlock(PlayerInteractEvent.RightClickBlock event)
 	{
-		if (isPolarisedItem(event.getItemStack()))
+		if (Polarity.isStackPolarised(event.getItemStack()))
 			itemActivated(event.getItemStack(), event.getEntityPlayer());
 	}
 	
 	@SubscribeEvent
 	public static void handleUseItemOnEntity(PlayerInteractEvent.EntityInteract event)
 	{
-		if (isPolarisedItem(event.getItemStack()))
+		if (Polarity.isStackPolarised(event.getItemStack()))
 			itemActivated(event.getItemStack(), event.getEntityPlayer());
-	}
-	
-	private static boolean isPolarisedItem(ItemStack stack)
-	{
-		if (stack.getItem() instanceof IPolarisedItem) return true;
-		if (!stack.hasTagCompound()) return false;
-		return stack.getTagCompound().hasKey(CommonWords.POLARITY);
 	}
 	
 	public static void itemActivated(ItemStack stack, EntityPlayer player)
 	{
 		PlayerDataPolar playerData = PlayerDataPolar.get(player);
 		Polarity residualCharge = playerData.getResidualPolarity();
-		Polarity itemPolarity = stack.getItem() instanceof IPolarisedItem 
-			? ((IPolarisedItem) stack.getItem()).getPolarity(stack)
-			: Enum.valueOf(Polarity.class, stack.getTagCompound().getString(CommonWords.POLARITY).toUpperCase());
+		Polarity itemPolarity = Polarity.ofStack(stack);
 		// Ifs are nested to avoid shocking if a residual charge is not left, regardless of polarities
 		if (residualCharge == Polarity.NONE)
 		{

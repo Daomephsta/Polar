@@ -1,7 +1,6 @@
 package leviathan143.polar.common.recipes;
 
-import leviathan143.polar.api.PolarAPI;
-import leviathan143.polar.api.Polarity;
+import leviathan143.polar.api.*;
 import leviathan143.polar.api.capabilities.IPolarChargeStorage;
 import leviathan143.polar.common.items.ItemRegistry;
 import net.minecraft.inventory.InventoryCrafting;
@@ -19,7 +18,7 @@ public class RecipeChargeItem extends Impl<IRecipe> implements IRecipe
 	{
 		boolean redFound = false, 
 				blueFound = false; 
-		ItemStack item = null;
+		ItemStack chargeableStack = null;
 		for (int s = 0; s < inv.getSizeInventory(); s++)
 		{
 			ItemStack stack = inv.getStackInSlot(s);
@@ -28,13 +27,13 @@ public class RecipeChargeItem extends Impl<IRecipe> implements IRecipe
 			else if (stack.getItem() == ItemRegistry.BLUE_IRRADIATED_LAPIS)
 				blueFound = true;
 			else if (stack.hasCapability(PolarAPI.CAPABILITY_CHARGEABLE, null))
-				item = stack;
+				chargeableStack = stack;
 		}
-		if (item != null)
+		if (chargeableStack != null)
 		{
 			if (redFound && blueFound)
 				return false;
-			Polarity itemPolarity = item.getCapability(PolarAPI.CAPABILITY_CHARGEABLE, null).getPolarity();
+			Polarity itemPolarity = Polarity.ofStack(chargeableStack);
 			return (itemPolarity == Polarity.RED && redFound) || (itemPolarity == Polarity.BLUE && blueFound); 
 		}
 		return false;
@@ -56,9 +55,12 @@ public class RecipeChargeItem extends Impl<IRecipe> implements IRecipe
 		// The item must exist, since matches() must return true for this method to be called
 		@SuppressWarnings("null")
 		IPolarChargeStorage chargeable = item.getCapability(PolarAPI.CAPABILITY_CHARGEABLE, null);
-		int remainder = chargeable.charge(chargeable.getPolarity(), CHARGE_VALUE * chargeSources, true);
+		Polarity itemPolarity = item.getItem() instanceof IPolarisedItem 
+			? ((IPolarisedItem) item.getItem()).getPolarity(item) 
+			: Polarity.NONE;
+		int remainder = chargeable.charge(itemPolarity, CHARGE_VALUE * chargeSources, true);
 		if (remainder == 0)
-			chargeable.charge(chargeable.getPolarity(), CHARGE_VALUE * chargeSources, false);
+			chargeable.charge(itemPolarity, CHARGE_VALUE * chargeSources, false);
 		return item;
 	}
 
