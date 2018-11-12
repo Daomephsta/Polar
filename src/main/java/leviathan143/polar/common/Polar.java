@@ -5,7 +5,6 @@ import leviathan143.polar.api.PolarAPI;
 import leviathan143.polar.common.advancements.triggers.TriggerRegistry;
 import leviathan143.polar.common.capabilities.CapabilityPlayerDataPolar;
 import leviathan143.polar.common.capabilities.CapabilityPolarChargeable;
-import leviathan143.polar.common.capabilities.tapping.CapabilityTappable;
 import leviathan143.polar.common.config.PolarConfig;
 import leviathan143.polar.common.core.InternalMethodAccessors;
 import leviathan143.polar.common.items.ItemRegistry;
@@ -74,7 +73,6 @@ public class Polar
 	private static void registerCapabilities()
 	{
 		CapabilityPlayerDataPolar.register();
-		CapabilityTappable.register();
 		CapabilityPolarChargeable.register();
 	}
 

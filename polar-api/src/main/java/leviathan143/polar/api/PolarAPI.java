@@ -13,8 +13,6 @@ public class PolarAPI
 	public static final String PROVIDER_MOD_ID = "polar";
 	@CapabilityInject(IPlayerDataPolar.class)
 	public static final Capability<IPlayerDataPolar> PLAYER_DATA_POLAR = null;
-	@CapabilityInject(ITappable.class)
-	public static final Capability<ITappable> CAPABILITY_TAPPABLE = null;
 	@CapabilityInject(IPolarChargeStorage.class)
 	public static final Capability<IPolarChargeStorage> CAPABILITY_CHARGEABLE = null;
 

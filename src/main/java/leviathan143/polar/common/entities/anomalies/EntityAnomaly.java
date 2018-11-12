@@ -3,7 +3,7 @@ package leviathan143.polar.common.entities.anomalies;
 import io.netty.buffer.ByteBuf;
 import leviathan143.polar.api.PolarAPI;
 import leviathan143.polar.api.Polarity;
-import leviathan143.polar.api.capabilities.ITappable;
+import leviathan143.polar.api.capabilities.IPolarChargeStorage;
 import leviathan143.polar.common.advancements.triggers.TriggerRegistry;
 import leviathan143.polar.common.config.PolarConfig;
 import leviathan143.polar.common.core.Constants;
@@ -22,7 +22,7 @@ import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 
 public class EntityAnomaly extends Entity implements IEntityAdditionalSpawnData
 {
-	private final ITappable tappingHandler;
+	private final IPolarChargeStorage chargeStorage;
 	private Polarity polarity;
 	private long closingTimestamp;
 	private boolean open = false;
@@ -33,7 +33,7 @@ public class EntityAnomaly extends Entity implements IEntityAdditionalSpawnData
 		setEntityInvulnerable(true);
 		setSize(1.1F, 1.1F);
 		// 1000-2000 charge
-		this.tappingHandler = new AnomalyTappingHandler(this, 1000 + rand.nextInt(1000));
+		this.chargeStorage = new AnomalyChargeStorage(this, 1000 + rand.nextInt(1000));
 	}
 
 	public EntityAnomaly(World world, Polarity polarity)
@@ -56,7 +56,7 @@ public class EntityAnomaly extends Entity implements IEntityAdditionalSpawnData
 	{
 		super.onEntityUpdate();
 		long closeIn = closingTimestamp - world.getTotalWorldTime();
-		if ((closeIn <= 0 && !open) || tappingHandler.getStoredCharge() == 0)
+		if ((closeIn <= 0 && !open) || chargeStorage.getStoredCharge() == 0)
 		{
 			this.setDead();
 			return;
@@ -138,13 +138,13 @@ public class EntityAnomaly extends Entity implements IEntityAdditionalSpawnData
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing)
 	{
-		return capability == PolarAPI.CAPABILITY_TAPPABLE ? true : super.hasCapability(capability, facing);
+		return capability == PolarAPI.CAPABILITY_CHARGEABLE ? true : super.hasCapability(capability, facing);
 	}
 
 	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing)
 	{
-		if (capability == PolarAPI.CAPABILITY_TAPPABLE) return PolarAPI.CAPABILITY_TAPPABLE.cast(tappingHandler);
+		if (capability == PolarAPI.CAPABILITY_CHARGEABLE) return PolarAPI.CAPABILITY_CHARGEABLE.cast(chargeStorage);
 		return super.getCapability(capability, facing);
 	}
 

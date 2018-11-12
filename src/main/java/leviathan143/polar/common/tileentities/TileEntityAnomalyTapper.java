@@ -7,7 +7,7 @@ import java.util.function.BinaryOperator;
 import com.google.common.math.DoubleMath;
 
 import leviathan143.polar.api.PolarAPI;
-import leviathan143.polar.api.capabilities.ITappable;
+import leviathan143.polar.api.capabilities.IPolarChargeStorage;
 import leviathan143.polar.common.blocks.BlockAnomalyTapper;
 import leviathan143.polar.common.entities.anomalies.EntityAnomaly;
 import net.minecraft.block.state.IBlockState;
@@ -22,8 +22,8 @@ import net.minecraft.util.math.AxisAlignedBB;
 public class TileEntityAnomalyTapper extends TileEntity implements ITickable
 {
 	private EntityAnomaly attachedAnomaly;
-	//Cached anomaly tapping handler, because it won't change.
-	private ITappable anomalyTapper;
+	//Cached anomaly charge storage, because it won't change.
+	private IPolarChargeStorage	anomalyChargeStorage;
 	private int anomalyCheckCountdown = 10;
 	
 	@Override
@@ -69,14 +69,14 @@ public class TileEntityAnomalyTapper extends TileEntity implements ITickable
 	{
 		anomaly.open();
 		this.attachedAnomaly = anomaly;
-		this.anomalyTapper = anomaly.getCapability(PolarAPI.CAPABILITY_TAPPABLE, null);
+		this.anomalyChargeStorage = anomaly.getCapability(PolarAPI.CAPABILITY_CHARGEABLE, null);
 	}
 	
 	private void detachFromAnomaly()
 	{
 		attachedAnomaly.close();
 		this.attachedAnomaly = null;
-		this.anomalyTapper = null;
+		this.anomalyChargeStorage = null;
 	}
 	
 	private boolean attached()

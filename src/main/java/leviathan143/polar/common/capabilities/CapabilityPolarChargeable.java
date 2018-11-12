@@ -37,9 +37,14 @@ public class CapabilityPolarChargeable
 		
 		public SimplePolarChargeable(Polarity polarity, int maxCharge)
 		{
+			this(polarity, maxCharge, 0);
+		}
+		
+		public SimplePolarChargeable(Polarity polarity, int maxCharge, int initialCharge)
+		{
 			this.polarity = polarity;
 			this.maxCharge = maxCharge;
-			this.storedCharge = 0;
+			this.storedCharge = initialCharge;
 		}
 
 		@Override
