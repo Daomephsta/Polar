@@ -1,6 +1,6 @@
 {
     "name": "Charging Items",
-    "icon": "polar:textures/guide/misc/icons/item_charging.png",
+    "icon": "polar:textures/guide/icons/item_charging.png",
     "category": "basics",
     "pages":
     [

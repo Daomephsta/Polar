@@ -9,7 +9,7 @@
   "updateUrl": "",
   "authorList": ["Leviathan143 - Developer", "NotAWallplan - Artist"],
   "credits": "See CREDITS.md at the root for the list of credits",
-  "logoFile": "/assets/polar/textures/guide/misc/logo.png",
+  "logoFile": "/assets/polar/textures/logo.png",
   "screenshots": [],
   "dependencies": []
 }

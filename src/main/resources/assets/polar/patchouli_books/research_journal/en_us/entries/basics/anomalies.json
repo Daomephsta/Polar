@@ -1,6 +1,6 @@
 {
     "name": "Anomalies",
-    "icon": "polar:textures/guide/misc/anomalies_thumb.png",
+    "icon": "polar:textures/guide/icons/anomalies_thumb.png",
     "category": "basics",
     "advancement": "polar:root",
     "pages":
