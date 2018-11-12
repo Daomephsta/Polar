@@ -146,6 +146,10 @@ jar {
 	manifest {
 		attributes 'ContainedDeps': configurations.containedDep.collect {it.name}.join(' ')
 	}
+    //Add credits.md
+    into('/') {
+        from('credits.md')
+    }
 	
 	dependsOn generateDependencyMetaFiles
 }

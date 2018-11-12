@@ -7,8 +7,8 @@
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["Leviathan143"],
-  "credits": "",
+  "authorList": ["Leviathan143 - Developer", "NotAWallplan - Artist"],
+  "credits": "See credits.md at the root for the list of credits",
   "logoFile": "/assets/polar/textures/guide/misc/logo.png",
   "screenshots": [],
   "dependencies": []
