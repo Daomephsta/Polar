@@ -6,11 +6,11 @@
     "landing_text": "",
     "macros": 
     {
-        "$(red_magic)": "Vermillis",
-        "$(red_resource_basic)": "Flawed Vermillium",
-        "$(red_resource_all)": "Vermillium",
-        "$(blue_magic)": "Azuras",
-        "$(blue_resource_basic)": "Flawed Azurane",
-        "$(blue_resource_all)": "Azurane"
+        "$(red_magic)": "$(thing)Vermillis$()",
+        "$(red_resource_basic)": "$(item)Flawed Vermillium$()",
+        "$(red_resource_all)": "$(item)Vermillium$()",
+        "$(blue_magic)": "$(thing)Azuras$()",
+        "$(blue_resource_basic)": "$(item)Flawed Azurane$()",
+        "$(blue_resource_all)": "$(item)Azurane$()"
     }
 }

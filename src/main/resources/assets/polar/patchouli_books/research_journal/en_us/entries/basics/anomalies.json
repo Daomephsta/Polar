@@ -12,6 +12,18 @@
         {
             "type": "text",
             "text": "After a few days, anomalies disappear naturally. I suspect it may be possible to prevent or hasten this event.$(2br)My next step is to find a way to focus the power of the anomalies. I will leave samples of candidate materials near both kinds of anomaly. Redstone, lapis, glowstone, and gold seem like good candidates to start with."
+        },
+        {
+            "type": "entity",
+            "entity": "polar:anomaly{polarity: 'BLUE', closeIn: 10}",
+            "name": "Azuras Anomaly",
+            "scale": 0.7
+        },
+        {
+            "type": "entity",
+            "entity": "polar:anomaly{polarity: 'RED', closeIn: 10}",
+            "name": "Vermillis Anomaly",
+            "scale": 0.7
         }
     ]
 }
