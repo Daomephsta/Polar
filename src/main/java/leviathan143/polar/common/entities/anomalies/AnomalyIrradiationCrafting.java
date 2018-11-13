@@ -19,14 +19,14 @@ public class AnomalyIrradiationCrafting
 	static
 	{
 		//Register default recipes
-		registerRecipe(Polarity.RED, Ingredient.fromItem(Items.REDSTONE), ItemRegistry.RED_IRRADIATED_REDSTONE);
+		registerRecipe(Polarity.RED, Ingredient.fromItem(Items.REDSTONE), ItemRegistry.RED_RESOURCE_BASIC);
 		registerRecipe(Polarity.RED, Ingredient.fromStacks(new ItemStack(Blocks.REDSTONE_BLOCK)), 
-			new ItemStack(ItemRegistry.RED_IRRADIATED_REDSTONE, 9));
+			new ItemStack(ItemRegistry.RED_RESOURCE_BASIC, 9));
 		
 		registerRecipe(Polarity.BLUE, Ingredient.fromStacks(new ItemStack(Items.DYE, 1, EnumDyeColor.BLUE.getDyeDamage())),
-			ItemRegistry.BLUE_IRRADIATED_LAPIS);
+			ItemRegistry.BLUE_RESOURCE_BASIC);
 		registerRecipe(Polarity.BLUE, Ingredient.fromStacks(new ItemStack(Blocks.LAPIS_BLOCK)),
-			new ItemStack(ItemRegistry.BLUE_IRRADIATED_LAPIS, 9));
+			new ItemStack(ItemRegistry.BLUE_RESOURCE_BASIC, 9));
 	}
 	
 	/**Convenience method for registering an irradiation recipe with a block output

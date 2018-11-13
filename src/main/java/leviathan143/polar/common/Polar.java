@@ -40,7 +40,7 @@ public class Polar
 		@Override
 		public ItemStack createIcon()
 		{
-			return new ItemStack(ItemRegistry.RED_IRRADIATED_REDSTONE);
+			return new ItemStack(ItemRegistry.RED_RESOURCE_BASIC);
 		}
 	},
 	TAB_BLUE = new CreativeTabs(MODID + ".blue")
@@ -48,7 +48,7 @@ public class Polar
 		@Override
 		public ItemStack createIcon()
 		{
-			return new ItemStack(ItemRegistry.BLUE_IRRADIATED_LAPIS);
+			return new ItemStack(ItemRegistry.BLUE_RESOURCE_BASIC);
 		}
 	},
 	TAB_OTHER = new CreativeTabs(MODID + ".other")

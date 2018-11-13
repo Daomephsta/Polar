@@ -13,6 +13,6 @@
     "key":
     {
         "B": {"item": "minecraft:iron_bars"},
-        "V": {"item": "polar:red_irradiated_redstone"}
+        "V": {"item": "polar:red_resource_basic"}
     }
 }

@@ -7,8 +7,10 @@
     "macros": 
     {
         "$(red_magic)": "Vermillis",
-        "$(red_resource)": "Vermillis Irradiated Redstone",
+        "$(red_resource_basic)": "Flawed Vermillium",
+        "$(red_resource_all)": "Vermillium",
         "$(blue_magic)": "Azuras",
-        "$(blue_resource)": "Azuras Irradiated Lapis Lazuli"
+        "$(blue_resource_basic)": "Flawed Azurane",
+        "$(blue_resource_all)": "Azurane"
     }
 }

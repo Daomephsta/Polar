@@ -20,7 +20,7 @@
 		},
 		"additional_ingredients":
 		[
-			{"item": "polar:red_irradiated_redstone"}
+			{"item": "polar:red_resource_basic"}
 		]
 	}
 }

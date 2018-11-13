@@ -7,11 +7,11 @@
     [
         {
             "type": "text",
-            "text": "I have discovered that lapis lazuli focuses the energy of the red anomalies, I will called this energy $(blue_magic). Now that I have samples of $(blue_magic) in the form of $(blue_magic) Irradiated Lapis I can begin investigating its uses. It seems to have an affinity for offense, so I've designed a simple charm that should increase the damage done by any sword."
+            "text": "I have discovered that lapis lazuli focuses the energy of the red anomalies, I will called this energy $(blue_magic). Now that I have samples of $(blue_magic) in the form of $(blue_resource_basic) I can begin investigating its uses. It seems to have an affinity for offense, so I've designed a simple charm that should increase the damage done by any sword."
         },
         {
             "type": "text",
-            "text": "I simply need to combine the sword with a little $(blue_magic) Irradiated Lapis."
+            "text": "I simply need to combine the sword with a little $(blue_resource_all)."
         }
     ]
 }

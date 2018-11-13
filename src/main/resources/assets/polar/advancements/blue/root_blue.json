@@ -3,7 +3,7 @@
 	{
 		"icon":
 		{
-			"item": "polar:blue_irradiated_lapis"
+			"item": "polar:blue_resource_basic"
 		},
 		"title": {"translate": "polar.advancements.blue.root.title"},
 		"description": {"translate": "polar.advancements.blue.root.desc"},
@@ -13,14 +13,14 @@
 	},
 	"criteria":
 	{
-		"acquire_blue_irradiated_lapis":
+		"acquire_blue_resource_basic":
 		{
 			"trigger": "minecraft:inventory_changed",
 			"conditions":
 			{
 				"items":
 				[
-					{"item": "polar:blue_irradiated_lapis"}
+					{"item": "polar:blue_resource_basic"}
 				]
 			}
 		}

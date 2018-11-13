@@ -22,9 +22,9 @@ public class RecipeChargeItem extends Impl<IRecipe> implements IRecipe
 		for (int s = 0; s < inv.getSizeInventory(); s++)
 		{
 			ItemStack stack = inv.getStackInSlot(s);
-			if (stack.getItem() == ItemRegistry.RED_IRRADIATED_REDSTONE)
+			if (stack.getItem() == ItemRegistry.RED_RESOURCE_BASIC)
 				redFound = true;
-			else if (stack.getItem() == ItemRegistry.BLUE_IRRADIATED_LAPIS)
+			else if (stack.getItem() == ItemRegistry.BLUE_RESOURCE_BASIC)
 				blueFound = true;
 			else if (stack.hasCapability(PolarAPI.CAPABILITY_CHARGEABLE, null))
 				chargeableStack = stack;
@@ -47,7 +47,7 @@ public class RecipeChargeItem extends Impl<IRecipe> implements IRecipe
 		for (int s = 0; s < inv.getSizeInventory(); s++)
 		{
 			ItemStack stack = inv.getStackInSlot(s);
-			if (stack.getItem() == ItemRegistry.RED_IRRADIATED_REDSTONE || stack.getItem() == ItemRegistry.BLUE_IRRADIATED_LAPIS)
+			if (stack.getItem() == ItemRegistry.RED_RESOURCE_BASIC || stack.getItem() == ItemRegistry.BLUE_RESOURCE_BASIC)
 				chargeSources++;
 			else if (stack.hasCapability(PolarAPI.CAPABILITY_CHARGEABLE, null))
 				item = stack.copy();

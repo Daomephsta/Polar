@@ -3,7 +3,7 @@
 	{
 		"icon":
 		{
-			"item": "polar:red_irradiated_redstone"
+			"item": "polar:red_resource_basic"
 		},
 		"title": {"translate": "polar.advancements.red.root.title"},
 		"description": {"translate": "polar.advancements.red.root.desc"},
@@ -13,14 +13,14 @@
 	},
 	"criteria":
 	{
-		"acquire_red_irradiated_redstone":
+		"acquire_red_resource_basic":
 		{
 			"trigger": "minecraft:inventory_changed",
 			"conditions":
 			{
 				"items":
 				[
-					{"item": "polar:red_irradiated_redstone"}
+					{"item": "polar:red_resource_basic"}
 				]
 			}
 		}

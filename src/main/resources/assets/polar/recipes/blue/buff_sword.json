@@ -20,7 +20,7 @@
 		},
 		"additional_ingredients":
 		[
-			{"item": "polar:blue_irradiated_lapis"}
+			{"item": "polar:blue_resource_basic"}
 		]
 	}
 }
