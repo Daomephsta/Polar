@@ -1,5 +1,2 @@
 rootProject.name = 'Polar'
 include 'polar-api'
-//Create a composite dependency on the Umbra project if it's available
-if (file('../umbra').exists())
-	includeBuild '../umbra'
