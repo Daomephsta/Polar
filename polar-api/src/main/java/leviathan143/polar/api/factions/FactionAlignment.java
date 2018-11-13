@@ -2,7 +2,7 @@ package leviathan143.polar.api.factions;
 
 import leviathan143.polar.api.PolarAPI;
 
-/**Declares the alignment of an object, such as an item or player. Objects may only have one alignment.**/
+/**Declares the alignment of a player or NPC. A player or NPC should only have one alignment.**/
 public enum FactionAlignment 
 {
 	RED(0xE34234),

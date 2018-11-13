@@ -5,7 +5,7 @@ import java.util.Comparator;
 import leviathan143.polar.api.PolarAPI;
 
 /**
- * Represents the rank of a player or NPC entity within a faction. Unaligned players always have the rank NONE. 
+ * Represents the rank of a player or NPC within a faction. Unaligned players always have the rank NONE. 
  * Each faction has unique names for each rank, though the ranks are the same internally.
 **/
 public enum FactionRank

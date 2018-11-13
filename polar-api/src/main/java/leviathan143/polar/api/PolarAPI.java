@@ -19,7 +19,7 @@ public class PolarAPI
 	private static IInternalMethodAccessors internalAccessors = new DummyAccessors();
 
 	/**
-	 * Provides access to internal methods without creating a hard dependency on them.
+	 * Provides access to internal methods without creating a hard dependency on Polar.
 	 * All the methods of {@link IInternalMethodAccessors} are part of the API.
 	 * @return dummy accessors if Polar is not loaded or if it is before preinit. Otherwise the real accessors are returned.
 	 */
@@ -28,8 +28,11 @@ public class PolarAPI
 		return internalAccessors;
 	}
 
-	/** Internal method used by Polar to replace dummy values with the proper values during preinit. 
-	 * Other mods should <b>never</b> call this method**/
+	/** 
+	 * Internal method used by Polar to replace dummy values with the proper values during preinit. 
+	 * Other mods should <b>never</b> call this method.
+	 * @throws UnsupportedOperationException if a mod other than Polar calls this method.
+	 **/
 	public static void initialiseAPI(IInternalMethodAccessors internalAccessors)
 	{
 		ModContainer activeMod = Loader.instance().activeModContainer();

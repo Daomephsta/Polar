@@ -9,6 +9,10 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.*;
 import net.minecraft.util.IStringSerializable;
 
+/**
+ * Represents the polarity of an object, i.e. which school of Polar magic it uses
+ * @author Daomephsta
+ */
 public enum Polarity implements IStringSerializable
 {	
 	NONE(0),
@@ -70,23 +74,39 @@ public enum Polarity implements IStringSerializable
 		this.translationKey = PolarAPI.PROVIDER_MOD_ID + ".polarity." + getName();
 	}
 	
+	/**
+	 * @param index An integer in [0, 2] that represents a polarity.
+	 * @return The enum constant represented by {@code index}.
+	 */
 	public static Polarity fromIndex(int index)
 	{
 		if(index < values().length) return IDX_TO_VALUE[index];
 		throw new IllegalArgumentException("No constant exists with the index " + index);
 	}
 	
+	/**
+	 * @param polarisedIndex An integer in [0, 1] that represents a polarity 
+	 * which is not {@code NONE}.
+	 * @return The enum constant represented by {@code polarisedIndex}.
+	 */
 	public static Polarity fromPolarisedIndex(int polarisedIndex)
 	{
 		if(polarisedIndex < POLARISED.length) return POLARISED[polarisedIndex];
 		throw new IllegalArgumentException("No constant exists with the polarised index " + polarisedIndex);
 	}
 	
+	/**
+	 * @return A {@code DataSerialiser} for {@code Polarity} enum constants.
+	 */
 	public static DataSerializer<Polarity> getDataSerializer()
 	{
 		return DATA_SERIALIZER;
 	}
 	
+	/** 
+	 * @param stack ItemStack to determine the polarity of.
+	 * @return The polarity of {@code stack}.
+	 */
 	public static Polarity ofStack(ItemStack stack)
 	{
 		if (stack.getItem() instanceof IPolarisedItem)
@@ -96,6 +116,11 @@ public enum Polarity implements IStringSerializable
 		return Polarity.NONE;
 	}
 	
+	/**
+	 * @param ItemStack to determine the existence of 
+	 * a polarity for.
+	 * @return True if {@code stack} has a polarity.
+	 */
 	public static boolean isStackPolarised(ItemStack stack)
 	{
 		if (stack.getItem() instanceof IPolarisedItem) return true;
@@ -109,21 +134,36 @@ public enum Polarity implements IStringSerializable
 		return name().toLowerCase(Locale.ROOT);
 	}
 	
+	/**
+	 * @return A string key to be used for localising 
+	 * the name of this polarity.
+	 */
 	public String getTranslationKey()
 	{
 		return translationKey;
 	}
 	
+	/**
+	 * @return An integer in [0, 2] that represents 
+	 * this polarity.
+	 */
 	public int getIndex()
 	{
 		return index;
 	}
 	
+	/**
+	 * @return An integer in [0, 1] that represents
+	 * this polarity, or -1 if it is {@code NONE}.
+	 */
 	public int getPolarisedIndex()
 	{
 		return polarisedIndex;
 	}
 	
+	/**
+	 * @return True if this polarity isn't {@code NONE}.
+	 */
 	public boolean isPolarised()
 	{
 		return polarisedIndex > -1;
