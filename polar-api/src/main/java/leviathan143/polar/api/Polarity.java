@@ -1,7 +1,10 @@
 package leviathan143.polar.api;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Locale;
+
+import com.google.common.collect.ImmutableList;
 
 import daomephsta.umbra.nbt.NBTExtensions;
 import net.minecraft.item.ItemStack;
@@ -19,7 +22,8 @@ public enum Polarity implements IStringSerializable
 	RED(1, 0),
 	BLUE(2, 1);
 	
-	public static final Polarity[] POLARISED = new Polarity[2];
+	/**An immutable list of all polarities except {@code NONE}**/
+	public static final List<Polarity> POLARISED;
 	private static final DataSerializer<Polarity> DATA_SERIALIZER = new DataSerializer<Polarity>()
 	{
 		@Override
@@ -37,6 +41,7 @@ public enum Polarity implements IStringSerializable
 	private static final Polarity[] IDX_TO_VALUE = new Polarity[values().length];
 	static
 	{
+		Polarity[] polarised = new Polarity[2];
 		for(Polarity p : values())
 		{
 			//Standard index
@@ -48,12 +53,13 @@ public enum Polarity implements IStringSerializable
 			//Polarised index
 			if (p.getPolarisedIndex() >= 0)
 			{
-				if (POLARISED[p.getPolarisedIndex()] != null)
+				if (polarised[p.getPolarisedIndex()] != null)
 					throw new IllegalArgumentException(
-							String.format("Polarised index collision between constants %s and %s", POLARISED[p.getPolarisedIndex()], p));
-				POLARISED[p.getPolarisedIndex()] = p;
+							String.format("Polarised index collision between constants %s and %s", polarised[p.getPolarisedIndex()], p));
+				polarised[p.getPolarisedIndex()] = p;
 			}
 		}
+		POLARISED = ImmutableList.copyOf(polarised);
 		DataSerializers.registerSerializer(DATA_SERIALIZER);
 	}
 	
@@ -91,7 +97,7 @@ public enum Polarity implements IStringSerializable
 	 */
 	public static Polarity fromPolarisedIndex(int polarisedIndex)
 	{
-		if(polarisedIndex < POLARISED.length) return POLARISED[polarisedIndex];
+		if(polarisedIndex < POLARISED.size()) return POLARISED.get(polarisedIndex);
 		throw new IllegalArgumentException("No constant exists with the polarised index " + polarisedIndex);
 	}
 	
