@@ -23,7 +23,7 @@ item.polar.blue_resource_basic.name=Flawed Azurane
 //Misc
 polar.tooltip.charge=Charge: %d/%d
 polar.message.research_journal_prompt=What a strange object! I think I should make a research journal to record my findings as I investigate it.
-polar.message.polar_reaction=Oof! Ouch! My bones hurt!
+polar.message.polar_reaction=Ow! What was that?
 
 //Advancements
 polar.advancements.root.title=Polar
