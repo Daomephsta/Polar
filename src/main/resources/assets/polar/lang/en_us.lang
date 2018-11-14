@@ -22,7 +22,7 @@ item.polar.red_resource_basic.name=Flawed Vermillium
 item.polar.blue_resource_basic.name=Flawed Azurane
 
 //Misc
-polar.tooltip.charge=Charge: %d/%d
+polar.tooltip.charge=Charge: %s/%s
 polar.message.insufficient_charge=Not enough Charge, %s required
 polar.message.research_journal_prompt=What a strange object! I think I should make a research journal to record my findings as I investigate it.
 polar.message.polar_reaction=Ow! What was that?
