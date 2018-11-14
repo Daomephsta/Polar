@@ -1,32 +1,29 @@
 package leviathan143.polar.common.capabilities;
 
 import daomephsta.umbra.capabilities.CapabilityHelper;
+import leviathan143.polar.api.PolarAPI;
 import leviathan143.polar.api.Polarity;
 import leviathan143.polar.api.capabilities.IPolarChargeStorage;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.*;
 
 public class CapabilityPolarChargeable
 {
 	public static void register()
 	{
-		CapabilityManager.INSTANCE.register(IPolarChargeStorage.class,
-				CapabilityHelper.fromLambdas(
-					(Capability<IPolarChargeStorage> capability, IPolarChargeStorage instance, EnumFacing side, NBTBase nbt) -> 
-					{
-						NBTTagCompound compoundNBT = (NBTTagCompound) nbt;
-						instance.charge(instance.getPolarity(), compoundNBT.getInteger("stored_charge"), false);
-					},
-					(Capability<IPolarChargeStorage> capability, IPolarChargeStorage instance, EnumFacing side) -> 
-					{
-						NBTTagCompound nbt = new NBTTagCompound();
-						nbt.setInteger("stored_charge", instance.getStoredCharge());
-						return nbt;
-					}), 
-					() -> null);
+		CapabilityManager.INSTANCE.register(IPolarChargeStorage.class, CapabilityHelper.fromLambdas(
+			(Capability<IPolarChargeStorage> capability, IPolarChargeStorage instance, EnumFacing side, NBTBase nbt) ->
+			{
+				NBTTagCompound compoundNBT = (NBTTagCompound) nbt;
+				instance.charge(instance.getPolarity(), compoundNBT.getInteger("stored_charge"), false);
+			}, (Capability<IPolarChargeStorage> capability, IPolarChargeStorage instance, EnumFacing side) ->
+			{
+				NBTTagCompound nbt = new NBTTagCompound();
+				nbt.setInteger("stored_charge", instance.getStoredCharge());
+				return nbt;
+			}), () -> null);
 	}
 
 	public static class SimplePolarChargeable implements IPolarChargeStorage
@@ -34,12 +31,12 @@ public class CapabilityPolarChargeable
 		private final Polarity polarity;
 		private final int maxCharge;
 		private int storedCharge;
-		
+
 		public SimplePolarChargeable(Polarity polarity, int maxCharge)
 		{
 			this(polarity, maxCharge, 0);
 		}
-		
+
 		public SimplePolarChargeable(Polarity polarity, int maxCharge, int initialCharge)
 		{
 			this.polarity = polarity;
@@ -50,18 +47,18 @@ public class CapabilityPolarChargeable
 		@Override
 		public int charge(Polarity polarity, int maxAmount, boolean simulate)
 		{
-			if(!canCharge() || this.polarity != polarity) return maxAmount;
+			if (!canCharge() || this.polarity != polarity) return maxAmount;
 			int insertedCharge = Math.min(maxCharge - storedCharge, maxAmount);
-			if(!simulate) storedCharge += insertedCharge;
+			if (!simulate) storedCharge += insertedCharge;
 			return maxAmount - insertedCharge;
 		}
-		
+
 		@Override
 		public int discharge(Polarity polarity, int maxAmount, boolean simulate)
 		{
-			if(!canDischarge() || this.polarity != polarity) return 0;
+			if (!canDischarge() || this.polarity != polarity) return 0;
 			int extractedCharge = Math.min(storedCharge, maxAmount);
-			if(!simulate) storedCharge -= extractedCharge;
+			if (!simulate) storedCharge -= extractedCharge;
 			return extractedCharge;
 		}
 
@@ -70,7 +67,7 @@ public class CapabilityPolarChargeable
 		{
 			return storedCharge;
 		}
-		
+
 		@Override
 		public Polarity getPolarity()
 		{
@@ -81,6 +78,42 @@ public class CapabilityPolarChargeable
 		public int getMaxCharge()
 		{
 			return maxCharge;
+		}
+	}
+
+	public static class SimplePolarChargeableProvider implements ICapabilitySerializable<NBTBase>
+	{
+		private final IPolarChargeStorage chargeable;
+
+		public SimplePolarChargeableProvider(Polarity polarity, int maxCharge)
+		{
+			this.chargeable = new CapabilityPolarChargeable.SimplePolarChargeable(polarity, maxCharge);
+		}
+
+		@Override
+		public boolean hasCapability(Capability<?> capability, EnumFacing facing)
+		{
+			return capability == PolarAPI.CAPABILITY_CHARGEABLE;
+		}
+
+		@Override
+		public <T> T getCapability(Capability<T> capability, EnumFacing facing)
+		{
+			if (capability == PolarAPI.CAPABILITY_CHARGEABLE) return PolarAPI.CAPABILITY_CHARGEABLE.cast(chargeable);
+			return null;
+		}
+
+		@Override
+		public NBTBase serializeNBT()
+		{
+			return PolarAPI.CAPABILITY_CHARGEABLE.getStorage().writeNBT(PolarAPI.CAPABILITY_CHARGEABLE, chargeable,
+				null);
+		}
+
+		@Override
+		public void deserializeNBT(NBTBase nbt)
+		{
+			PolarAPI.CAPABILITY_CHARGEABLE.getStorage().readNBT(PolarAPI.CAPABILITY_CHARGEABLE, chargeable, null, nbt);
 		}
 	}
 }

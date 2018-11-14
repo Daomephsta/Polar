@@ -13,10 +13,16 @@ import net.minecraftforge.items.IItemHandler;
 @Mod.EventBusSubscriber(modid = Polar.MODID)
 public class BaubleHandler
 {
+	public static void preInit()
+	{
+		
+	}
+	
 	@SubscribeEvent
 	public static void handleBlockBreak(BlockEvent.BreakEvent event)
 	{
 		FallingBlockStabiliserHandler.stabiliseFallingBlocks(event);
+		FallingBlockDestroyerHandler.destroyFallingBlocks(event);
 	}
 	
 	static ItemStack findEquippedBauble(EntityPlayer player, IBauble bauble)

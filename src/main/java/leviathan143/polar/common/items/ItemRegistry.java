@@ -5,6 +5,7 @@ import java.util.Queue;
 
 import leviathan143.polar.client.ModelRegistry;
 import leviathan143.polar.common.Polar;
+import leviathan143.polar.common.items.blue.BaubleFallingBlockDestroyer;
 import leviathan143.polar.common.items.red.BaubleFallingBlockStabiliser;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -23,6 +24,7 @@ public class ItemRegistry
 	public static final BaubleFallingBlockStabiliser FALLING_BLOCK_STABILISER = null;
 	// Blue
 	public static final Item BLUE_RESOURCE_BASIC = null;
+	public static final BaubleFallingBlockDestroyer FALLING_BLOCK_DESTROYER = null;
 	
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> e)
@@ -32,7 +34,8 @@ public class ItemRegistry
 			setupItem(new Item(), "red_resource_basic").setCreativeTab(Polar.TAB_RED),
 			setupItem(new BaubleFallingBlockStabiliser().setCreativeTab(Polar.TAB_RED), "falling_block_stabiliser"),
 			// Blue
-			setupItem(new Item(), "blue_resource_basic").setCreativeTab(Polar.TAB_BLUE));
+			setupItem(new Item(), "blue_resource_basic").setCreativeTab(Polar.TAB_BLUE),
+			setupItem(new BaubleFallingBlockDestroyer().setCreativeTab(Polar.TAB_BLUE), "falling_block_destroyer"));
 		while(!itemBlockQueue.isEmpty())
 		{
 			ItemBlock itemBlock = itemBlockQueue.remove();

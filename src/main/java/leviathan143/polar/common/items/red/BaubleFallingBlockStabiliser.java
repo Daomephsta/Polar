@@ -8,17 +8,15 @@ import leviathan143.polar.api.*;
 import leviathan143.polar.api.capabilities.IPolarChargeStorage;
 import leviathan143.polar.api.factions.FactionAlignment;
 import leviathan143.polar.common.Polar;
-import leviathan143.polar.common.capabilities.CapabilityPolarChargeable;
+import leviathan143.polar.common.capabilities.CapabilityPolarChargeable.SimplePolarChargeableProvider;
 import leviathan143.polar.common.config.PolarConfig;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.common.capabilities.*;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
 public class BaubleFallingBlockStabiliser extends Item implements IBauble, IPolarisedItem
 {
@@ -30,36 +28,7 @@ public class BaubleFallingBlockStabiliser extends Item implements IBauble, IPola
 	@Override
 	public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt)
 	{
-		return new ICapabilitySerializable<NBTBase>()
-		{
-			private IPolarChargeStorage chargeable = 
-				new CapabilityPolarChargeable.SimplePolarChargeable(Polarity.RED, PolarConfig.charge.graviticStabiliserMaxCharge);
-
-			@Override
-			public boolean hasCapability(Capability<?> capability, EnumFacing facing)
-			{
-				return capability == PolarAPI.CAPABILITY_CHARGEABLE;
-			}
-
-			@Override
-			public <T> T getCapability(Capability<T> capability, EnumFacing facing)
-			{
-				if(capability == PolarAPI.CAPABILITY_CHARGEABLE) return PolarAPI.CAPABILITY_CHARGEABLE.cast(chargeable);
-				return null;
-			}
-
-			@Override
-			public NBTBase serializeNBT()
-			{
-				return PolarAPI.CAPABILITY_CHARGEABLE.getStorage().writeNBT(PolarAPI.CAPABILITY_CHARGEABLE, chargeable, null);
-			}
-
-			@Override
-			public void deserializeNBT(NBTBase nbt)
-			{
-				PolarAPI.CAPABILITY_CHARGEABLE.getStorage().readNBT(PolarAPI.CAPABILITY_CHARGEABLE, chargeable, null, nbt);
-			}
-		};
+		return new SimplePolarChargeableProvider(Polarity.RED, PolarConfig.charge.graviticStabiliserMaxCharge);
 	}
 	
 	@Override

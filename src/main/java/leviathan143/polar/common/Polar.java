@@ -7,6 +7,7 @@ import leviathan143.polar.common.capabilities.CapabilityPlayerDataPolar;
 import leviathan143.polar.common.capabilities.CapabilityPolarChargeable;
 import leviathan143.polar.common.config.PolarConfig;
 import leviathan143.polar.common.core.InternalMethodAccessors;
+import leviathan143.polar.common.handlers.baubles.BaubleHandler;
 import leviathan143.polar.common.items.ItemRegistry;
 import leviathan143.polar.common.recipes.RecipeChargeItem;
 import net.minecraft.creativetab.CreativeTabs;
@@ -68,6 +69,7 @@ public class Polar
 		registerCapabilities();
 		PolarConfig.preInit();
 		TriggerRegistry.init();
+		BaubleHandler.preInit();
 	}
 	
 	private static void registerCapabilities()
