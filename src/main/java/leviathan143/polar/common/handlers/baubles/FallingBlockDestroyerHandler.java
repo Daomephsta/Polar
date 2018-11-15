@@ -63,7 +63,6 @@ public class FallingBlockDestroyerHandler
 		if (chargeable.discharge(Polarity.BLUE, cost, true) == cost)
 		{
 			chargeable.discharge(Polarity.BLUE, cost, false);
-			ResidualPolarityHandler.itemActivated(baubleStack, player);
 			while (!toDestroy.isEmpty())
 			{
 				BlockPos pos = toDestroy.pop();
