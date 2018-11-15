@@ -124,7 +124,7 @@ public enum Polarity implements IStringSerializable
 	
 	/**
 	 * @param ItemStack to determine the existence of 
-	 * a polarity for.
+	 * a polarity for {@code stack}.
 	 * @return True if {@code stack} has a polarity.
 	 */
 	public static boolean isStackPolarised(ItemStack stack)
