@@ -2,6 +2,6 @@
 	"parent": "item/generated",
 	"textures":
 	{
-		"layer0": "minecraft:blocks/sand"
+		"layer0": "polar:items/blue/falling_block_destroyer"
 	}
 }

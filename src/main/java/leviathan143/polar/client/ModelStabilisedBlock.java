@@ -26,6 +26,7 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 public class ModelStabilisedBlock implements IModel
 {
 	public static final ModelStabilisedBlock INSTANCE = new ModelStabilisedBlock();
+	private static final String STABILISED_BLOCK_OVERLAY = Polar.MODID + ":blocks/red/stabilised_block_overlay";
 	
 	@Override
 	public IBakedModel bake(IModelState state, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter)
@@ -36,7 +37,7 @@ public class ModelStabilisedBlock implements IModel
 	@Override
 	public Collection<ResourceLocation> getTextures()
 	{
-		return ImmutableSet.of(new ResourceLocation("minecraft:blocks/iron_bars"));
+		return ImmutableSet.of(new ResourceLocation(STABILISED_BLOCK_OVERLAY));
 	}
 	
 	private static final class BakedModelStabilisedBlock implements IBakedModel
@@ -53,6 +54,11 @@ public class ModelStabilisedBlock implements IModel
 			IBlockAccess blockAccess = new WrapperBlockSafeBlockAccess(extState.getValue(BlockStabilised.BLOCK_ACCESS));
 			BlockPos pos = extState.getValue(BlockStabilised.POSITION);
 			//Handle actual states
+			if (camoState == null)
+			{
+				System.out.println("WTF");
+				return Collections.emptyList();
+			}
 			camoState = camoState.getBlock().getActualState(camoState, blockAccess, pos);
 			//Handle extended states
 			camoState = camoState.getBlock().getExtendedState(camoState, blockAccess, pos);
@@ -61,7 +67,7 @@ public class ModelStabilisedBlock implements IModel
 			List<BakedQuad> camoQuads = model.getQuads(camoState, side, rand);
 			if (camoState.getBlock().canRenderInLayer(camoState, layer))
 				return camoQuads;
-			if (layer == BlockRenderLayer.CUTOUT)
+			if (layer == BlockRenderLayer.TRANSLUCENT)
 				return generateOverlay(camoQuads);
 			
 			return Collections.emptyList();
@@ -70,7 +76,7 @@ public class ModelStabilisedBlock implements IModel
 		private TextureAtlasSprite getOverlayTexture()
 		{
 			if (overlay == null)
-				overlay = Minecraft.getMinecraft().getTextureMapBlocks().getTextureExtry("minecraft:blocks/iron_bars");
+				overlay = Minecraft.getMinecraft().getTextureMapBlocks().getTextureExtry(STABILISED_BLOCK_OVERLAY);
 			return overlay;
 		}
 		

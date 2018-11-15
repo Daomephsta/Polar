@@ -76,7 +76,7 @@ public class BlockStabilised extends Block implements IWrapperBlock, IHasSpecial
 		IExtendedBlockState extState = (IExtendedBlockState) state;
 		IBlockState camoState = extState.getValue(CAMO_STATE);
 		if(camoState != null)
-			return camoState.getBlock().canRenderInLayer(camoState, layer) || layer == BlockRenderLayer.CUTOUT;
+			return camoState.getBlock().canRenderInLayer(camoState, layer) || layer == BlockRenderLayer.TRANSLUCENT;
 		else return true;
     }
 	

@@ -2,6 +2,6 @@
 	"parent": "item/generated",
 	"textures":
 	{
-		"layer0": "minecraft:blocks/gravel"
+		"layer0": "polar:items/red/falling_block_stabiliser"
 	}
 }
