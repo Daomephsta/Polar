@@ -3,6 +3,7 @@ package leviathan143.polar.common.recipes;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
+import daomephsta.umbra.nbt.NBTExtensions;
 import leviathan143.polar.api.CommonWords;
 import leviathan143.polar.api.Polarity;
 import net.minecraft.inventory.InventoryCrafting;
@@ -39,7 +40,7 @@ public class RecipeAddPolarityTag implements IRecipe
 	{
 		ItemStack delegateResult = wrapped.getCraftingResult(inv);
 		if (!delegateResult.hasTagCompound()) delegateResult.setTagCompound(new NBTTagCompound());
-		delegateResult.getTagCompound().setString(CommonWords.POLARITY, polarity.getName());
+		NBTExtensions.setEnumConstant(delegateResult.getTagCompound(), CommonWords.POLARITY, polarity);
 		return delegateResult;
 	}
 
