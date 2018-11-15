@@ -59,8 +59,8 @@ public class RecipeChargeItem extends Impl<IRecipe> implements IRecipe
 			? ((IPolarisedItem) item.getItem()).getPolarity(item) 
 			: Polarity.NONE;
 		int remainder = chargeable.charge(itemPolarity, CHARGE_VALUE * chargeSources, true);
-		if (remainder == 0)
-			chargeable.charge(itemPolarity, CHARGE_VALUE * chargeSources, false);
+		if (remainder < CHARGE_VALUE * chargeSources)
+			chargeable.charge(itemPolarity, CHARGE_VALUE * chargeSources - remainder, false);
 		return item;
 	}
 
