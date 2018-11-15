@@ -96,7 +96,7 @@ public class ResidualPolarityHandler
 	private static boolean activatesOn(ItemStack stack, IPolarisedItem.ActivatesOn trigger)
 	{
 		if (stack.getItem() instanceof IPolarisedItem)
-			return ((IPolarisedItem) stack.getItem()).activatesOn(stack, trigger);
+			return ((IPolarisedItem) stack.getItem()).activatesOn(trigger);
 		if (!stack.hasTagCompound()) return false;
 		if (!stack.getTagCompound().hasKey(RecipeAddPolarityTag.ACTIVATES_ON))
 			return false;

@@ -48,7 +48,7 @@ public class ItemBlockAnomalyTapper extends ItemBlock implements IPolarisedItem
 	}
 	
 	@Override
-	public boolean activatesOn(ItemStack stack, ActivatesOn trigger)
+	public boolean activatesOn(ActivatesOn trigger)
 	{
 		return false;
 	}

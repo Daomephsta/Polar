@@ -88,7 +88,7 @@ public class BaubleFallingBlockStabiliser extends Item implements IBauble, IPola
 	}
 	
 	@Override
-	public boolean activatesOn(ItemStack stack, ActivatesOn trigger)
+	public boolean activatesOn(ActivatesOn trigger)
 	{
 		return false;
 	}
