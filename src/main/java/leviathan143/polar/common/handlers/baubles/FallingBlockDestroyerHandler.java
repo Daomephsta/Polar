@@ -68,6 +68,7 @@ public class FallingBlockDestroyerHandler
 			{
 				BlockPos pos = toDestroy.pop();
 				destroyBlock(world, pos);
+				ResidualPolarityHandler.itemActivated(baubleStack, player);
 			}
 		}
 		else
