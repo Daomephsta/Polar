@@ -10,11 +10,16 @@ import leviathan143.polar.api.factions.FactionAlignment;
 import leviathan143.polar.common.Polar;
 import leviathan143.polar.common.capabilities.CapabilityPolarChargeable.SimplePolarChargeableProvider;
 import leviathan143.polar.common.config.PolarConfig;
+import leviathan143.polar.common.handlers.ResidualPolarityHandler;
+import leviathan143.polar.common.handlers.baubles.FallingBlockStabiliserHandler;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.*;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
@@ -29,6 +34,18 @@ public class BaubleFallingBlockStabiliser extends Item implements IBauble, IPola
 	public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt)
 	{
 		return new SimplePolarChargeableProvider(Polarity.RED, PolarConfig.charge.graviticStabiliserMaxCharge);
+	}
+	
+	@Override
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+	{
+		ItemStack heldItem = player.getHeldItem(hand);
+		if (FallingBlockStabiliserHandler.placeStabilisedBlock(player, heldItem, world, pos, world.getBlockState(pos)))
+		{
+			ResidualPolarityHandler.itemActivated(heldItem, player);
+			return EnumActionResult.SUCCESS;
+		}
+		else return EnumActionResult.FAIL;
 	}
 	
 	@Override

@@ -38,7 +38,7 @@ public class FallingBlockStabiliserHandler
 		FallingBlockStabiliserHandler.placeStabilisedBlock(event.getPlayer(), baubleStack, event.getWorld(), event.getPos().up(), stateAbove);
 	}
 
-	private static void placeStabilisedBlock(EntityPlayer player, ItemStack baubleStack, World world, BlockPos pos, IBlockState camo)
+	public static boolean placeStabilisedBlock(EntityPlayer player, ItemStack baubleStack, World world, BlockPos pos, IBlockState camo)
 	{
 		IPolarChargeStorage chargeable = baubleStack.getCapability(PolarAPI.CAPABILITY_CHARGEABLE, null);
 		int cost = PolarConfig.charge.graviticStabiliserActivationCost;
@@ -49,8 +49,12 @@ public class FallingBlockStabiliserHandler
 			world.setBlockState(pos, BlockRegistry.STABILISED_BLOCK.getDefaultState());
 			TileEntity te = world.getTileEntity(pos);
 			if (te instanceof TileEntityStabilisedBlock) ((TileEntityStabilisedBlock) te).setCamoBlockState(camo);
+			return true;
 		}
 		else
+		{
 			player.sendStatusMessage(new TextComponentTranslation("polar.message.insufficient_charge", cost), true);
+			return false;
+		}
 	}
 }
