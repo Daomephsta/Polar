@@ -59,7 +59,7 @@ public class FallingBlockDestroyerHandler
 		}
 		IPolarChargeStorage chargeable = baubleStack.getCapability(PolarAPI.CAPABILITY_CHARGEABLE, null);
 		int cost = toDestroy.size() * PolarConfig.charge.percussiveDisintegratorActivationCost;
-		if (chargeable.discharge(Polarity.BLUE, cost, true) == cost)
+		if (BaubleHandler.checkCharge(player, baubleStack, Polarity.BLUE, cost, PolarConfig.charge.percussiveDisintegratorActivationCost * 8))
 		{
 			chargeable.discharge(Polarity.BLUE, cost, false);
 			while (!toDestroy.isEmpty())
@@ -69,7 +69,7 @@ public class FallingBlockDestroyerHandler
 				ResidualPolarityHandler.itemActivated(baubleStack, player);
 			}
 		}
-		BaubleHandler.checkCharge(player, baubleStack, Polarity.BLUE, cost);
+		
 	}
 
 	private static void destroyBlock(World world, BlockPos pos)
@@ -83,7 +83,7 @@ public class FallingBlockDestroyerHandler
 	private static boolean isSoftUnstableBlock(World world, IBlockState state, BlockPos pos)
 	{
 		boolean unstableBlock = state.getBlock() instanceof BlockFalling;
-		boolean softBlock = state.getBlockHardness(world, pos) <= 0.5F;
+		boolean softBlock = state.getBlockHardness(world, pos) <= 0.6F;
 		return unstableBlock && softBlock;
 	}
 }

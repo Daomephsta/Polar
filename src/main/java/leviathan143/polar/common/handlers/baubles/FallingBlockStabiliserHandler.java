@@ -41,7 +41,7 @@ public class FallingBlockStabiliserHandler
 	{
 		IPolarChargeStorage chargeable = baubleStack.getCapability(PolarAPI.CAPABILITY_CHARGEABLE, null);
 		int cost = PolarConfig.charge.graviticStabiliserActivationCost;
-		if (chargeable.discharge(Polarity.RED, cost, true) == cost)
+		if (BaubleHandler.checkCharge(player, baubleStack, Polarity.RED, cost, PolarConfig.charge.graviticStabiliserActivationCost * 8))
 		{
 			chargeable.discharge(Polarity.RED, cost, false);
 			ResidualPolarityHandler.itemActivated(baubleStack, player);
@@ -50,7 +50,6 @@ public class FallingBlockStabiliserHandler
 			if (te instanceof TileEntityStabilisedBlock) ((TileEntityStabilisedBlock) te).setCamoBlockState(camo);
 			return true;
 		}
-		BaubleHandler.checkCharge(player, baubleStack, Polarity.RED, cost);
 		return false;
 	}
 }

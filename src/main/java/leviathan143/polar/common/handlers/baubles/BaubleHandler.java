@@ -42,19 +42,26 @@ public class BaubleHandler
 	}
 	
 	/**
-	 * Checks if there is enough charge to activate {@code chargeable}. Notifies {@code player} 
+	 * Checks if there is enough Charge to activate {@code chargeable}. Notifies {@code player} 
 	 * if the item cannot only be activated once more or can't be activated, due to low charge.
 	 * @param polarity The polarity of Charge to check for.
-	 * @param minimum The minimum amount of charge required.
+	 * @param cost The Charge cost to activate {@code chargeable}.
+	 * @param lowChargeThreshold The Charge level below which charge is considered to be low. 
+	 * Must be greater than {@code cost}.
+	 * @return 
 	 * @return true if the stored Charge in {@code chargeable} of polarity {@code polarity}
 	 * is greater than {@code cost}.
 	 */
-	static void checkCharge(EntityPlayer player, ItemStack chargeable, Polarity polarity, int cost)
+	static boolean checkCharge(EntityPlayer player, ItemStack chargeable, Polarity polarity, int cost, int lowChargeThreshold)
 	{
 		IPolarChargeStorage chargeStorage = chargeable.getCapability(PolarAPI.CAPABILITY_CHARGEABLE, null);
-		if (chargeStorage.getStoredCharge() == cost)
-			player.sendStatusMessage(new TextComponentTranslation("polar.message.low_charge"), true);
-		else if (chargeStorage.getStoredCharge() < cost)
+		if (chargeStorage.discharge(polarity, cost, true) < cost)
+		{
 			player.sendStatusMessage(new TextComponentTranslation("polar.message.insufficient_charge", cost), true);
+			return false;
+		}
+		else if (chargeStorage.getStoredCharge() <= lowChargeThreshold)
+			player.sendStatusMessage(new TextComponentTranslation("polar.message.low_charge", chargeStorage.getStoredCharge() - cost), true);
+		return true;
 	}
 }
