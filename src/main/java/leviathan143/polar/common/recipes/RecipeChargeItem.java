@@ -73,7 +73,7 @@ public class RecipeChargeItem extends Impl<IRecipe> implements IRecipe
 	@Override
 	public boolean canFit(int width, int height)
 	{
-		return width * height >= 9; 
+		return width * height >= 2; 
 	}
 
 	@Override
