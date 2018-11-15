@@ -19,7 +19,6 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockPos.MutableBlockPos;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.util.FakePlayer;
@@ -70,8 +69,7 @@ public class FallingBlockDestroyerHandler
 				ResidualPolarityHandler.itemActivated(baubleStack, player);
 			}
 		}
-		else
-			player.sendStatusMessage(new TextComponentTranslation("polar.message.insufficient_charge", cost), true);
+		BaubleHandler.checkCharge(player, baubleStack, Polarity.BLUE, cost);
 	}
 
 	private static void destroyBlock(World world, BlockPos pos)

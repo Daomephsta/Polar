@@ -14,7 +14,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.world.BlockEvent;
@@ -51,10 +50,7 @@ public class FallingBlockStabiliserHandler
 			if (te instanceof TileEntityStabilisedBlock) ((TileEntityStabilisedBlock) te).setCamoBlockState(camo);
 			return true;
 		}
-		else
-		{
-			player.sendStatusMessage(new TextComponentTranslation("polar.message.insufficient_charge", cost), true);
-			return false;
-		}
+		BaubleHandler.checkCharge(player, baubleStack, Polarity.RED, cost);
+		return false;
 	}
 }
