@@ -1,16 +1,22 @@
 package leviathan143.polar.common.recipes;
 
+import static com.google.common.collect.Streams.stream;
+import static java.util.stream.Collectors.toSet;
+
+import java.util.Set;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
 import daomephsta.umbra.nbt.NBTExtensions;
-import leviathan143.polar.api.CommonWords;
-import leviathan143.polar.api.Polarity;
+import daomephsta.umbra.streams.UmbraCollectors;
+import leviathan143.polar.api.*;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraftforge.common.crafting.*;
@@ -18,14 +24,17 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 
 public class RecipeAddPolarityTag implements IRecipe
 {
+	public static final String ACTIVATES_ON = "activates_on";
 	private final IForgeRegistryEntry.Impl<IRecipe> registryEntryMetadataDelegate;
 	private final IRecipe wrapped;
 	private final Polarity polarity;
+	private final Set<String> activatesOn;
 	
-	private RecipeAddPolarityTag(IRecipe wrapped, Polarity polarity)
+	private RecipeAddPolarityTag(IRecipe wrapped, Polarity polarity, Set<String> activationTypes)
 	{
 		this.wrapped = wrapped;
 		this.polarity = polarity;
+		this.activatesOn = activationTypes;
 		this.registryEntryMetadataDelegate = new IForgeRegistryEntry.Impl<>();
 	}
 
@@ -40,7 +49,9 @@ public class RecipeAddPolarityTag implements IRecipe
 	{
 		ItemStack delegateResult = wrapped.getCraftingResult(inv);
 		if (!delegateResult.hasTagCompound()) delegateResult.setTagCompound(new NBTTagCompound());
-		NBTExtensions.setEnumConstant(delegateResult.getTagCompound(), CommonWords.POLARITY, polarity);
+		NBTTagCompound nbt = delegateResult.getTagCompound();
+		NBTExtensions.setEnumConstant(nbt, CommonWords.POLARITY, polarity);
+		nbt.setTag(ACTIVATES_ON, activatesOn.stream().map(NBTTagString::new).collect(UmbraCollectors.NBT_LIST));
 		return delegateResult;
 	}
 
@@ -110,7 +121,16 @@ public class RecipeAddPolarityTag implements IRecipe
 			Polarity polarity = Polarity.valueOf(polarityStr.toUpperCase());
 			if (polarity == null)
 				throw new JsonSyntaxException("No polarity " + polarityStr + " exists");
-			return new RecipeAddPolarityTag(wrapped, polarity);
+			Set<String> activatesOn = stream(JsonUtils.getJsonArray(json, ACTIVATES_ON))
+				.map(e -> JsonUtils.getString(e, ACTIVATES_ON))
+				.filter(activatesOnStr -> 
+				{
+					if (IPolarisedItem.ActivatesOn.valueOf(activatesOnStr) == null)
+						throw new JsonSyntaxException("No activation trigger " + activatesOnStr + " exists");
+					return true;
+				})
+				.collect(toSet());
+			return new RecipeAddPolarityTag(wrapped, polarity, activatesOn);
 		}
 	}
 }

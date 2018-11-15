@@ -1,6 +1,7 @@
 {
 	"type": "polar:add_polarity_tag",
 	"polarity": "red",
+    "activates_on": ["WEARER_ATTACKED"],
 	"wrapped":
 	{
 		"type": "polar:add_attribute_modifiers",

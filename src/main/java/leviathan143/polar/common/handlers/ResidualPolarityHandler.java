@@ -1,13 +1,16 @@
 package leviathan143.polar.common.handlers;
 
+import daomephsta.umbra.nbt.NBTExtensions;
 import leviathan143.polar.api.*;
 import leviathan143.polar.common.Polar;
 import leviathan143.polar.common.advancements.triggers.TriggerRegistry;
 import leviathan143.polar.common.capabilities.CapabilityPlayerDataPolar.PlayerDataPolar;
+import leviathan143.polar.common.recipes.RecipeAddPolarityTag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -26,7 +29,7 @@ public class ResidualPolarityHandler
 		{
 			for (ItemStack armour : event.getEntityLiving().getArmorInventoryList())
 			{
-				if (Polarity.isStackPolarised(armour))
+				if (Polarity.isStackPolarised(armour) && activatesOn(armour, IPolarisedItem.ActivatesOn.WEARER_ATTACKED))
 				{
 					itemActivated(armour, (EntityPlayer) event.getEntityLiving());
 				}
@@ -37,36 +40,68 @@ public class ResidualPolarityHandler
 	@SubscribeEvent
 	public static void handleAttackEntity(AttackEntityEvent event)
 	{
-		if (Polarity.isStackPolarised(event.getEntityPlayer().getHeldItemMainhand()))
-			itemActivated(event.getEntityPlayer().getHeldItemMainhand(), event.getEntityPlayer());
+		ItemStack stack = event.getEntityPlayer().getHeldItemMainhand();
+		if (Polarity.isStackPolarised(stack) 
+			&& activatesOn(stack, IPolarisedItem.ActivatesOn.WEARER_ATTACK))
+		{
+			itemActivated(stack, event.getEntityPlayer());
+		}
 	}
 
 	@SubscribeEvent
 	public static void handleAttackBlock(PlayerInteractEvent.LeftClickBlock event)
 	{
-		if (Polarity.isStackPolarised(event.getItemStack()))
+		if (Polarity.isStackPolarised(event.getItemStack()) 
+			&& activatesOn(event.getItemStack(), IPolarisedItem.ActivatesOn.BLOCK_LEFT_CLICK))
+		{
 			itemActivated(event.getItemStack(), event.getEntityPlayer());
+		}
 	}
 	
 	@SubscribeEvent
 	public static void handleUseItem(PlayerInteractEvent.RightClickItem event)
 	{
-		if (Polarity.isStackPolarised(event.getItemStack()))
+		if (Polarity.isStackPolarised(event.getItemStack()) 
+			&& activatesOn(event.getItemStack(), IPolarisedItem.ActivatesOn.ITEM_RIGHT_CLICK))
+		{
 			itemActivated(event.getItemStack(), event.getEntityPlayer());
+		}
 	}
 	
 	@SubscribeEvent
 	public static void handleUseItemOnBlock(PlayerInteractEvent.RightClickBlock event)
 	{
-		if (Polarity.isStackPolarised(event.getItemStack()))
+		if (Polarity.isStackPolarised(event.getItemStack()) 
+			&& activatesOn(event.getItemStack(), IPolarisedItem.ActivatesOn.BLOCK_RIGHT_CLICK))
+		{
 			itemActivated(event.getItemStack(), event.getEntityPlayer());
+		}
 	}
 	
 	@SubscribeEvent
 	public static void handleUseItemOnEntity(PlayerInteractEvent.EntityInteract event)
 	{
-		if (Polarity.isStackPolarised(event.getItemStack()))
-			itemActivated(event.getItemStack(), event.getEntityPlayer());
+		if (Polarity.isStackPolarised(event.getItemStack()) 
+			&& activatesOn(event.getItemStack(), IPolarisedItem.ActivatesOn.ENTITY_RIGHT_CLICK))
+		{
+				itemActivated(event.getItemStack(), event.getEntityPlayer());
+		}
+	}
+	
+	/**
+	 * @param stack ItemStack to check the activation types of.
+	 * @param trigger The activation trigger to check for.
+	 * @return true if {@code stack} activates when {@code trigger} occurs.
+	 */
+	private static boolean activatesOn(ItemStack stack, IPolarisedItem.ActivatesOn trigger)
+	{
+		if (stack.getItem() instanceof IPolarisedItem)
+			return ((IPolarisedItem) stack.getItem()).activatesOn(stack, trigger);
+		if (!stack.hasTagCompound()) return false;
+		if (!stack.getTagCompound().hasKey(RecipeAddPolarityTag.ACTIVATES_ON))
+			return false;
+		return NBTExtensions
+			.contains(stack.getTagCompound().getTagList(RecipeAddPolarityTag.ACTIVATES_ON, NBT.TAG_STRING), trigger.name()); 
 	}
 	
 	public static void itemActivated(ItemStack stack, EntityPlayer player)

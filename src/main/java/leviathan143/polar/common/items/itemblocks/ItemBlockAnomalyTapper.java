@@ -46,6 +46,12 @@ public class ItemBlockAnomalyTapper extends ItemBlock implements IPolarisedItem
 	{
 		return NBTExtensions.getEnumConstant(stack.getTagCompound(), Polarity.class, CommonWords.POLARITY); 
 	}
+	
+	@Override
+	public boolean activatesOn(ItemStack stack, ActivatesOn trigger)
+	{
+		return false;
+	}
 
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)

@@ -69,4 +69,10 @@ public class BaubleFallingBlockDestroyer extends Item implements IBauble, IPolar
 	{
 		return Polarity.BLUE;
 	}
+	
+	@Override
+	public boolean activatesOn(ItemStack stack, ActivatesOn trigger)
+	{
+		return false;
+	}
 }

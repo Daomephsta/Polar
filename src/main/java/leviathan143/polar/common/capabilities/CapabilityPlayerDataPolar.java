@@ -116,6 +116,7 @@ public class CapabilityPlayerDataPolar
 
 		public void setResidualPolarity(Polarity residualPolarity)
 		{
+			System.out.println("Polarised");
 			this.residualPolarity = residualPolarity;
 		}
 	}

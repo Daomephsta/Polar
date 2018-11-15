@@ -69,4 +69,10 @@ public class BaubleFallingBlockStabiliser extends Item implements IBauble, IPola
 	{
 		return Polarity.RED;
 	}
+	
+	@Override
+	public boolean activatesOn(ItemStack stack, ActivatesOn trigger)
+	{
+		return false;
+	}
 }
