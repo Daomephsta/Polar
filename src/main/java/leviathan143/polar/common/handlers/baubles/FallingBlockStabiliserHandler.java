@@ -27,14 +27,19 @@ public class FallingBlockStabiliserHandler
 			return;
 		
 		IBlockState stateAbove = event.getWorld().getBlockState(event.getPos().up());
-		boolean unstableBlock = stateAbove.getBlock() instanceof BlockFalling;
-		if (!unstableBlock)
+		if (!isUnstableBlock(stateAbove))
 			return;
 		ItemStack baubleStack = BaubleHandler.findEquippedBauble(event.getPlayer(), ItemRegistry.FALLING_BLOCK_STABILISER);
 		if (baubleStack.isEmpty())
 			return;
 		
 		FallingBlockStabiliserHandler.placeStabilisedBlock(event.getPlayer(), baubleStack, event.getWorld(), event.getPos().up(), stateAbove);
+	}
+
+	public static boolean isUnstableBlock(IBlockState state)
+	{
+		boolean unstableBlock = state.getBlock() instanceof BlockFalling;
+		return unstableBlock;
 	}
 
 	public static boolean placeStabilisedBlock(EntityPlayer player, ItemStack baubleStack, World world, BlockPos pos, IBlockState camo)

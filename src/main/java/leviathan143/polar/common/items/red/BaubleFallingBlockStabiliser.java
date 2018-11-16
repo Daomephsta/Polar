@@ -12,6 +12,7 @@ import leviathan143.polar.common.capabilities.CapabilityPolarChargeable.SimplePo
 import leviathan143.polar.common.config.PolarConfig;
 import leviathan143.polar.common.handlers.ResidualPolarityHandler;
 import leviathan143.polar.common.handlers.baubles.FallingBlockStabiliserHandler;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
@@ -40,7 +41,9 @@ public class BaubleFallingBlockStabiliser extends Item implements IBauble, IPola
 	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
 	{
 		ItemStack heldItem = player.getHeldItem(hand);
-		if (FallingBlockStabiliserHandler.placeStabilisedBlock(player, heldItem, world, pos, world.getBlockState(pos)))
+		IBlockState blockState = world.getBlockState(pos);
+		if (FallingBlockStabiliserHandler.isUnstableBlock(blockState) 
+			&& FallingBlockStabiliserHandler.placeStabilisedBlock(player, heldItem, world, pos, blockState))
 		{
 			ResidualPolarityHandler.itemActivated(heldItem, player);
 			return EnumActionResult.SUCCESS;
