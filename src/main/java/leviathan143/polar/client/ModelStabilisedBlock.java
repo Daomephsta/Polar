@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.block.model.*;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.client.resources.IResourceManager;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -53,12 +54,10 @@ public class ModelStabilisedBlock implements IModel
 			IBlockState camoState = extState.getValue(BlockStabilised.CAMO_STATE);
 			IBlockAccess blockAccess = new WrapperBlockSafeBlockAccess(extState.getValue(BlockStabilised.BLOCK_ACCESS));
 			BlockPos pos = extState.getValue(BlockStabilised.POSITION);
-			//Handle actual states
+			//Fallback, because a crash really isn't necessary
 			if (camoState == null)
-			{
-				System.out.println("WTF");
-				return Collections.emptyList();
-			}
+				camoState = Blocks.AIR.getDefaultState();
+			//Handle actual states
 			camoState = camoState.getBlock().getActualState(camoState, blockAccess, pos);
 			//Handle extended states
 			camoState = camoState.getBlock().getExtendedState(camoState, blockAccess, pos);

@@ -2,6 +2,7 @@ package leviathan143.polar.common.tileentities;
 
 import daomephsta.umbra.nbt.NBTExtensions;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
@@ -9,7 +10,7 @@ import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityStabilisedBlock extends TileEntity
 {
-	private IBlockState camoBlockState;
+	private IBlockState camoBlockState = Blocks.AIR.getDefaultState();
 	
 	public IBlockState getCamoBlockState()
 	{
