@@ -22,3 +22,4 @@ run/
 *.xcf
 secrets.properties
 lib-sources/
+build-polar.bat
