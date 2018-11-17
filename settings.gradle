@@ -1,2 +1,8 @@
 rootProject.name = 'Polar'
 include 'polar-api'
+if (file('../umbra').exists())
+{
+	includeFlat 'umbra'
+    include 'umbra:umbra-java'
+    include 'umbra:umbra-minecraft'
+}

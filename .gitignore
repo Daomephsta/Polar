@@ -21,4 +21,4 @@ run/
 *.launch
 *.xcf
 secrets.properties
-file-deps/
+lib-sources/

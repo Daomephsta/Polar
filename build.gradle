@@ -32,28 +32,6 @@ allprojects {
 		mappings = project.mappingsVer
 		makeObfSourceJar = false
 	}
-    println extensions.findByName('minecraft').clientRunArgs
-    
-    eclipse {
-        classpath {
-            file {
-                whenMerged {
-                    def libs = entries.findAll {it.path.contains 'file-deps'}
-                    libs.each {lib ->
-                        def libPath = file(lib.path)
-                        def nameNoExt = libPath.name.replaceFirst(~/\.[^\.]+$/, '')
-                        
-                        def sources = file("${libPath.parent}/${nameNoExt}-sources.jar")
-                        if (sources.exists())
-                        {
-                            lib.sourcePath = fileReference(sources)
-                            println "${sources} attached as source for ${libPath}"
-                        }
-                    }
-                }
-            }
-        }
-    }
 	
 	repositories {
 		maven 
@@ -91,8 +69,16 @@ repositories {
 }
 
 dependencies {
-	containedDep "daomephsta.umbra:umbra-minecraft:${project.umbraMCVersion}"
-	containedDep "daomephsta.umbra:umbra-java:${project.umbraJavaVersion}"
+	if (file('../umbra').exists())
+	{
+		compile project('umbra:umbra-java')
+		compile project('umbra:umbra-minecraft')
+	}
+	else
+	{
+		containedDep "daomephsta.umbra:umbra-java:${project.umbraJavaVersion}"
+		containedDep "daomephsta.umbra:umbra-minecraft:${project.umbraMCVersion}"
+	}
 	compile project('polar-api')
 	// compile against the Baubles API
 	deobfCompile "com.azanor:Baubles:${project.baublesVersion}:api"
