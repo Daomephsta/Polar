@@ -20,7 +20,6 @@ configurations {
 	containedDep {
 		transitive = false
 	}
-	compile.extendsFrom containedDep
 }
 
 allprojects {
@@ -74,11 +73,8 @@ dependencies {
 		compile project('umbra:umbra-java')
 		compile project('umbra:umbra-minecraft')
 	}
-	else
-	{
-		containedDep "daomephsta.umbra:umbra-java:${project.umbraJavaVersion}"
-		containedDep "daomephsta.umbra:umbra-minecraft:${project.umbraMCVersion}"
-	}
+	containedDep "daomephsta.umbra:umbra-java:${project.umbraJavaVersion}"
+	containedDep "daomephsta.umbra:umbra-minecraft:${project.umbraMCVersion}"
 	compile project('polar-api')
 	// compile against the Baubles API
 	deobfCompile "com.azanor:Baubles:${project.baublesVersion}:api"

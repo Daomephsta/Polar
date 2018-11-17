@@ -3,10 +3,10 @@ makeEclipseCleanRunClient.enabled = false
 makeEclipseCleanRunServer.enabled = false
 	
 dependencies {
-	if (findProject('umbra'))
+	if (findProject(':umbra'))
 	{
-		compile project('umbra:umbra-java')
-		compile project('umbra:umbra-minecraft')
+		compile project(':umbra:umbra-java')
+		compile project(':umbra:umbra-minecraft')
 	}
 	else
 	{
