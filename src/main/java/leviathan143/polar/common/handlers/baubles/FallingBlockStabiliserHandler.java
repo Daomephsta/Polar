@@ -27,7 +27,8 @@ public class FallingBlockStabiliserHandler
 			return;
 		
 		IBlockState stateAbove = event.getWorld().getBlockState(event.getPos().up());
-		if (!isUnstableBlock(stateAbove))
+		boolean unstableBlock = isUnstableBlock(stateAbove);
+		if (!unstableBlock)
 			return;
 		ItemStack baubleStack = BaubleHandler.findEquippedBauble(event.getPlayer(), ItemRegistry.FALLING_BLOCK_STABILISER);
 		if (baubleStack.isEmpty())

@@ -36,6 +36,8 @@ polar.advancements.blue.root.title=Azuras Magic
 polar.advancements.blue.root.desc=Insert witty description here
 polar.advancements.red.root.title=Vermillis Magic
 polar.advancements.red.root.desc=I am very good at writing descriptions
+polar.advancements.red.falling_block_stabiliser.title=Gravitic Stabiliser
+polar.advancements.red.falling_block_stabiliser.desc=Research the Gravitic Stabiliser
 
 //Creative Tabs
 itemGroup.polar.red=Vermillis Magic (Polar)

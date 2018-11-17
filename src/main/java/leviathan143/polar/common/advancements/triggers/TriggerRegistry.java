@@ -8,6 +8,8 @@ public class TriggerRegistry
 		CriteriaTriggers.register(new TriggerPlayerAnomalyInteraction());
 	public static final TriggerPolarReaction POLAR_REACTION =
 		CriteriaTriggers.register(new TriggerPolarReaction());
+	public static final TriggerObserveFallingBlock OBSERVE_FALLING_BLOCK =
+		CriteriaTriggers.register(new TriggerObserveFallingBlock());
 	
 	//Dummy method to force static init
 	public static void init() {}
