@@ -9,6 +9,7 @@ import leviathan143.polar.common.items.blue.BaubleFallingBlockDestroyer;
 import leviathan143.polar.common.items.red.BaubleFallingBlockStabiliser;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.Item.ToolMaterial;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -25,6 +26,11 @@ public class ItemRegistry
 	// Blue
 	public static final Item BLUE_RESOURCE_BASIC = null;
 	public static final BaubleFallingBlockDestroyer FALLING_BLOCK_DESTROYER = null;
+	//Other
+	public static final ItemJawblade STONE_JAWBLADE = null;
+	public static final ItemJawblade GOLD_JAWBLADE = null;
+	public static final ItemJawblade IRON_JAWBLADE = null;
+	public static final ItemJawblade DIAMOND_JAWBLADE = null;
 	
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> e)
@@ -35,7 +41,12 @@ public class ItemRegistry
 			setupItem(new BaubleFallingBlockStabiliser().setCreativeTab(Polar.TAB_RED), "falling_block_stabiliser"),
 			// Blue
 			setupItem(new Item(), "blue_resource_basic").setCreativeTab(Polar.TAB_BLUE),
-			setupItem(new BaubleFallingBlockDestroyer().setCreativeTab(Polar.TAB_BLUE), "falling_block_destroyer"));
+			setupItem(new BaubleFallingBlockDestroyer().setCreativeTab(Polar.TAB_BLUE), "falling_block_destroyer"),
+			//Other
+			setupItem(new ItemJawblade(ToolMaterial.STONE), "stone_jawblade").setCreativeTab(Polar.TAB_OTHER),
+			setupItem(new ItemJawblade(ToolMaterial.GOLD), "gold_jawblade").setCreativeTab(Polar.TAB_OTHER),
+			setupItem(new ItemJawblade(ToolMaterial.IRON), "iron_jawblade").setCreativeTab(Polar.TAB_OTHER),
+			setupItem(new ItemJawblade(ToolMaterial.DIAMOND), "diamond_jawblade").setCreativeTab(Polar.TAB_OTHER));
 		while(!itemBlockQueue.isEmpty())
 		{
 			ItemBlock itemBlock = itemBlockQueue.remove();

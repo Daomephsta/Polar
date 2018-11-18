@@ -1,5 +1,8 @@
 package leviathan143.polar.common;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import daomephsta.umbra.mcfunctions.FunctionLoader;
 import leviathan143.polar.api.PolarAPI;
 import leviathan143.polar.common.advancements.triggers.TriggerRegistry;
@@ -60,6 +63,8 @@ public class Polar
 			return ItemModBook.forBook(MODID + ":research_journal");
 		}
 	};
+	
+	public static final Logger LOGGER = LogManager.getLogger(MODID);
 	
 	@Mod.EventHandler
 	public static void preInit(FMLPreInitializationEvent event)

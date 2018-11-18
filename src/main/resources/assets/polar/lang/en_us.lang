@@ -19,6 +19,10 @@ item.polar.falling_block_stabiliser.name=Gravitic Stabiliser
 item.polar.falling_block_destroyer.name=Percussive Disintegrator
 item.polar.red_resource_basic.name=Flawed Vermillium
 item.polar.blue_resource_basic.name=Flawed Azurane
+item.polar.stone_jawblade.name=Stone Jawblade
+item.polar.gold_jawblade.name=Golden Jawblade
+item.polar.iron_jawblade.name=Iron Jawblade
+item.polar.diamond_jawblade.name=Diamond Jawblade
 
 //Misc
 polar.tooltip.charge=Charge: %s/%s
