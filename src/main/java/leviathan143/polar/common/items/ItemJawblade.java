@@ -1,7 +1,5 @@
 package leviathan143.polar.common.items;
 
-import java.util.UUID;
-
 import com.google.common.collect.Multimap;
 
 import daomephsta.umbra.entity.attributes.AttributeHelper;
@@ -19,7 +17,6 @@ import net.minecraftforge.oredict.OreDictionary;
 public class ItemJawblade extends Item
 {	
 	private final ToolMaterial material;
-	private static final UUID ATTACK_DAMAGE_MODIFIER_ID = UUID.fromString("8a488034-f666-42b7-b80a-784196f17404");
 
 	public ItemJawblade(ToolMaterial material)
 	{
@@ -41,10 +38,13 @@ public class ItemJawblade extends Item
 	public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack)
 	{
 		Multimap<String, AttributeModifier> attributeModifiers = super.getAttributeModifiers(slot, stack);
-		if (slot == EntityEquipmentSlot.HEAD)
+		if (slot == EntityEquipmentSlot.MAINHAND)
 		{
 			attributeModifiers.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), 
-				AttributeHelper.createModifier(ATTACK_DAMAGE_MODIFIER_ID, "Jawblade Attack Damage Modifier", material.getAttackDamage(), 
+				AttributeHelper.createModifier(ATTACK_DAMAGE_MODIFIER, "Jawblade Attack Damage Modifier", material.getAttackDamage(), 
+				AttributeModifierOperation.ADDITIVE));
+			attributeModifiers.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), 
+				AttributeHelper.createModifier(ATTACK_SPEED_MODIFIER, "Jawblade Attack Speed Modifier", -2.0D, 
 				AttributeModifierOperation.ADDITIVE));
 		}
 		return attributeModifiers;
