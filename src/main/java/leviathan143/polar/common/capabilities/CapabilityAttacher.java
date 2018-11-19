@@ -18,7 +18,7 @@ public class CapabilityAttacher
 	{
 		if(event.getObject() instanceof EntityPlayer)
 		{
-			event.addCapability(POLAR_PLAYER_DATA_KEY, new CapabilityPlayerDataPolar.PlayerDataProvider());
+			event.addCapability(POLAR_PLAYER_DATA_KEY, new CapabilityPlayerDataPolar.PlayerDataProvider((EntityPlayer) event.getObject()));
 		}
 	}
 }

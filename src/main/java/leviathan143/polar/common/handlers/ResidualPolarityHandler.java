@@ -1,7 +1,8 @@
 package leviathan143.polar.common.handlers;
 
 import daomephsta.umbra.nbt.NBTExtensions;
-import leviathan143.polar.api.*;
+import leviathan143.polar.api.IPolarisedItem;
+import leviathan143.polar.api.Polarity;
 import leviathan143.polar.common.Polar;
 import leviathan143.polar.common.advancements.triggers.TriggerRegistry;
 import leviathan143.polar.common.capabilities.CapabilityPlayerDataPolar.PlayerDataPolar;
@@ -112,14 +113,16 @@ public class ResidualPolarityHandler
 		// Ifs are nested to avoid shocking if a residual charge is not left, regardless of polarities
 		if (residualCharge == Polarity.NONE)
 		{
-			// 1 in 10 activations should leave a residual charge
-			if (player.world.rand.nextFloat() <= 0.1F)
-				playerData.setResidualPolarity(itemPolarity);
+			/* 1 in 10 activations should leave a residual charge. This is determined server side and 
+			 * synced with a packet as sequences from Randoms are not the same between server and client,
+			 * though the seeds are.*/
+			if (!player.world.isRemote && player.world.rand.nextFloat() <= 0.9F)
+					playerData.setResidualPolarity(itemPolarity);
 		}
 		else if (residualCharge != itemPolarity)
 		{
 			// Damage source must be unblockable to avoid stack overflow
-			player.attackEntityFrom(DamageSource.MAGIC, 0.5F);
+			player.attackEntityFrom(DamageSource.MAGIC, 1.0F);
 			playerData.setResidualPolarity(Polarity.NONE);
 			if (player instanceof EntityPlayerMP)
 				TriggerRegistry.POLAR_REACTION.trigger((EntityPlayerMP) player, 0);

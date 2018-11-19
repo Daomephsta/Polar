@@ -7,7 +7,10 @@ import leviathan143.polar.api.Polarity;
 import leviathan143.polar.api.capabilities.IPlayerDataPolar;
 import leviathan143.polar.api.factions.FactionAlignment;
 import leviathan143.polar.api.factions.FactionRank;
+import leviathan143.polar.common.network.PacketHandler;
+import leviathan143.polar.common.network.PacketSetResidualCharge;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -36,13 +39,17 @@ public class CapabilityPlayerDataPolar
 						NBTExtensions.setEnumConstant(nbt, "rank", internalImpl.getRank());
 						NBTExtensions.setEnumConstant(nbt, "residual_polarity", internalImpl.getResidualPolarity());
 						return nbt;
-					}), 
-					PlayerDataPolar::new);
+					}), () -> null);
 	}
 	
 	public static class PlayerDataProvider implements ICapabilitySerializable<NBTBase>
 	{
-		private IPlayerDataPolar data = new PlayerDataPolar();//PolarAPI.PLAYER_DATA_POLAR.getDefaultInstance();
+		private final IPlayerDataPolar data;
+
+		public PlayerDataProvider(EntityPlayer player)
+		{
+			this.data = new PlayerDataPolar(player);
+		}
 
 		@Override
 		public boolean hasCapability(Capability<?> capability, EnumFacing facing)
@@ -73,6 +80,7 @@ public class CapabilityPlayerDataPolar
 	/**Stores data associated with a player. Non-API class, other mods should access player data through {@link PolarAPI#getPlayerData(EntityPlayer)}**/
 	public static class PlayerDataPolar implements IPlayerDataPolar
 	{
+		private final EntityPlayer player;
 		// The faction the player is aligned with. Defaults to unaligned.
 		private FactionAlignment faction = FactionAlignment.UNALIGNED;
 		// The player's rank within their faction. Defaults to none.
@@ -80,6 +88,11 @@ public class CapabilityPlayerDataPolar
 		// The player's residual charge. Defaults to none;
 		private Polarity residualPolarity = Polarity.NONE;
 		
+		public PlayerDataPolar(EntityPlayer player)
+		{
+			this.player = player;
+		}
+
 		public static PlayerDataPolar get(EntityPlayer player)
 		{
 			return (PlayerDataPolar) player.getCapability(PolarAPI.PLAYER_DATA_POLAR, null);
@@ -116,7 +129,8 @@ public class CapabilityPlayerDataPolar
 
 		public void setResidualPolarity(Polarity residualPolarity)
 		{
-			System.out.println("Polarised");
+			if (!player.getEntityWorld().isRemote)
+				PacketHandler.CHANNEL.sendTo(new PacketSetResidualCharge(residualPolarity), (EntityPlayerMP) player);
 			this.residualPolarity = residualPolarity;
 		}
 	}

@@ -12,6 +12,7 @@ import leviathan143.polar.common.config.PolarConfig;
 import leviathan143.polar.common.core.InternalMethodAccessors;
 import leviathan143.polar.common.handlers.baubles.BaubleHandler;
 import leviathan143.polar.common.items.ItemRegistry;
+import leviathan143.polar.common.network.PacketHandler;
 import leviathan143.polar.common.recipes.RecipeChargeItem;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
@@ -75,6 +76,7 @@ public class Polar
 		PolarConfig.preInit();
 		TriggerRegistry.init();
 		BaubleHandler.preInit();
+		PacketHandler.registerPackets();
 	}
 	
 	private static void registerCapabilities()
