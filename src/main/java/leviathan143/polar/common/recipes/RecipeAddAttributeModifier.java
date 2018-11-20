@@ -208,7 +208,7 @@ public class RecipeAddAttributeModifier extends IForgeRegistryEntry.Impl<IRecipe
 			//Ingredients
 			NonNullList<Ingredient> ingredients = Streams.stream(JsonUtils.getJsonArray(json, "additional_ingredients"))
 				.map(jsonE -> CraftingHelper.getIngredient(jsonE, context))
-				.collect(UmbraCollectors.nonnullList());
+				.collect(UmbraCollectors.toNonNullList());
 			
 			return new RecipeAddAttributeModifier(mainIngredientPredicate, modifiersMap, ingredients, JsonUtils.getBoolean(json, "repeatable", false));
 		}	

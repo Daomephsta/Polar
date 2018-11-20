@@ -51,7 +51,7 @@ public class RecipeAddPolarityTag implements IRecipe
 		if (!delegateResult.hasTagCompound()) delegateResult.setTagCompound(new NBTTagCompound());
 		NBTTagCompound nbt = delegateResult.getTagCompound();
 		NBTExtensions.setEnumConstant(nbt, CommonWords.POLARITY, polarity);
-		nbt.setTag(ACTIVATES_ON, activatesOn.stream().map(NBTTagString::new).collect(UmbraCollectors.NBT_LIST));
+		nbt.setTag(ACTIVATES_ON, activatesOn.stream().map(NBTTagString::new).collect(UmbraCollectors.toNBTList(NBTTagString.class)));
 		return delegateResult;
 	}
 
