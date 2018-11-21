@@ -106,11 +106,23 @@ processResources
     }
 }
 
+import java.util.jar.*
+boolean hasContainedDepMetadata(File file) 
+{
+    def jar = new JarFile(file)
+    if (jar.manifest == null) return;
+    def hasMetadata = jar.manifest.mainAttributes.containsKey(new Attributes.Name('Maven-Artifact'))
+    jar.close()
+    return hasMetadata
+}
+
 task generateDependencyMetaFiles {doLast{
 	//Delete any previous meta files
 	file("${buildDir}/dependencyMeta").deleteDir()
 	//Generate new meta files
 	configurations.containedDep.resolvedConfiguration.resolvedArtifacts.each {
+        //Ignore files that define the dependency metadata themselves
+        if (hasContainedDepMetadata(it.file)) return;
 		def metaFile = file("${buildDir}/dependencyMeta/${it.file.name}.meta")
 		metaFile.parentFile.mkdirs()
 		//The newline is very important
