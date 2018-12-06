@@ -7,14 +7,14 @@ import java.lang.reflect.Field;
 import com.google.common.base.Predicate;
 
 import daomephsta.umbra.advancements.TriggerBase;
-import daomephsta.umbra.reflection.MappingAgnosticReflectionHelper;
+import daomephsta.umbra.reflection.SRGReflectionHelper;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.ICriterionInstance;
 import net.minecraft.entity.player.EntityPlayerMP;
 
 public abstract class TriggerResearchBase<T extends ICriterionInstance> extends TriggerBase<T>
 {
-	private static final Field Listener_advancement = MappingAgnosticReflectionHelper.findField(Listener.class, "field_192161_b");
+	private static final Field Listener_advancement = SRGReflectionHelper.findField(Listener.class, "field_192161_b");
 	
 	@Override
 	protected void grantPassedCriteria(EntityPlayerMP player, Predicate<Listener<T>> conditions)

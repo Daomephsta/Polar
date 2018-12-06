@@ -9,7 +9,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
 import daomephsta.umbra.nbt.NBTExtensions;
-import daomephsta.umbra.streams.UmbraCollectors;
+import daomephsta.umbra.streams.NBTCollectors;
 import leviathan143.polar.api.*;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
@@ -51,7 +51,7 @@ public class RecipeAddPolarityTag implements IRecipe
 		if (!delegateResult.hasTagCompound()) delegateResult.setTagCompound(new NBTTagCompound());
 		NBTTagCompound nbt = delegateResult.getTagCompound();
 		NBTExtensions.setEnumConstant(nbt, CommonWords.POLARITY, polarity);
-		nbt.setTag(ACTIVATES_ON, activatesOn.stream().map(NBTTagString::new).collect(UmbraCollectors.toNBTList(NBTTagString.class)));
+		nbt.setTag(ACTIVATES_ON, activatesOn.stream().map(NBTTagString::new).collect(NBTCollectors.toNBTList(NBTTagString.class)));
 		return delegateResult;
 	}
 

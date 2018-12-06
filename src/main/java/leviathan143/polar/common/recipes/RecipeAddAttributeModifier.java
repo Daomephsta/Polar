@@ -10,7 +10,7 @@ import com.google.gson.*;
 
 import daomephsta.umbra.entity.attributes.AttributeHelper;
 import daomephsta.umbra.entity.attributes.AttributeHelper.AttributeModifierOperation;
-import daomephsta.umbra.streams.UmbraCollectors;
+import daomephsta.umbra.streams.MiscUmbraCollectors;
 import leviathan143.polar.common.Polar;
 import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.entity.EntityLiving;
@@ -208,7 +208,7 @@ public class RecipeAddAttributeModifier extends IForgeRegistryEntry.Impl<IRecipe
 			//Ingredients
 			NonNullList<Ingredient> ingredients = Streams.stream(JsonUtils.getJsonArray(json, "additional_ingredients"))
 				.map(jsonE -> CraftingHelper.getIngredient(jsonE, context))
-				.collect(UmbraCollectors.toNonNullList());
+				.collect(MiscUmbraCollectors.toNonNullList());
 			
 			return new RecipeAddAttributeModifier(mainIngredientPredicate, modifiersMap, ingredients, JsonUtils.getBoolean(json, "repeatable", false));
 		}	
