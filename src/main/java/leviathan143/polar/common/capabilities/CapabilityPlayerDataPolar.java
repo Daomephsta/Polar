@@ -29,7 +29,7 @@ public class CapabilityPlayerDataPolar
 						NBTTagCompound compoundNBT = (NBTTagCompound) nbt;
 						internalImpl.setFaction(NBTExtensions.getEnumConstant(compoundNBT, FactionAlignment.class, "faction", FactionAlignment.UNALIGNED));
 						internalImpl.setRank(NBTExtensions.getEnumConstant(compoundNBT, FactionRank.class, "rank", FactionRank.NONE));
-						internalImpl.setResidualPolarity(NBTExtensions.getEnumConstant(compoundNBT, Polarity.class, "residual_polarity", Polarity.NONE));
+						internalImpl.setResidualPolarityInternal(NBTExtensions.getEnumConstant(compoundNBT, Polarity.class, "residual_polarity", Polarity.NONE));
 					},
 					(Capability<IPlayerDataPolar> capability, IPlayerDataPolar instance, EnumFacing side) -> 
 					{
@@ -40,6 +40,12 @@ public class CapabilityPlayerDataPolar
 						NBTExtensions.setEnumConstant(nbt, "residual_polarity", internalImpl.getResidualPolarity());
 						return nbt;
 					}), () -> null);
+	}
+	
+	@CapabilityInject(IPlayerDataPolar.class)
+	public static void onCapabilityInjection()
+	{
+		CapabilityHandler.registerForSyncing(PolarAPI.PLAYER_DATA_POLAR, new EnumFacing[] {null});
 	}
 	
 	public static class PlayerDataProvider implements ICapabilitySerializable<NBTBase>
@@ -60,7 +66,8 @@ public class CapabilityPlayerDataPolar
 		@Override
 		public <T> T getCapability(Capability<T> capability, EnumFacing facing)
 		{
-			if(capability == PolarAPI.PLAYER_DATA_POLAR) return PolarAPI.PLAYER_DATA_POLAR.cast(data);
+			if(capability == PolarAPI.PLAYER_DATA_POLAR)
+				return PolarAPI.PLAYER_DATA_POLAR.cast(data);
 			return null;
 		}
 
@@ -130,8 +137,19 @@ public class CapabilityPlayerDataPolar
 		public void setResidualPolarity(Polarity residualPolarity)
 		{
 			if (!player.getEntityWorld().isRemote)
-				PacketHandler.CHANNEL.sendTo(new PacketSetResidualCharge(residualPolarity), (EntityPlayerMP) player);
+				sync();
+			setResidualPolarityInternal(residualPolarity);
+		}
+		
+		private void setResidualPolarityInternal(Polarity residualPolarity)
+		{
 			this.residualPolarity = residualPolarity;
+		}
+
+		@Override
+		public void sync()
+		{
+			PacketHandler.CHANNEL.sendTo(new PacketSetResidualCharge(residualPolarity), (EntityPlayerMP) player);
 		}
 	}
 }
