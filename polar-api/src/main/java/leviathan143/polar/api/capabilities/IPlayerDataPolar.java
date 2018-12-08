@@ -4,7 +4,7 @@ import leviathan143.polar.api.factions.FactionAlignment;
 import leviathan143.polar.api.factions.FactionRank;
 
 /**An interface that provides access to Polar player data. Designed to be used by other mods.**/
-public interface IPlayerDataPolar
+public interface IPlayerDataPolar extends ISyncableCapability
 {
 	public FactionAlignment getFaction();
 	
