@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"result": 
+    {
+        "item": "polar:falling_block_stabiliser"
+    },
+    "pattern":
+    [
+        " B ",
+        "BVB",
+        " B "
+    ],
+    "key":
+    {
+        "B": {"item": "minecraft:iron_bars"},
+        "V": {"item": "polar:red_resource_basic"}
+    }
+}

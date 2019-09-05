@@ -1,18 +1,1 @@
-//Disable run configuration generation
-makeEclipseCleanRunClient.enabled = false
-makeEclipseCleanRunServer.enabled = false
-	
-dependencies {
-	if (findProject(':umbra'))
-	{
-		compile project(':umbra:umbra-java')
-		compile project(':umbra:umbra-minecraft')
-	}
-	else
-	{
-		compile "daomephsta.umbra:umbra-java:${project.umbraJavaVersion}"
-		compile "daomephsta.umbra:umbra-minecraft:${project.umbraMCVersion}"
-	}
-}
-
-version = "${rootProject.mcVersion}-${rootProject.modVersion}-${rootProject.apiVersion}"
+version = "${rootProject.minecraft_version}-${rootProject.mod_version}-${rootProject.api_version}"

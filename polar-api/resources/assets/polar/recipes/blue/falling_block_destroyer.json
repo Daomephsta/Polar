@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"result": 
+    {
+        "item": "polar:falling_block_destroyer"
+    },
+    "pattern":
+    [
+        " G ",
+        "GBG",
+        " G "
+    ],
+    "key":
+    {
+        "G": {"item": "minecraft:gunpowder"},
+        "B": {"item": "polar:blue_resource_basic"}
+    }
+}

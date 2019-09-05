@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "polar",
+  "version": "${version}",
+  "name": "Polar",
+  "description": "A magic mod about two opposing schools of magic",
+  "authors": [
+    "Leviathan143 - Developer", 
+	"NotAWallplan - Artist"
+  ],
+  "contact": {
+    "sources": "https://github.com/Polar-Team/Polar"
+  },
+  "license": ["MIT", "CC-BY-3.0"],
+  "icon": "/assets/polar/textures/logo.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "io.github.daomephsta.polar.common.Polar"
+    ],
+	"client": [
+		"io.github.daomephsta.polar.client.PolarClientInitializer"
+	]
+  },
+  "mixins": [
+    "polar-common-mixins.json",
+	{
+		"environment": "client",
+		"config": "polar-client-mixins.json"
+	}
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.4.0",
+    "fabric": "*"
+  }
+}

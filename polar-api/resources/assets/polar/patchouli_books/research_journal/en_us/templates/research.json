@@ -1,0 +1,20 @@
+{
+    "components": 
+    [
+        {
+            "type": "text",
+            "text": "#research_text",
+            "x": -1,
+            "y": -1,
+            "advancement": "#research_advancement",
+            "negate_advancement": true
+        },
+        {
+            "type": "text",
+            "text": "#finished_text",
+            "x": -1,
+            "y": -1,
+            "advancement": "#research_advancement"
+        }
+    ]
+}

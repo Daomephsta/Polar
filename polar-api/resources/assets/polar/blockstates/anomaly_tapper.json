@@ -1,0 +1,21 @@
+
+{
+	"forge_marker": 1,
+	"variants": 
+ 	{
+		"facing":
+ 		{	
+ 			"north": {"x":90},
+			"south": {"x":-90},
+			"east": {"x":90, "y":90},
+			"west": {"x":-90, "y":90},
+			"up": {"x": 0},
+			"down": {"x": 180}
+ 		},
+		"polarity":
+		{
+			"red": {"model": "polar:anomaly_tapper_red"},
+			"blue": {"model": "polar:anomaly_tapper_blue"}
+		}
+  	}
+}

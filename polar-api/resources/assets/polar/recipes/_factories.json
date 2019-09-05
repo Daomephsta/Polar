@@ -1,0 +1,13 @@
+{
+	"recipes":
+	{
+		"add_attribute_modifiers": "leviathan143.polar.common.recipes.RecipeAddAttributeModifier$Factory",
+		"add_polarity_tag": "leviathan143.polar.common.recipes.RecipeAddPolarityTag$Factory"
+	},
+	"conditions":
+	{
+	},
+	"ingredients":
+	{
+	}
+}

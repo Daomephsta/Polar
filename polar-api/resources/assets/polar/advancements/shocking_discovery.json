@@ -1,0 +1,29 @@
+{
+	"parent": "polar:root",
+	"display":
+	{
+		"icon":
+		{
+			"item": "patchouli:guide_book",
+            "nbt": "{\"patchouli:book\": \"polar:research_journal\"}"
+		},
+		"title": {"translate": "polar.advancements.shocking_discovery.title"},
+		"description": {"translate": "polar.advancements.shocking_discovery.desc"},
+		"frame": "goal"
+	},
+	"criteria":
+	{
+		"interact_anomaly":
+		{
+			"trigger": "polar:polar_reaction",
+			"conditions":
+			{
+				"reaction_strength": 0 
+			}
+		}
+	},
+	"rewards":
+	{
+		"function": "polar:reaction_discovery_message"
+	}
+}

@@ -5,7 +5,7 @@
 	"wrapped":
 	{
 		"type": "polar:add_attribute_modifiers",
-		"validator": "equips_to_chest",
+		"mainIngredient": "chest_equipment",
 		"modifiers":
 		{
 			"chest":

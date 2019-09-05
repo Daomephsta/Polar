@@ -1,0 +1,17 @@
+{
+    "name": "Improving Armour",
+    "icon": "minecraft:iron_chestplate",
+    "category": "combat",
+    "advancement": "polar:red/root_red",
+    "pages":
+    [
+        {
+            "type": "text",
+            "text": "I have discovered that redstone focuses the energy of the red anomalies, I will call this energy $(red_magic). Now that I have samples of $(red_magic) in the form of $(red_resource_basic) I can begin investigating its uses. It seems to have an affinity for defense, so I've designed a simple ward that should increase the protection of any piece of armour."
+        },
+        {
+            "type": "text",
+            "text": "I simply need to combine the armour with a little $(red_resource_all)."
+        }
+    ]
+}

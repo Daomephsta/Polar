@@ -1,8 +1,13 @@
-rootProject.name = 'Polar'
-include 'polar-api'
-if (file('../umbra').exists())
-{
-	includeFlat 'umbra'
-    include 'umbra:umbra-java'
-    include 'umbra:umbra-minecraft'
+pluginManagement {
+    repositories {
+        jcenter()
+        maven {
+            name = 'Fabric'
+            url = 'https://maven.fabricmc.net/'
+        }
+        gradlePluginPortal()
+    }
 }
+
+rootProject.name = 'polar'
+include 'polar-api'

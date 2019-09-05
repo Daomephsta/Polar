@@ -1,0 +1,28 @@
+{
+	"display":
+	{
+		"icon":
+		{
+			"item": "polar:red_resource_basic"
+		},
+		"title": {"translate": "polar.advancements.red.root.title"},
+		"description": {"translate": "polar.advancements.red.root.desc"},
+		"background": "polar:textures/gui/advancements/background_red.png",
+		"frame": "goal",
+		"announce_to_chat": false
+	},
+	"criteria":
+	{
+		"acquire_red_resource_basic":
+		{
+			"trigger": "minecraft:inventory_changed",
+			"conditions":
+			{
+				"items":
+				[
+					{"item": "polar:red_resource_basic"}
+				]
+			}
+		}
+	}
+}

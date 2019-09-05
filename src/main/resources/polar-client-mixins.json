@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "io.github.daomephsta.polar.client.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+	"LivingEntityRendererInvokers",
+	"MixinMinecraftClient"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

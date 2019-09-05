@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"result": 
+    {
+        "item": "patchouli:guide_book",
+            "nbt": "{\"patchouli:book\": \"polar:research_journal\"}"
+    },
+	"ingredients":
+	[
+		{"type": "forge:ore_dict", "ore": "dyeGreen"},
+		{"type": "forge:ore_dict", "ore": "feather"},
+		{"item": "minecraft:book"}
+	]
+}

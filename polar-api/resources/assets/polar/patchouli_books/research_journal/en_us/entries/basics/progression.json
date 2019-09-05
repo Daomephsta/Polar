@@ -1,0 +1,16 @@
+{
+    "name": "Progression",
+    "icon": "minecraft:book",
+    "category": "basics",
+    "pages":
+    [
+        {
+            "type": "text",
+            "text": "Welcome to Polar! Progression in Polar is fairly simple, there are two ways to progress in Polar. The first is by completing certain tasks, which are tracked using advancements. Most of the initial advancements are in the Adventure tab, the first one is called Polar, all other Polar advancements in that tab are descendants of it. The rest of Polar's advancements are in Polar's own tabs."
+        },
+        {
+            "type": "text",
+            "text": "Any Polar advancement that is a goal advancement (has curved top and bottom borders) will unlock one or more entries once completed. The description of an advancement hints at how to unlock it, as does one of the entries unlocked by the parent advancement. The second way will be revealed later, when it's useful."
+        }
+    ]
+}

@@ -1,0 +1,1 @@
+tellraw @s {"translate": "polar.message.polar_reaction"}
