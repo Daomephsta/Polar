@@ -4,7 +4,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 import io.github.daomephsta.polar.api.Polarity;
-import io.github.daomephsta.polar.api.capabilities.IPolarChargeStorage;
+import io.github.daomephsta.polar.api.components.IPolarChargeStorage;
 import io.github.daomephsta.polar.common.CompatibilityTags;
 import io.github.daomephsta.polar.common.blocks.BlockRegistry;
 import io.github.daomephsta.polar.common.config.PolarConfig;
@@ -43,7 +43,7 @@ public class FallingBlockDestroyerHandler
 //	}
 
 	private static void destroyBlockColumn(PlayerEntity player,
-			ItemStack baubleStack, World world, BlockPos columnBottomPos)
+			ItemStack wearableStack, World world, BlockPos columnBottomPos)
 	{
 		Deque<BlockPos> toDestroy = new ArrayDeque<>();
 		{
@@ -59,19 +59,18 @@ public class FallingBlockDestroyerHandler
 			toDestroy.push(columnBottomPos.down());
 		}
 		
-		//TODO Chargeables
-		IPolarChargeStorage chargeable = port.Dummy.CHARGE_STORAGE;
+		IPolarChargeStorage chargeable = IPolarChargeStorage.get(wearableStack);
 		int cost = toDestroy.size()
-				* PolarConfig.charge.percussiveDisintegratorActivationCost;
-		if (WearablesHandler.checkCharge(player, baubleStack, Polarity.BLUE, cost,
-				PolarConfig.charge.percussiveDisintegratorActivationCost * 8))
+				* PolarConfig.charge.fallingBlockDestroyerActivationCost;
+		if (WearablesHandler.checkCharge(player, wearableStack, Polarity.BLUE, cost,
+				PolarConfig.charge.fallingBlockDestroyerActivationCost * 8))
 		{
 			chargeable.discharge(Polarity.BLUE, cost, false);
 			while (!toDestroy.isEmpty())
 			{
 				BlockPos pos = toDestroy.pop();
 				destroyBlock(world, pos);
-				ResidualPolarityHandler.itemActivated(baubleStack, player);
+				ResidualPolarityHandler.itemActivated(wearableStack, player);
 			}
 		}
 

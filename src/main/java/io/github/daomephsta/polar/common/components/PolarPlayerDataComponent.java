@@ -1,17 +1,26 @@
-package io.github.daomephsta.polar.common.capabilities;
+package io.github.daomephsta.polar.common.components;
 
 import io.github.daomephsta.polar.api.PolarAPI;
 import io.github.daomephsta.polar.api.Polarity;
-import io.github.daomephsta.polar.api.capabilities.IPlayerDataPolar;
+import io.github.daomephsta.polar.api.components.IPolarPlayerData;
 import io.github.daomephsta.polar.api.factions.FactionAlignment;
 import io.github.daomephsta.polar.api.factions.FactionRank;
+import io.github.daomephsta.polar.common.NBTExtensions;
+import io.github.daomephsta.polar.common.network.PacketSetResidualCharge;
+import nerdhub.cardinal.components.api.event.EntityComponentCallback;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundTag;
 
-/**A capability used by Polar to store data associated with a player, such as rank and faction**/
-public class CapabilityPlayerDataPolar
+/**A component used by Polar to store data associated with a player, such as rank and faction**/
+public class PolarPlayerDataComponent
 {
+	public static void register()
+	{
+		EntityComponentCallback.event(PlayerEntity.class).register((player, components) -> components.put(PolarAPI.PLAYER_DATA, new PolarPlayerData(player)));
+	}
+	
 	/**Stores data associated with a player. Non-API class, other mods should access player data through {@link PolarAPI#getPlayerData(PlayerEntity)}**/
-	public static class PlayerDataPolar implements IPlayerDataPolar
+	public static class PolarPlayerData implements IPolarPlayerData
 	{
 		private final PlayerEntity player;
 		// The faction the player is aligned with. Defaults to unaligned.
@@ -21,15 +30,14 @@ public class CapabilityPlayerDataPolar
 		// The player's residual charge. Defaults to none;
 		private Polarity residualPolarity = Polarity.NONE;
 		
-		public PlayerDataPolar(PlayerEntity player)
+		public PolarPlayerData(PlayerEntity player)
 		{
 			this.player = player;
 		}
 
-		public static PlayerDataPolar get(PlayerEntity player)
+		public static PolarPlayerData get(PlayerEntity player)
 		{
-			//TODO Player data
-			return null;
+			return (PolarPlayerData) IPolarPlayerData.get(player);
 		}
 		
 		@Override
@@ -73,10 +81,26 @@ public class CapabilityPlayerDataPolar
 			this.residualPolarity = residualPolarity;
 		}
 
-		@Override
 		public void sync()
 		{
-			//TODO PacketHandler.CHANNEL.sendTo(new PacketSetResidualCharge(residualPolarity), (PlayerEntityMP) player);
+			PacketSetResidualCharge.sendToPlayer(player, residualPolarity);
+		}
+
+		@Override
+		public void fromTag(CompoundTag tag)
+		{
+			this.faction = NBTExtensions.getEnumConstant(tag, FactionAlignment.class, "faction");
+			this.rank = NBTExtensions.getEnumConstant(tag, FactionRank.class, "rank");
+			this.residualPolarity = NBTExtensions.getEnumConstant(tag, Polarity.class, "residual_polarity");
+		}
+
+		@Override
+		public CompoundTag toTag(CompoundTag tag)
+		{
+			NBTExtensions.putEnumConstant(tag, "faction", this.faction);
+			NBTExtensions.putEnumConstant(tag, "rank", this.rank);
+			NBTExtensions.putEnumConstant(tag, "residual_polarity", this.residualPolarity);
+			return tag;
 		}
 	}
 }

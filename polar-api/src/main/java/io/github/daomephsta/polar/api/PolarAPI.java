@@ -3,7 +3,11 @@ package io.github.daomephsta.polar.api;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import io.github.daomephsta.polar.api.components.IPolarChargeStorage;
+import io.github.daomephsta.polar.api.components.IPolarPlayerData;
 import io.github.daomephsta.polar.api.internal.DummyAccessors;
+import nerdhub.cardinal.components.api.ComponentRegistry;
+import nerdhub.cardinal.components.api.ComponentType;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -25,6 +29,11 @@ public class PolarAPI
 								  TAB_OTHER = FabricItemGroupBuilder.create(new Identifier(PROVIDER_MOD_ID, "other"))
 								  //.icon(() -> ItemModBook.forBook(PROVIDER_MOD_ID + ":research_journal"))
 								  .build();
+	public static final ComponentType<IPolarPlayerData> PLAYER_DATA = 
+			ComponentRegistry.INSTANCE.registerIfAbsent(new Identifier(PROVIDER_MOD_ID, "player_data"), IPolarPlayerData.class);
+	public static final ComponentType<IPolarChargeStorage> CHARGE_STORAGE = 
+			ComponentRegistry.INSTANCE.registerIfAbsent(new Identifier(PROVIDER_MOD_ID, "charge_storage"), IPolarChargeStorage.class);
+	
 	private static final Logger LOGGER = LogManager.getLogger();
 	
 

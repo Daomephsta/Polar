@@ -15,11 +15,19 @@ allprojects {
 	sourceCompatibility = JavaVersion.VERSION_1_8
 	targetCompatibility = JavaVersion.VERSION_1_8
 	
+	repositories {
+		maven {
+        	name = 'Cardinal Components'
+        	url = 'https://maven.abusedmaster.xyz'
+  		}
+	}
+	
 	dependencies {
 		minecraft "com.mojang:minecraft:${project.minecraft_version}"
 		mappings "net.fabricmc:yarn:${project.yarn_mappings}"
 		modCompile "net.fabricmc:fabric-loader:${project.loader_version}"
 		modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+		modApi "com.github.NerdHubMC.Cardinal-Components-API:cardinal-components-base:${project.cardinal_components_version}"
 	}
 }
 
@@ -33,6 +41,8 @@ repositories {
 dependencies {
 	compile project('polar-api')
 	modCompile "net.mcft.copy:Wearables:${wearables_version}"
+	modImplementation "com.github.NerdHubMC.Cardinal-Components-API:cardinal-components-entity:${project.cardinal_components_version}"
+	modImplementation "com.github.NerdHubMC.Cardinal-Components-API:cardinal-components-item:${project.cardinal_components_version}"
 }
 
 processResources {

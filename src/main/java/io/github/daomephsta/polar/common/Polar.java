@@ -5,6 +5,8 @@ import org.apache.logging.log4j.Logger;
 
 import io.github.daomephsta.polar.api.PolarAPI;
 import io.github.daomephsta.polar.common.blocks.BlockRegistry;
+import io.github.daomephsta.polar.common.components.PolarChargeStorageComponent;
+import io.github.daomephsta.polar.common.components.PolarPlayerDataComponent;
 import io.github.daomephsta.polar.common.core.InternalMethodAccessors;
 import io.github.daomephsta.polar.common.handlers.JawbladeHandler;
 import io.github.daomephsta.polar.common.handlers.ResidualPolarityHandler;
@@ -35,12 +37,19 @@ public class Polar implements ModInitializer
 		//TriggerRegistry.init();
 		BlockRegistry.initialize();
 		ItemRegistry.initialize();
+		registerComponents();
 		PolarBlockEntityTypes.initialize();
 		PacketHandler.registerPackets();
 		JawbladeHandler.registerEventCallbacks();
 		ResidualPolarityHandler.registerEventCallbacks();
 		WearablesHandler.registerEventCallbacks();
 		registerRecipes();
+	}
+	
+	private static void registerComponents()
+	{
+		PolarPlayerDataComponent.register();
+		PolarChargeStorageComponent.register();
 	}
 	
 	private void registerRecipes()

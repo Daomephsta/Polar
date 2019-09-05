@@ -1,7 +1,9 @@
 package io.github.daomephsta.polar.common.entities.anomalies;
 
+import io.github.daomephsta.polar.api.PolarAPI;
 import io.github.daomephsta.polar.api.Polarity;
-import io.github.daomephsta.polar.api.capabilities.IPolarChargeStorage;
+import io.github.daomephsta.polar.api.components.IPolarChargeStorage;
+import nerdhub.cardinal.components.api.event.EntityComponentCallback;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
@@ -18,7 +20,11 @@ import net.minecraft.world.World;
 
 public class EntityAnomaly extends Entity
 {
-	private final IPolarChargeStorage chargeStorage;
+	static
+	{
+		EntityComponentCallback.event(EntityAnomaly.class).register((entity, components) -> 
+			components.put(PolarAPI.CHARGE_STORAGE, new AnomalyChargeStorage(entity, 1000 + entity.random.nextInt(1000))));
+	}
 	private Polarity polarity;
 	private long closingTimestamp;
 	private boolean open = false;
@@ -28,7 +34,6 @@ public class EntityAnomaly extends Entity
 		super(type, world);
 		setInvulnerable(true);
 		// 1000-2000 charge
-		this.chargeStorage = new AnomalyChargeStorage(this, 1000 + random.nextInt(1000));
 	}
 
 	/*public EntityAnomaly(World world, Polarity polarity)
@@ -47,7 +52,7 @@ public class EntityAnomaly extends Entity
 	{
 		super.tick();
 		long closeIn = closingTimestamp - world.getTime();
-		if ((closeIn <= 0 && !open) || chargeStorage.getStoredCharge() == 0)
+		if ((closeIn <= 0 && !open) || IPolarChargeStorage.get(this).getStoredCharge() == 0)
 		{
 			this.remove();
 			return;

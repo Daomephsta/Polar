@@ -6,7 +6,7 @@ import java.util.function.BinaryOperator;
 
 import com.google.common.math.DoubleMath;
 
-import io.github.daomephsta.polar.api.capabilities.IPolarChargeStorage;
+import io.github.daomephsta.polar.api.components.IPolarChargeStorage;
 import io.github.daomephsta.polar.common.blocks.AnomalyTapperBlock;
 import io.github.daomephsta.polar.common.entities.anomalies.EntityAnomaly;
 import net.minecraft.block.BlockState;
@@ -21,7 +21,7 @@ public class AnomalyTapperBlockEntity extends BlockEntity implements Tickable
 {
 	private EntityAnomaly attachedAnomaly;
 	//Cached anomaly charge storage, because it won't change.
-	private IPolarChargeStorage	anomalyChargeStorage = port.Dummy.CHARGE_STORAGE;
+	private IPolarChargeStorage	anomalyChargeStorage;
 	private int anomalyCheckCountdown = 10;
 	
 	public AnomalyTapperBlockEntity()
@@ -72,8 +72,7 @@ public class AnomalyTapperBlockEntity extends BlockEntity implements Tickable
 	{
 		anomaly.open();
 		this.attachedAnomaly = anomaly;
-		//TODO Charge storage
-		//this.anomalyChargeStorage = anomaly.getCapability(PolarAPI.CAPABILITY_CHARGEABLE, null);
+		this.anomalyChargeStorage = IPolarChargeStorage.get(anomaly);
 	}
 	
 	private void detachFromAnomaly()

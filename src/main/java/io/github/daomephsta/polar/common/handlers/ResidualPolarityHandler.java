@@ -4,7 +4,7 @@ import io.github.daomephsta.polar.api.CommonWords;
 import io.github.daomephsta.polar.api.IPolarisedItem;
 import io.github.daomephsta.polar.api.Polarity;
 import io.github.daomephsta.polar.common.NBTExtensions;
-import io.github.daomephsta.polar.common.capabilities.CapabilityPlayerDataPolar.PlayerDataPolar;
+import io.github.daomephsta.polar.common.components.PolarPlayerDataComponent.PolarPlayerData;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
@@ -124,7 +124,7 @@ public class ResidualPolarityHandler
 
 	public static void itemActivated(ItemStack stack, PlayerEntity player) 
 	{ 
-		PlayerDataPolar playerData = PlayerDataPolar.get(player);
+		PolarPlayerData playerData = PolarPlayerData.get(player);
 		Polarity residualCharge = playerData.getResidualPolarity(),
 				 itemPolarity = Polarity.ofStack(stack); 
 		// Ifs are nested to avoid shocking if a residual charge is not left, regardless of polarities

@@ -1,9 +1,24 @@
-package io.github.daomephsta.polar.api.capabilities;
+package io.github.daomephsta.polar.api.components;
 
+import io.github.daomephsta.polar.api.PolarAPI;
 import io.github.daomephsta.polar.api.Polarity;
+import nerdhub.cardinal.components.api.component.ComponentProvider;
+import nerdhub.cardinal.components.api.component.extension.CloneableComponent;
+import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
 
-public interface IPolarChargeStorage
+public interface IPolarChargeStorage extends CloneableComponent
 {
+	public static IPolarChargeStorage get(ItemStack stack)
+	{
+		return PolarAPI.CHARGE_STORAGE.get(ComponentProvider.fromItemStack(stack));
+	}
+
+	public static IPolarChargeStorage get(Entity entity)
+	{
+		return PolarAPI.CHARGE_STORAGE.get(ComponentProvider.fromEntity(entity));
+	}
+	
 	public default boolean canCharge()
 	{
 		return getStoredCharge() < getMaxCharge();

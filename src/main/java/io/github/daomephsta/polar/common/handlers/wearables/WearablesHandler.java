@@ -1,7 +1,7 @@
 package io.github.daomephsta.polar.common.handlers.wearables;
 
 import io.github.daomephsta.polar.api.Polarity;
-import io.github.daomephsta.polar.api.capabilities.IPolarChargeStorage;
+import io.github.daomephsta.polar.api.components.IPolarChargeStorage;
 import net.mcft.copy.wearables.api.IWearablesEntity;
 import net.mcft.copy.wearables.api.IWearablesItem;
 import net.mcft.copy.wearables.api.IWearablesSlot;
@@ -51,8 +51,7 @@ public class WearablesHandler
 	 */
 	static boolean checkCharge(PlayerEntity player, ItemStack chargeable, Polarity polarity, int cost, int lowChargeThreshold)
 	{
-		//TODO Get properly
-		IPolarChargeStorage chargeStorage = port.Dummy.CHARGE_STORAGE;
+		IPolarChargeStorage chargeStorage = IPolarChargeStorage.get(chargeable);
 		if (chargeStorage.discharge(polarity, cost, true) < cost)
 		{
 			player.addChatMessage(new TranslatableText("polar.message.insufficient_charge", cost), true);

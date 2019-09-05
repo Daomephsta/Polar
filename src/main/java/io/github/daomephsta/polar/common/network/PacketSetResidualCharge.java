@@ -2,7 +2,7 @@ package io.github.daomephsta.polar.common.network;
 
 import io.github.daomephsta.polar.api.Polarity;
 import io.github.daomephsta.polar.common.Polar;
-import io.github.daomephsta.polar.common.capabilities.CapabilityPlayerDataPolar.PlayerDataPolar;
+import io.github.daomephsta.polar.common.components.PolarPlayerDataComponent.PolarPlayerData;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.fabricmc.fabric.api.network.PacketContext;
@@ -23,7 +23,7 @@ public class PacketSetResidualCharge
 	private static void process(PacketContext context, PacketByteBuf bytes)
 	{
 		Polarity polarity = Polarity.fromIndex(bytes.readInt());
-		PlayerDataPolar.get(context.getPlayer()).setResidualPolarity(polarity);
+		PolarPlayerData.get(context.getPlayer()).setResidualPolarity(polarity);
 	}
 	
 	public static void sendToPlayer(PlayerEntity player, Polarity polarity)
