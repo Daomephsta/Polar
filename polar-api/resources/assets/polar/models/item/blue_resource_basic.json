@@ -1,7 +1,0 @@
-{
-	"parent": "item/generated",
-	"textures":
-	{
-		"layer0": "polar:items/blue_resource_basic"
-	}
-}
