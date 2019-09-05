@@ -15,7 +15,7 @@ import net.minecraft.util.registry.Registry;
 public class PolarBlockEntityTypes
 {
 	public static final BlockEntityType<AnomalyTapperBlockEntity> ANOMALY_TAPPER = 
-			register("anomaly_tapper", AnomalyTapperBlockEntity::new, BlockRegistry.ANOMALY_TAPPER);
+			register("anomaly_tapper", AnomalyTapperBlockEntity::new, BlockRegistry.RED_ANOMALY_TAPPER, BlockRegistry.BLUE_ANOMALY_TAPPER);
 	public static final BlockEntityType<StabilisedBlockBlockEntity> STABILISED_BLOCK = 
 			register("stabilised_block", StabilisedBlockBlockEntity::new, BlockRegistry.STABILISED_BLOCK);
 

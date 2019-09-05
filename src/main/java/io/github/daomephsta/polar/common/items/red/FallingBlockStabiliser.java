@@ -3,6 +3,7 @@ package io.github.daomephsta.polar.common.items.red;
 import java.util.List;
 
 import io.github.daomephsta.polar.api.IPolarisedItem;
+import io.github.daomephsta.polar.api.PolarAPI;
 import io.github.daomephsta.polar.api.Polarity;
 import io.github.daomephsta.polar.api.capabilities.IPolarChargeStorage;
 import io.github.daomephsta.polar.common.Polar;
@@ -25,7 +26,7 @@ public class FallingBlockStabiliser extends Item implements IPolarisedItem, IWea
 	{
 		super(new Item.Settings()
 				.maxCount(1)
-				.group(Polar.TAB_RED));
+				.group(PolarAPI.TAB_RED));
 	}
 	
 	@Override

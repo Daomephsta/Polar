@@ -1,5 +1,6 @@
 package io.github.daomephsta.polar.common.blocks;
 
+import io.github.daomephsta.polar.api.Polarity;
 import io.github.daomephsta.polar.common.Polar;
 import io.github.daomephsta.polar.common.blocks.red.StabilisedBlock;
 import net.minecraft.block.Block;
@@ -12,9 +13,10 @@ public class BlockRegistry
 {
 	//Red
 	public static final StabilisedBlock STABILISED_BLOCK = registerBlock(new StabilisedBlock(), "stabilised_block");
+	public static final AnomalyTapperBlock RED_ANOMALY_TAPPER = registerBlock(new AnomalyTapperBlock(Polarity.RED), "red_anomaly_tapper");
 	//Blue
+	public static final AnomalyTapperBlock BLUE_ANOMALY_TAPPER = registerBlock(new AnomalyTapperBlock(Polarity.BLUE), "blue_anomaly_tapper");
 	// Other
-	public static final AnomalyTapperBlock ANOMALY_TAPPER = registerBlock(new AnomalyTapperBlock(), "anomaly_tapper");
 	public static final BlockRune RUNE = registerBlock(new BlockRune(), "rune");
 	
 	private static <T extends Block> T registerBlock(T block, String name)

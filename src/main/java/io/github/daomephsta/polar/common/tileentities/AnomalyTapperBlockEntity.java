@@ -21,7 +21,7 @@ public class AnomalyTapperBlockEntity extends BlockEntity implements Tickable
 {
 	private EntityAnomaly attachedAnomaly;
 	//Cached anomaly charge storage, because it won't change.
-	private IPolarChargeStorage	anomalyChargeStorage;
+	private IPolarChargeStorage	anomalyChargeStorage = port.Dummy.CHARGE_STORAGE;
 	private int anomalyCheckCountdown = 10;
 	
 	public AnomalyTapperBlockEntity()
@@ -62,7 +62,7 @@ public class AnomalyTapperBlockEntity extends BlockEntity implements Tickable
 			getPos().getZ() + facing.getOffsetZ() * 3.0D + 1.5D);
 		List<EntityAnomaly> anomalies = world.getEntities(EntityAnomaly.class, anomalySearchArea);
 		//Find the closest anomaly in the search area that is of the correct polarity, and attach to it
-		anomalies.stream().filter(anomaly -> anomaly.getPolarity() == state.get(AnomalyTapperBlock.POLARITY))
+		anomalies.stream().filter(anomaly -> anomaly.getPolarity() == ((AnomalyTapperBlock) state.getBlock()).getPolarity())
 			.reduce(BinaryOperator.minBy((a, b) -> 
 			DoubleMath.roundToInt(getSquaredDistance(a.x, a.y, a.z) - getSquaredDistance(b.x, b.y, b.z), RoundingMode.UP)))
 			.ifPresent(this::attachTo);

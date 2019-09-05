@@ -1,7 +1,7 @@
 package io.github.daomephsta.polar.common.items.itemblocks;
 
+import io.github.daomephsta.polar.api.PolarAPI;
 import io.github.daomephsta.polar.common.NBTExtensions;
-import io.github.daomephsta.polar.common.Polar;
 import io.github.daomephsta.polar.common.blocks.BlockRegistry;
 import io.github.daomephsta.polar.common.blocks.BlockRune;
 import io.github.daomephsta.polar.common.blocks.BlockRune.Variant;
@@ -46,14 +46,14 @@ public class ItemBlockRune extends BlockItem
 	public void appendStacks(ItemGroup itemGroup, DefaultedList<ItemStack> stacks)
 	{
 		if (!isIn(itemGroup)) return;
-		if(itemGroup == Polar.TAB_RED)
+		if(itemGroup == PolarAPI.TAB_RED)
 		{
 			for (BlockRune.Variant redVariant : BlockRune.Variant.RED) 
 			{
 				stacks.add(forVariant(redVariant));
 			}
 		}
-		else if(itemGroup == Polar.TAB_BLUE)
+		else if(itemGroup == PolarAPI.TAB_BLUE)
 		{
 			for (BlockRune.Variant blueVariant : BlockRune.Variant.BLUE) 
 			{

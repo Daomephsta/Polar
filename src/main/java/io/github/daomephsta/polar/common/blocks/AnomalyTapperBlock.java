@@ -1,10 +1,7 @@
 package io.github.daomephsta.polar.common.blocks;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Random;
 
-import io.github.daomephsta.polar.api.CommonWords;
 import io.github.daomephsta.polar.api.Polarity;
 import io.github.daomephsta.polar.common.items.itemblocks.ItemBlockAnomalyTapper;
 import io.github.daomephsta.polar.common.tileentities.AnomalyTapperBlockEntity;
@@ -14,33 +11,26 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.FacingBlock;
 import net.minecraft.block.Material;
 import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateFactory;
-import net.minecraft.state.property.EnumProperty;
-import net.minecraft.state.property.Property;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import net.minecraft.world.loot.context.LootContext.Builder;
 
-//TODO Separate blocks for each polarity
 public class AnomalyTapperBlock extends FacingBlock implements IHasSpecialBlockItem
 {
-	public static final Property<Polarity> POLARITY = EnumProperty.of(CommonWords.POLARITY, Polarity.class, Polarity.POLARISED);
+	private final Polarity polarity;
 	
-	public AnomalyTapperBlock()
+	public AnomalyTapperBlock(Polarity polarity)
 	{
 		super(FabricBlockSettings.of(Material.WOOD)
 				.hardness(2.0F)
 				.resistance(5.0F)
 				.sounds(BlockSoundGroup.WOOD)
 				.build());
-		
+		this.polarity = polarity;
 		setDefaultState(stateFactory.getDefaultState()
-			.with(POLARITY, Polarity.RED)
 			.with(FACING, Direction.UP));
 	}
 	
@@ -65,7 +55,7 @@ public class AnomalyTapperBlock extends FacingBlock implements IHasSpecialBlockI
 	@Override
 	protected void appendProperties(StateFactory.Builder<Block, BlockState> stateFactoryBuilder) 
 	{
-	      stateFactoryBuilder.add(FACING, POLARITY);
+	      stateFactoryBuilder.add(FACING);
 	}
 	
 	/*TODO Tapper Placement
@@ -78,19 +68,6 @@ public class AnomalyTapperBlock extends FacingBlock implements IHasSpecialBlockI
 	}*/
 	
 	@Override
-	public ItemStack getPickStack(BlockView blockView, BlockPos pos, BlockState state)
-	{
-		return ItemBlockAnomalyTapper.forPolarity(state.get(POLARITY));
-	}
-	
-	//TODO Reimplement as loot table
-	@Override
-	public List<ItemStack> getDroppedStacks(BlockState state, Builder lootContextBuilder)
-	{
-		return Collections.singletonList(ItemBlockAnomalyTapper.forPolarity(state.get(POLARITY)));
-	}
-	
-	@Override
 	public boolean hasBlockEntity()
 	{
 		return true;
@@ -99,11 +76,11 @@ public class AnomalyTapperBlock extends FacingBlock implements IHasSpecialBlockI
 	@Override
 	public BlockItem createBlockItem()
 	{
-		return new ItemBlockAnomalyTapper(this);
+		return new ItemBlockAnomalyTapper(this, getPolarity());
 	}
-	
-	private Polarity getPolarity(ItemStack itemBlockStack)
+
+	public Polarity getPolarity()
 	{
-		return Polarity.valueOf(itemBlockStack.getTag().getString(CommonWords.POLARITY));
+		return polarity;
 	}
 }

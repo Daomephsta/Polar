@@ -8,6 +8,7 @@ import com.google.common.collect.ImmutableList;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.PacketByteBuf;
 import net.minecraft.util.StringIdentifiable;
@@ -18,9 +19,9 @@ import net.minecraft.util.StringIdentifiable;
  */
 public enum Polarity implements StringIdentifiable
 {	
-	NONE(0),
-	RED(1, 0),
-	BLUE(2, 1);
+	NONE(0, PolarAPI.TAB_OTHER),
+	RED(1, 0, PolarAPI.TAB_OTHER),
+	BLUE(2, 1, PolarAPI.TAB_OTHER);
 	
 	/**An immutable list of all polarities except {@code NONE}**/
 	public static final List<Polarity> POLARISED;
@@ -77,17 +78,19 @@ public enum Polarity implements StringIdentifiable
 	private final int index;
 	//Index for the subset of constants that are polarised(not NONE). NONE has a polarised index of -1.
 	private final int polarisedIndex;
+	private final ItemGroup itemGroup;
 	private final String translationKey;
 	
-	private Polarity(int index)
+	private Polarity(int index, ItemGroup itemGroup)
 	{
-		this(index, -1);
+		this(index, -1, itemGroup);
 	}
 	
-	private Polarity(int index, int polarisedIndex)
+	private Polarity(int index, int polarisedIndex, ItemGroup itemGroup)
 	{
 		this.index = index;
 		this.polarisedIndex = polarisedIndex;
+		this.itemGroup = itemGroup;
 		this.translationKey = PolarAPI.PROVIDER_MOD_ID + ".polarity." + asString();
 	}
 	
@@ -149,6 +152,12 @@ public enum Polarity implements StringIdentifiable
 	public String asString()
 	{
 		return name().toLowerCase(Locale.ROOT);
+	}
+	
+	/**@return The standard item group for this polarity*/
+	public ItemGroup getItemGroup()
+	{
+		return itemGroup;
 	}
 	
 	/**
