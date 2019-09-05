@@ -48,17 +48,17 @@ public class PolarConfig
 		//@RequiresMcRestart
 		//@Name("Gravitic Stabiliser Maximum Charge")
 		//@Comment("The maximum charge a Gravitic Stabiliser can hold")
-		public int graviticStabiliserMaxCharge = 128;
+		public int fallingBlockStabiliserMaxCharge = 128;
 		//@Name("Gravitic Stabiliser Activation Cost")
 		//@Comment("How much charge it costs to stabilise a block")
-		public int graviticStabiliserActivationCost = 2;
+		public int fallingBlockStabiliserActivationCost = 2;
 		//@RequiresMcRestart
 		//@Name("Percussive Disintegrator Maximum Charge")
 		//@Comment("The maximum charge a Percussive Disintegrator can hold")
-		public int percussiveDisintegratorMaxCharge = 256;
+		public int fallingBlockDestroyerMaxCharge = 256;
 		//@Name("Percussive Disintegrator Activation Cost")
 		//@Comment("How much charge it costs to destroy a block")
-		public int percussiveDisintegratorActivationCost = 2;
+		public int fallingBlockDestroyerActivationCost = 2;
 	}
 	
 	/*

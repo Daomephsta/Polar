@@ -10,10 +10,7 @@ import net.fabricmc.fabric.api.client.render.EntityRendererRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
-import net.minecraft.client.render.entity.feature.FeatureRenderer;
-import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.entity.model.WolfEntityModel;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.WolfEntity;
 
 public class PolarClientInitializer implements ClientModInitializer
@@ -32,12 +29,7 @@ public class PolarClientInitializer implements ClientModInitializer
 		EntityRenderer<WolfEntity> wolfRenderer = client.getEntityRenderManager().getRenderer(WolfEntity.class);
 		@SuppressWarnings("unchecked")
 		LivingEntityRenderer<WolfEntity, WolfEntityModel<WolfEntity>> livingEntityRenderer = (LivingEntityRenderer<WolfEntity, WolfEntityModel<WolfEntity>>) wolfRenderer;
-		addFeature(livingEntityRenderer, new FeatureRendererJawblade(livingEntityRenderer));
+		((LivingEntityRendererInvokers) livingEntityRenderer).callAddFeature(new FeatureRendererJawblade(livingEntityRenderer));
 		Polar.LOGGER.debug("Added jawblade feature to wolf renderer {}", wolfRenderer.getClass());
-	}
-
-	private <T extends LivingEntity, M extends EntityModel<T>> void addFeature(LivingEntityRenderer<T, M> livingEntityRenderer, FeatureRenderer<T, M> feature)
-	{
-		((LivingEntityRendererInvokers) (Object) livingEntityRenderer).callAddFeature(feature);
 	}
 }
