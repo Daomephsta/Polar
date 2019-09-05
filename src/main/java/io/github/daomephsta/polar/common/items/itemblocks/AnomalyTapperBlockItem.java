@@ -7,12 +7,11 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-//TODO Flatten
-public class ItemBlockAnomalyTapper extends BlockItem implements IPolarisedItem
+public class AnomalyTapperBlockItem extends BlockItem implements IPolarisedItem
 {
 	private final Polarity polarity;
 	
-	public ItemBlockAnomalyTapper(Block block, Polarity polarity)
+	public AnomalyTapperBlockItem(Block block, Polarity polarity)
 	{
 		super(block, new Item.Settings().group(polarity.getItemGroup()));
 		this.polarity = polarity;

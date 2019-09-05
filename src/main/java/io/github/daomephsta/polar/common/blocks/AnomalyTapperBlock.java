@@ -3,22 +3,26 @@ package io.github.daomephsta.polar.common.blocks;
 import java.util.Random;
 
 import io.github.daomephsta.polar.api.Polarity;
-import io.github.daomephsta.polar.common.items.itemblocks.ItemBlockAnomalyTapper;
+import io.github.daomephsta.polar.common.items.itemblocks.AnomalyTapperBlockItem;
 import io.github.daomephsta.polar.common.tileentities.AnomalyTapperBlockEntity;
 import net.fabricmc.fabric.api.block.FabricBlockSettings;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FacingBlock;
 import net.minecraft.block.Material;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateFactory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-public class AnomalyTapperBlock extends FacingBlock implements IHasSpecialBlockItem
+public class AnomalyTapperBlock extends FacingBlock implements IHasSpecialBlockItem, BlockEntityProvider
 {
 	private final Polarity polarity;
 	
@@ -58,14 +62,11 @@ public class AnomalyTapperBlock extends FacingBlock implements IHasSpecialBlockI
 	      stateFactoryBuilder.add(FACING);
 	}
 	
-	/*TODO Tapper Placement
-	 * @Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
+	@Override
+	public BlockState getPlacementState(ItemPlacementContext placementContext)
 	{
-		return getDefaultState()
-			.withProperty(FACING, facing)
-			.withProperty(POLARITY, getPolarity(placer.getHeldItem(hand)));
-	}*/
+		return getDefaultState().with(FACING, placementContext.getPlayerLookDirection().getOpposite());
+	}
 	
 	@Override
 	public boolean hasBlockEntity()
@@ -76,7 +77,13 @@ public class AnomalyTapperBlock extends FacingBlock implements IHasSpecialBlockI
 	@Override
 	public BlockItem createBlockItem()
 	{
-		return new ItemBlockAnomalyTapper(this, getPolarity());
+		return new AnomalyTapperBlockItem(this, getPolarity());
+	}
+	
+	@Override
+	public BlockEntity createBlockEntity(BlockView view)
+	{
+		return new AnomalyTapperBlockEntity();
 	}
 
 	public Polarity getPolarity()

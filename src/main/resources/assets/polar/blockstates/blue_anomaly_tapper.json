@@ -1,0 +1,37 @@
+{
+	"variants": 
+ 	{	
+ 		"facing=north": 
+		{
+			"model": "polar:block/blue_anomaly_tapper",
+			"x":90
+		},
+		"facing=south":
+		{
+			"model": "polar:block/blue_anomaly_tapper",
+			"x":-90
+		},
+		"facing=east": 
+		{
+			"model": "polar:block/blue_anomaly_tapper",
+			"x":90,
+			"y":90
+		},
+		"facing=west":
+		{
+			"model": "polar:block/blue_anomaly_tapper",
+			"x":-90,
+			"y":90
+		},
+		"facing=up":
+		{
+			"model": "polar:block/blue_anomaly_tapper",
+			"x": 0
+		},
+		"facing=down": 
+		{
+			"model": "polar:block/blue_anomaly_tapper",
+			"x": 180
+		}
+  	}
+}
