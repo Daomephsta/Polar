@@ -1,9 +1,10 @@
 package io.github.daomephsta.polar.common.components;
 
+import static io.github.daomephsta.polar.common.config.PolarConfig.POLAR_CONFIG;
+
 import io.github.daomephsta.polar.api.PolarAPI;
 import io.github.daomephsta.polar.api.Polarity;
 import io.github.daomephsta.polar.api.components.IPolarChargeStorage;
-import io.github.daomephsta.polar.common.config.PolarConfig;
 import io.github.daomephsta.polar.common.items.ItemRegistry;
 import nerdhub.cardinal.components.api.component.extension.CloneableComponent;
 import nerdhub.cardinal.components.api.event.EntityComponentCallback;
@@ -17,9 +18,9 @@ public class PolarChargeStorageComponent
 	public static void register()
 	{
 		ItemComponentCallback.event(ItemRegistry.FALLING_BLOCK_DESTROYER)
-			.register((stack, components) -> components.put(PolarAPI.CHARGE_STORAGE, new SimplePolarChargeStorage(Polarity.BLUE, PolarConfig.charge.fallingBlockDestroyerMaxCharge)));
+			.register((stack, components) -> components.put(PolarAPI.CHARGE_STORAGE, new SimplePolarChargeStorage(Polarity.BLUE, POLAR_CONFIG.charge.fallingBlockDestroyerMaxCharge())));
 		ItemComponentCallback.event(ItemRegistry.FALLING_BLOCK_STABILISER)
-			.register(addChargeStorage(Polarity.RED, PolarConfig.charge.fallingBlockStabiliserMaxCharge));
+			.register(addChargeStorage(Polarity.RED, POLAR_CONFIG.charge.fallingBlockStabiliserMaxCharge()));
 	}
 	
 	private static ItemComponentCallback addChargeStorage(Polarity polarity, int maxCharge)

@@ -36,6 +36,7 @@ repositories {
 		name 'Wearables'  
 		url 'http://server.bbkr.space:8081/artifactory/libs-release/' 
 	}
+	jcenter()
 }
 
 dependencies {
@@ -43,6 +44,9 @@ dependencies {
 	modCompile "net.mcft.copy:Wearables:${wearables_version}"
 	modImplementation "com.github.NerdHubMC.Cardinal-Components-API:cardinal-components-entity:${project.cardinal_components_version}"
 	modImplementation "com.github.NerdHubMC.Cardinal-Components-API:cardinal-components-item:${project.cardinal_components_version}"
+	modImplementation "me.shedaniel.cloth:config-2:${project.cloth_config_version}"
+	include "me.shedaniel.cloth:config-2:${project.cloth_config_version}"
+	modImplementation "me.zeroeightsix:fiber:${project.fiber_version}"
 }
 
 processResources {

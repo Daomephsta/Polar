@@ -1,5 +1,7 @@
 package io.github.daomephsta.polar.common.handlers.wearables;
 
+import static io.github.daomephsta.polar.common.config.PolarConfig.POLAR_CONFIG;
+
 import java.util.ArrayDeque;
 import java.util.Deque;
 
@@ -7,7 +9,6 @@ import io.github.daomephsta.polar.api.Polarity;
 import io.github.daomephsta.polar.api.components.IPolarChargeStorage;
 import io.github.daomephsta.polar.common.CompatibilityTags;
 import io.github.daomephsta.polar.common.blocks.BlockRegistry;
-import io.github.daomephsta.polar.common.config.PolarConfig;
 import io.github.daomephsta.polar.common.handlers.ResidualPolarityHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -61,9 +62,9 @@ public class FallingBlockDestroyerHandler
 		
 		IPolarChargeStorage chargeable = IPolarChargeStorage.get(wearableStack);
 		int cost = toDestroy.size()
-				* PolarConfig.charge.fallingBlockDestroyerActivationCost;
+				* POLAR_CONFIG.charge.fallingBlockDestroyerActivationCost();
 		if (WearablesHandler.checkCharge(player, wearableStack, Polarity.BLUE, cost,
-				PolarConfig.charge.fallingBlockDestroyerActivationCost * 8))
+				POLAR_CONFIG.charge.fallingBlockDestroyerActivationCost() * 8))
 		{
 			chargeable.discharge(Polarity.BLUE, cost, false);
 			while (!toDestroy.isEmpty())

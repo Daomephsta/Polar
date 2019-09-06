@@ -1,10 +1,11 @@
 package io.github.daomephsta.polar.common.handlers.wearables;
 
+import static io.github.daomephsta.polar.common.config.PolarConfig.POLAR_CONFIG;
+
 import io.github.daomephsta.polar.api.Polarity;
 import io.github.daomephsta.polar.api.components.IPolarChargeStorage;
 import io.github.daomephsta.polar.common.CompatibilityTags;
 import io.github.daomephsta.polar.common.blocks.BlockRegistry;
-import io.github.daomephsta.polar.common.config.PolarConfig;
 import io.github.daomephsta.polar.common.handlers.ResidualPolarityHandler;
 import io.github.daomephsta.polar.common.tileentities.StabilisedBlockBlockEntity;
 import net.minecraft.block.BlockState;
@@ -45,8 +46,8 @@ public class FallingBlockStabiliserHandler
 	public static boolean placeStabilisedBlock(PlayerEntity player, ItemStack wearableStack, World world, BlockPos pos, BlockState camo)
 	{
 		IPolarChargeStorage chargeable = IPolarChargeStorage.get(wearableStack);
-		int cost = PolarConfig.charge.fallingBlockStabiliserActivationCost;
-		if (WearablesHandler.checkCharge(player, wearableStack, Polarity.RED, cost, PolarConfig.charge.fallingBlockStabiliserActivationCost * 8))
+		int cost = POLAR_CONFIG.charge.fallingBlockStabiliserActivationCost();
+		if (WearablesHandler.checkCharge(player, wearableStack, Polarity.RED, cost, POLAR_CONFIG.charge.fallingBlockStabiliserActivationCost() * 8))
 		{
 			chargeable.discharge(Polarity.RED, cost, false);
 			ResidualPolarityHandler.itemActivated(wearableStack, player);

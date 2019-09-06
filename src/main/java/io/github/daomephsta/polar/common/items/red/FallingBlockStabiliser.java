@@ -1,5 +1,7 @@
 package io.github.daomephsta.polar.common.items.red;
 
+import static io.github.daomephsta.polar.common.config.PolarConfig.POLAR_CONFIG;
+
 import java.util.List;
 
 import io.github.daomephsta.polar.api.IPolarisedItem;
@@ -8,7 +10,6 @@ import io.github.daomephsta.polar.api.Polarity;
 import io.github.daomephsta.polar.api.components.IPolarChargeStorage;
 import io.github.daomephsta.polar.common.Polar;
 import io.github.daomephsta.polar.common.components.PolarChargeStorageComponent.SimplePolarChargeStorage;
-import io.github.daomephsta.polar.common.config.PolarConfig;
 import io.github.daomephsta.polar.common.handlers.ResidualPolarityHandler;
 import io.github.daomephsta.polar.common.handlers.wearables.FallingBlockStabiliserHandler;
 import net.mcft.copy.wearables.api.IWearablesItem;
@@ -28,7 +29,7 @@ public class FallingBlockStabiliser extends Item implements IPolarisedItem, IWea
 	{
 		super(new Item.Settings()
 				.group(PolarAPI.TAB_RED));
-		SimplePolarChargeStorage.setupFor(this, Polarity.RED, PolarConfig.charge.fallingBlockStabiliserMaxCharge);
+		SimplePolarChargeStorage.setupFor(this, Polarity.RED, POLAR_CONFIG.charge.fallingBlockStabiliserMaxCharge());
 	}
 	
 	@Override

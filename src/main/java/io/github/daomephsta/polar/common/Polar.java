@@ -7,6 +7,7 @@ import io.github.daomephsta.polar.api.PolarAPI;
 import io.github.daomephsta.polar.common.blocks.BlockRegistry;
 import io.github.daomephsta.polar.common.components.PolarChargeStorageComponent;
 import io.github.daomephsta.polar.common.components.PolarPlayerDataComponent;
+import io.github.daomephsta.polar.common.config.PolarConfig;
 import io.github.daomephsta.polar.common.core.InternalMethodAccessors;
 import io.github.daomephsta.polar.common.entities.EntityRegistry;
 import io.github.daomephsta.polar.common.entities.anomalies.AnomalySpawningHandler;
@@ -36,6 +37,7 @@ public class Polar implements ModInitializer
 	public void onInitialize()
 	{
 		PolarAPI.initialiseAPI(new InternalMethodAccessors());
+		PolarConfig.initialise();
 		//TriggerRegistry.init();
 		BlockRegistry.initialize();
 		ItemRegistry.initialize();
