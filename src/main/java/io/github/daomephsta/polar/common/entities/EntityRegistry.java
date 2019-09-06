@@ -13,7 +13,7 @@ import net.minecraft.util.registry.Registry;
 public class EntityRegistry
 {	
 	public static final EntityType<EntityAnomaly> ANOMALY = register("anomaly",
-			FabricEntityTypeBuilder.<EntityAnomaly>create(EntityCategory.MISC, EntityAnomaly::new)
+			FabricEntityTypeBuilder.<EntityAnomaly>create(EntityCategory.MISC, (type, world) -> new EntityAnomaly(world))
 				.size(EntityDimensions.fixed(1.1F, 1.1F))
 				.trackable(128, Integer.MAX_VALUE, false)
 				.build());

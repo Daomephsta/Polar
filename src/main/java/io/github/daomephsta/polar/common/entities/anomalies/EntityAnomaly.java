@@ -3,9 +3,12 @@ package io.github.daomephsta.polar.common.entities.anomalies;
 import io.github.daomephsta.polar.api.PolarAPI;
 import io.github.daomephsta.polar.api.Polarity;
 import io.github.daomephsta.polar.api.components.IPolarChargeStorage;
+import io.github.daomephsta.polar.common.config.PolarConfig;
+import io.github.daomephsta.polar.common.core.Constants;
+import io.github.daomephsta.polar.common.entities.EntityRegistry;
+import io.github.daomephsta.polar.common.network.PacketTypes;
 import nerdhub.cardinal.components.api.event.EntityComponentCallback;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
@@ -29,14 +32,14 @@ public class EntityAnomaly extends Entity
 	private long closingTimestamp;
 	private boolean open = false;
 
-	public EntityAnomaly(EntityType<EntityAnomaly> type, World world)
+	public EntityAnomaly(World world)
 	{
-		super(type, world);
+		super(EntityRegistry.ANOMALY, world);
 		setInvulnerable(true);
 		// 1000-2000 charge
 	}
 
-	/*public EntityAnomaly(World world, Polarity polarity)
+	public EntityAnomaly(World world, Polarity polarity)
 	{
 		this(world);
 
@@ -45,7 +48,7 @@ public class EntityAnomaly extends Entity
 		int additionalTicks = (int) Math.floor(world.getRandom().nextDouble() * Constants.MC_DAY_TICKS); // Random portion of a day
 		// 3 - 8 days
 		this.closingTimestamp = world.getTime() + days * Constants.MC_DAY_TICKS + additionalTicks;
-	}*/
+	}
 
 	@Override
 	public void tick()
@@ -57,7 +60,6 @@ public class EntityAnomaly extends Entity
 			this.remove();
 			return;
 		}
-
 		if (world.getTime() % 10 == 0) irradiateNearbyItems();
 	}
 
@@ -167,30 +169,11 @@ public class EntityAnomaly extends Entity
 	}
 	
 	@Override
-	protected void initDataTracker()
-	{
-		
-	}
+	protected void initDataTracker() {}
 	
-	//TODO Anomaly spawn packet
 	@Override
 	public Packet<?> createSpawnPacket()
 	{
-		return null;
+		return PacketTypes.SPAWN_ENTITY.toPacket(this);
 	}
-
-	/* TODO anomaly spawn data
-	 * @Override
-	public void readSpawnData(ByteBuf additionalData)
-	{
-		this.polarity = Polarity.fromIndex(additionalData.readInt());
-		this.closingTimestamp = additionalData.readLong();
-	}
-
-	@Override
-	public void writeSpawnData(ByteBuf additionalData)
-	{
-		additionalData.writeInt(polarity.getIndex());
-		additionalData.writeLong(closingTimestamp);
-	}*/
 }

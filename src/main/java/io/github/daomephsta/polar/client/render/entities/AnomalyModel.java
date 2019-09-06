@@ -30,7 +30,7 @@ public class AnomalyModel extends EntityModel<EntityAnomaly>
         this.textureHeight = 44;
         this.overlay = new Cuboid(this, 0, 22);
         this.overlay.setRotationPoint(0.0F, 5.5F, 0.0F);
-        this.overlay.addBox(-5.5F, -5.5F, -5.5F, 11, 11, 11, 0.0F);
+        this.overlay.addBox(-5.5F, -5.5F, -5.5F, 11, 11, 11, 0.001F);
         this.base = new Cuboid(this, 0, 0);
         this.base.setRotationPoint(0.0F, 5.5F, 0.0F);
         this.base.addBox(-5.5F, -5.5F, -5.5F, 11, 11, 11, 0.0F);
@@ -76,10 +76,7 @@ public class AnomalyModel extends EntityModel<EntityAnomaly>
 	public void setAngles(EntityAnomaly anomaly, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor)
 	{
 		float speed = 0.05F;
-		
-		float rotateAngleX = (float) (Math.PI * 0.5D * MathHelper.cos(speed * ageInTicks) + 0.5D);
-		base.pitch = overlay.pitch = rotateAngleX; 
-		float rotateAngleZ = (float) (Math.PI * 0.5D * MathHelper.sin(speed * ageInTicks) + 0.5F);
-		base.pitch = overlay.roll = rotateAngleZ;
+		base.pitch = overlay.pitch = (float) (Math.PI * 0.5D * MathHelper.cos(speed * ageInTicks) + 0.5D); 
+		base.roll = overlay.roll = (float) (Math.PI * 0.5D * MathHelper.sin(speed * ageInTicks) + 0.5F);
 	}
 }
