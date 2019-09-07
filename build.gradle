@@ -49,6 +49,10 @@ dependencies {
 	modImplementation "me.zeroeightsix:fiber:${project.fiber_version}"
 }
 
+configurations.all {
+   resolutionStrategy.force 'com.google.guava:guava:21.0'
+}
+
 processResources {
 	inputs.property "version", project.version
 
