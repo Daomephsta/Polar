@@ -6,8 +6,9 @@ import io.github.daomephsta.polar.api.components.IPolarPlayerData;
 import io.github.daomephsta.polar.api.factions.FactionAlignment;
 import io.github.daomephsta.polar.api.factions.FactionRank;
 import io.github.daomephsta.polar.common.NBTExtensions;
-import io.github.daomephsta.polar.common.network.PacketSetResidualCharge;
+import io.github.daomephsta.polar.common.network.PacketTypes;
 import nerdhub.cardinal.components.api.event.EntityComponentCallback;
+import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 
@@ -83,7 +84,7 @@ public class PolarPlayerDataComponent
 
 		public void sync()
 		{
-			PacketSetResidualCharge.sendToPlayer(player, residualPolarity);
+			ServerSidePacketRegistry.INSTANCE.sendToPlayer(player, PacketTypes.SET_RESIDUAL_CHARGE.toPacket(residualPolarity));
 		}
 
 		@Override

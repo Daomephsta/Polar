@@ -6,10 +6,11 @@ import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
 public class PacketTypes
 {
 	public static final SpawnEntityS2CPacketType SPAWN_ENTITY = registerS2CPacket(new SpawnEntityS2CPacketType());
+	public static final SetResidualChargeS2CPacketType SET_RESIDUAL_CHARGE = registerS2CPacket(new SetResidualChargeS2CPacketType());
 	
-	public static void registerPackets()
+	public static void initialise()
 	{
-		PacketSetResidualCharge.register();
+		//Dummy method to force static init
 	}
 
 	private static <P extends PacketType> P registerS2CPacket(P packetType)

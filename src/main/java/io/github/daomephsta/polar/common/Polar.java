@@ -44,7 +44,7 @@ public class Polar implements ModInitializer
 		EntityRegistry.initialise();
 		registerComponents();
 		PolarBlockEntityTypes.initialize();
-		PacketTypes.registerPackets();
+		PacketTypes.initialise();
 		AnomalySpawningHandler.registerEventCallbacks();
 		JawbladeHandler.registerEventCallbacks();
 		ResidualPolarityHandler.registerEventCallbacks();
