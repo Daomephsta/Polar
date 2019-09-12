@@ -20,6 +20,6 @@ public class CompatibilityTags
 	
 	private static Tag<Block> registerBlockTag(String name)
 	{
-		return TagRegistry.block(new Identifier("c", "name"));
+		return TagRegistry.block(new Identifier("c", name));
 	}
 }
