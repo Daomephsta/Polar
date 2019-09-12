@@ -27,6 +27,10 @@
 	{
 		"environment": "client",
 		"config": "polar-client-mixins.json"
+	},
+	{
+		"environment": "server",
+		"config": "polar-server-mixins.json"
 	}
   ],
 
