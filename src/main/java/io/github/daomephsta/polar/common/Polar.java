@@ -16,10 +16,12 @@ import io.github.daomephsta.polar.common.handlers.ResidualPolarityHandler;
 import io.github.daomephsta.polar.common.handlers.wearables.WearablesHandler;
 import io.github.daomephsta.polar.common.items.ItemRegistry;
 import io.github.daomephsta.polar.common.network.PacketTypes;
+import io.github.daomephsta.polar.common.recipes.ChargeItemRecipe;
 import io.github.daomephsta.polar.common.recipes.EnhancedShapedRecipe;
 import io.github.daomephsta.polar.common.recipes.EnhancedShapelessRecipe;
 import io.github.daomephsta.polar.common.tileentities.PolarBlockEntityTypes;
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -60,9 +62,15 @@ public class Polar implements ModInitializer
 	
 	private void registerRecipes()
 	{
-		Registry.register(Registry.RECIPE_SERIALIZER, new Identifier(MODID, "crafting_shaped_enhanced"), EnhancedShapedRecipe.SERIALIZER);
-		Registry.register(Registry.RECIPE_SERIALIZER, new Identifier(MODID, "crafting_shapeless_enhanced"), EnhancedShapelessRecipe.SERIALIZER);
+		registerRecipe("crafting_special_charge_item", ChargeItemRecipe.SERIALIZER);
+		registerRecipe("crafting_shaped_enhanced", EnhancedShapedRecipe.SERIALIZER);
+		registerRecipe("crafting_shapeless_enhanced", EnhancedShapelessRecipe.SERIALIZER);
 		//TODO Reimplement recipes
 		//event.getRegistry().registerAll(new RecipeChargeItem().setRegistryName("charge_item"));
+	}
+
+	private void registerRecipe(String name, RecipeSerializer<?> serializer)
+	{
+		Registry.register(Registry.RECIPE_SERIALIZER, new Identifier(MODID, name), serializer);
 	}
 }
