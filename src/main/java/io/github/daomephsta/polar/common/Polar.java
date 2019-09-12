@@ -65,8 +65,6 @@ public class Polar implements ModInitializer
 		registerRecipe("crafting_special_charge_item", ChargeItemRecipe.SERIALIZER);
 		registerRecipe("crafting_shaped_enhanced", EnhancedShapedRecipe.SERIALIZER);
 		registerRecipe("crafting_shapeless_enhanced", EnhancedShapelessRecipe.SERIALIZER);
-		//TODO Reimplement recipes
-		//event.getRegistry().registerAll(new RecipeChargeItem().setRegistryName("charge_item"));
 	}
 
 	private void registerRecipe(String name, RecipeSerializer<?> serializer)
