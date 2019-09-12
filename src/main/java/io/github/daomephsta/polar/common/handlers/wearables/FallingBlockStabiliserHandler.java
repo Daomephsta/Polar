@@ -7,6 +7,7 @@ import io.github.daomephsta.polar.api.components.IPolarChargeStorage;
 import io.github.daomephsta.polar.common.CompatibilityTags;
 import io.github.daomephsta.polar.common.blocks.BlockRegistry;
 import io.github.daomephsta.polar.common.handlers.ResidualPolarityHandler;
+import io.github.daomephsta.polar.common.items.ItemRegistry;
 import io.github.daomephsta.polar.common.tileentities.StabilisedBlockBlockEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -17,26 +18,18 @@ import net.minecraft.world.World;
 
 public class FallingBlockStabiliserHandler
 {
-//	static void stabiliseFallingBlocks(BlockEvent.BreakEvent event)
-//	{
-//		boolean realPlayer = event.getPlayer() != null
-//				&& !(event.getPlayer() instanceof FakePlayer);
-//		if (!realPlayer)
-//			return;
-//
-//		IBlockState stateAbove = event.getWorld()
-//				.getBlockState(event.getPos().up());
-//		boolean unstableBlock = isUnstableBlock(stateAbove);
-//		if (!unstableBlock)
-//			return;
-//		ItemStack baubleStack = BaubleHandler.findEquippedBauble(
-//				event.getPlayer(), ItemRegistry.FALLING_BLOCK_STABILISER);
-//		if (baubleStack.isEmpty())
-//			return;
-//
-//		FallingBlockStabiliserHandler.placeStabilisedBlock(event.getPlayer(),
-//				baubleStack, event.getWorld(), event.getPos().up(), stateAbove);
-//	}
+	static boolean stabiliseFallingBlocks(World world, PlayerEntity player, BlockPos pos, BlockState state)
+	{
+		BlockState stateAbove = world.getBlockState(pos.up());
+		boolean unstableBlock = isUnstableBlock(stateAbove);
+		if (!unstableBlock)
+			return true;
+		ItemStack wearableStack = WearablesHandler.findEquippedWearable(player, ItemRegistry.FALLING_BLOCK_STABILISER);
+		if (wearableStack.isEmpty())
+			return true;
+		FallingBlockStabiliserHandler.placeStabilisedBlock(player, wearableStack, world, pos.up(), stateAbove);
+		return true;
+	}
 
 	public static boolean isUnstableBlock(BlockState state)
 	{
@@ -51,8 +44,7 @@ public class FallingBlockStabiliserHandler
 		{
 			chargeable.discharge(Polarity.RED, cost, false);
 			ResidualPolarityHandler.itemActivated(wearableStack, player);
-			world.setBlockState(pos,
-					BlockRegistry.STABILISED_BLOCK.getDefaultState());
+			world.setBlockState(pos, BlockRegistry.STABILISED_BLOCK.getDefaultState());
 			BlockEntity be = world.getBlockEntity(pos);
 			if (be instanceof StabilisedBlockBlockEntity)
 				((StabilisedBlockBlockEntity) be).setCamoBlockState(camo);

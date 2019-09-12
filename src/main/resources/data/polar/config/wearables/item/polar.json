@@ -1,0 +1,16 @@
+{
+	"polar:falling_block_stabiliser": 
+	{
+		"validSlots":
+		[
+			"neck/amulet"
+		]
+	},
+	"polar:falling_block_destroyer": 
+	{
+		"validSlots":
+		[
+			"neck/amulet"
+		]
+	}
+}

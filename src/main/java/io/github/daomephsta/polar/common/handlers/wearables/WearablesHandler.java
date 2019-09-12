@@ -2,27 +2,33 @@ package io.github.daomephsta.polar.common.handlers.wearables;
 
 import io.github.daomephsta.polar.api.Polarity;
 import io.github.daomephsta.polar.api.components.IPolarChargeStorage;
+import io.github.daomephsta.polar.common.callbacks.PlayerBreakBlockCallback;
 import net.mcft.copy.wearables.api.IWearablesEntity;
 import net.mcft.copy.wearables.api.IWearablesItem;
 import net.mcft.copy.wearables.api.IWearablesSlot;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class WearablesHandler
 {
 	public static void registerEventCallbacks()
 	{
-		
+		PlayerBreakBlockCallback.EVENT.register(WearablesHandler::handleBlockBreak);
 	}
-	
-// TODO implement block break callback
-//	public static void handleBlockBreak(BlockEvent.BreakEvent event)
-//	{
-//		FallingBlockStabiliserHandler.stabiliseFallingBlocks(event);
-//		FallingBlockDestroyerHandler.destroyFallingBlocks(event);
-//	}
+
+	private static boolean handleBlockBreak(World world, BlockPos pos, PlayerEntity player)
+	{
+		BlockState state = world.getBlockState(pos);
+		boolean result = true;
+		result &= FallingBlockStabiliserHandler.stabiliseFallingBlocks(world, player, pos, state);
+		result &= FallingBlockDestroyerHandler.destroyFallingBlocks(world, player, pos, state);
+		return result;
+	}
 
 	static <I extends Item & IWearablesItem> ItemStack findEquippedWearable(PlayerEntity player, I wearable)
 	{
