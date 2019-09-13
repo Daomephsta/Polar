@@ -24,8 +24,10 @@ public class JawbladeHandler
 		ItemStack heldItem = player.getStackInHand(hand);
 		if (entity instanceof WolfEntity)
 		{
-			//TODO only owners should be able to take jawblades
-			if (heldItem.getItem() instanceof ItemJawblade || (heldItem.isEmpty() && player.isSneaking()))
+			WolfEntity wolf = (WolfEntity) entity;
+			//Only owners of wolves can take jawblades
+			boolean canTake = wolf.isOwner(player);
+			if (heldItem.getItem() instanceof ItemJawblade || (heldItem.isEmpty() && player.isSneaking() && canTake))
 			{
 				ItemStack prevMainhandStack = setJawblade((WolfEntity) entity, heldItem.copy());
 				if (!prevMainhandStack.isEmpty()) 
