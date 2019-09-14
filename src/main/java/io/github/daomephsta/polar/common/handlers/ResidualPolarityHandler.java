@@ -4,6 +4,7 @@ import io.github.daomephsta.polar.api.CommonWords;
 import io.github.daomephsta.polar.api.IPolarisedItem;
 import io.github.daomephsta.polar.api.Polarity;
 import io.github.daomephsta.polar.common.NBTExtensions;
+import io.github.daomephsta.polar.common.callbacks.LivingEntityHurtCallback;
 import io.github.daomephsta.polar.common.components.PolarPlayerDataComponent.PolarPlayerData;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
@@ -12,6 +13,7 @@ import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -33,24 +35,25 @@ public class ResidualPolarityHandler
 		UseItemCallback.EVENT.register(ResidualPolarityHandler::handleUseItem);
 		UseBlockCallback.EVENT.register(ResidualPolarityHandler::handleUseItemOnBlock);
 		UseEntityCallback.EVENT.register(ResidualPolarityHandler::handleUseItemOnEntity);
+		LivingEntityHurtCallback.EVENT.register(ResidualPolarityHandler::handleArmour);
 	}
 	
-//	TODO handle armour residual charge
-//	private static void handleArmour() 
-//	{
-//		/*Ignore unblockable damage sources because they ignore armour, so are not
-//  		considered to "activate" it; and to avoid stack overflow*/ 
-//		if (event.getEntityLiving() instanceof PlayerEntity && !event.getSource().isUnblockable()) 
-//		{ 
-//			for (ItemStack armour : event.getEntityLiving().getArmorInventoryList()) 
-//			{ 
-//				if (Polarity.isStackPolarised(armour) && activatesOn(armour, IPolarisedItem.ActivatesOn.WEARER_ATTACKED)) 
-//				{ 
-//					itemActivated(armour, (PlayerEntity) event.getEntityLiving()); 
-//				} 
-//			} 
-//		} 
-//	}
+	private static boolean handleArmour(LivingEntity living, DamageSource source, float amount) 
+	{
+		/*Ignore unblockable damage sources because they ignore armour, so are not
+  		considered to "activate" it; and to avoid stack overflow*/ 
+		if (living instanceof PlayerEntity && source.isUnblockable()) 
+		{ 
+			for (ItemStack armour : living.getArmorItems()) 
+			{ 
+				if (Polarity.isStackPolarised(armour) && activatesOn(armour, IPolarisedItem.ActivatesOn.WEARER_ATTACKED)) 
+				{ 
+					itemActivated(armour, (PlayerEntity) living); 
+				} 
+			} 
+		}
+		return true;
+	}
 
 	private static ActionResult handleAttackEntity(PlayerEntity player, World world, Hand hand, Entity entity, EntityHitResult hitResult)
 	{
