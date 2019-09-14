@@ -12,10 +12,10 @@ import org.apache.logging.log4j.Logger;
 
 import blue.endless.jankson.Comment;
 import me.zeroeightsix.fiber.JanksonSettings;
-import me.zeroeightsix.fiber.annotations.AnnotatedSettings;
-import me.zeroeightsix.fiber.annotations.Constrain;
-import me.zeroeightsix.fiber.annotations.Listener;
-import me.zeroeightsix.fiber.exceptions.FiberException;
+import me.zeroeightsix.fiber.annotation.AnnotatedSettings;
+import me.zeroeightsix.fiber.annotation.Listener;
+import me.zeroeightsix.fiber.annotation.Setting.Constrain;
+import me.zeroeightsix.fiber.exception.FiberException;
 import me.zeroeightsix.fiber.tree.ConfigNode;
 import net.minecraft.util.Identifier;
 
@@ -148,9 +148,9 @@ public class PolarConfig
 			ConfigNode root = new ConfigNode();
 			AnnotatedSettings.applyToNode(root, POLAR_CONFIG);
 			if (Files.exists(PATH))
-				JanksonSettings.deserialize(root, Files.newInputStream(PATH));
+				new JanksonSettings().deserialize(root, Files.newInputStream(PATH));
 			else
-				JanksonSettings.serialize(root, Files.newOutputStream(PATH), false);
+				new JanksonSettings().serialize(root, Files.newOutputStream(PATH), false);
 		} 
 		catch (IOException | FiberException e)
 		{
