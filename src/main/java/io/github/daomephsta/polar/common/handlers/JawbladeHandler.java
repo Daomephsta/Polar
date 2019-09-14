@@ -1,9 +1,12 @@
 package io.github.daomephsta.polar.common.handlers;
 
+import io.github.daomephsta.polar.common.callbacks.LivingEntityHurtCallback;
 import io.github.daomephsta.polar.common.items.ItemJawblade;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -17,6 +20,7 @@ public class JawbladeHandler
 	public static void registerEventCallbacks()
 	{
 		UseEntityCallback.EVENT.register(JawbladeHandler::onEntityInteract);
+		LivingEntityHurtCallback.EVENT.register(JawbladeHandler::onWolfAttack);
 	}
 	
 	private static ActionResult onEntityInteract(PlayerEntity player, World world, Hand hand, Entity entity, EntityHitResult hitResult)
@@ -25,9 +29,10 @@ public class JawbladeHandler
 		if (entity instanceof WolfEntity)
 		{
 			WolfEntity wolf = (WolfEntity) entity;
-			//Only owners of wolves can take jawblades
-			boolean canTake = wolf.isOwner(player);
-			if (heldItem.getItem() instanceof ItemJawblade || (heldItem.isEmpty() && player.isSneaking() && canTake))
+			//Only owners of wolves can give or take jawblades
+			boolean canAccess = wolf.isOwner(player);
+			boolean validHandState = heldItem.getItem() instanceof ItemJawblade || (heldItem.isEmpty() && player.isSneaking());
+			if (validHandState && canAccess)
 			{
 				ItemStack prevMainhandStack = setJawblade((WolfEntity) entity, heldItem.copy());
 				if (!prevMainhandStack.isEmpty()) 
@@ -40,23 +45,23 @@ public class JawbladeHandler
 		return ActionResult.PASS;
 	}
 	
-	/*TODO reimplement
-	private static void onWolfAttack()
+	private static boolean onWolfAttack(LivingEntity living, DamageSource source, float amount)
 	{
-		Entity trueSource = event.getSource().getTrueSource();
+		Entity trueSource = source.getSource();
 		if (trueSource instanceof WolfEntity)
 		{
 			WolfEntity wolf = (WolfEntity) trueSource;
 			ItemStack jawblade = JawbladeHandler.getJawblade(wolf);
-			if (jawblade.isEmpty()) return;
+			if (jawblade.isEmpty()) return true;
 			else 
 			{
-				jawblade.getItem().hitEntity(jawblade, event.getEntityLiving(), wolf);
+				jawblade.getItem().postHit(jawblade, living, wolf);
 				if (jawblade.isEmpty())
                     setJawblade(wolf, ItemStack.EMPTY);
 			}
 		}
-	}*/
+		return true;
+	}
 	
 	public static ItemStack getJawblade(WolfEntity wolf)
 	{
