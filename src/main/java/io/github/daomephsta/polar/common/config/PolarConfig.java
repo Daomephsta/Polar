@@ -14,6 +14,7 @@ import blue.endless.jankson.Comment;
 import me.zeroeightsix.fiber.JanksonSettings;
 import me.zeroeightsix.fiber.annotation.AnnotatedSettings;
 import me.zeroeightsix.fiber.annotation.Listener;
+import me.zeroeightsix.fiber.annotation.Setting;
 import me.zeroeightsix.fiber.annotation.Setting.Constrain;
 import me.zeroeightsix.fiber.exception.FiberException;
 import me.zeroeightsix.fiber.tree.ConfigNode;
@@ -21,6 +22,7 @@ import net.minecraft.util.Identifier;
 
 public class PolarConfig
 {
+	@Setting(ignore = true)
 	public static final PolarConfig POLAR_CONFIG = new PolarConfig();
 	private static final Logger LOGGER = LogManager.getLogger();
 	private static final Path PATH = Paths.get("config/polar.json5");
