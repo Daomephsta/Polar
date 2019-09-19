@@ -1,1 +1,1 @@
-version = "${rootProject.minecraft_version}-${rootProject.mod_version}-${rootProject.api_version}"
+version = "${rootProject.api_version}+POLAR${rootProject.mod_version}.MC${rootProject.minecraft_version}"
