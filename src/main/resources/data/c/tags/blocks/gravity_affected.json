@@ -1,9 +1,9 @@
 {
 	"values":
 	[
-		"#sand",
+		"#minecraft:sand",
 		"gravel",
-		"#anvil",
+		"#minecraft:anvil",
 		"dragon_egg",
 		"white_concrete_powder",
 		"orange_concrete_powder",
