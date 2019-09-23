@@ -12,8 +12,8 @@ import net.minecraft.util.Identifier;
 public class AnomalyEntityRenderer extends EntityRenderer<EntityAnomaly>
 {
 	private static final Identifier 
-		TEXTURE_RED = new Identifier(Polar.MODID, "textures/entity/anomaly_red.png"), 
-		TEXTURE_BLUE = new Identifier(Polar.MODID, "textures/entity/anomaly_blue.png");
+		TEXTURE_RED = new Identifier(Polar.MOD_ID, "textures/entity/anomaly_red.png"), 
+		TEXTURE_BLUE = new Identifier(Polar.MOD_ID, "textures/entity/anomaly_blue.png");
 	private final AnomalyModel model = new AnomalyModel();
 
 	public AnomalyEntityRenderer(EntityRenderDispatcher entityRenderDispatcher)

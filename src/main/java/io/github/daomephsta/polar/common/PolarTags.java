@@ -10,11 +10,11 @@ public class PolarTags
 {	
 	private static Tag<Item> registerItemTag(String name)
 	{
-		return TagRegistry.item(new Identifier(Polar.MODID, name));
+		return TagRegistry.item(new Identifier(Polar.MOD_ID, name));
 	}
 	
 	private static Tag<Block> registerBlockTag(String name)
 	{
-		return TagRegistry.block(new Identifier(Polar.MODID, "name"));
+		return TagRegistry.block(new Identifier(Polar.MOD_ID, "name"));
 	}
 }

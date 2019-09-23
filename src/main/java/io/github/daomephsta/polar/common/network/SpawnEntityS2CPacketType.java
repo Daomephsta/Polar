@@ -16,7 +16,7 @@ import net.minecraft.util.registry.Registry;
 
 public class SpawnEntityS2CPacketType implements PacketType
 {
-	private static final Identifier ID = new Identifier(Polar.MODID, "spawn_entity");
+	private static final Identifier ID = new Identifier(Polar.MOD_ID, "spawn_entity");
 
 	public Packet<?> toPacket(Entity entity)
 	{

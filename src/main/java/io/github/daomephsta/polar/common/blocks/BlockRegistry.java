@@ -56,7 +56,7 @@ public class BlockRegistry
 	
 	private static <T extends Block> T registerBlock(T block, Function<Block, BlockItem> blockItemCreator, String name)
 	{
-		Registry.register(Registry.BLOCK, new Identifier(Polar.MODID, name), block);
+		Registry.register(Registry.BLOCK, new Identifier(Polar.MOD_ID, name), block);
 		BlockItem blockItem = blockItemCreator.apply(block);
 		if (blockItem != null)
 			Registry.register(Registry.ITEM, Registry.BLOCK.getId(block), blockItem);

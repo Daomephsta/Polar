@@ -20,7 +20,7 @@ public class EntityRegistry
 	
 	private static <T extends Entity> EntityType<T> register(String name, EntityType<T> type)
 	{
-		return Registry.register(Registry.ENTITY_TYPE, new Identifier(Polar.MODID, name), type);
+		return Registry.register(Registry.ENTITY_TYPE, new Identifier(Polar.MOD_ID, name), type);
 	}
 	
 	public static void initialise()

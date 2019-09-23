@@ -21,7 +21,7 @@ public class PolarBlockEntityTypes
 
 	private static <T extends BlockEntity> BlockEntityType<T> register(String name, Supplier<T> constructor, Block... supportedBlocks)
 	{
-		return Registry.register(Registry.BLOCK_ENTITY, new Identifier(Polar.MODID, name), 
+		return Registry.register(Registry.BLOCK_ENTITY, new Identifier(Polar.MOD_ID, name), 
 				new BlockEntityType<>(constructor, ImmutableSet.copyOf(supportedBlocks), null) );
 	}
 	

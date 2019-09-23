@@ -12,7 +12,7 @@ import net.minecraft.util.PacketByteBuf;
 
 public class SetResidualChargeS2CPacketType implements PacketType
 {
-	private static final Identifier ID = new Identifier(Polar.MODID, "set_residual_charge");
+	private static final Identifier ID = new Identifier(Polar.MOD_ID, "set_residual_charge");
 	
 	public Packet<?> toPacket(Polarity polarity)
 	{

@@ -16,6 +16,6 @@ public class PolarRecipes
 
 	private static void registerRecipeSerialiser(String name, RecipeSerializer<?> serialiser)
 	{
-		Registry.register(Registry.RECIPE_SERIALIZER, new Identifier(Polar.MODID, name), serialiser);
+		Registry.register(Registry.RECIPE_SERIALIZER, new Identifier(Polar.MOD_ID, name), serialiser);
 	}
 }

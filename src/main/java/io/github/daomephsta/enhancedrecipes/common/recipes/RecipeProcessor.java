@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 public abstract class RecipeProcessor
 {
 	public static final Registry<Serialiser<?>> REGISTRY 
-		= Registry.register(Registry.REGISTRIES, new Identifier(Polar.MODID, "recipe_processor_serialiser"), new SimpleRegistry<>());
+		= Registry.register(Registry.REGISTRIES, new Identifier(Polar.MOD_ID, "recipe_processor_serialiser"), new SimpleRegistry<>());
 
 	public static RecipeProcessor fromJson(JsonObject json)
 	{

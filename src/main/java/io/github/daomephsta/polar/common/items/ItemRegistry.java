@@ -25,7 +25,7 @@ public class ItemRegistry
 	
 	private static <T extends Item> T register(T item, String name)
 	{
-		return Registry.register(Registry.ITEM, new Identifier(Polar.MODID, name), item);
+		return Registry.register(Registry.ITEM, new Identifier(Polar.MOD_ID, name), item);
 	}
 	
 	public static void initialize()

@@ -51,7 +51,7 @@ public class FallingBlockStabiliser extends Item implements IPolarisedItem, IWea
 	{
 		super.appendTooltip(stack, world, tooltip, tooltipContext);
 		IPolarChargeStorage chargeable = IPolarChargeStorage.get(stack);
-		tooltip.add(new TranslatableText(Polar.MODID + ".tooltip.charge", chargeable.getStoredCharge(), chargeable.getMaxCharge()));
+		tooltip.add(new TranslatableText(Polar.MOD_ID + ".tooltip.charge", chargeable.getStoredCharge(), chargeable.getMaxCharge()));
 	}
 	
 	//TODO Implement coloured charge bars

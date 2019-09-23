@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 public class LimitApplicationsRecipeProcessor extends RecipeProcessor
 {
 	public static final RecipeProcessor.Serialiser<?> SERIALISER = new Serialiser();
-	private static final String TAG_APPLIED_RECIPES = Polar.MODID + "_applied_recipes";
+	private static final String TAG_APPLIED_RECIPES = Polar.MOD_ID + "_applied_recipes";
 	private final String recipeId;
 	private final int maxApplications;
 

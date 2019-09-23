@@ -3,8 +3,6 @@ package io.github.daomephsta.polar.common;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import io.github.daomephsta.enhancedrecipes.common.recipes.EnhancedShapedRecipe;
-import io.github.daomephsta.enhancedrecipes.common.recipes.EnhancedShapelessRecipe;
 import io.github.daomephsta.polar.api.PolarAPI;
 import io.github.daomephsta.polar.common.blocks.BlockRegistry;
 import io.github.daomephsta.polar.common.components.PolarChargeStorageComponent;
@@ -18,23 +16,15 @@ import io.github.daomephsta.polar.common.handlers.ResidualPolarityHandler;
 import io.github.daomephsta.polar.common.handlers.wearables.WearablesHandler;
 import io.github.daomephsta.polar.common.items.ItemRegistry;
 import io.github.daomephsta.polar.common.network.PacketTypes;
-import io.github.daomephsta.polar.common.recipes.ChargeItemRecipe;
 import io.github.daomephsta.polar.common.recipes.PolarRecipes;
 import io.github.daomephsta.polar.common.tileentities.PolarBlockEntityTypes;
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 
 public class Polar implements ModInitializer
 {	
-	public static final String MODNAME = "Polar";
-	public static final String MODID = "polar";
-	public static final String VERSION = "0.0.1";
-	
-	public static final Logger LOGGER = LogManager.getLogger(MODID);
-	
+	public static final String MOD_ID = "polar";
+	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 	
 	@Override
 	public void onInitialize()
