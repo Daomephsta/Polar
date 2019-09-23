@@ -39,8 +39,8 @@ public class FallingBlockStabiliserHandler
 	public static boolean placeStabilisedBlock(PlayerEntity player, ItemStack wearableStack, World world, BlockPos pos, BlockState camo)
 	{
 		IPolarChargeStorage chargeable = IPolarChargeStorage.get(wearableStack);
-		int cost = POLAR_CONFIG.charge.fallingBlockStabiliserActivationCost();
-		if (WearablesHandler.checkCharge(player, wearableStack, Polarity.RED, cost, POLAR_CONFIG.charge.fallingBlockStabiliserActivationCost() * 8))
+		int cost = POLAR_CONFIG.charge().fallingBlockStabiliserActivationCost();
+		if (WearablesHandler.checkCharge(player, wearableStack, Polarity.RED, cost, POLAR_CONFIG.charge().fallingBlockStabiliserActivationCost() * 8))
 		{
 			chargeable.discharge(Polarity.RED, cost, false);
 			ResidualPolarityHandler.itemActivated(wearableStack, player);

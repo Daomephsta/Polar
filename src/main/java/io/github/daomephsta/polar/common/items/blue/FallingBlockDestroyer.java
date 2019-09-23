@@ -25,7 +25,7 @@ public class FallingBlockDestroyer extends Item implements IPolarisedItem, IWear
 		super(new Item.Settings()
 				.maxCount(1)
 				.group(PolarAPI.TAB_BLUE));
-		SimplePolarChargeStorage.setupFor(this, Polarity.BLUE, POLAR_CONFIG.charge.fallingBlockDestroyerMaxCharge());
+		SimplePolarChargeStorage.setupFor(this, Polarity.BLUE, POLAR_CONFIG.charge().fallingBlockDestroyerMaxCharge());
 	}
 
 	@Override

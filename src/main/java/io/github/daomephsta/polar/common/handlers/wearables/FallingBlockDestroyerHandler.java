@@ -50,8 +50,8 @@ public class FallingBlockDestroyerHandler
 		}
 		
 		IPolarChargeStorage chargeable = IPolarChargeStorage.get(wearableStack);
-		int cost = toDestroy.size() * POLAR_CONFIG.charge.fallingBlockDestroyerActivationCost();
-		if (WearablesHandler.checkCharge(player, wearableStack, Polarity.BLUE, cost, POLAR_CONFIG.charge.fallingBlockDestroyerActivationCost() * 8))
+		int cost = toDestroy.size() * POLAR_CONFIG.charge().fallingBlockDestroyerActivationCost();
+		if (WearablesHandler.checkCharge(player, wearableStack, Polarity.BLUE, cost, POLAR_CONFIG.charge().fallingBlockDestroyerActivationCost() * 8))
 		{
 			chargeable.discharge(Polarity.BLUE, cost, false);
 			while (!toDestroy.isEmpty())

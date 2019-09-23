@@ -30,7 +30,7 @@ public class AnomalySpawningHandler
 	{
 		for (ServerWorld world : server.getWorlds())
 		{
-			if (PolarConfig.POLAR_CONFIG.anomalies.isDimensionBlacklisted(Registry.DIMENSION.getId(world.getDimension().getType())))
+			if (PolarConfig.POLAR_CONFIG.anomalies().isDimensionBlacklisted(Registry.DIMENSION.getId(world.getDimension().getType())))
 				continue;
 			if (world.getTimeOfDay() % 24000 == TimeOfDay.SUNRISE.getTicks() + 1)
 				spawnAnomalies(world, Polarity.BLUE);
@@ -45,13 +45,13 @@ public class AnomalySpawningHandler
 			return;
 		//Scales more slowly with increasing numbers of players
 		int perPlayerAnomalySpawns = (int) Math.ceil(2 + 0.65 * Math.log(world.getPlayers().size()));
-		LOGGER.info("Spawning {} anomalies per player for {} players", perPlayerAnomalySpawns, world.getPlayers().size());
+		LOGGER.info("Spawning {} anomalies() per player for {} players", perPlayerAnomalySpawns, world.getPlayers().size());
 		for (PlayerEntity player : world.getPlayers())
 		{
 			for (int i = 0; i < perPlayerAnomalySpawns; i++)
 			{
-				int r = POLAR_CONFIG.anomalies.minRadius() + 
-						world.getRandom().nextInt(POLAR_CONFIG.anomalies.maxRadius() - POLAR_CONFIG.anomalies.minRadius());
+				int r = POLAR_CONFIG.anomalies().minRadius() + 
+						world.getRandom().nextInt(POLAR_CONFIG.anomalies().maxRadius() - POLAR_CONFIG.anomalies().minRadius());
 				double theta = world.getRandom().nextDouble() * 2.0D * Math.PI;
 				spawnAnomaly(world, player.x + r * Math.cos(theta), player.z + r * Math.sin(theta), polarity);
 			}
@@ -63,8 +63,8 @@ public class AnomalySpawningHandler
 		//Find all the gaps along the y axis with air in them at the x z coordinates 
 		IntList airRanges = new IntArrayList(6);
 		BlockPos.Mutable pos = new BlockPos.Mutable(d, 0, e);
-		int maxY = Math.min(world.getHeight(), POLAR_CONFIG.anomalies.maxSpawnY());
-		for(int y = POLAR_CONFIG.anomalies.minSpawnY(); y < maxY; y++)
+		int maxY = Math.min(world.getHeight(), POLAR_CONFIG.anomalies().maxSpawnY());
+		for(int y = POLAR_CONFIG.anomalies().minSpawnY(); y < maxY; y++)
 		{
 			pos.setY(y);
 			if (world.isAir(pos))

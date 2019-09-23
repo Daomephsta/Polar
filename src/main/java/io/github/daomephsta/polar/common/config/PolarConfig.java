@@ -24,10 +24,22 @@ public class PolarConfig
 {
 	@Setting(ignore = true)
 	public static final PolarConfig POLAR_CONFIG = new PolarConfig();
+	@Setting(ignore = true)
 	private static final Logger LOGGER = LogManager.getLogger();
+	@Setting(ignore = true)
 	private static final Path PATH = Paths.get("config/polar.json5");
-	public final Anomalies anomalies = new Anomalies();
-	public final Charge charge = new Charge();
+	private Anomalies anomalies = new Anomalies();
+	private Charge charge = new Charge();
+	
+	public Anomalies anomalies()
+	{
+		return anomalies;
+	}
+	
+	public Charge charge()
+	{
+		return charge;
+	}
 	
 	public static class Anomalies
 	{

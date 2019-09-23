@@ -29,7 +29,7 @@ public class FallingBlockStabiliser extends Item implements IPolarisedItem, IWea
 	{
 		super(new Item.Settings()
 				.group(PolarAPI.TAB_RED));
-		SimplePolarChargeStorage.setupFor(this, Polarity.RED, POLAR_CONFIG.charge.fallingBlockStabiliserMaxCharge());
+		SimplePolarChargeStorage.setupFor(this, Polarity.RED, POLAR_CONFIG.charge().fallingBlockStabiliserMaxCharge());
 	}
 	
 	@Override

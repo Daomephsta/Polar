@@ -45,7 +45,7 @@ public class EntityAnomaly extends Entity
 		this(world);
 
 		this.polarity = polarity;
-		int days = POLAR_CONFIG.anomalies.minLifetime() + world.getRandom().nextInt(POLAR_CONFIG.anomalies.maxLifetime() - POLAR_CONFIG.anomalies.minLifetime()); // min to max - 1 days
+		int days = POLAR_CONFIG.anomalies().minLifetime() + world.getRandom().nextInt(POLAR_CONFIG.anomalies().maxLifetime() - POLAR_CONFIG.anomalies().minLifetime()); // min to max - 1 days
 		int additionalTicks = (int) Math.floor(world.getRandom().nextDouble() * Constants.MC_DAY_TICKS); // Random portion of a day
 		// 3 - 8 days
 		this.closingTimestamp = world.getTime() + days * Constants.MC_DAY_TICKS + additionalTicks;

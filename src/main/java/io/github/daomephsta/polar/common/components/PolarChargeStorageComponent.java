@@ -18,9 +18,9 @@ public class PolarChargeStorageComponent
 	public static void register()
 	{
 		ItemComponentCallback.event(ItemRegistry.FALLING_BLOCK_DESTROYER)
-			.register((stack, components) -> components.put(PolarAPI.CHARGE_STORAGE, new SimplePolarChargeStorage(Polarity.BLUE, POLAR_CONFIG.charge.fallingBlockDestroyerMaxCharge())));
+			.register((stack, components) -> components.put(PolarAPI.CHARGE_STORAGE, new SimplePolarChargeStorage(Polarity.BLUE, POLAR_CONFIG.charge().fallingBlockDestroyerMaxCharge())));
 		ItemComponentCallback.event(ItemRegistry.FALLING_BLOCK_STABILISER)
-			.register(addChargeStorage(Polarity.RED, POLAR_CONFIG.charge.fallingBlockStabiliserMaxCharge()));
+			.register(addChargeStorage(Polarity.RED, POLAR_CONFIG.charge().fallingBlockStabiliserMaxCharge()));
 	}
 	
 	private static ItemComponentCallback addChargeStorage(Polarity polarity, int maxCharge)
