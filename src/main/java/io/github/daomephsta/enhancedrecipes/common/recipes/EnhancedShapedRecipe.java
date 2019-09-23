@@ -1,10 +1,10 @@
-package io.github.daomephsta.polar.common.recipes;
+package io.github.daomephsta.enhancedrecipes.common.recipes;
 
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toCollection;
 
+import java.util.List;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -14,6 +14,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
+import io.github.daomephsta.enhancedrecipes.common.recipes.RecipeProcessor.TestResult;
 import it.unimi.dsi.fastutil.chars.Char2ObjectMap;
 import it.unimi.dsi.fastutil.chars.Char2ObjectOpenHashMap;
 import net.minecraft.inventory.CraftingInventory;
@@ -30,29 +31,34 @@ import net.minecraft.world.World;
 public class EnhancedShapedRecipe extends ShapedRecipe
 {
 	public static final RecipeSerializer<EnhancedShapedRecipe> SERIALIZER = new Serializer();
-	private final Collection<RecipeCondition> conditions;
-	private final Collection<RecipeFunction> functions;
+	private final List<RecipeProcessor> processors;
 
-	private EnhancedShapedRecipe(Identifier id, String group, int width, int height, DefaultedList<Ingredient> inputs, ItemStack output, Collection<RecipeCondition> conditions, Collection<RecipeFunction> functions)
+	private EnhancedShapedRecipe(Identifier id, String group, int width, int height, DefaultedList<Ingredient> inputs, ItemStack output, List<RecipeProcessor> processors)
 	{
 		super(id, group, width, height, inputs, output);
-		this.conditions = conditions;
-		this.functions = functions;
+		this.processors = processors;
 	}
 
 	@Override
 	public boolean matches(CraftingInventory inventory, World world)
 	{
-		return conditions.stream().allMatch(c -> c.test(inventory, world)) && super.method_17728(inventory, world);
+		TestResult result = TestResult.pass();
+		for (RecipeProcessor processor : processors)
+		{
+			result = processor.test(inventory, world, result);
+			if (!result.matches())
+				return false;
+		}
+		return true;
 	}
 	
 	@Override
 	public ItemStack craft(CraftingInventory inventory)
 	{
 		ItemStack result = super.method_17727(inventory);
-		for (RecipeFunction function : functions)
+		for (RecipeProcessor processor : processors)
 		{
-			result = function.apply(result);
+			result = processor.apply(inventory, result);
 		}
 		return result;
 	}
@@ -67,7 +73,7 @@ public class EnhancedShapedRecipe extends ShapedRecipe
 		@Override
 		public EnhancedShapedRecipe read(Identifier id, JsonObject json)
 		{
-			String group = JsonHelper.getString(json, "group");
+			String group = JsonHelper.getString(json, "group", "");
 			char[][] pattern = Streams.stream(JsonHelper.getArray(json, "pattern"))
 					.map(e -> e.getAsString().toCharArray())
 					.toArray(char[][]::new);
@@ -82,14 +88,13 @@ public class EnhancedShapedRecipe extends ShapedRecipe
 						return c == ' ' ? Ingredient.EMPTY : key.get((c));
 					})
 					.collect(toCollection(DefaultedList::of));
-			ItemStack output = ShapedRecipe.getItemStack(JsonHelper.getObject(json, "result"));
-			Collection<RecipeCondition> conditions = Streams.stream(JsonHelper.getArray(json, "conditions"))
-					.map(e -> RecipeCondition.fromJson(JsonHelper.asObject(e, "condition")))
-					.collect(Collectors.toSet());
-			Collection<RecipeFunction> functions = Streams.stream(JsonHelper.getArray(json, "functions"))
-					.map(e -> RecipeFunction.fromJson(JsonHelper.asObject(e, "function")))
-					.collect(Collectors.toSet());
-			return new EnhancedShapedRecipe(id, group, width, height, inputs, output, conditions, functions);
+			ItemStack output = json.has("result") 
+					? ShapedRecipe.getItemStack(JsonHelper.getObject(json, "result"))
+					: ItemStack.EMPTY;
+			List<RecipeProcessor> processors = Streams.stream(JsonHelper.getArray(json, "processors"))
+					.map(e -> RecipeProcessor.fromJson(JsonHelper.asObject(e, "processor")))
+					.collect(Collectors.toList());
+			return new EnhancedShapedRecipe(id, group, width, height, inputs, output, processors);
 		}
 		
 		private void validatePattern(char[][] pattern)
@@ -132,17 +137,12 @@ public class EnhancedShapedRecipe extends ShapedRecipe
 				inputs.set(i, Ingredient.fromPacket(bytes));
 			}
 			ItemStack output = bytes.readItemStack();
-			ArrayList<RecipeCondition> conditions = new ArrayList<>(bytes.readVarInt());
-			for (int c = 0; c < conditions.size(); c++)
+			ArrayList<RecipeProcessor> processors = new ArrayList<>(bytes.readVarInt());
+			for (int c = 0; c < processors.size(); c++)
 			{
-				conditions.set(c, RecipeCondition.fromBytes(bytes));
+				processors.set(c, RecipeProcessor.fromBytes(bytes));
 			}
-			ArrayList<RecipeFunction> functions = new ArrayList<>(bytes.readVarInt());
-			for (int c = 0; c < functions.size(); c++)
-			{
-				functions.set(c, RecipeFunction.fromBytes(bytes));
-			}
-			return new EnhancedShapedRecipe(id, group, width, height, inputs, output, conditions, functions);
+			return new EnhancedShapedRecipe(id, group, width, height, inputs, output, processors);
 		}
 
 		@Override
@@ -156,15 +156,15 @@ public class EnhancedShapedRecipe extends ShapedRecipe
 				input.write(bytes);
 			}
 			bytes.writeItemStack(recipe.getOutput());
-			bytes.writeVarInt(recipe.conditions.size());
-			for (RecipeCondition condition : recipe.conditions)
+			bytes.writeVarInt(recipe.processors.size());
+			for (RecipeProcessor condition : recipe.processors)
 			{
-				RecipeCondition.toBytes(bytes, condition);
+				RecipeProcessor.toBytes(bytes, condition);
 			}
-			bytes.writeVarInt(recipe.functions.size());
-			for (RecipeFunction function : recipe.functions)
+			bytes.writeVarInt(recipe.processors.size());
+			for (RecipeProcessor function : recipe.processors)
 			{
-				RecipeFunction.toBytes(bytes, function);
+				RecipeProcessor.toBytes(bytes, function);
 			}
 		}	
 	}

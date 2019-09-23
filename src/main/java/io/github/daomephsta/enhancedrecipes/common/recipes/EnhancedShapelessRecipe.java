@@ -1,14 +1,15 @@
-package io.github.daomephsta.polar.common.recipes;
+package io.github.daomephsta.enhancedrecipes.common.recipes;
 
 import static java.util.stream.Collectors.toCollection;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import com.google.common.collect.Streams;
 import com.google.gson.JsonObject;
 
+import io.github.daomephsta.enhancedrecipes.common.recipes.RecipeProcessor.TestResult;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
@@ -24,29 +25,36 @@ import net.minecraft.world.World;
 public class EnhancedShapelessRecipe extends ShapelessRecipe
 {
 	public static final RecipeSerializer<EnhancedShapelessRecipe> SERIALIZER = new Serializer();
-	private final Collection<RecipeCondition> conditions;
-	private final Collection<RecipeFunction> functions;
+	private final List<RecipeProcessor> processors;
 
-	private EnhancedShapelessRecipe(Identifier id, String group, ItemStack output, DefaultedList<Ingredient> inputs, Collection<RecipeCondition> conditions, Collection<RecipeFunction> functions)
+	private EnhancedShapelessRecipe(Identifier id, String group, ItemStack output, DefaultedList<Ingredient> inputs, List<RecipeProcessor> processors)
 	{
 		super(id, group, output, inputs);
-		this.conditions = conditions;
-		this.functions = functions;
+		this.processors = processors;
 	}
 
 	@Override
 	public boolean matches(CraftingInventory inventory, World world)
 	{
-		return conditions.stream().allMatch(c -> c.test(inventory, world)) && super.method_17730(inventory, world);
+		if (!super.method_17730(inventory, world))
+			return false;
+		TestResult result = TestResult.pass();
+		for (RecipeProcessor processor : processors)
+		{
+			result = processor.test(inventory, world, result);
+			if (!result.matches())
+				return false;
+		}
+		return true;
 	}
 	
 	@Override
 	public ItemStack craft(CraftingInventory inventory)
 	{
 		ItemStack result = super.method_17729(inventory);
-		for (RecipeFunction function : functions)
+		for (RecipeProcessor processor : processors)
 		{
-			result = function.apply(result);
+			result = processor.apply(inventory, result);
 		}
 		return result;
 	}
@@ -61,18 +69,17 @@ public class EnhancedShapelessRecipe extends ShapelessRecipe
 		@Override
 		public EnhancedShapelessRecipe read(Identifier id, JsonObject json)
 		{
-			String group = JsonHelper.getString(json, "group");
+			String group = JsonHelper.getString(json, "group", "");
 			DefaultedList<Ingredient> inputs = Streams.stream(JsonHelper.getArray(json, "ingredients"))
 					.map(Ingredient::fromJson)
 					.collect(toCollection(DefaultedList::of));
-			ItemStack output = ShapedRecipe.getItemStack(JsonHelper.getObject(json, "result"));
-			Collection<RecipeCondition> conditions = Streams.stream(JsonHelper.getArray(json, "conditions"))
-					.map(e -> RecipeCondition.fromJson(JsonHelper.asObject(e, "condition")))
-					.collect(Collectors.toSet());
-			Collection<RecipeFunction> functions = Streams.stream(JsonHelper.getArray(json, "functions"))
-					.map(e -> RecipeFunction.fromJson(JsonHelper.asObject(e, "function")))
-					.collect(Collectors.toSet());
-			return new EnhancedShapelessRecipe(id, group, output, inputs, conditions, functions);
+			ItemStack output = json.has("result") 
+					? ShapedRecipe.getItemStack(JsonHelper.getObject(json, "result"))
+					: ItemStack.EMPTY;
+			List<RecipeProcessor> processors = Streams.stream(JsonHelper.getArray(json, "processors"))
+					.map(e -> RecipeProcessor.fromJson(JsonHelper.asObject(e, "processor")))
+					.collect(Collectors.toList());
+			return new EnhancedShapelessRecipe(id, group, output, inputs, processors);
 		}
 
 		@Override
@@ -85,17 +92,12 @@ public class EnhancedShapelessRecipe extends ShapelessRecipe
 				inputs.set(i, Ingredient.fromPacket(bytes));
 			}
 			ItemStack output = bytes.readItemStack();
-			ArrayList<RecipeCondition> conditions = new ArrayList<>(bytes.readVarInt());
-			for (int c = 0; c < conditions.size(); c++)
+			ArrayList<RecipeProcessor> processors = new ArrayList<>(bytes.readVarInt());
+			for (int c = 0; c < processors.size(); c++)
 			{
-				conditions.set(c, RecipeCondition.fromBytes(bytes));
+				processors.set(c, RecipeProcessor.fromBytes(bytes));
 			}
-			ArrayList<RecipeFunction> functions = new ArrayList<>(bytes.readVarInt());
-			for (int c = 0; c < functions.size(); c++)
-			{
-				functions.set(c, RecipeFunction.fromBytes(bytes));
-			}
-			return new EnhancedShapelessRecipe(id, group, output, inputs, conditions, functions);
+			return new EnhancedShapelessRecipe(id, group, output, inputs, processors);
 		}
 
 		@Override
@@ -108,15 +110,15 @@ public class EnhancedShapelessRecipe extends ShapelessRecipe
 				input.write(bytes);
 			}
 			bytes.writeItemStack(recipe.getOutput());
-			bytes.writeVarInt(recipe.conditions.size());
-			for (RecipeCondition condition : recipe.conditions)
+			bytes.writeVarInt(recipe.processors.size());
+			for (RecipeProcessor condition : recipe.processors)
 			{
-				RecipeCondition.toBytes(bytes, condition);
+				RecipeProcessor.toBytes(bytes, condition);
 			}
-			bytes.writeVarInt(recipe.functions.size());
-			for (RecipeFunction function : recipe.functions)
+			bytes.writeVarInt(recipe.processors.size());
+			for (RecipeProcessor function : recipe.processors)
 			{
-				RecipeFunction.toBytes(bytes, function);
+				RecipeProcessor.toBytes(bytes, function);
 			}
 		}	
 	}

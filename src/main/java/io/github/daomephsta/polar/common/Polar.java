@@ -3,6 +3,8 @@ package io.github.daomephsta.polar.common;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import io.github.daomephsta.enhancedrecipes.common.recipes.EnhancedShapedRecipe;
+import io.github.daomephsta.enhancedrecipes.common.recipes.EnhancedShapelessRecipe;
 import io.github.daomephsta.polar.api.PolarAPI;
 import io.github.daomephsta.polar.common.blocks.BlockRegistry;
 import io.github.daomephsta.polar.common.components.PolarChargeStorageComponent;
@@ -17,8 +19,7 @@ import io.github.daomephsta.polar.common.handlers.wearables.WearablesHandler;
 import io.github.daomephsta.polar.common.items.ItemRegistry;
 import io.github.daomephsta.polar.common.network.PacketTypes;
 import io.github.daomephsta.polar.common.recipes.ChargeItemRecipe;
-import io.github.daomephsta.polar.common.recipes.EnhancedShapedRecipe;
-import io.github.daomephsta.polar.common.recipes.EnhancedShapelessRecipe;
+import io.github.daomephsta.polar.common.recipes.PolarRecipes;
 import io.github.daomephsta.polar.common.tileentities.PolarBlockEntityTypes;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.recipe.RecipeSerializer;
@@ -51,24 +52,12 @@ public class Polar implements ModInitializer
 		JawbladeHandler.registerEventCallbacks();
 		ResidualPolarityHandler.registerEventCallbacks();
 		WearablesHandler.registerEventCallbacks();
-		registerRecipes();
+		PolarRecipes.initialise();
 	}
 	
 	private static void registerComponents()
 	{
 		PolarPlayerDataComponent.register();
 		PolarChargeStorageComponent.register();
-	}
-	
-	private void registerRecipes()
-	{
-		registerRecipe("crafting_special_charge_item", ChargeItemRecipe.SERIALIZER);
-		registerRecipe("crafting_shaped_enhanced", EnhancedShapedRecipe.SERIALIZER);
-		registerRecipe("crafting_shapeless_enhanced", EnhancedShapelessRecipe.SERIALIZER);
-	}
-
-	private void registerRecipe(String name, RecipeSerializer<?> serializer)
-	{
-		Registry.register(Registry.RECIPE_SERIALIZER, new Identifier(MODID, name), serializer);
 	}
 }
