@@ -1,9 +1,11 @@
 package io.github.daomephsta.enhancedrecipes.common.recipes.processors;
 
 import com.google.gson.JsonObject;
+import com.mojang.datafixers.Dynamic;
+import com.mojang.datafixers.types.JsonOps;
 
-import io.github.daomephsta.enhancedrecipes.common.JsonNbtConverter;
 import io.github.daomephsta.enhancedrecipes.common.recipes.RecipeProcessor;
+import net.minecraft.datafixers.NbtOps;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
@@ -45,7 +47,8 @@ public class AddNbtRecipeProcessor extends RecipeProcessor
 		@Override
 		public AddNbtRecipeProcessor read(String recipeId, JsonObject json)
 		{
-			return new AddNbtRecipeProcessor(new JsonNbtConverter().toCompoundTag(JsonHelper.getObject(json, "tag")));
+			JsonObject tagJson = JsonHelper.getObject(json, "tag");
+			return new AddNbtRecipeProcessor((CompoundTag) Dynamic.convert(JsonOps.INSTANCE, NbtOps.INSTANCE, tagJson));
 		}
 
 		@Override
