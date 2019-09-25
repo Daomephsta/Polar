@@ -42,6 +42,8 @@ public class EnhancedShapedRecipe extends ShapedRecipe
 	@Override
 	public boolean matches(CraftingInventory inventory, World world)
 	{
+		if (!super.method_17728(inventory, world))
+			return false;
 		TestResult result = TestResult.pass();
 		for (RecipeProcessor processor : processors)
 		{
