@@ -1,2 +1,1 @@
 version = "${rootProject.api_version}+POLAR${rootProject.mod_version}.MC${rootProject.minecraft_version}"
-genEclipseRuns.enabled = false

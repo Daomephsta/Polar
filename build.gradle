@@ -31,6 +31,10 @@ allprojects {
 	}
 }
 
+subprojects {
+	[genEclipseRuns, genSources, genSourcesDecompile, genSourcesRemapLineNumbers].forEach {task -> task.enabled = false}
+}
+
 repositories {
 	maven {
 		name 'Wearables'  
