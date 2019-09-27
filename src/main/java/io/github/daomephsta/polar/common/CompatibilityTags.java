@@ -17,6 +17,11 @@ public class CompatibilityTags
 								  FEET_EQUIPMENT = registerItemTag("feet_equipment");
 	public static final Tag<Block> GRAVITY_AFFECTED = registerBlockTag("gravity_affected");
 	
+	public static void initialise()
+	{
+		//Dummy method to force static init
+	}
+
 	private static Tag<Item> registerItemTag(String name)
 	{
 		return TagRegistry.item(new Identifier("c", name));

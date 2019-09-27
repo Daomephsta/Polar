@@ -8,6 +8,11 @@ import net.minecraft.util.Identifier;
 
 public class PolarTags
 {	
+	public static void initialise()
+	{
+		//Dummy method to force static init
+	}
+
 	private static Tag<Item> registerItemTag(String name)
 	{
 		return TagRegistry.item(new Identifier(Polar.MOD_ID, name));

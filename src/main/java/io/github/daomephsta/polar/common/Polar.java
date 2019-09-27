@@ -33,10 +33,12 @@ public class Polar implements ModInitializer
 	{
 		PolarAPI.initialiseAPI(new InternalMethodAccessors());
 		PolarConfig.initialise();
-		CriterionRegistry.initialise();
 		BlockRegistry.initialize();
 		ItemRegistry.initialize();
 		EntityRegistry.initialise();
+		PolarTags.initialise();
+		CompatibilityTags.initialise();
+		CriterionRegistry.initialise();
 		registerComponents();
 		PolarBlockEntityTypes.initialize();
 		PacketTypes.initialise();
