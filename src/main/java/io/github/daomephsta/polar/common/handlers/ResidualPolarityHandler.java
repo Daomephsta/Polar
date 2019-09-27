@@ -4,6 +4,7 @@ import io.github.daomephsta.polar.api.CommonWords;
 import io.github.daomephsta.polar.api.IPolarisedItem;
 import io.github.daomephsta.polar.api.Polarity;
 import io.github.daomephsta.polar.common.NBTExtensions;
+import io.github.daomephsta.polar.common.advancements.triggers.CriterionRegistry;
 import io.github.daomephsta.polar.common.callbacks.LivingEntityHurtCallback;
 import io.github.daomephsta.polar.common.components.PolarPlayerDataComponent.PolarPlayerData;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
@@ -18,6 +19,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -144,8 +146,8 @@ public class ResidualPolarityHandler
 			// Damage source must be unblockable to avoid stack overflow
 			player.damage(DamageSource.MAGIC, 1.0F);
 			playerData.setResidualPolarity(Polarity.NONE);
-			/*
-		  TriggerRegistry.POLAR_REACTION.trigger((PlayerEntityMP) player, 0);*/ 
+			if (player instanceof ServerPlayerEntity)
+				CriterionRegistry.POLAR_REACTION.handle((ServerPlayerEntity) player, 0); 
 		}
 	}
 }

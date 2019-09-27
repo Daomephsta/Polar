@@ -4,8 +4,7 @@
 	{
 		"icon":
 		{
-			"item": "patchouli:guide_book",
-            "nbt": "{\"patchouli:book\": \"polar:research_journal\"}"
+			"item": "book"
 		},
 		"title": {"translate": "polar.advancements.shocking_discovery.title"},
 		"description": {"translate": "polar.advancements.shocking_discovery.desc"},

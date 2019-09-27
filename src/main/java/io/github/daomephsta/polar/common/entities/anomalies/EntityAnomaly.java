@@ -5,6 +5,7 @@ import static io.github.daomephsta.polar.common.config.PolarConfig.POLAR_CONFIG;
 import io.github.daomephsta.polar.api.PolarAPI;
 import io.github.daomephsta.polar.api.Polarity;
 import io.github.daomephsta.polar.api.components.IPolarChargeStorage;
+import io.github.daomephsta.polar.common.advancements.triggers.CriterionRegistry;
 import io.github.daomephsta.polar.common.core.Constants;
 import io.github.daomephsta.polar.common.entities.EntityRegistry;
 import io.github.daomephsta.polar.common.network.PacketTypes;
@@ -16,6 +17,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Box;
@@ -107,8 +109,8 @@ public class EntityAnomaly extends Entity
 	@Override
 	public ActionResult interactAt(PlayerEntity player, Vec3d vec, Hand hand)
 	{
-		/*TODO Advancements
-		TriggerRegistry.PLAYER_ANOMALY_INTERACTION.trigger((EntityPlayerMP) player);*/
+		if (player instanceof ServerPlayerEntity)
+			CriterionRegistry.PLAYER_ANOMALY_INTERACTION.handle((ServerPlayerEntity) player);
 		return ActionResult.SUCCESS;
 	}
 	
@@ -116,16 +118,16 @@ public class EntityAnomaly extends Entity
 	public boolean damage(DamageSource source, float amount)
 	{
 		Entity trueSource = source.getAttacker();
-		/*TODO Advancements
-		TriggerRegistry.PLAYER_ANOMALY_INTERACTION.trigger((EntityPlayerMP) trueSource);*/
+		if (trueSource instanceof ServerPlayerEntity)
+			CriterionRegistry.PLAYER_ANOMALY_INTERACTION.handle((ServerPlayerEntity) trueSource);
 		return super.damage(source, amount);
 	}
 	
 	@Override
 	public void onPlayerCollision(PlayerEntity player)
 	{
-			/*TODO Advancements
-			TriggerRegistry.PLAYER_ANOMALY_INTERACTION.trigger(player);*/
+		if (player instanceof ServerPlayerEntity)
+			CriterionRegistry.PLAYER_ANOMALY_INTERACTION.handle((ServerPlayerEntity) player);
 	}
 	
 	@Override
