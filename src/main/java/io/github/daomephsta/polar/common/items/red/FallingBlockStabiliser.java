@@ -4,6 +4,7 @@ import static io.github.daomephsta.polar.common.config.PolarConfig.POLAR_CONFIG;
 
 import java.util.List;
 
+import dev.emi.trinkets.api.ITrinket;
 import io.github.daomephsta.polar.api.IPolarisedItem;
 import io.github.daomephsta.polar.api.PolarAPI;
 import io.github.daomephsta.polar.api.Polarity;
@@ -12,7 +13,7 @@ import io.github.daomephsta.polar.common.Polar;
 import io.github.daomephsta.polar.common.components.PolarChargeStorageComponent.SimplePolarChargeStorage;
 import io.github.daomephsta.polar.common.handlers.ResidualPolarityHandler;
 import io.github.daomephsta.polar.common.handlers.wearables.FallingBlockStabiliserHandler;
-import net.mcft.copy.wearables.api.IWearablesItem;
+import io.github.daomephsta.polar.common.handlers.wearables.WearablesHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.Item;
@@ -23,7 +24,7 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.world.World;
 
-public class FallingBlockStabiliser extends Item implements IPolarisedItem, IWearablesItem
+public class FallingBlockStabiliser extends Item implements IPolarisedItem, ITrinket
 {
 	public FallingBlockStabiliser()
 	{
@@ -66,5 +67,11 @@ public class FallingBlockStabiliser extends Item implements IPolarisedItem, IWea
 	public boolean activatesOn(ActivatesOn trigger)
 	{
 		return false;
+	}
+
+	@Override
+	public boolean canWearInSlot(String group, String slot)
+	{
+		return WearablesHandler.isNecklaceSlot(group, slot);
 	}
 }

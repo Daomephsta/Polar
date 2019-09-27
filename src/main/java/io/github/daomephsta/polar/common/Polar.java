@@ -41,7 +41,7 @@ public class Polar implements ModInitializer
 		AnomalySpawningHandler.registerEventCallbacks();
 		JawbladeHandler.registerEventCallbacks();
 		ResidualPolarityHandler.registerEventCallbacks();
-		WearablesHandler.registerEventCallbacks();
+		WearablesHandler.initialise();
 		PolarRecipes.initialise();
 	}
 	

@@ -17,6 +17,7 @@ allprojects {
 	
 	repositories {
 		maven {
+			//Note, this is a transitive dependency of Trinkets, as well as a direct dependency of Polar
         	name = 'Cardinal Components'
         	url = 'https://maven.abusedmaster.xyz'
   		}
@@ -29,6 +30,15 @@ allprojects {
 		modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 		modApi "com.github.NerdHubMC.Cardinal-Components-API:cardinal-components-base:${project.cardinal_components_version}"
 	}
+
+	configurations.all {
+   		resolutionStrategy {
+      		force 'com.google.guava:guava:21.0'
+      		force "net.fabricmc:fabric-loader:${project.loader_version}"
+      		force "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+      		force "com.github.NerdHubMC.Cardinal-Components-API:cardinal-components-base:${project.cardinal_components_version}"
+   		}
+	}
 }
 
 subprojects {
@@ -37,24 +47,20 @@ subprojects {
 
 repositories {
 	maven {
-		name 'Wearables'  
-		url 'http://server.bbkr.space:8081/artifactory/libs-release/' 
+		name 'Trinkets'
+		url 'https://jitpack.io'
 	}
 	jcenter()
 }
 
 dependencies {
 	compile project('polar-api')
-	modCompile "net.mcft.copy:Wearables:${wearables_version}"
+	modImplementation "com.github.emilyploszaj:trinkets:${project.trinkets_version}"
 	modImplementation "com.github.NerdHubMC.Cardinal-Components-API:cardinal-components-entity:${project.cardinal_components_version}"
 	modImplementation "com.github.NerdHubMC.Cardinal-Components-API:cardinal-components-item:${project.cardinal_components_version}"
 	modImplementation "me.shedaniel.cloth:config-2:${project.cloth_config_version}"
 	include "me.shedaniel.cloth:config-2:${project.cloth_config_version}"
 	modImplementation "me.zeroeightsix:fiber:${project.fiber_version}"
-}
-
-configurations.all {
-   resolutionStrategy.force 'com.google.guava:guava:21.0'
 }
 
 processResources {

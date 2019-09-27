@@ -1,22 +1,37 @@
 package io.github.daomephsta.polar.common.handlers.wearables;
 
+import java.util.stream.IntStream;
+
+import dev.emi.trinkets.api.ITrinket;
+import dev.emi.trinkets.api.TrinketSlots;
+import dev.emi.trinkets.api.TrinketsApi;
 import io.github.daomephsta.polar.api.Polarity;
 import io.github.daomephsta.polar.api.components.IPolarChargeStorage;
 import io.github.daomephsta.polar.common.callbacks.PlayerBreakBlockCallback;
-import net.mcft.copy.wearables.api.IWearablesEntity;
-import net.mcft.copy.wearables.api.IWearablesItem;
-import net.mcft.copy.wearables.api.IWearablesSlot;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class WearablesHandler
 {
-	public static void registerEventCallbacks()
+	public static void initialise()
+	{
+		addTrinketSlot("chest", "necklace");
+		registerEventCallbacks();
+	}
+
+	private static void addTrinketSlot(String groupName, String slotName)
+	{
+		TrinketSlots.addSubSlot(groupName, slotName, new Identifier("trinkets", "textures/item/empty_trinket_slot_" + slotName + ".png"));
+	}
+
+	private static void registerEventCallbacks()
 	{
 		PlayerBreakBlockCallback.EVENT.register(WearablesHandler::handleBlockBreak);
 	}
@@ -30,11 +45,12 @@ public class WearablesHandler
 		return result;
 	}
 
-	static <I extends Item & IWearablesItem> ItemStack findEquippedWearable(PlayerEntity player, I wearable)
+	static <I extends Item & ITrinket> ItemStack findEquippedWearable(PlayerEntity player, I wearable)
 	{
-		return IWearablesEntity.from(player).getEquippedWearables()
-			.filter(slot -> slot.isValid() && slot.get().getItem() == wearable)
-			.map(IWearablesSlot::get)
+		Inventory trinketsInventory = TrinketsApi.getTrinketsInventory(player);
+		return IntStream.rangeClosed(0, trinketsInventory.getInvSize())
+			.mapToObj(trinketsInventory::getInvStack)
+			.filter(stack -> stack.getItem() == wearable)
 			.findFirst()
 			.orElse(ItemStack.EMPTY);
 	}
@@ -66,5 +82,10 @@ public class WearablesHandler
 		else if (chargeStorage.getStoredCharge() <= lowChargeThreshold)
 			player.addChatMessage(new TranslatableText("polar.message.low_charge", chargeStorage.getStoredCharge() - cost), true);
 		return true;
+	}
+
+	public static boolean isNecklaceSlot(String group, String slot)
+	{
+		return group.equals("chest") && slot.equals("necklace");
 	}
 }
