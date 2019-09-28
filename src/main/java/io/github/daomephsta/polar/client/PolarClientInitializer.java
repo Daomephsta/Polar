@@ -19,7 +19,6 @@ public class PolarClientInitializer implements ClientModInitializer
 	public void onInitializeClient()
 	{
 		EntityRendererRegistry.INSTANCE.register(EntityAnomaly.class, (entityRenderDispatcher, context) -> new AnomalyEntityRenderer(entityRenderDispatcher));
-		//TODO ModelLoaderRegistry.registerLoader(ModelStabilisedBlock.ModelStabilisedBlockLoader.INSTANCE);
 		ModelRegistry.registerModels();
 		MinecraftClientInitCallback.EVENT.register(this::onInitialiseMinecraftClient);
 	}

@@ -44,7 +44,7 @@ public class FallingBlockStabiliserHandler
 		{
 			chargeable.discharge(Polarity.RED, cost, false);
 			ResidualPolarityHandler.itemActivated(wearableStack, player);
-			world.setBlockState(pos, BlockRegistry.STABILISED_BLOCK.getDefaultState());
+			world.setBlockState(pos, BlockRegistry.STABILISED_BLOCK.stabilise(camo));
 			BlockEntity be = world.getBlockEntity(pos);
 			if (be instanceof StabilisedBlockBlockEntity)
 				((StabilisedBlockBlockEntity) be).setCamoBlockState(camo);
