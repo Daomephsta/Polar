@@ -1,100 +1,68 @@
 package io.github.daomephsta.polar.common;
 
-import java.util.Map.Entry;
-
 import com.google.common.collect.Iterables;
+import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.DataResult;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
-import net.minecraft.state.StateFactory;
-import net.minecraft.state.property.Property;
-import net.minecraft.util.Identifier;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtList;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.NbtString;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
 
 public class NBTExtensions
 {
-	public static <E extends Enum<E>> E getEnumConstant(CompoundTag nbt, Class<E> enumClass, String key, E fallback)
+	public static <E extends Enum<E>> E getEnumConstant(NbtCompound nbt, Class<E> enumClass, String key, E fallback)
 	{
-		return nbt.containsKey(key) 
+		return nbt.contains(key) 
 			? Enum.valueOf(enumClass, nbt.getString(key))
 			: fallback;
 	}
 	
-	public static <E extends Enum<E>> E getEnumConstant(CompoundTag nbt, Class<E> enumClass, String key)
+	public static <E extends Enum<E>> E getEnumConstant(NbtCompound nbt, Class<E> enumClass, String key)
 	{
 		return Enum.valueOf(enumClass, nbt.getString(key));
 	}
 	
-	public static <E extends Enum<E>> void putEnumConstant(CompoundTag nbt, String key, E enumConstant)
+	public static <E extends Enum<E>> void putEnumConstant(NbtCompound nbt, String key, E enumConstant)
 	{
 		nbt.putString(key, enumConstant.name());
 	}
 	
-	public static BlockState getBlockState(CompoundTag nbt, String key)
-	{
-		CompoundTag stateTag = nbt.getCompound(key);
-		Block block = Registry.BLOCK.get(new Identifier(stateTag.getString("block")));
-		CompoundTag propertiesTag = stateTag.getCompound("properties");
-		StateFactory<Block, BlockState> stateContainer = block.getStateFactory();
-		BlockState state = block.getDefaultState();
-		for (String propName : propertiesTag.getKeys())
-		{
-			Property<?> property = stateContainer.getProperty(propName);
-			state = deserialisePropertyValue(state, property, propertiesTag.getString(propName));
-		}
-		return state;
+	public static BlockState getBlockState(NbtCompound nbt, String key)
+	{   
+		DataResult<Pair<BlockState, NbtElement>> state = BlockState.CODEC.decode(NbtOps.INSTANCE, nbt);
+        return state.result().orElseThrow().getFirst();
 	}
 	
-	private static <T extends Comparable<T>> BlockState deserialisePropertyValue(BlockState state, Property<T> property, String serValue)
+	public static void putBlockState(NbtCompound nbt, String key, BlockState state)
 	{
-		return state.with(property, property.getValue(serValue).get());
+		BlockState.CODEC.encodeStart(NbtOps.INSTANCE, state).result()
+		    .ifPresent(stateNbt -> nbt.put(key, stateNbt));
 	}
 	
-	public static void putBlockState(CompoundTag nbt, String key, BlockState state)
+	public static BlockPos getPosition(NbtCompound nbt, String key)
 	{
-		CompoundTag stateTag = new CompoundTag();
-		stateTag.putString("block", Registry.BLOCK.getId(state.getBlock()).toString());
-		CompoundTag propertiesTag = new CompoundTag();
-		for (Entry<Property<?>, Comparable<?>> entry : state.getEntries().entrySet())
-		{
-			Property<?> property = entry.getKey();
-			propertiesTag.putString(property.getName(), serialisePropertyValue(property, entry.getValue()));
-		}
-		stateTag.put("properties", propertiesTag);
-		
-		nbt.put(key, stateTag);
-	}
-	
-	@SuppressWarnings("unchecked")
-	private static <T extends Comparable<T>> String serialisePropertyValue(Property<T> property, Comparable<?> value)
-	{
-		return property.getName((T) value);
-	}
-	
-	public static BlockPos getPosition(CompoundTag nbt, String key)
-	{
-		CompoundTag posTag = nbt.getCompound(key);
-		int x = posTag.getInt("x"),
-			y = posTag.getInt("y"),
-			z = posTag.getInt("z");
+		NbtCompound posNbt = nbt.getCompound(key);
+		int x = posNbt.getInt("x"),
+			y = posNbt.getInt("y"),
+			z = posNbt.getInt("z");
 		return new BlockPos(x, y, z);
 	}
 	
-	public static void putPosition(CompoundTag nbt, String key, BlockPos pos)
+	public static void putPosition(NbtCompound nbt, String key, BlockPos pos)
 	{
-		CompoundTag posTag = new CompoundTag();
-		posTag.putInt("x", pos.getX());
-		posTag.putInt("y", pos.getY());
-		posTag.putInt("z", pos.getZ());
-		nbt.putIntArray(key, new int[] {});
+		NbtCompound posNbt = new NbtCompound();
+		posNbt.putInt("x", pos.getX());
+		posNbt.putInt("y", pos.getY());
+		posNbt.putInt("z", pos.getZ());
+		nbt.put(key, posNbt);
 	}
 	
-	public static boolean contains(ListTag list, String target)
+	public static boolean contains(NbtList list, String target)
 	{
-		return Iterables.any(list, nbt -> nbt instanceof StringTag && ((StringTag) nbt).asString().equals(target));
+		return Iterables.any(list, nbt -> nbt instanceof NbtString && ((NbtString) nbt).asString().equals(target));
 	}
 }

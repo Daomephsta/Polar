@@ -4,7 +4,7 @@ import io.github.daomephsta.polar.api.CommonWords;
 import io.github.daomephsta.polar.api.IPolarisedItem;
 import io.github.daomephsta.polar.api.Polarity;
 import io.github.daomephsta.polar.common.NBTExtensions;
-import io.github.daomephsta.polar.common.advancements.triggers.CriterionRegistry;
+import io.github.daomephsta.polar.common.advancements.triggers.PolarCriteria;
 import io.github.daomephsta.polar.common.callbacks.LivingEntityHurtCallback;
 import io.github.daomephsta.polar.common.components.PolarPlayerDataComponent.PolarPlayerData;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
@@ -18,10 +18,11 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -77,14 +78,14 @@ public class ResidualPolarityHandler
 		return ActionResult.PASS;
 	}
 	
-	private static ActionResult handleUseItem(PlayerEntity player, World world, Hand hand)
+	private static TypedActionResult<ItemStack> handleUseItem(PlayerEntity player, World world, Hand hand)
 	{
 		ItemStack stack = player.getMainHandStack();
 		if (Polarity.isStackPolarised(stack) && activatesOn(stack, IPolarisedItem.ActivatesOn.ITEM_RIGHT_CLICK))
 		{
 			itemActivated(stack, player);
 		}
-		return ActionResult.PASS;
+		return TypedActionResult.pass(stack);
 	}
 	
 	private static ActionResult handleUseItemOnBlock(PlayerEntity player, World world, Hand hand, BlockHitResult hitResult)
@@ -121,9 +122,9 @@ public class ResidualPolarityHandler
 			return ((IPolarisedItem) stack.getItem()).activatesOn(trigger);
 		if (!stack.hasTag())
 			return false;
-		if (!stack.getTag().containsKey(CommonWords.ACTIVATES_ON))
+		if (!stack.getTag().contains(CommonWords.ACTIVATES_ON))
 			return false;
-		ListTag activatesOn = stack.getTag().getList(CommonWords.ACTIVATES_ON, NbtType.STRING);
+		NbtList activatesOn = stack.getTag().getList(CommonWords.ACTIVATES_ON, NbtType.STRING);
 		return NBTExtensions.contains(activatesOn, trigger.name());
 	}
 
@@ -147,7 +148,7 @@ public class ResidualPolarityHandler
 			player.damage(DamageSource.MAGIC, 1.0F);
 			playerData.setResidualPolarity(Polarity.NONE);
 			if (player instanceof ServerPlayerEntity)
-				CriterionRegistry.POLAR_REACTION.handle((ServerPlayerEntity) player, 0); 
+			    PolarCriteria.POLAR_REACTION.handle((ServerPlayerEntity) player, 0); 
 		}
 	}
 }

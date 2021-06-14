@@ -2,7 +2,7 @@ package io.github.daomephsta.polar.common.entities.anomalies;
 
 import io.github.daomephsta.polar.common.components.PolarChargeStorageComponent;
 
-public class AnomalyChargeStorage extends PolarChargeStorageComponent.SimplePolarChargeStorage
+public class AnomalyChargeStorage extends PolarChargeStorageComponent.Simple
 {
 	public AnomalyChargeStorage(EntityAnomaly anomaly, int initialCharge)
 	{

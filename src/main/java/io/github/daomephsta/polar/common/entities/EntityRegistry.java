@@ -2,20 +2,22 @@ package io.github.daomephsta.polar.common.entities;
 
 import io.github.daomephsta.polar.common.Polar;
 import io.github.daomephsta.polar.common.entities.anomalies.EntityAnomaly;
-import net.fabricmc.fabric.api.entity.FabricEntityTypeBuilder;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCategory;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class EntityRegistry
 {	
 	public static final EntityType<EntityAnomaly> ANOMALY = register("anomaly",
-			FabricEntityTypeBuilder.<EntityAnomaly>create(EntityCategory.MISC, (type, world) -> new EntityAnomaly(world))
-				.size(EntityDimensions.fixed(1.1F, 1.1F))
-				.trackable(128, Integer.MAX_VALUE, false)
+			FabricEntityTypeBuilder.<EntityAnomaly>create(SpawnGroup.MISC, EntityAnomaly::new)
+				.dimensions(EntityDimensions.fixed(1.1F, 1.1F))
+				.trackRangeBlocks(128)
+				.trackedUpdateRate(Integer.MAX_VALUE)
+				.forceTrackedVelocityUpdates(false)
 				.build());
 	
 	private static <T extends Entity> EntityType<T> register(String name, EntityType<T> type)

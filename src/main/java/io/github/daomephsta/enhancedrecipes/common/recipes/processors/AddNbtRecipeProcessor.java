@@ -1,24 +1,23 @@
 package io.github.daomephsta.enhancedrecipes.common.recipes.processors;
 
 import com.google.gson.JsonObject;
-import com.mojang.datafixers.Dynamic;
-import com.mojang.datafixers.types.JsonOps;
+import com.mojang.serialization.JsonOps;
 
 import io.github.daomephsta.enhancedrecipes.common.recipes.RecipeProcessor;
-import net.minecraft.datafixers.NbtOps;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.JsonHelper;
-import net.minecraft.util.PacketByteBuf;
 import net.minecraft.world.World;
 
 public class AddNbtRecipeProcessor extends RecipeProcessor
 {
 	public static final RecipeProcessor.Serialiser<?> SERIALISER = new Serialiser();
-	protected final CompoundTag tag;
+	protected final NbtCompound tag;
 
-	protected AddNbtRecipeProcessor(CompoundTag tag)
+	protected AddNbtRecipeProcessor(NbtCompound tag)
 	{
 		this.tag = tag;
 	}
@@ -48,19 +47,19 @@ public class AddNbtRecipeProcessor extends RecipeProcessor
 		public AddNbtRecipeProcessor read(String recipeId, JsonObject json)
 		{
 			JsonObject tagJson = JsonHelper.getObject(json, "tag");
-			return new AddNbtRecipeProcessor((CompoundTag) Dynamic.convert(JsonOps.INSTANCE, NbtOps.INSTANCE, tagJson));
+			return new AddNbtRecipeProcessor((NbtCompound) JsonOps.INSTANCE.convertTo(NbtOps.INSTANCE, tagJson));
 		}
 
 		@Override
 		public AddNbtRecipeProcessor read(String recipeId, PacketByteBuf bytes)
 		{
-			return new AddNbtRecipeProcessor(bytes.readCompoundTag());
+			return new AddNbtRecipeProcessor(bytes.readNbt());
 		}
 
 		@Override
 		public void write(PacketByteBuf bytes, AddNbtRecipeProcessor instance)
 		{
-			bytes.writeCompoundTag(instance.tag);
+			bytes.writeNbt(instance.tag);
 		}	
 	}
 }

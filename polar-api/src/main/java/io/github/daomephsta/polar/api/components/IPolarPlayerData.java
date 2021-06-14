@@ -1,10 +1,10 @@
 package io.github.daomephsta.polar.api.components;
 
+import dev.onyxstudios.cca.api.v3.component.Component;
+import dev.onyxstudios.cca.api.v3.component.ComponentProvider;
 import io.github.daomephsta.polar.api.PolarAPI;
 import io.github.daomephsta.polar.api.factions.FactionAlignment;
 import io.github.daomephsta.polar.api.factions.FactionRank;
-import nerdhub.cardinal.components.api.component.Component;
-import nerdhub.cardinal.components.api.component.ComponentProvider;
 import net.minecraft.entity.player.PlayerEntity;
 
 /**An interface that provides access to Polar player data. Designed to be used by other mods.**/

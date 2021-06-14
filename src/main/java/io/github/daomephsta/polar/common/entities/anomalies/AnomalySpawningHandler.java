@@ -9,12 +9,11 @@ import io.github.daomephsta.polar.api.Polarity;
 import io.github.daomephsta.polar.common.config.PolarConfig;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
-import net.fabricmc.fabric.api.event.server.ServerTickCallback;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
 public class AnomalySpawningHandler
@@ -23,15 +22,15 @@ public class AnomalySpawningHandler
 
 	public static void registerEventCallbacks()
 	{
-		ServerTickCallback.EVENT.register(AnomalySpawningHandler::onServerTick);
+	    ServerTickEvents.END_SERVER_TICK.register(AnomalySpawningHandler::onServerTick);
 	}
 
 	private static void onServerTick(MinecraftServer server)
 	{
 		for (ServerWorld world : server.getWorlds())
 		{
-			if (PolarConfig.POLAR_CONFIG.anomalies().isDimensionBlacklisted(Registry.DIMENSION.getId(world.getDimension().getType())))
-				continue;
+			if (PolarConfig.POLAR_CONFIG.anomalies().isDimensionBlacklisted(world.getRegistryKey().getValue()))
+			    continue;
 			if (world.getTimeOfDay() % 24000 == TimeOfDay.SUNRISE.getTicks() + 1)
 				spawnAnomalies(world, Polarity.BLUE);
 			else if (world.getTimeOfDay() % 24000 == TimeOfDay.SUNSET.getTicks())
@@ -53,7 +52,7 @@ public class AnomalySpawningHandler
 				int r = POLAR_CONFIG.anomalies().minRadius() + 
 						world.getRandom().nextInt(POLAR_CONFIG.anomalies().maxRadius() - POLAR_CONFIG.anomalies().minRadius());
 				double theta = world.getRandom().nextDouble() * 2.0D * Math.PI;
-				spawnAnomaly(world, player.x + r * Math.cos(theta), player.z + r * Math.sin(theta), polarity);
+				spawnAnomaly(world, player.getX() + r * Math.cos(theta), player.getZ() + r * Math.sin(theta), polarity);
 			}
 		}
 	}

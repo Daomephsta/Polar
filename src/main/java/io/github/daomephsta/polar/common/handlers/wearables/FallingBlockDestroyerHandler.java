@@ -5,6 +5,7 @@ import static io.github.daomephsta.polar.common.config.PolarConfig.POLAR_CONFIG;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+import io.github.daomephsta.polar.api.PolarAPI;
 import io.github.daomephsta.polar.api.Polarity;
 import io.github.daomephsta.polar.api.components.IPolarChargeStorage;
 import io.github.daomephsta.polar.common.CompatibilityTags;
@@ -38,7 +39,7 @@ public class FallingBlockDestroyerHandler
 	{
 		Deque<BlockPos> toDestroy = new ArrayDeque<>();
 		{
-			BlockPos pos = new BlockPos.Mutable(columnBottomPos);
+			BlockPos pos = columnBottomPos.mutableCopy();
 			BlockState state = world.getBlockState(pos);
 			while (isSoftUnstableBlock(world, state, pos) || state.getBlock() == BlockRegistry.STABILISED_BLOCK)
 			{
@@ -49,7 +50,7 @@ public class FallingBlockDestroyerHandler
 			toDestroy.push(columnBottomPos.down());
 		}
 		
-		IPolarChargeStorage chargeable = IPolarChargeStorage.get(wearableStack);
+		IPolarChargeStorage chargeable = PolarAPI.CHARGE_STORAGE.get(wearableStack);
 		int cost = toDestroy.size() * POLAR_CONFIG.charge().fallingBlockDestroyerActivationCost();
 		if (WearablesHandler.checkCharge(player, wearableStack, Polarity.BLUE, cost, POLAR_CONFIG.charge().fallingBlockDestroyerActivationCost() * 8))
 		{

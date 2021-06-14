@@ -36,7 +36,7 @@ public class JawbladeHandler
 			{
 				ItemStack prevMainhandStack = setJawblade((WolfEntity) entity, heldItem.copy());
 				if (!prevMainhandStack.isEmpty()) 
-					player.inventory.insertStack(prevMainhandStack);
+					player.getInventory().insertStack(prevMainhandStack);
 				if (!player.isCreative()) 
 					heldItem.decrement(1);
 				return ActionResult.SUCCESS;
@@ -75,12 +75,12 @@ public class JawbladeHandler
 		if (!mainhandStack.isEmpty())
 		{
 			ItemStack prevMainhandStack = mainhandStack;
-			wolf.setEquippedStack(EquipmentSlot.MAINHAND, newJawblade);
+			wolf.setStackInHand(Hand.MAIN_HAND, newJawblade);
 			return prevMainhandStack;
 		}
 		else
 		{
-			wolf.setEquippedStack(EquipmentSlot.MAINHAND, newJawblade);
+			wolf.setStackInHand(Hand.OFF_HAND, newJawblade);
 			return ItemStack.EMPTY;
 		}
 	}

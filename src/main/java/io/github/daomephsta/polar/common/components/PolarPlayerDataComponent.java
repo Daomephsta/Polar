@@ -1,23 +1,23 @@
 package io.github.daomephsta.polar.common.components;
 
+import dev.onyxstudios.cca.api.v3.entity.EntityComponentFactoryRegistry;
 import io.github.daomephsta.polar.api.PolarAPI;
 import io.github.daomephsta.polar.api.Polarity;
 import io.github.daomephsta.polar.api.components.IPolarPlayerData;
 import io.github.daomephsta.polar.api.factions.FactionAlignment;
 import io.github.daomephsta.polar.api.factions.FactionRank;
 import io.github.daomephsta.polar.common.NBTExtensions;
-import io.github.daomephsta.polar.common.network.PacketTypes;
-import nerdhub.cardinal.components.api.event.EntityComponentCallback;
-import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
+import io.github.daomephsta.polar.common.PolarCommonNetworking;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.network.ServerPlayerEntity;
 
 /**A component used by Polar to store data associated with a player, such as rank and faction**/
 public class PolarPlayerDataComponent
 {
-	public static void register()
+	public static void register(EntityComponentFactoryRegistry registry)
 	{
-		EntityComponentCallback.event(PlayerEntity.class).register((player, components) -> components.put(PolarAPI.PLAYER_DATA, new PolarPlayerData(player)));
+	    registry.registerFor(PlayerEntity.class, PolarAPI.PLAYER_DATA, PolarPlayerData::new);
 	}
 	
 	/**Stores data associated with a player. Non-API class, other mods should access player data through {@link PolarAPI#getPlayerData(PlayerEntity)}**/
@@ -72,9 +72,8 @@ public class PolarPlayerDataComponent
 
 		public void setResidualPolarity(Polarity residualPolarity)
 		{
-			if (!player.getEntityWorld().isClient)
-				sync();
 			setResidualPolarityInternal(residualPolarity);
+            sync();
 		}
 		
 		private void setResidualPolarityInternal(Polarity residualPolarity)
@@ -84,11 +83,12 @@ public class PolarPlayerDataComponent
 
 		public void sync()
 		{
-			ServerSidePacketRegistry.INSTANCE.sendToPlayer(player, PacketTypes.SET_RESIDUAL_CHARGE.toPacket(residualPolarity));
+		    if (!player.getEntityWorld().isClient())
+		        PolarCommonNetworking.sendResidualChargePacket((ServerPlayerEntity) player, residualPolarity);
 		}
 
 		@Override
-		public void fromTag(CompoundTag tag)
+		public void readFromNbt(NbtCompound tag)
 		{
 			this.faction = NBTExtensions.getEnumConstant(tag, FactionAlignment.class, "faction");
 			this.rank = NBTExtensions.getEnumConstant(tag, FactionRank.class, "rank");
@@ -96,12 +96,11 @@ public class PolarPlayerDataComponent
 		}
 
 		@Override
-		public CompoundTag toTag(CompoundTag tag)
+		public void writeToNbt(NbtCompound tag)
 		{
 			NBTExtensions.putEnumConstant(tag, "faction", this.faction);
 			NBTExtensions.putEnumConstant(tag, "rank", this.rank);
 			NBTExtensions.putEnumConstant(tag, "residual_polarity", this.residualPolarity);
-			return tag;
 		}
 	}
 }

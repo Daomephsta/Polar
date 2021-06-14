@@ -6,9 +6,9 @@ import io.github.daomephsta.enhancedrecipes.common.recipes.RecipeProcessor;
 import io.github.daomephsta.polar.common.Polar;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.JsonHelper;
-import net.minecraft.util.PacketByteBuf;
 import net.minecraft.world.World;
 
 public class LimitApplicationsRecipeProcessor extends RecipeProcessor
@@ -42,15 +42,15 @@ public class LimitApplicationsRecipeProcessor extends RecipeProcessor
 	
 	private int getApplicationCount(ItemStack stack)
 	{
-		CompoundTag nbt = stack.getOrCreateTag();
-		if (!nbt.containsKey(TAG_APPLIED_RECIPES))
+	    NbtCompound nbt = stack.getOrCreateTag();
+		if (!nbt.contains(TAG_APPLIED_RECIPES))
 			return 0;
 		return nbt.getCompound(TAG_APPLIED_RECIPES).getInt(recipeId);
 	}
 	
 	private void incrementApplicationCount(ItemStack stack)
 	{
-		CompoundTag appliedRecipes = stack.getOrCreateSubTag(TAG_APPLIED_RECIPES);
+	    NbtCompound appliedRecipes = stack.getOrCreateSubTag(TAG_APPLIED_RECIPES);
 		appliedRecipes.putInt(recipeId, appliedRecipes.getInt(recipeId) + 1);
 	}
 

@@ -5,7 +5,6 @@ import io.github.daomephsta.polar.api.PolarAPI;
 import io.github.daomephsta.polar.api.Polarity;
 import io.github.daomephsta.polar.api.components.IPolarChargeStorage;
 import io.github.daomephsta.polar.common.items.ItemRegistry;
-import nerdhub.cardinal.components.api.component.ComponentProvider;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.RecipeSerializer;
@@ -31,14 +30,14 @@ public class ChargeItemRecipe extends SpecialCraftingRecipe
 		boolean redFound = false, 
 				blueFound = false; 
 		ItemStack chargeableStack = null;
-		for (int s = 0; s < inventory.getInvSize(); s++)
+		for (int s = 0; s < inventory.size(); s++)
 		{
-			ItemStack stack = inventory.getInvStack(s);
+			ItemStack stack = inventory.getStack(s);
 			if (stack.getItem() == ItemRegistry.RED_RESOURCE_BASIC)
 				redFound = true;
 			else if (stack.getItem() == ItemRegistry.BLUE_RESOURCE_BASIC)
 				blueFound = true;
-			else if (ComponentProvider.fromItemStack(stack).hasComponent(PolarAPI.CHARGE_STORAGE))
+			else if (PolarAPI.CHARGE_STORAGE.getNullable(stack) != null)
 				chargeableStack = stack;
 		}
 		if (chargeableStack != null)
@@ -56,16 +55,16 @@ public class ChargeItemRecipe extends SpecialCraftingRecipe
 	{
 		ItemStack item = null;
 		int chargeSources = 0;
-		for (int s = 0; s < inventory.getInvSize(); s++)
+		for (int s = 0; s < inventory.size(); s++)
 		{
-			ItemStack stack = inventory.getInvStack(s);
+			ItemStack stack = inventory.getStack(s);
 			if (stack.getItem() == ItemRegistry.RED_RESOURCE_BASIC || stack.getItem() == ItemRegistry.BLUE_RESOURCE_BASIC)
 				chargeSources++;
-			else if (ComponentProvider.fromItemStack(stack).hasComponent(PolarAPI.CHARGE_STORAGE))
+			else if (PolarAPI.CHARGE_STORAGE.getNullable(stack) != null)
 				item = stack.copy();
 		}
 		// The item must exist, since matches() must return true for this method to be called
-		IPolarChargeStorage chargeable = IPolarChargeStorage.get(item);
+		IPolarChargeStorage chargeable = PolarAPI.CHARGE_STORAGE.get(item);
 		Polarity itemPolarity = item.getItem() instanceof IPolarisedItem 
 			? ((IPolarisedItem) item.getItem()).getPolarity(item) 
 			: Polarity.NONE;

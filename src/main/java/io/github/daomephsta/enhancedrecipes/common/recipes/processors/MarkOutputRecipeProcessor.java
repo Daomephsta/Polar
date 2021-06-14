@@ -6,8 +6,8 @@ import com.google.gson.JsonSyntaxException;
 import io.github.daomephsta.enhancedrecipes.common.recipes.RecipeProcessor;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.util.PacketByteBuf;
 import net.minecraft.world.World;
 
 public class MarkOutputRecipeProcessor extends RecipeProcessor
@@ -35,9 +35,9 @@ public class MarkOutputRecipeProcessor extends RecipeProcessor
 	private ItemStack findOutput(CraftingInventory inventory)
 	{
 		ItemStack match = ItemStack.EMPTY;
-		for (int s = 0; s < inventory.getInvSize(); s++)
+		for (int s = 0; s < inventory.size(); s++)
 		{
-			ItemStack stack = inventory.getInvStack(s);
+			ItemStack stack = inventory.getStack(s);
 			if (outputMatcher.test(stack))
 			{
 				if (match.isEmpty())

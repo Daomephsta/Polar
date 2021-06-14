@@ -2,20 +2,20 @@ package io.github.daomephsta.polar.common.entities.anomalies;
 
 import static io.github.daomephsta.polar.common.config.PolarConfig.POLAR_CONFIG;
 
+import dev.onyxstudios.cca.api.v3.entity.EntityComponentFactoryRegistry;
 import io.github.daomephsta.polar.api.PolarAPI;
 import io.github.daomephsta.polar.api.Polarity;
-import io.github.daomephsta.polar.api.components.IPolarChargeStorage;
-import io.github.daomephsta.polar.common.advancements.triggers.CriterionRegistry;
+import io.github.daomephsta.polar.common.PolarCommonNetworking;
+import io.github.daomephsta.polar.common.advancements.triggers.PolarCriteria;
 import io.github.daomephsta.polar.common.core.Constants;
 import io.github.daomephsta.polar.common.entities.EntityRegistry;
-import io.github.daomephsta.polar.common.network.PacketTypes;
-import nerdhub.cardinal.components.api.event.EntityComponentCallback;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.ActionResult;
@@ -26,25 +26,19 @@ import net.minecraft.world.World;
 
 public class EntityAnomaly extends Entity
 {
-	static
-	{
-		EntityComponentCallback.event(EntityAnomaly.class).register((entity, components) -> 
-			components.put(PolarAPI.CHARGE_STORAGE, new AnomalyChargeStorage(entity, 1000 + entity.random.nextInt(1000))));
-	}
 	private Polarity polarity;
 	private long closingTimestamp;
 	private boolean open = false;
 
-	public EntityAnomaly(World world)
+	public EntityAnomaly(EntityType<EntityAnomaly> entityType, World world)
 	{
-		super(EntityRegistry.ANOMALY, world);
+		super(entityType, world);
 		setInvulnerable(true);
-		// 1000-2000 charge
 	}
 
 	public EntityAnomaly(World world, Polarity polarity)
 	{
-		this(world);
+		this(EntityRegistry.ANOMALY, world);
 
 		this.polarity = polarity;
 		int days = POLAR_CONFIG.anomalies().minLifetime() + world.getRandom().nextInt(POLAR_CONFIG.anomalies().maxLifetime() - POLAR_CONFIG.anomalies().minLifetime()); // min to max - 1 days
@@ -58,9 +52,9 @@ public class EntityAnomaly extends Entity
 	{
 		super.tick();
 		long closeIn = closingTimestamp - world.getTime();
-		if ((closeIn <= 0 && !open) || IPolarChargeStorage.get(this).getStoredCharge() == 0)
+		if ((closeIn <= 0 && !open) || PolarAPI.CHARGE_STORAGE.get(this).getStoredCharge() == 0)
 		{
-			this.remove();
+			this.discard();
 			return;
 		}
 		if (world.getTime() % 10 == 0) irradiateNearbyItems();
@@ -69,40 +63,39 @@ public class EntityAnomaly extends Entity
 	private void irradiateNearbyItems()
 	{
 		Box irradiationBounds = this.getBoundingBox().expand(2.0D);
-		for (ItemEntity entityItem : world.getEntities(ItemEntity.class, irradiationBounds))
+		for (ItemEntity entityItem : world.getEntitiesByType(EntityType.ITEM, irradiationBounds, 
+		    item -> item.getItemAge() >= 100))
 		{
-			if (entityItem.getAge() >= 100)
-			{
-				ItemStack output = AnomalyIrradiationCrafting.getOutput(getPolarity(), entityItem.getStack());
-				if (!output.isEmpty())
-				{
-					entityItem.remove();
+			ItemStack output = AnomalyIrradiationCrafting.getOutput(getPolarity(), entityItem.getStack());
+            if (!output.isEmpty())
+            {
+            	entityItem.discard();
 
-					// Spawn stacks
-					if (!world.isClient)
-					{
-						// Spawn full stacks
-						for (int i = 0; i < output.getCount() / output.getCount(); i++)
-						{
-							ItemStack fullStack = output.copy();
-							fullStack.setCount(output.getMaxCount());
-							// Spawn up to half a block out
-							double x = entityItem.x + (random.nextDouble() - 0.5D);
-							double z = entityItem.z + (random.nextDouble() - 0.5D);
-							ItemEntity fullStackEntity = new ItemEntity(world, x, entityItem.y, z, fullStack);
-							world.spawnEntity(fullStackEntity);
-						}
-						// Spawn remainder stack
-						ItemStack remainderStack = output.copy();
-						remainderStack.setCount(output.getCount() % output.getMaxCount());
-						// Spawn up to half a block out
-						double x = entityItem.x + (random.nextDouble() - 0.5D);
-						double z = entityItem.z + (random.nextDouble() - 0.5D);
-						ItemEntity remainderStackEntity = new ItemEntity(world, x, entityItem.y, z, remainderStack);
-						world.spawnEntity(remainderStackEntity);
-					}
-				}
-			}
+            	// Spawn stacks
+            	if (!world.isClient)
+            	{
+            		// Spawn full stacks
+            		for (int i = 0; i < output.getCount() / output.getCount(); i++)
+            		{
+            			ItemStack fullStack = output.copy();
+            			fullStack.setCount(output.getMaxCount());
+            			// Spawn up to half a block out
+            			double x = entityItem.getX() + (random.nextDouble() - 0.5D);
+            			double z = entityItem.getZ() + (random.nextDouble() - 0.5D);
+            			ItemEntity fullStackEntity = new ItemEntity(world, x, entityItem.getY(), z, fullStack);
+            			world.spawnEntity(fullStackEntity);
+            		}
+            		// Spawn remainder stack
+            		ItemStack remainderStack = output.copy();
+            		remainderStack.setCount(output.getCount() % output.getMaxCount());
+            		// Spawn up to half a block out
+            		double x = entityItem.getX() + (random.nextDouble() - 0.5D);
+                    double y = entityItem.getY();
+            		double z = entityItem.getZ() + (random.nextDouble() - 0.5D);
+                    ItemEntity remainderStackEntity = new ItemEntity(world, x, y, z, remainderStack);
+            		world.spawnEntity(remainderStackEntity);
+            	}
+            }
 		}
 	}
 	
@@ -110,7 +103,7 @@ public class EntityAnomaly extends Entity
 	public ActionResult interactAt(PlayerEntity player, Vec3d vec, Hand hand)
 	{
 		if (player instanceof ServerPlayerEntity)
-			CriterionRegistry.PLAYER_ANOMALY_INTERACTION.handle((ServerPlayerEntity) player);
+			PolarCriteria.PLAYER_ANOMALY_INTERACTION.handle((ServerPlayerEntity) player);
 		return ActionResult.SUCCESS;
 	}
 	
@@ -119,7 +112,7 @@ public class EntityAnomaly extends Entity
 	{
 		Entity trueSource = source.getAttacker();
 		if (trueSource instanceof ServerPlayerEntity)
-			CriterionRegistry.PLAYER_ANOMALY_INTERACTION.handle((ServerPlayerEntity) trueSource);
+			PolarCriteria.PLAYER_ANOMALY_INTERACTION.handle((ServerPlayerEntity) trueSource);
 		return super.damage(source, amount);
 	}
 	
@@ -127,7 +120,7 @@ public class EntityAnomaly extends Entity
 	public void onPlayerCollision(PlayerEntity player)
 	{
 		if (player instanceof ServerPlayerEntity)
-			CriterionRegistry.PLAYER_ANOMALY_INTERACTION.handle((ServerPlayerEntity) player);
+			PolarCriteria.PLAYER_ANOMALY_INTERACTION.handle((ServerPlayerEntity) player);
 	}
 	
 	@Override
@@ -155,20 +148,26 @@ public class EntityAnomaly extends Entity
 	{
 		this.open = false;
 	}
+    
+    public static void registerComponents(EntityComponentFactoryRegistry registry)
+    {
+        registry.registerFor(EntityAnomaly.class, PolarAPI.CHARGE_STORAGE, 
+            entity -> new AnomalyChargeStorage(entity, 1000 + entity.random.nextInt(1000)));
+    }
 
 	@Override
-	protected void readCustomDataFromTag(CompoundTag tag)
+	protected void readCustomDataFromNbt(NbtCompound nbt)
 	{
-		this.polarity = Polarity.valueOf(tag.getString("polarity"));
-		if (tag.containsKey("closeIn")) this.closingTimestamp = world.getTime() + tag.getLong("closeIn");
-		else this.closingTimestamp = tag.getLong("closingTimestamp");
+		this.polarity = Polarity.valueOf(nbt.getString("polarity"));
+		if (nbt.contains("closeIn")) this.closingTimestamp = world.getTime() + nbt.getLong("closeIn");
+		else this.closingTimestamp = nbt.getLong("closingTimestamp");
 	}
 	
 	@Override
-	protected void writeCustomDataToTag(CompoundTag tag)
+	protected void writeCustomDataToNbt(NbtCompound nbt)
 	{
-		tag.putString("polarity", this.polarity.name());
-		tag.putLong("closingTimestamp", this.closingTimestamp);
+		nbt.putString("polarity", this.polarity.name());
+		nbt.putLong("closingTimestamp", this.closingTimestamp);
 	}
 	
 	@Override
@@ -177,6 +176,6 @@ public class EntityAnomaly extends Entity
 	@Override
 	public Packet<?> createSpawnPacket()
 	{
-		return PacketTypes.SPAWN_ENTITY.toPacket(this);
+		return PolarCommonNetworking.createEntitySpawnPacket(this);
 	}
 }

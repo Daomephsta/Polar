@@ -2,22 +2,30 @@ package io.github.daomephsta.enhancedrecipes.common.recipes;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import com.mojang.serialization.Lifecycle;
 
 import io.github.daomephsta.polar.common.Polar;
+import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
-import net.minecraft.util.PacketByteBuf;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.util.registry.SimpleRegistry;
 import net.minecraft.world.World;
 
 public abstract class RecipeProcessor
 {
-	public static final Registry<Serialiser<?>> REGISTRY 
-		= Registry.register(Registry.REGISTRIES, new Identifier(Polar.MOD_ID, "recipe_processor_serialiser"), new SimpleRegistry<>());
+	public static final Registry<Serialiser<?>> REGISTRY = createRegistry("recipe_processor_serialiser");
+
+    private static <T> Registry<T> createRegistry(String id)
+    {
+        return FabricRegistryBuilder.from(new SimpleRegistry<T>(
+            RegistryKey.ofRegistry(new Identifier(Polar.MOD_ID, id)), Lifecycle.stable())).buildAndRegister();
+    }
 
 	public static RecipeProcessor fromJson(JsonObject json)
 	{
@@ -30,6 +38,7 @@ public abstract class RecipeProcessor
 
 	public static RecipeProcessor fromBytes(PacketByteBuf bytes)
 	{
+	    
 		Serialiser<?> serialiser = REGISTRY.get(bytes.readIdentifier());
 		return serialiser.read(null, bytes);
 	}
@@ -87,7 +96,7 @@ public abstract class RecipeProcessor
 			return new TestResult(predictedOutput, true);
 		}
 		
-		public TestResult withPredictedTag(CompoundTag tag)
+		public TestResult withPredictedTag(NbtCompound tag)
 		{
 			predictedStack.getOrCreateTag().copyFrom(tag);
 			return this;

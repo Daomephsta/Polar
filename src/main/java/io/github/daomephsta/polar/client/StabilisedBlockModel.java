@@ -10,6 +10,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import com.google.common.collect.ImmutableSet;
+import com.mojang.datafixers.util.Pair;
 
 import io.github.daomephsta.polar.common.Polar;
 import io.github.daomephsta.polar.common.tileentities.StabilisedBlockBlockEntity;
@@ -28,31 +29,36 @@ import net.minecraft.client.render.model.BakedQuad;
 import net.minecraft.client.render.model.ModelBakeSettings;
 import net.minecraft.client.render.model.ModelLoader;
 import net.minecraft.client.render.model.UnbakedModel;
-import net.minecraft.client.render.model.json.ModelItemPropertyOverrideList;
+import net.minecraft.client.render.model.json.ModelOverrideList;
 import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.texture.Sprite;
+import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.ModelIdentifier;
+import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.world.ExtendedBlockView;
+import net.minecraft.world.BlockRenderView;
 
 public class StabilisedBlockModel implements UnbakedModel
 {
 	public static final StabilisedBlockModel INSTANCE = new StabilisedBlockModel();
-	private static final Identifier STABILISED_BLOCK_OVERLAY = new Identifier(Polar.MOD_ID, "blocks/red/stabilised_block_overlay");
+	private static final SpriteIdentifier STABILISED_BLOCK_OVERLAY = new SpriteIdentifier(
+	    SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(Polar.MOD_ID, "blocks/red/stabilised_block_overlay"));
 
 	@Override
-	public BakedModel bake(ModelLoader loaded, Function<Identifier, Sprite> spriteGetter, ModelBakeSettings bakeSettings)
+	public BakedModel bake(ModelLoader loader, Function<SpriteIdentifier, Sprite> spriteGetter, 
+	    ModelBakeSettings settings, Identifier identifier)
 	{
 		return new Baked(spriteGetter.apply(STABILISED_BLOCK_OVERLAY));
 	}
-
+	
 	@Override
-	public Collection<Identifier> getTextureDependencies(Function<Identifier, UnbakedModel> modelGetter, Set<String> var2)
+	public Collection<SpriteIdentifier> getTextureDependencies(Function<Identifier, UnbakedModel> modelGetter, 
+	    Set<Pair<String, String>> textures)
 	{
-		return ImmutableSet.of(STABILISED_BLOCK_OVERLAY);
+	    return ImmutableSet.of(STABILISED_BLOCK_OVERLAY);
 	}
 
 	@Override
@@ -77,9 +83,10 @@ public class StabilisedBlockModel implements UnbakedModel
 		{
 			return Collections.emptyList();
 		}
-
+		
 		@Override
-		public void emitBlockQuads(ExtendedBlockView blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context)
+		public void emitBlockQuads(BlockRenderView blockView, BlockState state, BlockPos pos, 
+		    Supplier<Random> randomSupplier, RenderContext context)
 		{
 			BlockEntity blockEntity = blockView.getBlockEntity(pos);
 			if (blockEntity instanceof StabilisedBlockBlockEntity)
@@ -93,7 +100,8 @@ public class StabilisedBlockModel implements UnbakedModel
 			}
 		}
 
-		public void emitQuads(ExtendedBlockView blockView, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context, BlockState camoState, BakedModel model)
+		public void emitQuads(BlockRenderView blockView, BlockPos pos, Supplier<Random> randomSupplier, 
+		    RenderContext context, BlockState camoState, BakedModel model)
 		{
 			if (model instanceof FabricBakedModel)
 				((FabricBakedModel) model).emitBlockQuads(blockView, camoState, pos, randomSupplier, context);
@@ -127,11 +135,11 @@ public class StabilisedBlockModel implements UnbakedModel
 		{
 			return true;
 		}
-
+		
 		@Override
-		public boolean hasDepthInGui()
+		public boolean hasDepth()
 		{
-			return true;
+		    return true;
 		}
 
 		@Override
@@ -147,9 +155,9 @@ public class StabilisedBlockModel implements UnbakedModel
 		}
 
 		@Override
-		public ModelItemPropertyOverrideList getItemPropertyOverrides()
+		public ModelOverrideList getOverrides()
 		{
-			return ModelItemPropertyOverrideList.EMPTY;
+		    return ModelOverrideList.EMPTY;
 		}
 
 		@Override
@@ -162,6 +170,12 @@ public class StabilisedBlockModel implements UnbakedModel
 		public ModelTransformation getTransformation()
 		{
 			return ModelTransformation.NONE;
+		}
+		
+		@Override
+		public boolean isSideLit()
+		{
+		    return false;
 		}
 	}
 

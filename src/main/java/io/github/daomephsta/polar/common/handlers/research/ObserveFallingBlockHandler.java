@@ -8,10 +8,10 @@ import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.stream.Collectors;
 
-import io.github.daomephsta.polar.common.advancements.triggers.CriterionRegistry;
+import dev.onyxstudios.cca.api.v3.entity.TrackingStartCallback;
+import io.github.daomephsta.polar.common.advancements.triggers.PolarCriteria;
 import io.github.daomephsta.polar.common.handlers.research.ObserveFallingBlockHandler.FallingBlockTracker.Status;
-import nerdhub.cardinal.components.api.event.TrackingStartCallback;
-import net.fabricmc.fabric.api.event.world.WorldTickCallback;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.FallingBlockEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -24,7 +24,7 @@ public class ObserveFallingBlockHandler
 	public static void initialise()
 	{
 		TrackingStartCallback.EVENT.register(ObserveFallingBlockHandler::trackFallingBlock);
-		WorldTickCallback.EVENT.register(ObserveFallingBlockHandler::tick);
+		ServerTickEvents.END_WORLD_TICK.register(ObserveFallingBlockHandler::tick);
 	}
 
 	private static void trackFallingBlock(ServerPlayerEntity entityPlayer, Entity entity)
@@ -35,7 +35,7 @@ public class ObserveFallingBlockHandler
 			World world = fallingBlock .getEntityWorld();
 			if (world.isClient)
 				return;
-			if (CriterionRegistry.OBSERVE_FALLING_BLOCK.hasHandler(entityPlayer.getAdvancementManager()))
+			if (PolarCriteria.OBSERVE_FALLING_BLOCK.hasHandler(entityPlayer.getAdvancementTracker()))
 				getTrackers(fallingBlock.getEntityWorld()).add(new FallingBlockTracker(entityPlayer, fallingBlock));
 		}
 	}
@@ -58,7 +58,7 @@ public class ObserveFallingBlockHandler
 			if (tracker.getStatus() == Status.HIT_GROUND
 					&& tracker.fallingBlock.getFallingBlockPos().getSquaredDistance(tracker.fallingBlock.getPos(), false) >= 32 * 32)
 			{
-				CriterionRegistry.OBSERVE_FALLING_BLOCK .handle(tracker.entityPlayer);
+			    PolarCriteria.OBSERVE_FALLING_BLOCK.handle(tracker.entityPlayer);
 			}
 			iter.remove();
 		}
@@ -79,7 +79,7 @@ public class ObserveFallingBlockHandler
 		{
 			if (!fallingBlock.isAlive())
 			{
-				if (fallingBlock.onGround)
+				if (fallingBlock.isOnGround())
 					return Status.HIT_GROUND;
 				else
 					return Status.FALLING;

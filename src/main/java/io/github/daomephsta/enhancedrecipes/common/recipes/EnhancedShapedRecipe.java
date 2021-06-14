@@ -3,8 +3,8 @@ package io.github.daomephsta.enhancedrecipes.common.recipes;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toCollection;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -19,13 +19,13 @@ import it.unimi.dsi.fastutil.chars.Char2ObjectMap;
 import it.unimi.dsi.fastutil.chars.Char2ObjectOpenHashMap;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.ShapedRecipe;
-import net.minecraft.util.DefaultedList;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
-import net.minecraft.util.PacketByteBuf;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
 public class EnhancedShapedRecipe extends ShapedRecipe
@@ -42,7 +42,7 @@ public class EnhancedShapedRecipe extends ShapedRecipe
 	@Override
 	public boolean matches(CraftingInventory inventory, World world)
 	{
-		if (!super.method_17728(inventory, world))
+		if (!super.matches(inventory, world))
 			return false;
 		TestResult result = TestResult.pass();
 		for (RecipeProcessor processor : processors)
@@ -57,7 +57,7 @@ public class EnhancedShapedRecipe extends ShapedRecipe
 	@Override
 	public ItemStack craft(CraftingInventory inventory)
 	{
-		ItemStack result = super.method_17727(inventory);
+		ItemStack result = super.craft(inventory);
 		for (RecipeProcessor processor : processors)
 		{
 			result = processor.apply(inventory, result);
@@ -91,7 +91,7 @@ public class EnhancedShapedRecipe extends ShapedRecipe
 					})
 					.collect(toCollection(DefaultedList::of));
 			ItemStack output = json.has("result") 
-					? ShapedRecipe.getItemStack(JsonHelper.getObject(json, "result"))
+					? ShapedRecipe.outputFromJson(JsonHelper.getObject(json, "result"))
 					: ItemStack.EMPTY;
 			List<RecipeProcessor> processors = Streams.stream(JsonHelper.getArray(json, "processors"))
 					.map(e -> RecipeProcessor.fromJson(JsonHelper.asObject(e, "processor")))
@@ -153,7 +153,7 @@ public class EnhancedShapedRecipe extends ShapedRecipe
 			bytes.writeString(recipe.getGroup());
 			bytes.writeVarInt(recipe.getWidth());
 			bytes.writeVarInt(recipe.getHeight());
-			for (Ingredient input : recipe.getPreviewInputs())
+			for (Ingredient input : recipe.getIngredients())
 			{
 				input.write(bytes);
 			}

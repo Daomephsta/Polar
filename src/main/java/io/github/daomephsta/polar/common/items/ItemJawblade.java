@@ -1,11 +1,13 @@
 package io.github.daomephsta.polar.common.items;
 
 import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
 
 import io.github.daomephsta.polar.api.PolarAPI;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.Item;
@@ -36,13 +38,18 @@ public class ItemJawblade extends Item
 	}
 	
 	@Override
-	public Multimap<String, EntityAttributeModifier> getModifiers(EquipmentSlot slot)
+	public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(EquipmentSlot slot)
 	{
-		Multimap<String, EntityAttributeModifier> modifiers = super.getModifiers(slot);
+	    Multimap<EntityAttribute, EntityAttributeModifier> modifiers = 
+	        MultimapBuilder.hashKeys().arrayListValues().build();
 		if (slot == EquipmentSlot.MAINHAND)
 		{
-			modifiers.put(EntityAttributes.ATTACK_DAMAGE.getId(), new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_UUID, "Jawblade Attack Damage Modifier", material.getAttackDamage(), EntityAttributeModifier.Operation.ADDITION));
-			modifiers.put(EntityAttributes.ATTACK_SPEED.getId(), new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_UUID, "Jawblade Attack Speed Modifier", -2.0D, EntityAttributeModifier.Operation.ADDITION));
+			modifiers.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(
+			    ATTACK_DAMAGE_MODIFIER_ID, "Jawblade Attack Damage Modifier", material.getAttackDamage(), 
+			    EntityAttributeModifier.Operation.ADDITION));
+			modifiers.put(EntityAttributes.GENERIC_ATTACK_SPEED, new EntityAttributeModifier(
+			    ATTACK_SPEED_MODIFIER_ID, "Jawblade Attack Speed Modifier", -2.0D, 
+			    EntityAttributeModifier.Operation.ADDITION));
 		}
 		return modifiers;
 	}

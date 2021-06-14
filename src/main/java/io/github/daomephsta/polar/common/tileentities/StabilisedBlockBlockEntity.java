@@ -4,16 +4,17 @@ import io.github.daomephsta.polar.common.NBTExtensions;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.client.network.packet.BlockEntityUpdateS2CPacket;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.util.math.BlockPos;
 
 public class StabilisedBlockBlockEntity extends BlockEntity
 {
 	private BlockState camoBlockState = Blocks.AIR.getDefaultState();
 	
-	public StabilisedBlockBlockEntity()
+	public StabilisedBlockBlockEntity(BlockPos pos, BlockState state)
 	{
-		super(PolarBlockEntityTypes.STABILISED_BLOCK);
+		super(PolarBlockEntityTypes.STABILISED_BLOCK, pos, state);
 	}
 	
 	public BlockState getCamoBlockState()
@@ -27,18 +28,18 @@ public class StabilisedBlockBlockEntity extends BlockEntity
 	}
 
 	@Override
-	public void fromTag(CompoundTag compound)
+	public void readNbt(NbtCompound compound)
 	{
-		super.fromTag(compound);
-		// No camostate tag available for reading immediately after placement
-		if (compound.containsKey("camo_blockstate"))
+		super.readNbt(compound);
+		// No camostate Nbt available for reading immediately after placement
+		if (compound.contains("camo_blockstate"))
 			this.camoBlockState = NBTExtensions.getBlockState(compound, "camo_blockstate");
 	}
 	
 	@Override
-	public CompoundTag toTag(CompoundTag compound)
+	public NbtCompound writeNbt(NbtCompound compound)
 	{
-		super.toTag(compound);
+		super.writeNbt(compound);
 		NBTExtensions.putBlockState(compound, "camo_blockstate", camoBlockState);
 		return compound;
 	}
@@ -46,12 +47,12 @@ public class StabilisedBlockBlockEntity extends BlockEntity
 	@Override
 	public BlockEntityUpdateS2CPacket toUpdatePacket()
 	{
-		return new BlockEntityUpdateS2CPacket(getPos(), 0, toInitialChunkDataTag());
+		return new BlockEntityUpdateS2CPacket(getPos(), 0, toInitialChunkDataNbt());
 	}
 	
 	@Override
-	public CompoundTag toInitialChunkDataTag()
+	public NbtCompound toInitialChunkDataNbt()
 	{
-		return toTag(new CompoundTag());
+		return writeNbt(new NbtCompound());
 	}
 }

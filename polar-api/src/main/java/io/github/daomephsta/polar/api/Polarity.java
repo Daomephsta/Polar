@@ -10,8 +10,8 @@ import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.PacketByteBuf;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.StringIdentifiable;
 
 /**
@@ -132,9 +132,9 @@ public enum Polarity implements StringIdentifiable
 	{
 		if (stack.getItem() instanceof IPolarisedItem)
 			return ((IPolarisedItem) stack.getItem()).getPolarity(stack);
-		if (stack.hasTag() && stack.getTag().containsKey(PolarAPI.PROVIDER_MOD_ID))
+		if (stack.hasTag() && stack.getTag().contains(PolarAPI.PROVIDER_MOD_ID))
 		{
-			CompoundTag polarTag = stack.getTag().getCompound(PolarAPI.PROVIDER_MOD_ID);
+			NbtCompound polarTag = stack.getTag().getCompound(PolarAPI.PROVIDER_MOD_ID);
 			return Enum.valueOf(Polarity.class, polarTag.getString(CommonWords.POLARITY));
 		}
 		return Polarity.NONE;
@@ -149,8 +149,8 @@ public enum Polarity implements StringIdentifiable
 	{
 		if (stack.getItem() instanceof IPolarisedItem) return true;
 		if (!stack.hasTag()) return false;
-		return stack.getTag().containsKey(PolarAPI.PROVIDER_MOD_ID) 
-				&& stack.getTag().getCompound(PolarAPI.PROVIDER_MOD_ID).containsKey(CommonWords.POLARITY);
+		return stack.getTag().contains(PolarAPI.PROVIDER_MOD_ID) 
+				&& stack.getTag().getCompound(PolarAPI.PROVIDER_MOD_ID).contains(CommonWords.POLARITY);
 	}
 	
 	@Override

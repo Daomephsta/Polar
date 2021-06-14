@@ -1,19 +1,20 @@
 
 package io.github.daomephsta.polar.common.advancements.triggers;
 
-import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 
 import io.github.daomephsta.polar.common.Polar;
-import io.github.daomephsta.polar.common.advancements.triggers.AbstractCriterion.AbstractHandler;
 import net.minecraft.advancement.PlayerAdvancementTracker;
 import net.minecraft.advancement.criterion.CriterionConditions;
+import net.minecraft.predicate.entity.AdvancementEntityPredicateDeserializer;
+import net.minecraft.predicate.entity.AdvancementEntityPredicateSerializer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 
 
-public class PolarReactionCriterion extends AbstractCriterion<PolarReactionCriterion.Conditions, PolarReactionCriterion.Handler>
+public class PolarReactionCriterion extends 
+    AbstractCriterion<PolarReactionCriterion.Conditions, PolarReactionCriterion.Handler>
 {
 	public PolarReactionCriterion()
 	{
@@ -22,25 +23,25 @@ public class PolarReactionCriterion extends AbstractCriterion<PolarReactionCrite
 
 	public void handle(ServerPlayerEntity player, int reactionStrength)
 	{
-		Handler handler = getHandler(player.getAdvancementManager());
+		Handler handler = getHandler(player.getAdvancementTracker());
 		if (handler != null)
-			handler.handle(player.getAdvancementManager(), reactionStrength);
+			handler.handle(player.getAdvancementTracker(), reactionStrength);
 	}
 
 	@Override
-	public Conditions conditionsFromJson(JsonObject json, JsonDeserializationContext context)
+	public Conditions conditionsFromJson(JsonObject json, AdvancementEntityPredicateDeserializer deserializer)
 	{
 		return new Conditions(this, JsonHelper.getInt(json, "reaction_strength"));
 	}
 
-	static class Handler extends AbstractHandler<Conditions> 
+	static class Handler extends AbstractCriterion.AbstractHandler<Conditions> 
 	{
 		private void handle(PlayerAdvancementTracker advancementManager, int reactionStrength)
 		{
 			for (ConditionsContainer<Conditions> container : getContainers())
 			{
 				if (container.getConditions().test(reactionStrength))
-					container.apply(advancementManager);
+					container.grant(advancementManager);
 			}
 		}
 	}
@@ -71,5 +72,13 @@ public class PolarReactionCriterion extends AbstractCriterion<PolarReactionCrite
 		{
 			return nestOwner.getId();
 		}
+
+        @Override
+        public JsonObject toJson(AdvancementEntityPredicateSerializer serializer)
+        {
+            JsonObject json = new JsonObject();
+            json.addProperty("reaction_strength", reactionStrength);
+            return json;
+        }
 	}
 }

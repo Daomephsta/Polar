@@ -12,14 +12,14 @@ import com.google.gson.JsonObject;
 import io.github.daomephsta.enhancedrecipes.common.recipes.RecipeProcessor.TestResult;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.ShapedRecipe;
 import net.minecraft.recipe.ShapelessRecipe;
-import net.minecraft.util.DefaultedList;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
-import net.minecraft.util.PacketByteBuf;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
 public class EnhancedShapelessRecipe extends ShapelessRecipe
@@ -36,7 +36,7 @@ public class EnhancedShapelessRecipe extends ShapelessRecipe
 	@Override
 	public boolean matches(CraftingInventory inventory, World world)
 	{
-		if (!super.method_17730(inventory, world))
+		if (!super.matches(inventory, world))
 			return false;
 		TestResult result = TestResult.pass();
 		for (RecipeProcessor processor : processors)
@@ -51,7 +51,7 @@ public class EnhancedShapelessRecipe extends ShapelessRecipe
 	@Override
 	public ItemStack craft(CraftingInventory inventory)
 	{
-		ItemStack result = super.method_17729(inventory);
+		ItemStack result = super.craft(inventory);
 		for (RecipeProcessor processor : processors)
 		{
 			result = processor.apply(inventory, result);
@@ -74,7 +74,7 @@ public class EnhancedShapelessRecipe extends ShapelessRecipe
 					.map(Ingredient::fromJson)
 					.collect(toCollection(DefaultedList::of));
 			ItemStack output = json.has("result") 
-					? ShapedRecipe.getItemStack(JsonHelper.getObject(json, "result"))
+					? ShapedRecipe.outputFromJson(JsonHelper.getObject(json, "result"))
 					: ItemStack.EMPTY;
 			List<RecipeProcessor> processors = Streams.stream(JsonHelper.getArray(json, "processors"))
 					.map(e -> RecipeProcessor.fromJson(JsonHelper.asObject(e, "processor")))
@@ -104,8 +104,8 @@ public class EnhancedShapelessRecipe extends ShapelessRecipe
 		public void write(PacketByteBuf bytes, EnhancedShapelessRecipe recipe)
 		{
 			bytes.writeString(recipe.getGroup());
-			bytes.writeVarInt(recipe.getPreviewInputs().size());
-			for (Ingredient input : recipe.getPreviewInputs())
+			bytes.writeVarInt(recipe.getIngredients().size());
+			for (Ingredient input : recipe.getIngredients())
 			{
 				input.write(bytes);
 			}

@@ -1,64 +1,58 @@
 package io.github.daomephsta.polar.common.components;
 
-import static io.github.daomephsta.polar.common.config.PolarConfig.POLAR_CONFIG;
-
+import dev.onyxstudios.cca.api.v3.component.ComponentFactory;
+import dev.onyxstudios.cca.api.v3.item.ItemComponent;
+import dev.onyxstudios.cca.api.v3.item.ItemComponentFactoryRegistry;
 import io.github.daomephsta.polar.api.PolarAPI;
 import io.github.daomephsta.polar.api.Polarity;
 import io.github.daomephsta.polar.api.components.IPolarChargeStorage;
+import io.github.daomephsta.polar.common.config.PolarConfig;
 import io.github.daomephsta.polar.common.items.ItemRegistry;
-import nerdhub.cardinal.components.api.component.extension.CloneableComponent;
-import nerdhub.cardinal.components.api.event.EntityComponentCallback;
-import nerdhub.cardinal.components.api.event.ItemComponentCallback;
-import net.minecraft.entity.Entity;
-import net.minecraft.item.Item;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 
 public class PolarChargeStorageComponent
-{
-	public static void register()
+{   
+	public static void register(ItemComponentFactoryRegistry registry)
 	{
-		ItemComponentCallback.event(ItemRegistry.FALLING_BLOCK_DESTROYER)
-			.register((stack, components) -> components.put(PolarAPI.CHARGE_STORAGE, new SimplePolarChargeStorage(Polarity.BLUE, POLAR_CONFIG.charge().fallingBlockDestroyerMaxCharge())));
-		ItemComponentCallback.event(ItemRegistry.FALLING_BLOCK_STABILISER)
-			.register(addChargeStorage(Polarity.RED, POLAR_CONFIG.charge().fallingBlockStabiliserMaxCharge()));
+        registry.register(ItemRegistry.FALLING_BLOCK_STABILISER, PolarAPI.CHARGE_STORAGE,  
+	        Simple.forItem(Polarity.RED, PolarConfig.POLAR_CONFIG.charge().fallingBlockStabiliserMaxCharge(), 0));
+        registry.register(ItemRegistry.FALLING_BLOCK_DESTROYER, PolarAPI.CHARGE_STORAGE, 
+	        Simple.forItem(Polarity.RED, PolarConfig.POLAR_CONFIG.charge().fallingBlockDestroyerMaxCharge(), 0));
 	}
 	
-	private static ItemComponentCallback addChargeStorage(Polarity polarity, int maxCharge)
-	{
-		return (stack, components) -> components.put(PolarAPI.CHARGE_STORAGE, new SimplePolarChargeStorage(polarity, maxCharge));
-	}
+    @SuppressWarnings("unchecked")
+    public static <A extends ItemComponent & IPolarChargeStorage> ComponentFactory<ItemStack, A> 
+        forItem(IPolarChargeStorage delegate)
+    {
+        return stack -> (A) new ItemAdapter(stack, delegate);
+    }
 	
-	public static class SimplePolarChargeStorage implements IPolarChargeStorage
+	public static class Simple implements IPolarChargeStorage
 	{
 		private final Polarity polarity;
 		private final int maxCharge;
 		private int storedCharge;
 
-		public SimplePolarChargeStorage(Polarity polarity, int maxCharge)
+		public Simple(Polarity polarity, int maxCharge)
 		{
 			this(polarity, maxCharge, 0);
 		}
 
-		public SimplePolarChargeStorage(Polarity polarity, int maxCharge, int initialCharge)
+		public Simple(Polarity polarity, int maxCharge, int initialCharge)
 		{
 			this.polarity = polarity;
 			this.maxCharge = maxCharge;
 			this.storedCharge = initialCharge;
 		}
-		
-		public static void setupFor(Item item, Polarity polarity, int maxCharge)
-		{
-			ItemComponentCallback.event(item).register(
-					(stack, components) -> components.put(PolarAPI.CHARGE_STORAGE, new SimplePolarChargeStorage(polarity, maxCharge)));
-		}
-		
-		public static <E extends Entity> void setupFor(Class<E> entityClass, Polarity polarity, int maxCharge)
-		{
-			EntityComponentCallback.event(entityClass).register(
-					(entity, components) -> components.put(PolarAPI.CHARGE_STORAGE, new SimplePolarChargeStorage(polarity, maxCharge)));
-		}
 
-		@Override
+        public static <A extends ItemComponent & IPolarChargeStorage> ComponentFactory<ItemStack, A> 
+		    forItem(Polarity polarity, int maxCharge, int initialCharge)
+        {
+            return PolarChargeStorageComponent.forItem(new Simple(polarity, maxCharge, initialCharge));
+        }
+
+        @Override
 		public int charge(Polarity polarity, int maxAmount, boolean simulate)
 		{
 			if (!canCharge() || this.polarity != polarity) return maxAmount;
@@ -95,22 +89,69 @@ public class PolarChargeStorageComponent
 		}
 		
 		@Override
-		public CloneableComponent newInstance()
+		public void readFromNbt(NbtCompound nbt)
 		{
-			return new SimplePolarChargeStorage(polarity, maxCharge, storedCharge);
+			this.storedCharge = nbt.getInt("stored_charge");
 		}
 
 		@Override
-		public void fromTag(CompoundTag tag)
+		public void writeToNbt(NbtCompound nbt)
 		{
-			this.storedCharge = tag.getInt("stored_charge");
-		}
-
-		@Override
-		public CompoundTag toTag(CompoundTag tag)
-		{
-			tag.putInt("stored_charge", this.storedCharge);
-			return tag;
+			nbt.putInt("stored_charge", this.storedCharge);
 		}
 	}
+	
+    private static class ItemAdapter extends ItemComponent implements IPolarChargeStorage
+    {
+        private final IPolarChargeStorage delegate;
+
+        ItemAdapter(ItemStack stack, IPolarChargeStorage delegate)
+        {
+            super(stack);
+            this.delegate = delegate;
+            delegate.writeToNbt(getOrCreateRootTag());
+        }
+
+        public boolean canCharge()
+        {
+            return delegate.canCharge();
+        }
+
+        public int charge(Polarity polarity, int maxAmount, boolean simulate)
+        {
+            return delegate.charge(polarity, maxAmount, simulate);
+        }
+
+        public boolean canDischarge()
+        {
+            return delegate.canDischarge();
+        }
+
+        public int discharge(Polarity polarity, int maxAmount, boolean simulate)
+        {
+            return delegate.discharge(polarity, maxAmount, simulate);
+        }
+
+        public int getStoredCharge()
+        {
+            return delegate.getStoredCharge();
+        }
+
+        public Polarity getPolarity()
+        {
+            return delegate.getPolarity();
+        }
+
+        public int getMaxCharge()
+        {
+            return delegate.getMaxCharge();
+        }
+
+        @Override
+        public void onTagInvalidated()
+        {
+            super.onTagInvalidated();
+            delegate.readFromNbt(getOrCreateRootTag());
+        }
+    }
 }

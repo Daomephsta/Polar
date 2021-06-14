@@ -2,20 +2,16 @@ package io.github.daomephsta.polar.common.blocks.red;
 
 import io.github.daomephsta.polar.common.blocks.IHasSpecialBlockItem;
 import io.github.daomephsta.polar.common.tileentities.StabilisedBlockBlockEntity;
-import net.fabricmc.fabric.api.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
-import net.minecraft.block.BlockRenderLayer;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Material;
+import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.EntityContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.state.StateFactory.Builder;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.Property;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
@@ -23,20 +19,14 @@ import net.minecraft.world.World;
 
 public class StabilisedBlock extends Block implements IHasSpecialBlockItem, BlockEntityProvider
 {
-	private static final Property<Boolean> OPAQUE = BooleanProperty.of("opaque");
-
 	public StabilisedBlock()
 	{
-		super(FabricBlockSettings.of(Material.SAND)
-				.hardness(0.3F)
-				.dynamicBounds()
-				.build());
-		setDefaultState(getStateFactory().getDefaultState().with(OPAQUE, true));
+		super(FabricBlockSettings.of(Material.AGGREGATE).hardness(0.3F).dynamicBounds().nonOpaque());
 	}
 
 	public BlockState stabilise(BlockState camouflague)
 	{
-		return this.getDefaultState().with(OPAQUE, camouflague.isOpaque());
+		return this.getDefaultState();
 	}
 
 	@Override
@@ -50,32 +40,17 @@ public class StabilisedBlock extends Block implements IHasSpecialBlockItem, Bloc
 		}
 		super.afterBreak(world, player, pos, state, blockEntity, tool);
 	}
-
+	
 	@Override
-	protected void appendProperties(Builder<Block, BlockState> stateFactoryBuilder)
-	{
-		stateFactoryBuilder.add(OPAQUE);
-	}
-
-	@Override
-	public BlockRenderLayer getRenderLayer()
-	{
-		return BlockRenderLayer.TRANSLUCENT;
-	}
-
-	@Override
-	public boolean isOpaque(BlockState state)
-	{
-		return state.get(OPAQUE);
-	}
-
-	@Override
-	public VoxelShape getOutlineShape(BlockState state, BlockView blockView, BlockPos pos, EntityContext entityContext)
+	public VoxelShape getOutlineShape(BlockState state, BlockView blockView, BlockPos pos, ShapeContext context)
 	{
 		BlockEntity blockEntity = blockView.getBlockEntity(pos);
 		if (blockEntity  instanceof StabilisedBlockBlockEntity)
-			return ((StabilisedBlockBlockEntity) blockEntity).getCamoBlockState().getOutlineShape(blockView, pos, entityContext);
-		return super.getOutlineShape(state, blockView, pos, entityContext);
+        {
+            return ((StabilisedBlockBlockEntity) blockEntity).getCamoBlockState()
+			    .getOutlineShape(blockView, pos, context);
+        }
+		return super.getOutlineShape(state, blockView, pos, context);
 	}
 	
 	@Override
@@ -85,14 +60,8 @@ public class StabilisedBlock extends Block implements IHasSpecialBlockItem, Bloc
 	}
 
 	@Override
-	public boolean hasBlockEntity()
+	public BlockEntity createBlockEntity(BlockPos pos, BlockState state)
 	{
-		return true;
-	}
-
-	@Override
-	public BlockEntity createBlockEntity(BlockView view)
-	{
-		return new StabilisedBlockBlockEntity();
+		return new StabilisedBlockBlockEntity(pos, state);
 	}
 }

@@ -4,20 +4,23 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collection;
 import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import blue.endless.jankson.Comment;
-import me.zeroeightsix.fiber.JanksonSettings;
-import me.zeroeightsix.fiber.annotation.AnnotatedSettings;
-import me.zeroeightsix.fiber.annotation.Listener;
-import me.zeroeightsix.fiber.annotation.Setting;
-import me.zeroeightsix.fiber.annotation.Setting.Constrain;
-import me.zeroeightsix.fiber.exception.FiberException;
-import me.zeroeightsix.fiber.tree.ConfigNode;
+import io.github.fablabsmc.fablabs.api.fiber.v1.annotation.AnnotatedSettings;
+import io.github.fablabsmc.fablabs.api.fiber.v1.annotation.Listener;
+import io.github.fablabsmc.fablabs.api.fiber.v1.annotation.Setting;
+import io.github.fablabsmc.fablabs.api.fiber.v1.annotation.Setting.Constrain;
+import io.github.fablabsmc.fablabs.api.fiber.v1.exception.FiberException;
+import io.github.fablabsmc.fablabs.api.fiber.v1.schema.type.derived.ConfigTypes;
+import io.github.fablabsmc.fablabs.api.fiber.v1.schema.type.derived.StringConfigType;
+import io.github.fablabsmc.fablabs.api.fiber.v1.serialization.FiberSerialization;
+import io.github.fablabsmc.fablabs.api.fiber.v1.serialization.JanksonValueSerializer;
+import io.github.fablabsmc.fablabs.api.fiber.v1.tree.ConfigTree;
 import net.minecraft.util.Identifier;
 
 public class PolarConfig
@@ -28,7 +31,9 @@ public class PolarConfig
 	private static final Logger LOGGER = LogManager.getLogger();
 	@Setting(ignore = true)
 	private static final Path PATH = Paths.get("config/polar.json5");
+	@Setting.Group
 	private Anomalies anomalies = new Anomalies();
+	@Setting.Group
 	private Charge charge = new Charge();
 	
 	public Anomalies anomalies()
@@ -43,29 +48,29 @@ public class PolarConfig
 	
 	public static class Anomalies
 	{
-		@Constrain.Min(0)
+		@Constrain.Range(min = 0)
 		@Comment("The minimum distance an anomaly can spawn from the player")
 		private int minRadius = 32;
-		@Constrain.Min(0)
+		@Constrain.Range(min = 0)
 		@Comment("The maximum distance an anomaly can spawn from the player")
 		private int maxRadius = 64;
-		@Constrain.Min(0)
+		@Constrain.Range(min = 0)
 		@Comment("The minimum height anomalies can spawn at")
 		private int minSpawnY = 0;
-		@Constrain.Min(0)
+		@Constrain.Range(min = 0)
 		@Comment("The maximum height anomalies can spawn at")
 		private int maxSpawnY = 72;
-		@Constrain.Min(1)
+		@Constrain.Range(min = 1)
 		@Comment("The minimum number of days an anomaly will stay open for, if left untapped")
 		private int minLifetime = 3;
-		@Constrain.Min(1)
+		@Constrain.Range(min = 1)
 		@Comment("The maximum number of days an anomaly will stay open for, if left untapped")
 		private int maxLifetime = 8;
-		@Constrain.Min(1)
+		@Constrain.Range(min = 1)
 		@Comment("The maximum number of anomalies that can be loaded at once")
 		private int maxAnomalyCount = 100;
 		@Comment("Anomalies will not spawn in any dimension that has its identifier in this list")
-		private Collection<Identifier> dimBlackList = new HashSet<>();
+		private Set<Identifier> dimBlackList = new HashSet<>();
 		
 		public int minRadius()
 		{
@@ -73,12 +78,13 @@ public class PolarConfig
 		}
 		
 		@Listener("minRadius")
-		private void minRadiusValidator(int oldValue, int newValue)
+		private void minRadiusValidator(Integer oldValue, Integer newValue)
 		{
 			if (minRadius >= maxRadius)
 			{
 				this.minRadius = oldValue;
-				LOGGER.warn("anomalies.minRadius must be less than anomalies.maxRadius. Value reset to {}", oldValue);
+				LOGGER.warn("anomalies.minRadius must be less than anomalies.maxRadius. "
+				    + "Value reset to {}", oldValue);
 			}
 		}
 
@@ -120,17 +126,17 @@ public class PolarConfig
 	
 	public static class Charge
 	{
-		@Constrain.Min(1)
+		@Constrain.Range(min = 1)
 		@Comment("The maximum charge a Gravitic Stabiliser can hold")
 		private int fallingBlockStabiliserMaxCharge = 128;
-		@Constrain.Min(0)
+		@Constrain.Range(min = 0)
 		@Comment("How much charge it costs to stabilise a block")
 		private int fallingBlockStabiliserActivationCost = 2;
 		
-		@Constrain.Min(1)
+		@Constrain.Range(min = 1)
 		@Comment("The maximum charge a Percussive Disintegrator can hold")
 		private int fallingBlockDestroyerMaxCharge = 256;
-		@Constrain.Min(0)
+		@Constrain.Range(min = 0)
 		@Comment("How much charge it costs to destroy a block")
 		private int fallingBlockDestroyerActivationCost = 2;
 		
@@ -159,12 +165,18 @@ public class PolarConfig
 	{
 		try
 		{
-			ConfigNode root = new ConfigNode();
-			AnnotatedSettings.applyToNode(root, POLAR_CONFIG);
-			if (Files.exists(PATH))
-				new JanksonSettings().deserialize(root, Files.newInputStream(PATH));
+			StringConfigType<Identifier> identifier = ConfigTypes.STRING
+			    .withPattern("[a-z0-9_.-]*:[a-z0-9\\/._-]+")
+			    .derive(Identifier.class, Identifier::new, Identifier::toString);
+            AnnotatedSettings serialisationSettings = AnnotatedSettings.builder()
+			    .registerTypeMapping(Identifier.class, identifier)
+			    .build();
+            ConfigTree root = ConfigTree.builder().applyFromPojo(POLAR_CONFIG, serialisationSettings).build();
+			JanksonValueSerializer serialiser = new JanksonValueSerializer(false);
+            if (Files.exists(PATH))
+			    FiberSerialization.deserialize(root, Files.newInputStream(PATH), serialiser);
 			else
-				new JanksonSettings().serialize(root, Files.newOutputStream(PATH), false);
+			    FiberSerialization.serialize(root, Files.newOutputStream(PATH), serialiser);
 		} 
 		catch (IOException | FiberException e)
 		{

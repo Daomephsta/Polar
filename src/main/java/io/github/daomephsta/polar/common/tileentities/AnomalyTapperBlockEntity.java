@@ -1,78 +1,83 @@
 package io.github.daomephsta.polar.common.tileentities;
 
-import java.math.RoundingMode;
-import java.util.List;
 import java.util.function.BinaryOperator;
 
-import com.google.common.math.DoubleMath;
-
+import io.github.daomephsta.polar.api.PolarAPI;
 import io.github.daomephsta.polar.api.components.IPolarChargeStorage;
 import io.github.daomephsta.polar.common.blocks.AnomalyTapperBlock;
+import io.github.daomephsta.polar.common.entities.EntityRegistry;
 import io.github.daomephsta.polar.common.entities.anomalies.EntityAnomaly;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.client.network.packet.BlockEntityUpdateS2CPacket;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.Tickable;
+import net.minecraft.entity.Entity;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
+import net.minecraft.world.World;
 
-public class AnomalyTapperBlockEntity extends BlockEntity implements Tickable
+public class AnomalyTapperBlockEntity extends BlockEntity
 {
 	private EntityAnomaly attachedAnomaly;
 	//Cached anomaly charge storage, because it won't change.
 	private IPolarChargeStorage	anomalyChargeStorage;
 	private int anomalyCheckCountdown = 10;
 	
-	public AnomalyTapperBlockEntity()
+	public AnomalyTapperBlockEntity(BlockPos pos, BlockState state)
 	{
-		super(PolarBlockEntityTypes.ANOMALY_TAPPER);
+		super(PolarBlockEntityTypes.ANOMALY_TAPPER, pos, state);
 	}
 	
-	@Override
-	public void tick()
+	public static void tick(World world, BlockPos pos, BlockState state, AnomalyTapperBlockEntity self)
 	{
 		//Decrement anomalyCheckCountdown, wrapping around to 10 when 0 is reached 
-		anomalyCheckCountdown = Math.floorMod(anomalyCheckCountdown - 1, 10);
-		if(anomalyCheckCountdown == 0 && !validateAnomaly())
+		self.anomalyCheckCountdown = Math.floorMod(self.anomalyCheckCountdown - 1, 10);
+		if(self.anomalyCheckCountdown == 0 && !self.validateAnomaly())
 		{
 			//Detach from the invalid anomaly
-			if(attached()) detachFromAnomaly();
-			searchForAnomaly();
+			if(self.attached()) self.detachFromAnomaly();
+			self.searchForAnomaly(world, pos, state);
 		}
 	}
 	
 	private boolean validateAnomaly()
 	{
 		return attached() && attachedAnomaly.isAlive() && 
-			world.isBlockLoaded(attachedAnomaly.getBlockPos());
+			world.isChunkLoaded(attachedAnomaly.getBlockPos());
 	}
 	
-	public void searchForAnomaly()
+	public void searchForAnomaly(World world, BlockPos pos, BlockState state)
 	{
-		BlockState state = world.getBlockState(getPos());
 		Direction facing = state.get(AnomalyTapperBlock.FACING);
 		//Search 3 blocks "forward" of the "back" of the tapper, and 0.5 blocks to either side 
 		Box anomalySearchArea = new Box(
-			getPos().getX() - 0.5D, 
-			getPos().getY() + 1.0D, 
-			getPos().getZ() - 0.5D, 
-			getPos().getX() + facing.getOffsetX() * 3.0D + 1.5D, 
-			getPos().getY() + facing.getOffsetY() * 3.0D, 
-			getPos().getZ() + facing.getOffsetZ() * 3.0D + 1.5D);
-		List<EntityAnomaly> anomalies = world.getEntities(EntityAnomaly.class, anomalySearchArea);
+			pos.getX() - 0.5D, 
+			pos.getY() + 1.0D, 
+			pos.getZ() - 0.5D, 
+			pos.getX() + facing.getOffsetX() * 3.0D + 1.5D, 
+			pos.getY() + facing.getOffsetY() * 3.0D, 
+			pos.getZ() + facing.getOffsetZ() * 3.0D + 1.5D);
 		//Find the closest anomaly in the search area that is of the correct polarity, and attach to it
-		anomalies.stream().filter(anomaly -> anomaly.getPolarity() == ((AnomalyTapperBlock) state.getBlock()).getPolarity())
-			.reduce(BinaryOperator.minBy((a, b) -> 
-			DoubleMath.roundToInt(getSquaredDistance(a.x, a.y, a.z) - getSquaredDistance(b.x, b.y, b.z), RoundingMode.UP)))
+		world.getEntitiesByType(EntityRegistry.ANOMALY, anomalySearchArea, anomaly -> 
+		        anomaly.getPolarity() == ((AnomalyTapperBlock) state.getBlock()).getPolarity())
+		    .stream()
+			.reduce(BinaryOperator.minBy(this::closestEntity))
 			.ifPresent(this::attachTo);
+	}
+	
+	private int closestEntity(Entity a, Entity b)
+	{
+	    return Double.compare(
+	        pos.getSquaredDistance(a.getPos(), true /*center*/), 
+	        pos.getSquaredDistance(b.getPos(), true /*center*/));
 	}
 	
 	private void attachTo(EntityAnomaly anomaly)
 	{
 		anomaly.open();
 		this.attachedAnomaly = anomaly;
-		this.anomalyChargeStorage = IPolarChargeStorage.get(anomaly);
+		this.anomalyChargeStorage = PolarAPI.CHARGE_STORAGE.get(anomaly);
 	}
 	
 	private void detachFromAnomaly()
@@ -95,12 +100,12 @@ public class AnomalyTapperBlockEntity extends BlockEntity implements Tickable
 	@Override
 	public BlockEntityUpdateS2CPacket toUpdatePacket()
 	{
-		return new BlockEntityUpdateS2CPacket(getPos(), 0, toInitialChunkDataTag());
+		return new BlockEntityUpdateS2CPacket(getPos(), 0, toInitialChunkDataNbt());
 	}
 	
 	@Override
-	public CompoundTag toInitialChunkDataTag()
+	public NbtCompound toInitialChunkDataNbt()
 	{
-		return toTag(new CompoundTag());
+		return writeNbt(new NbtCompound());
 	}
 }
