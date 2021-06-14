@@ -35,11 +35,16 @@ public class EnhancedRecipes implements ModInitializer
 
 	private static void registerRecipeSerialiser(String name, RecipeSerializer<?> serialiser)
 	{
-		Registry.register(Registry.RECIPE_SERIALIZER, new Identifier(MOD_ID, name), serialiser);
+		Registry.register(Registry.RECIPE_SERIALIZER, id(name), serialiser);
 	}
 	
 	private static void registerRecipeProcessorSerialiser(String name, RecipeProcessor.Serialiser<?> serialiser)
 	{
-		Registry.register(RecipeProcessor.REGISTRY, new Identifier(MOD_ID, name), serialiser);
+		Registry.register(RecipeProcessor.REGISTRY, id(name), serialiser);
 	}
+
+    public static Identifier id(String name)
+    {
+        return new Identifier(MOD_ID, name);
+    }
 }

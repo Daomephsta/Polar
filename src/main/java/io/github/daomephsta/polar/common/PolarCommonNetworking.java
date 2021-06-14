@@ -13,8 +13,8 @@ import net.minecraft.util.registry.Registry;
 
 public class PolarCommonNetworking
 {
-	public static final Identifier SPAWN_ENTITY = new Identifier(Polar.MOD_ID, "spawn_entity");
-	public static final Identifier SET_RESIDUAL_CHARGE = new Identifier(Polar.MOD_ID, "set_residual_charge");
+	public static final Identifier SPAWN_ENTITY = Polar.id("spawn_entity");
+	public static final Identifier SET_RESIDUAL_CHARGE = Polar.id("set_residual_charge");
 
     public static Packet<?> createEntitySpawnPacket(Entity entity)
     {

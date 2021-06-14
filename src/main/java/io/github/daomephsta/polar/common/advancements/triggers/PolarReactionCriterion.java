@@ -18,7 +18,7 @@ public class PolarReactionCriterion extends
 {
 	public PolarReactionCriterion()
 	{
-		super(new Identifier(Polar.MOD_ID, "polar_reaction"), tracker -> new Handler());
+		super(Polar.id("polar_reaction"), tracker -> new Handler());
 	}
 
 	public void handle(ServerPlayerEntity player, int reactionStrength)

@@ -17,7 +17,7 @@ public class ObserveFallingBlockCriterion
 {
 	public ObserveFallingBlockCriterion()
 	{
-		super(new Identifier(Polar.MOD_ID, "observe_falling_block"), tracker -> new Handler());
+		super(Polar.id("observe_falling_block"), tracker -> new Handler());
 	}
 
 

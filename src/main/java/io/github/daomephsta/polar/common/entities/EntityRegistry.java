@@ -7,7 +7,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class EntityRegistry
@@ -22,7 +21,7 @@ public class EntityRegistry
 	
 	private static <T extends Entity> EntityType<T> register(String name, EntityType<T> type)
 	{
-		return Registry.register(Registry.ENTITY_TYPE, new Identifier(Polar.MOD_ID, name), type);
+		return Registry.register(Registry.ENTITY_TYPE, Polar.id(name), type);
 	}
 	
 	public static void initialise()

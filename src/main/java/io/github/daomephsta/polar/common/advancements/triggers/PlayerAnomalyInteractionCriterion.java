@@ -16,7 +16,7 @@ public class PlayerAnomalyInteractionCriterion
 {
 	public PlayerAnomalyInteractionCriterion()
 	{
-		super(new Identifier(Polar.MOD_ID, "player_anomaly_interaction"), tracker -> new Handler());
+		super(Polar.id("player_anomaly_interaction"), tracker -> new Handler());
 	}
 
 	public void handle(ServerPlayerEntity player)

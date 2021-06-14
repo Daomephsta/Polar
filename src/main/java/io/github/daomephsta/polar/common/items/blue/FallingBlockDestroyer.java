@@ -12,7 +12,6 @@ import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.world.World;
 
 public class FallingBlockDestroyer extends TrinketItem implements IPolarisedItem
@@ -29,10 +28,10 @@ public class FallingBlockDestroyer extends TrinketItem implements IPolarisedItem
 	{
 		super.appendTooltip(stack, world, tooltip, tooltipContext);
 		IPolarChargeStorage chargeable = PolarAPI.CHARGE_STORAGE.get(stack);
-		tooltip.add(new TranslatableText(Polar.MOD_ID + ".tooltip.charge", chargeable.getStoredCharge(), chargeable.getMaxCharge()));
+		tooltip.add(Polar.translation("tooltip.charge", chargeable.getStoredCharge(), chargeable.getMaxCharge()));
 	}
-	
-	//TODO Implement coloured charge bars
+
+    //TODO Implement coloured charge bars
 	@Override
 	public Polarity getPolarity(ItemStack stack)
 	{

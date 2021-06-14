@@ -20,19 +20,19 @@ import net.minecraft.util.registry.Registry;
 public class PolarAPI
 {
 	public static final String PROVIDER_MOD_ID = "polar";
-	public static final ItemGroup TAB_RED = FabricItemGroupBuilder.create(new Identifier(PROVIDER_MOD_ID, "red"))
+	public static final ItemGroup TAB_RED = FabricItemGroupBuilder.create(id("red"))
 									.icon(() -> new ItemStack(getItem("red_resource_basic")))
 									.build(),
-								  TAB_BLUE = FabricItemGroupBuilder.create(new Identifier(PROVIDER_MOD_ID, "blue"))
+								  TAB_BLUE = FabricItemGroupBuilder.create(id("blue"))
 								  	.icon(() -> new ItemStack(getItem("blue_resource_basic")))
 								  	.build(),
-								  TAB_OTHER = FabricItemGroupBuilder.create(new Identifier(PROVIDER_MOD_ID, "other"))
+								  TAB_OTHER = FabricItemGroupBuilder.create(id("other"))
 								  //.icon(() -> ItemModBook.forBook(PROVIDER_MOD_ID + ":research_journal"))
 								  .build();
 	public static final ComponentKey<IPolarPlayerData> PLAYER_DATA = 
-	    ComponentRegistry.getOrCreate(new Identifier(PROVIDER_MOD_ID, "player_data"), IPolarPlayerData.class);
+	    ComponentRegistry.getOrCreate(id("player_data"), IPolarPlayerData.class);
 	public static final ComponentKey<IPolarChargeStorage> CHARGE_STORAGE = 
-	    ComponentRegistry.getOrCreate(new Identifier(PROVIDER_MOD_ID, "charge_storage"), IPolarChargeStorage.class);
+	    ComponentRegistry.getOrCreate(id("charge_storage"), IPolarChargeStorage.class);
 	
 	private static final Logger LOGGER = LogManager.getLogger();
 	
@@ -61,11 +61,16 @@ public class PolarAPI
 	
 	public static Item getItem(String name)
 	{
-		return Registry.ITEM.get(new Identifier(PROVIDER_MOD_ID, name));
+		return Registry.ITEM.get(id(name));
 	}
 	
 	public static Block getBlock(String name)
 	{
-		return Registry.BLOCK.get(new Identifier(PROVIDER_MOD_ID, name));
+		return Registry.BLOCK.get(id(name));
 	}
+
+    public static Identifier id(String name)
+    {
+        return new Identifier(PROVIDER_MOD_ID, name);
+    }
 }

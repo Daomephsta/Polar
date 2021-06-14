@@ -45,7 +45,7 @@ public class StabilisedBlockModel implements UnbakedModel
 {
 	public static final StabilisedBlockModel INSTANCE = new StabilisedBlockModel();
 	private static final SpriteIdentifier STABILISED_BLOCK_OVERLAY = new SpriteIdentifier(
-	    SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(Polar.MOD_ID, "blocks/red/stabilised_block_overlay"));
+	    SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, Polar.id("blocks/red/stabilised_block_overlay"));
 
 	@Override
 	public BakedModel bake(ModelLoader loader, Function<SpriteIdentifier, Sprite> spriteGetter, 

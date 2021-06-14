@@ -7,7 +7,6 @@ import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityT
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class PolarBlockEntityTypes
@@ -21,7 +20,7 @@ public class PolarBlockEntityTypes
 	private static <T extends BlockEntity> BlockEntityType<T> register(
 	    String name, Factory<T> constructor, Block... supportedBlocks)
 	{
-		return Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(Polar.MOD_ID, name), 
+		return Registry.register(Registry.BLOCK_ENTITY_TYPE, Polar.id(name), 
 				FabricBlockEntityTypeBuilder.create(constructor, supportedBlocks).build());
 	}
 	

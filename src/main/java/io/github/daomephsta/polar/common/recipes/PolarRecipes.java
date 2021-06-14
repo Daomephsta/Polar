@@ -3,7 +3,6 @@ package io.github.daomephsta.polar.common.recipes;
 import io.github.daomephsta.enhancedrecipes.common.EnhancedRecipes;
 import io.github.daomephsta.polar.common.Polar;
 import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class PolarRecipes
@@ -16,6 +15,6 @@ public class PolarRecipes
 
 	private static void registerRecipeSerialiser(String name, RecipeSerializer<?> serialiser)
 	{
-		Registry.register(Registry.RECIPE_SERIALIZER, new Identifier(Polar.MOD_ID, name), serialiser);
+		Registry.register(Registry.RECIPE_SERIALIZER, Polar.id(name), serialiser);
 	}
 }

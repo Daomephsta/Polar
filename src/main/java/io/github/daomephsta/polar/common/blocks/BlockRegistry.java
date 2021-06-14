@@ -10,7 +10,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class BlockRegistry
@@ -56,7 +55,7 @@ public class BlockRegistry
 	
 	private static <T extends Block> T registerBlock(T block, Function<Block, BlockItem> blockItemCreator, String name)
 	{
-		Registry.register(Registry.BLOCK, new Identifier(Polar.MOD_ID, name), block);
+		Registry.register(Registry.BLOCK, Polar.id(name), block);
 		BlockItem blockItem = blockItemCreator.apply(block);
 		if (blockItem != null)
 			Registry.register(Registry.ITEM, Registry.BLOCK.getId(block), blockItem);

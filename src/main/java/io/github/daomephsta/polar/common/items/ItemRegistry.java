@@ -6,7 +6,6 @@ import io.github.daomephsta.polar.common.items.blue.FallingBlockDestroyer;
 import io.github.daomephsta.polar.common.items.red.FallingBlockStabiliser;
 import net.minecraft.item.Item;
 import net.minecraft.item.ToolMaterials;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class ItemRegistry 
@@ -25,7 +24,7 @@ public class ItemRegistry
 	
 	private static <T extends Item> T register(T item, String name)
 	{
-		return Registry.register(Registry.ITEM, new Identifier(Polar.MOD_ID, name), item);
+		return Registry.register(Registry.ITEM, Polar.id(name), item);
 	}
 	
 	public static void initialize()

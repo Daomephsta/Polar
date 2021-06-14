@@ -23,6 +23,8 @@ import io.github.daomephsta.polar.common.items.ItemRegistry;
 import io.github.daomephsta.polar.common.recipes.PolarRecipes;
 import io.github.daomephsta.polar.common.tileentities.PolarBlockEntityTypes;
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Identifier;
 
 
 public class Polar implements ModInitializer
@@ -50,7 +52,7 @@ public class Polar implements ModInitializer
 		PolarRecipes.initialise();
 	}
 
-	// Static entrypoint for cardinal-components-entity. See fabric.mod.json
+    // Static entrypoint for cardinal-components-entity. See fabric.mod.json
 	public static void registerEntityComponents(EntityComponentFactoryRegistry registry)
 	{
 	    PolarPlayerDataComponent.register(registry);
@@ -62,4 +64,14 @@ public class Polar implements ModInitializer
 	{
         PolarChargeStorageComponent.register(registry);
 	}
+
+    public static Identifier id(String name)
+    {
+        return new Identifier(MOD_ID, name);
+    }
+
+    public static TranslatableText translation(String suffix, Object... arguments)
+    {
+        return new TranslatableText(MOD_ID + '.' + suffix, arguments);
+    }
 }

@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.mojang.serialization.Lifecycle;
 
-import io.github.daomephsta.polar.common.Polar;
+import io.github.daomephsta.enhancedrecipes.common.EnhancedRecipes;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
@@ -24,7 +24,7 @@ public abstract class RecipeProcessor
     private static <T> Registry<T> createRegistry(String id)
     {
         return FabricRegistryBuilder.from(new SimpleRegistry<T>(
-            RegistryKey.ofRegistry(new Identifier(Polar.MOD_ID, id)), Lifecycle.stable())).buildAndRegister();
+            RegistryKey.ofRegistry(EnhancedRecipes.id(id)), Lifecycle.stable())).buildAndRegister();
     }
 
 	public static RecipeProcessor fromJson(JsonObject json)
