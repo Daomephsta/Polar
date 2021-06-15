@@ -106,7 +106,7 @@ public class PolarChargeStorageComponent
 
         ItemAdapter(ItemStack stack, IPolarChargeStorage delegate)
         {
-            super(stack);
+            super(stack, PolarApi.CHARGE_STORAGE);
             this.delegate = delegate;
             delegate.writeToNbt(getOrCreateRootTag());
         }
@@ -150,7 +150,9 @@ public class PolarChargeStorageComponent
         public void onTagInvalidated()
         {
             super.onTagInvalidated();
-            delegate.readFromNbt(getOrCreateRootTag());
+            // Apparently this is called before the component is fully initialised
+            if (delegate != null)
+                delegate.writeToNbt(getOrCreateRootTag());
         }
     }
 }
