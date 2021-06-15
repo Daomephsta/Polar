@@ -33,7 +33,7 @@ public class NBTExtensions
     
     public static BlockState getBlockState(NbtCompound nbt, String key)
     {   
-        DataResult<Pair<BlockState, NbtElement>> state = BlockState.CODEC.decode(NbtOps.INSTANCE, nbt);
+        DataResult<Pair<BlockState, NbtElement>> state = BlockState.CODEC.decode(NbtOps.INSTANCE, nbt.get(key));
         return state.result().orElseThrow().getFirst();
     }
     
