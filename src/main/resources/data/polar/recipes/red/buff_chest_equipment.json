@@ -28,7 +28,7 @@
 					{
 						"uuid": "4565926A-96F5-40E8-95E3-FD7EE0AA57A5",
 						"attribute_id": "generic.armor",
-						"name": "polar.vermillis_armour_buff",
+						"name": "polar.red_armour_buff",
 						"operation": "ADDITION",
 						"amount": 0.5
 					}
