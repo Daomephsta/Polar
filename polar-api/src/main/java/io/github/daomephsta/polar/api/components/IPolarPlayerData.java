@@ -2,7 +2,7 @@ package io.github.daomephsta.polar.api.components;
 
 import dev.onyxstudios.cca.api.v3.component.Component;
 import dev.onyxstudios.cca.api.v3.component.ComponentProvider;
-import io.github.daomephsta.polar.api.PolarAPI;
+import io.github.daomephsta.polar.api.PolarApi;
 import io.github.daomephsta.polar.api.factions.FactionAlignment;
 import io.github.daomephsta.polar.api.factions.FactionRank;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,7 +12,7 @@ public interface IPolarPlayerData extends Component
 {
 	public static IPolarPlayerData get(PlayerEntity player)
 	{
-		return PolarAPI.PLAYER_DATA.get(ComponentProvider.fromEntity(player));
+		return PolarApi.PLAYER_DATA.get(ComponentProvider.fromEntity(player));
 	}
 	
 	public FactionAlignment getFaction();

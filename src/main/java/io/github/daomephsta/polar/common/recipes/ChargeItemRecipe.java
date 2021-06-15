@@ -1,7 +1,7 @@
 package io.github.daomephsta.polar.common.recipes;
 
 import io.github.daomephsta.polar.api.IPolarisedItem;
-import io.github.daomephsta.polar.api.PolarAPI;
+import io.github.daomephsta.polar.api.PolarApi;
 import io.github.daomephsta.polar.api.Polarity;
 import io.github.daomephsta.polar.api.components.IPolarChargeStorage;
 import io.github.daomephsta.polar.common.items.ItemRegistry;
@@ -37,7 +37,7 @@ public class ChargeItemRecipe extends SpecialCraftingRecipe
 				redFound = true;
 			else if (stack.getItem() == ItemRegistry.BLUE_RESOURCE_BASIC)
 				blueFound = true;
-			else if (PolarAPI.CHARGE_STORAGE.getNullable(stack) != null)
+			else if (PolarApi.CHARGE_STORAGE.getNullable(stack) != null)
 				chargeableStack = stack;
 		}
 		if (chargeableStack != null)
@@ -60,11 +60,11 @@ public class ChargeItemRecipe extends SpecialCraftingRecipe
 			ItemStack stack = inventory.getStack(s);
 			if (stack.getItem() == ItemRegistry.RED_RESOURCE_BASIC || stack.getItem() == ItemRegistry.BLUE_RESOURCE_BASIC)
 				chargeSources++;
-			else if (PolarAPI.CHARGE_STORAGE.getNullable(stack) != null)
+			else if (PolarApi.CHARGE_STORAGE.getNullable(stack) != null)
 				item = stack.copy();
 		}
 		// The item must exist, since matches() must return true for this method to be called
-		IPolarChargeStorage chargeable = PolarAPI.CHARGE_STORAGE.get(item);
+		IPolarChargeStorage chargeable = PolarApi.CHARGE_STORAGE.get(item);
 		Polarity itemPolarity = item.getItem() instanceof IPolarisedItem 
 			? ((IPolarisedItem) item.getItem()).getPolarity(item) 
 			: Polarity.NONE;

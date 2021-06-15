@@ -4,7 +4,7 @@ import java.util.List;
 
 import dev.emi.trinkets.api.TrinketItem;
 import io.github.daomephsta.polar.api.IPolarisedItem;
-import io.github.daomephsta.polar.api.PolarAPI;
+import io.github.daomephsta.polar.api.PolarApi;
 import io.github.daomephsta.polar.api.Polarity;
 import io.github.daomephsta.polar.api.components.IPolarChargeStorage;
 import io.github.daomephsta.polar.common.Polar;
@@ -20,14 +20,14 @@ public class FallingBlockDestroyer extends TrinketItem implements IPolarisedItem
 	{
 		super(new Item.Settings()
 				.maxCount(1)
-				.group(PolarAPI.TAB_BLUE));
+				.group(PolarApi.TAB_BLUE));
 	}
 
 	@Override
 	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext tooltipContext)
 	{
 		super.appendTooltip(stack, world, tooltip, tooltipContext);
-		IPolarChargeStorage chargeable = PolarAPI.CHARGE_STORAGE.get(stack);
+		IPolarChargeStorage chargeable = PolarApi.CHARGE_STORAGE.get(stack);
 		tooltip.add(Polar.translation("tooltip.charge", chargeable.getStoredCharge(), chargeable.getMaxCharge()));
 	}
 

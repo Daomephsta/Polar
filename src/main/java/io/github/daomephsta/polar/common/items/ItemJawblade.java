@@ -3,7 +3,7 @@ package io.github.daomephsta.polar.common.items;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 
-import io.github.daomephsta.polar.api.PolarAPI;
+import io.github.daomephsta.polar.api.PolarApi;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -22,7 +22,7 @@ public class ItemJawblade extends Item
 	public ItemJawblade(ToolMaterial material)
 	{
 		super(new Item.Settings()
-				.group(PolarAPI.TAB_OTHER)
+				.group(PolarApi.TAB_OTHER)
 				.maxCount(1)
 				.maxDamage(material.getDurability()));
 		this.material = material;

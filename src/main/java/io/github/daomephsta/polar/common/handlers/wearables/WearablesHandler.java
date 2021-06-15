@@ -2,7 +2,7 @@ package io.github.daomephsta.polar.common.handlers.wearables;
 
 import dev.emi.trinkets.api.Trinket;
 import dev.emi.trinkets.api.TrinketsApi;
-import io.github.daomephsta.polar.api.PolarAPI;
+import io.github.daomephsta.polar.api.PolarApi;
 import io.github.daomephsta.polar.api.Polarity;
 import io.github.daomephsta.polar.api.components.IPolarChargeStorage;
 import io.github.daomephsta.polar.common.callbacks.PlayerBreakBlockCallback;
@@ -63,7 +63,7 @@ public class WearablesHandler
 	 */
 	static boolean checkCharge(PlayerEntity player, ItemStack chargeable, Polarity polarity, int cost, int lowChargeThreshold)
 	{
-		IPolarChargeStorage chargeStorage = PolarAPI.CHARGE_STORAGE.get(chargeable);
+		IPolarChargeStorage chargeStorage = PolarApi.CHARGE_STORAGE.get(chargeable);
 		if (chargeStorage.discharge(polarity, cost, true) < cost)
 		{
 			player.sendMessage(new TranslatableText("polar.message.insufficient_charge", cost), true);

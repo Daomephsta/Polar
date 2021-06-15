@@ -1,6 +1,6 @@
 package io.github.daomephsta.polar.api.factions;
 
-import io.github.daomephsta.polar.api.PolarAPI;
+import io.github.daomephsta.polar.api.PolarApi;
 
 /**Declares the alignment of a player or NPC. A player or NPC should only have one alignment.**/
 public enum FactionAlignment 
@@ -16,7 +16,7 @@ public enum FactionAlignment
 	
 	private FactionAlignment(int factionColour) 
 	{
-		this.langKey = PolarAPI.PROVIDER_MOD_ID + ".alignment." + this.name();
+		this.langKey = PolarApi.PROVIDER_MOD_ID + ".alignment." + this.name();
 		this.factionColour = factionColour;
 	}
 

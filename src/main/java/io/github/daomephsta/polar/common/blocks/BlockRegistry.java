@@ -2,7 +2,7 @@ package io.github.daomephsta.polar.common.blocks;
 
 import java.util.function.Function;
 
-import io.github.daomephsta.polar.api.PolarAPI;
+import io.github.daomephsta.polar.api.PolarApi;
 import io.github.daomephsta.polar.api.Polarity;
 import io.github.daomephsta.polar.common.Polar;
 import io.github.daomephsta.polar.common.blocks.red.StabilisedBlock;
@@ -21,29 +21,29 @@ public class BlockRegistry
 	public static final AnomalyTapperBlock BLUE_ANOMALY_TAPPER = registerBlock(new AnomalyTapperBlock(Polarity.BLUE), "blue_anomaly_tapper");
 	// Other
 	public static final Block RAL_RUNE = registerBlock(new Block(Block.Settings.of(Material.STONE)), 
-									  block -> new BlockItem(block, new Item.Settings().group(PolarAPI.TAB_BLUE)), "ral_rune"),
+									  block -> new BlockItem(block, new Item.Settings().group(PolarApi.TAB_BLUE)), "ral_rune"),
 							  SAI_RUNE = registerBlock(new Block(Block.Settings.of(Material.STONE)), 
-									  block -> new BlockItem(block, new Item.Settings().group(PolarAPI.TAB_BLUE)), "sai_rune"),
+									  block -> new BlockItem(block, new Item.Settings().group(PolarApi.TAB_BLUE)), "sai_rune"),
 							  DEL_RUNE = registerBlock(new Block(Block.Settings.of(Material.STONE)), 
-									  block -> new BlockItem(block, new Item.Settings().group(PolarAPI.TAB_BLUE)), "del_rune"),
+									  block -> new BlockItem(block, new Item.Settings().group(PolarApi.TAB_BLUE)), "del_rune"),
 							  PER_RUNE = registerBlock(new Block(Block.Settings.of(Material.STONE)), 
-									  block -> new BlockItem(block, new Item.Settings().group(PolarAPI.TAB_BLUE)), "per_rune"),
+									  block -> new BlockItem(block, new Item.Settings().group(PolarApi.TAB_BLUE)), "per_rune"),
 							  SEI_RUNE = registerBlock(new Block(Block.Settings.of(Material.STONE)), 
-									  block -> new BlockItem(block, new Item.Settings().group(PolarAPI.TAB_BLUE)), "sei_rune"),
+									  block -> new BlockItem(block, new Item.Settings().group(PolarApi.TAB_BLUE)), "sei_rune"),
 							  NEI_RUNE = registerBlock(new Block(Block.Settings.of(Material.STONE)), 
-									  block -> new BlockItem(block, new Item.Settings().group(PolarAPI.TAB_BLUE)), "nei_rune"),
+									  block -> new BlockItem(block, new Item.Settings().group(PolarApi.TAB_BLUE)), "nei_rune"),
 							  QER_RUNE = registerBlock(new Block(Block.Settings.of(Material.STONE)), 
-									  block -> new BlockItem(block, new Item.Settings().group(PolarAPI.TAB_RED)), "qer_rune"),
+									  block -> new BlockItem(block, new Item.Settings().group(PolarApi.TAB_RED)), "qer_rune"),
 							  DER_RUNE = registerBlock(new Block(Block.Settings.of(Material.STONE)), 
-									  block -> new BlockItem(block, new Item.Settings().group(PolarAPI.TAB_RED)), "der_rune"),
+									  block -> new BlockItem(block, new Item.Settings().group(PolarApi.TAB_RED)), "der_rune"),
 							  NIM_RUNE = registerBlock(new Block(Block.Settings.of(Material.STONE)), 
-									  block -> new BlockItem(block, new Item.Settings().group(PolarAPI.TAB_RED)), "nim_rune"),
+									  block -> new BlockItem(block, new Item.Settings().group(PolarApi.TAB_RED)), "nim_rune"),
 							  MIR_RUNE = registerBlock(new Block(Block.Settings.of(Material.STONE)), 
-									  block -> new BlockItem(block, new Item.Settings().group(PolarAPI.TAB_RED)), "mir_rune"),
+									  block -> new BlockItem(block, new Item.Settings().group(PolarApi.TAB_RED)), "mir_rune"),
 							  JO_RUNE  = registerBlock(new Block(Block.Settings.of(Material.STONE)), 
-									  block -> new BlockItem(block, new Item.Settings().group(PolarAPI.TAB_RED)), "jo_rune"),
+									  block -> new BlockItem(block, new Item.Settings().group(PolarApi.TAB_RED)), "jo_rune"),
 							  TIR_RUNE = registerBlock(new Block(Block.Settings.of(Material.STONE)), 
-									  block -> new BlockItem(block, new Item.Settings().group(PolarAPI.TAB_RED)), "tir_rune");
+									  block -> new BlockItem(block, new Item.Settings().group(PolarApi.TAB_RED)), "tir_rune");
 	
 	private static <T extends Block> T registerBlock(T block, String name)
 	{

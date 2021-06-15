@@ -3,7 +3,7 @@ package io.github.daomephsta.polar.common.entities.anomalies;
 import static io.github.daomephsta.polar.common.config.PolarConfig.POLAR_CONFIG;
 
 import dev.onyxstudios.cca.api.v3.entity.EntityComponentFactoryRegistry;
-import io.github.daomephsta.polar.api.PolarAPI;
+import io.github.daomephsta.polar.api.PolarApi;
 import io.github.daomephsta.polar.api.Polarity;
 import io.github.daomephsta.polar.common.PolarCommonNetworking;
 import io.github.daomephsta.polar.common.advancements.triggers.PolarCriteria;
@@ -52,7 +52,7 @@ public class EntityAnomaly extends Entity
 	{
 		super.tick();
 		long closeIn = closingTimestamp - world.getTime();
-		if ((closeIn <= 0 && !open) || PolarAPI.CHARGE_STORAGE.get(this).getStoredCharge() == 0)
+		if ((closeIn <= 0 && !open) || PolarApi.CHARGE_STORAGE.get(this).getStoredCharge() == 0)
 		{
 			this.discard();
 			return;
@@ -151,7 +151,7 @@ public class EntityAnomaly extends Entity
     
     public static void registerComponents(EntityComponentFactoryRegistry registry)
     {
-        registry.registerFor(EntityAnomaly.class, PolarAPI.CHARGE_STORAGE, 
+        registry.registerFor(EntityAnomaly.class, PolarApi.CHARGE_STORAGE, 
             entity -> new AnomalyChargeStorage(entity, 1000 + entity.random.nextInt(1000)));
     }
 

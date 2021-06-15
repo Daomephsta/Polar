@@ -20,9 +20,9 @@ import net.minecraft.util.StringIdentifiable;
  */
 public enum Polarity implements StringIdentifiable
 {	
-	NONE(0, PolarAPI.TAB_OTHER),
-	RED(1, 0, PolarAPI.TAB_OTHER),
-	BLUE(2, 1, PolarAPI.TAB_OTHER);
+	NONE(0, PolarApi.TAB_OTHER),
+	RED(1, 0, PolarApi.TAB_OTHER),
+	BLUE(2, 1, PolarApi.TAB_OTHER);
 	
 	/**An immutable list of all polarities except {@code NONE}**/
 	public static final List<Polarity> POLARISED;
@@ -92,7 +92,7 @@ public enum Polarity implements StringIdentifiable
 		this.index = index;
 		this.polarisedIndex = polarisedIndex;
 		this.itemGroup = itemGroup;
-		this.translationKey = PolarAPI.PROVIDER_MOD_ID + ".polarity." + asString();
+		this.translationKey = PolarApi.PROVIDER_MOD_ID + ".polarity." + asString();
 	}
 	
 	/**
@@ -132,9 +132,9 @@ public enum Polarity implements StringIdentifiable
 	{
 		if (stack.getItem() instanceof IPolarisedItem)
 			return ((IPolarisedItem) stack.getItem()).getPolarity(stack);
-		if (stack.hasTag() && stack.getTag().contains(PolarAPI.PROVIDER_MOD_ID))
+		if (stack.hasTag() && stack.getTag().contains(PolarApi.PROVIDER_MOD_ID))
 		{
-			NbtCompound polarTag = stack.getTag().getCompound(PolarAPI.PROVIDER_MOD_ID);
+			NbtCompound polarTag = stack.getTag().getCompound(PolarApi.PROVIDER_MOD_ID);
 			return Enum.valueOf(Polarity.class, polarTag.getString(CommonWords.POLARITY));
 		}
 		return Polarity.NONE;
@@ -149,8 +149,8 @@ public enum Polarity implements StringIdentifiable
 	{
 		if (stack.getItem() instanceof IPolarisedItem) return true;
 		if (!stack.hasTag()) return false;
-		return stack.getTag().contains(PolarAPI.PROVIDER_MOD_ID) 
-				&& stack.getTag().getCompound(PolarAPI.PROVIDER_MOD_ID).contains(CommonWords.POLARITY);
+		return stack.getTag().contains(PolarApi.PROVIDER_MOD_ID) 
+				&& stack.getTag().getCompound(PolarApi.PROVIDER_MOD_ID).contains(CommonWords.POLARITY);
 	}
 	
 	@Override

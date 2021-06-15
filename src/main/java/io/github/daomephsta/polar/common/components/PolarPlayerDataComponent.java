@@ -1,7 +1,7 @@
 package io.github.daomephsta.polar.common.components;
 
 import dev.onyxstudios.cca.api.v3.entity.EntityComponentFactoryRegistry;
-import io.github.daomephsta.polar.api.PolarAPI;
+import io.github.daomephsta.polar.api.PolarApi;
 import io.github.daomephsta.polar.api.Polarity;
 import io.github.daomephsta.polar.api.components.IPolarPlayerData;
 import io.github.daomephsta.polar.api.factions.FactionAlignment;
@@ -17,10 +17,10 @@ public class PolarPlayerDataComponent
 {
 	public static void register(EntityComponentFactoryRegistry registry)
 	{
-	    registry.registerFor(PlayerEntity.class, PolarAPI.PLAYER_DATA, PolarPlayerData::new);
+	    registry.registerFor(PlayerEntity.class, PolarApi.PLAYER_DATA, PolarPlayerData::new);
 	}
 	
-	/**Stores data associated with a player. Non-API class, other mods should access player data through {@link PolarAPI#getPlayerData(PlayerEntity)}**/
+	/**Stores data associated with a player. Non-API class, other mods should access player data through {@link PolarApi#getPlayerData(PlayerEntity)}**/
 	public static class PolarPlayerData implements IPolarPlayerData
 	{
 		private final PlayerEntity player;

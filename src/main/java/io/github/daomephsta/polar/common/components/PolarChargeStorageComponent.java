@@ -3,7 +3,7 @@ package io.github.daomephsta.polar.common.components;
 import dev.onyxstudios.cca.api.v3.component.ComponentFactory;
 import dev.onyxstudios.cca.api.v3.item.ItemComponent;
 import dev.onyxstudios.cca.api.v3.item.ItemComponentFactoryRegistry;
-import io.github.daomephsta.polar.api.PolarAPI;
+import io.github.daomephsta.polar.api.PolarApi;
 import io.github.daomephsta.polar.api.Polarity;
 import io.github.daomephsta.polar.api.components.IPolarChargeStorage;
 import io.github.daomephsta.polar.common.config.PolarConfig;
@@ -15,17 +15,16 @@ public class PolarChargeStorageComponent
 {   
 	public static void register(ItemComponentFactoryRegistry registry)
 	{
-        registry.register(ItemRegistry.FALLING_BLOCK_STABILISER, PolarAPI.CHARGE_STORAGE,  
+        registry.register(ItemRegistry.FALLING_BLOCK_STABILISER, PolarApi.CHARGE_STORAGE,  
 	        Simple.forItem(Polarity.RED, PolarConfig.POLAR_CONFIG.charge().fallingBlockStabiliserMaxCharge(), 0));
-        registry.register(ItemRegistry.FALLING_BLOCK_DESTROYER, PolarAPI.CHARGE_STORAGE, 
+        registry.register(ItemRegistry.FALLING_BLOCK_DESTROYER, PolarApi.CHARGE_STORAGE, 
 	        Simple.forItem(Polarity.RED, PolarConfig.POLAR_CONFIG.charge().fallingBlockDestroyerMaxCharge(), 0));
 	}
 	
-    @SuppressWarnings("unchecked")
-    public static <A extends ItemComponent & IPolarChargeStorage> ComponentFactory<ItemStack, A> 
+    public static ComponentFactory<ItemStack, ItemAdapter> 
         forItem(IPolarChargeStorage delegate)
     {
-        return stack -> (A) new ItemAdapter(stack, delegate);
+        return stack -> new ItemAdapter(stack, delegate);
     }
 	
 	public static class Simple implements IPolarChargeStorage
@@ -46,7 +45,7 @@ public class PolarChargeStorageComponent
 			this.storedCharge = initialCharge;
 		}
 
-        public static <A extends ItemComponent & IPolarChargeStorage> ComponentFactory<ItemStack, A> 
+        public static ComponentFactory<ItemStack, ItemAdapter> 
 		    forItem(Polarity polarity, int maxCharge, int initialCharge)
         {
             return PolarChargeStorageComponent.forItem(new Simple(polarity, maxCharge, initialCharge));
@@ -101,7 +100,7 @@ public class PolarChargeStorageComponent
 		}
 	}
 	
-    private static class ItemAdapter extends ItemComponent implements IPolarChargeStorage
+    public static class ItemAdapter extends ItemComponent implements IPolarChargeStorage
     {
         private final IPolarChargeStorage delegate;
 

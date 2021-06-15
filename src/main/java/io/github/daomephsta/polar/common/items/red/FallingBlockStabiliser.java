@@ -4,7 +4,7 @@ import java.util.List;
 
 import dev.emi.trinkets.api.TrinketItem;
 import io.github.daomephsta.polar.api.IPolarisedItem;
-import io.github.daomephsta.polar.api.PolarAPI;
+import io.github.daomephsta.polar.api.PolarApi;
 import io.github.daomephsta.polar.api.Polarity;
 import io.github.daomephsta.polar.api.components.IPolarChargeStorage;
 import io.github.daomephsta.polar.common.Polar;
@@ -24,7 +24,7 @@ public class FallingBlockStabiliser extends TrinketItem implements IPolarisedIte
 {
 	public FallingBlockStabiliser()
 	{
-		super(new Item.Settings().group(PolarAPI.TAB_RED));
+		super(new Item.Settings().group(PolarApi.TAB_RED));
 	}
 	
 	@Override
@@ -45,7 +45,7 @@ public class FallingBlockStabiliser extends TrinketItem implements IPolarisedIte
 	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext tooltipContext)
 	{
 		super.appendTooltip(stack, world, tooltip, tooltipContext);
-		IPolarChargeStorage chargeable = PolarAPI.CHARGE_STORAGE.get(stack);
+		IPolarChargeStorage chargeable = PolarApi.CHARGE_STORAGE.get(stack);
 		tooltip.add(new TranslatableText(Polar.MOD_ID + ".tooltip.charge", 
 		    chargeable.getStoredCharge(), chargeable.getMaxCharge()));
 	}

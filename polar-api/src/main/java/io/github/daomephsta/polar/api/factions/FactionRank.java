@@ -2,7 +2,7 @@ package io.github.daomephsta.polar.api.factions;
 
 import java.util.Comparator;
 
-import io.github.daomephsta.polar.api.PolarAPI;
+import io.github.daomephsta.polar.api.PolarApi;
 
 /**
  * Represents the rank of a player or NPC within a faction. Unaligned players always have the rank NONE. 
@@ -32,6 +32,6 @@ public enum FactionRank
 	public String getLangKey(FactionAlignment alignment)
 	{
 		if(alignment == FactionAlignment.UNALIGNED) return "";
-		return PolarAPI.PROVIDER_MOD_ID + ".rank." + alignment.name() + "_" + this.name();
+		return PolarApi.PROVIDER_MOD_ID + ".rank." + alignment.name() + "_" + this.name();
 	}
 }

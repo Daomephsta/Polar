@@ -2,7 +2,7 @@ package io.github.daomephsta.polar.common.tileentities;
 
 import java.util.function.BinaryOperator;
 
-import io.github.daomephsta.polar.api.PolarAPI;
+import io.github.daomephsta.polar.api.PolarApi;
 import io.github.daomephsta.polar.api.components.IPolarChargeStorage;
 import io.github.daomephsta.polar.common.blocks.AnomalyTapperBlock;
 import io.github.daomephsta.polar.common.entities.EntityRegistry;
@@ -77,7 +77,7 @@ public class AnomalyTapperBlockEntity extends BlockEntity
 	{
 		anomaly.open();
 		this.attachedAnomaly = anomaly;
-		this.anomalyChargeStorage = PolarAPI.CHARGE_STORAGE.get(anomaly);
+		this.anomalyChargeStorage = PolarApi.CHARGE_STORAGE.get(anomaly);
 	}
 	
 	private void detachFromAnomaly()
