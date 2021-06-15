@@ -10,28 +10,28 @@ import io.github.daomephsta.polar.api.PolarApi;
 **/
 public enum FactionRank
 {
-	NONE(0),
-	INITIATE(1),
-	APPRENTICE(2),
-	JOURNEYMAN(3),
-	MASTER(4);
-	
-	public static final Comparator<FactionRank> COMPARATOR = (a, b) -> a.rankIndex - b.rankIndex;
-	//Used to compare ranks, can change
-	private final int rankIndex;
-	
-	private FactionRank(int rankIndex)
-	{
-		this.rankIndex = rankIndex;
-	}
-	
-	/**
-	 * @param alignment The faction to localise the rank for
-	 * @return A string key to be used to localise the name of the rank for a particular faction
-	 **/
-	public String getLangKey(FactionAlignment alignment)
-	{
-		if(alignment == FactionAlignment.UNALIGNED) return "";
-		return PolarApi.PROVIDER_MOD_ID + ".rank." + alignment.name() + "_" + this.name();
-	}
+    NONE(0),
+    INITIATE(1),
+    APPRENTICE(2),
+    JOURNEYMAN(3),
+    MASTER(4);
+    
+    public static final Comparator<FactionRank> COMPARATOR = (a, b) -> a.rankIndex - b.rankIndex;
+    //Used to compare ranks, can change
+    private final int rankIndex;
+    
+    private FactionRank(int rankIndex)
+    {
+        this.rankIndex = rankIndex;
+    }
+    
+    /**
+     * @param alignment The faction to localise the rank for
+     * @return A string key to be used to localise the name of the rank for a particular faction
+     **/
+    public String getLangKey(FactionAlignment alignment)
+    {
+        if(alignment == FactionAlignment.UNALIGNED) return "";
+        return PolarApi.PROVIDER_MOD_ID + ".rank." + alignment.name() + "_" + this.name();
+    }
 }

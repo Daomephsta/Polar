@@ -10,16 +10,16 @@ import net.minecraft.entity.player.PlayerEntity;
 /**An interface that provides access to Polar player data. Designed to be used by other mods.**/
 public interface IPolarPlayerData extends Component
 {
-	public static IPolarPlayerData get(PlayerEntity player)
-	{
-		return PolarApi.PLAYER_DATA.get(ComponentProvider.fromEntity(player));
-	}
-	
-	public FactionAlignment getFaction();
-	
-	public void setFaction(FactionAlignment faction);
+    public static IPolarPlayerData get(PlayerEntity player)
+    {
+        return PolarApi.PLAYER_DATA.get(ComponentProvider.fromEntity(player));
+    }
+    
+    public FactionAlignment getFaction();
+    
+    public void setFaction(FactionAlignment faction);
 
-	public FactionRank getRank();
+    public FactionRank getRank();
 
-	public void setRank(FactionRank rank);
+    public void setRank(FactionRank rank);
 }

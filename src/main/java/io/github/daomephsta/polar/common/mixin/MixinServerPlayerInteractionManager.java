@@ -15,15 +15,15 @@ import net.minecraft.util.math.BlockPos;
 @Mixin(ServerPlayerInteractionManager.class)
 public class MixinServerPlayerInteractionManager
 {
-	@Shadow
-	public ServerWorld world;
-	@Shadow
-	public ServerPlayerEntity player;
-	
-	@Inject(method = "tryBreakBlock", at = @At(value = "INVOKE", target = "net/minecraft/block/Block.onBreak"), cancellable = true)
-	public void polar_tryBreakBlock(BlockPos pos, CallbackInfoReturnable<Boolean> info)
-	{
-		if (!PlayerBreakBlockCallback.EVENT.invoker().preBreakBlock(world, pos, player))
-			info.setReturnValue(false);
-	}
+    @Shadow
+    public ServerWorld world;
+    @Shadow
+    public ServerPlayerEntity player;
+    
+    @Inject(method = "tryBreakBlock", at = @At(value = "INVOKE", target = "net/minecraft/block/Block.onBreak"), cancellable = true)
+    public void polar_tryBreakBlock(BlockPos pos, CallbackInfoReturnable<Boolean> info)
+    {
+        if (!PlayerBreakBlockCallback.EVENT.invoker().preBreakBlock(world, pos, player))
+            info.setReturnValue(false);
+    }
 }

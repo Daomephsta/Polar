@@ -19,38 +19,38 @@ import net.minecraft.world.World;
 
 public class FallingBlockStabiliserHandler
 {
-	static boolean stabiliseFallingBlocks(World world, PlayerEntity player, BlockPos pos, BlockState state)
-	{
-		BlockState stateAbove = world.getBlockState(pos.up());
-		boolean unstableBlock = isUnstableBlock(stateAbove);
-		if (!unstableBlock)
-			return true;
-		ItemStack wearableStack = WearablesHandler.findEquippedWearable(player, ItemRegistry.FALLING_BLOCK_STABILISER);
-		if (wearableStack.isEmpty())
-			return true;
-		FallingBlockStabiliserHandler.placeStabilisedBlock(player, wearableStack, world, pos.up(), stateAbove);
-		return true;
-	}
+    static boolean stabiliseFallingBlocks(World world, PlayerEntity player, BlockPos pos, BlockState state)
+    {
+        BlockState stateAbove = world.getBlockState(pos.up());
+        boolean unstableBlock = isUnstableBlock(stateAbove);
+        if (!unstableBlock)
+            return true;
+        ItemStack wearableStack = WearablesHandler.findEquippedWearable(player, ItemRegistry.FALLING_BLOCK_STABILISER);
+        if (wearableStack.isEmpty())
+            return true;
+        FallingBlockStabiliserHandler.placeStabilisedBlock(player, wearableStack, world, pos.up(), stateAbove);
+        return true;
+    }
 
-	public static boolean isUnstableBlock(BlockState state)
-	{
-		return CompatibilityTags.GRAVITY_AFFECTED.contains(state.getBlock());
-	}
+    public static boolean isUnstableBlock(BlockState state)
+    {
+        return CompatibilityTags.GRAVITY_AFFECTED.contains(state.getBlock());
+    }
 
-	public static boolean placeStabilisedBlock(PlayerEntity player, ItemStack wearableStack, World world, BlockPos pos, BlockState camo)
-	{
-		IPolarChargeStorage chargeable = PolarApi.CHARGE_STORAGE.get(wearableStack);
-		int cost = POLAR_CONFIG.charge().fallingBlockStabiliserActivationCost();
-		if (WearablesHandler.checkCharge(player, wearableStack, Polarity.RED, cost, POLAR_CONFIG.charge().fallingBlockStabiliserActivationCost() * 8))
-		{
-			chargeable.discharge(Polarity.RED, cost, false);
-			ResidualPolarityHandler.itemActivated(wearableStack, player);
-			world.setBlockState(pos, BlockRegistry.STABILISED_BLOCK.stabilise(camo));
-			BlockEntity be = world.getBlockEntity(pos);
-			if (be instanceof StabilisedBlockBlockEntity)
-				((StabilisedBlockBlockEntity) be).setCamoBlockState(camo);
-			return true;
-		}
-		return false;
-	}
+    public static boolean placeStabilisedBlock(PlayerEntity player, ItemStack wearableStack, World world, BlockPos pos, BlockState camo)
+    {
+        IPolarChargeStorage chargeable = PolarApi.CHARGE_STORAGE.get(wearableStack);
+        int cost = POLAR_CONFIG.charge().fallingBlockStabiliserActivationCost();
+        if (WearablesHandler.checkCharge(player, wearableStack, Polarity.RED, cost, POLAR_CONFIG.charge().fallingBlockStabiliserActivationCost() * 8))
+        {
+            chargeable.discharge(Polarity.RED, cost, false);
+            ResidualPolarityHandler.itemActivated(wearableStack, player);
+            world.setBlockState(pos, BlockRegistry.STABILISED_BLOCK.stabilise(camo));
+            BlockEntity be = world.getBlockEntity(pos);
+            if (be instanceof StabilisedBlockBlockEntity)
+                ((StabilisedBlockBlockEntity) be).setCamoBlockState(camo);
+            return true;
+        }
+        return false;
+    }
 }

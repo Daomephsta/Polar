@@ -19,49 +19,49 @@ import net.minecraft.world.World;
 
 public class StabilisedBlock extends Block implements IHasSpecialBlockItem, BlockEntityProvider
 {
-	public StabilisedBlock()
-	{
-		super(FabricBlockSettings.of(Material.AGGREGATE).hardness(0.3F).dynamicBounds().nonOpaque());
-	}
+    public StabilisedBlock()
+    {
+        super(FabricBlockSettings.of(Material.AGGREGATE).hardness(0.3F).dynamicBounds().nonOpaque());
+    }
 
-	public BlockState stabilise(BlockState camouflague)
-	{
-		return this.getDefaultState();
-	}
+    public BlockState stabilise(BlockState camouflague)
+    {
+        return this.getDefaultState();
+    }
 
-	@Override
-	public void afterBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, BlockEntity blockEntity, ItemStack tool)
-	{
-		if (blockEntity instanceof StabilisedBlockBlockEntity)
-		{
-			//Turn into camo when broken
-			BlockState camoState = ((StabilisedBlockBlockEntity) blockEntity).getCamoBlockState();
-			world.setBlockState(pos, camoState);
-		}
-		super.afterBreak(world, player, pos, state, blockEntity, tool);
-	}
-	
-	@Override
-	public VoxelShape getOutlineShape(BlockState state, BlockView blockView, BlockPos pos, ShapeContext context)
-	{
-		BlockEntity blockEntity = blockView.getBlockEntity(pos);
-		if (blockEntity  instanceof StabilisedBlockBlockEntity)
+    @Override
+    public void afterBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, BlockEntity blockEntity, ItemStack tool)
+    {
+        if (blockEntity instanceof StabilisedBlockBlockEntity)
+        {
+            //Turn into camo when broken
+            BlockState camoState = ((StabilisedBlockBlockEntity) blockEntity).getCamoBlockState();
+            world.setBlockState(pos, camoState);
+        }
+        super.afterBreak(world, player, pos, state, blockEntity, tool);
+    }
+    
+    @Override
+    public VoxelShape getOutlineShape(BlockState state, BlockView blockView, BlockPos pos, ShapeContext context)
+    {
+        BlockEntity blockEntity = blockView.getBlockEntity(pos);
+        if (blockEntity  instanceof StabilisedBlockBlockEntity)
         {
             return ((StabilisedBlockBlockEntity) blockEntity).getCamoBlockState()
-			    .getOutlineShape(blockView, pos, context);
+                .getOutlineShape(blockView, pos, context);
         }
-		return super.getOutlineShape(state, blockView, pos, context);
-	}
-	
-	@Override
-	public BlockItem createBlockItem()
-	{
-		return null;
-	}
+        return super.getOutlineShape(state, blockView, pos, context);
+    }
+    
+    @Override
+    public BlockItem createBlockItem()
+    {
+        return null;
+    }
 
-	@Override
-	public BlockEntity createBlockEntity(BlockPos pos, BlockState state)
-	{
-		return new StabilisedBlockBlockEntity(pos, state);
-	}
+    @Override
+    public BlockEntity createBlockEntity(BlockPos pos, BlockState state)
+    {
+        return new StabilisedBlockBlockEntity(pos, state);
+    }
 }

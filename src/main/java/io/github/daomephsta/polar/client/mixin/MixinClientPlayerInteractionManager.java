@@ -14,14 +14,14 @@ import net.minecraft.util.math.BlockPos;
 
 @Mixin(ClientPlayerInteractionManager.class)
 public class MixinClientPlayerInteractionManager
-{	
-	@Shadow
-	private @Final MinecraftClient client;
-	
-	@Inject(method = "breakBlock", at = @At(value = "INVOKE", target = "net/minecraft/block/Block.onBreak"), cancellable = true)
-	public void polar_tryBreakBlock(BlockPos pos, CallbackInfoReturnable<Boolean> info)
-	{
-		if (!PlayerBreakBlockCallback.EVENT.invoker().preBreakBlock(client.world, pos, client.player))
-			info.setReturnValue(false);
-	}
+{    
+    @Shadow
+    private @Final MinecraftClient client;
+    
+    @Inject(method = "breakBlock", at = @At(value = "INVOKE", target = "net/minecraft/block/Block.onBreak"), cancellable = true)
+    public void polar_tryBreakBlock(BlockPos pos, CallbackInfoReturnable<Boolean> info)
+    {
+        if (!PlayerBreakBlockCallback.EVENT.invoker().preBreakBlock(client.world, pos, client.player))
+            info.setReturnValue(false);
+    }
 }

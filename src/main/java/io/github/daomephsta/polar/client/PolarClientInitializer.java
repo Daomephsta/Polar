@@ -18,24 +18,24 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 
 public class PolarClientInitializer implements ClientModInitializer
-{	
-	@Override
-	public void onInitializeClient()
-	{
-		EntityRendererRegistry.INSTANCE.register(EntityRegistry.ANOMALY, AnomalyEntityRenderer::new);
-        BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.STABILISED_BLOCK, RenderLayer.getTranslucent());
-		ModelRegistry.registerModels();
-		PolarClientNetworking.initialise();
-		LivingEntityFeatureRendererRegistrationCallback.EVENT.register(this::registerFeatureRenderers);
-	}
-	
-    private void registerFeatureRenderers(EntityType<? extends LivingEntity> entityType, 
-	    LivingEntityRenderer<?, ?> entityRenderer, RegistrationHelper registrationHelper, Context context)
+{    
+    @Override
+    public void onInitializeClient()
     {
-	    if (entityType == EntityType.WOLF)
-	    {
-	        registrationHelper.register(new FeatureRendererJawblade((WolfEntityRenderer) entityRenderer));
-	        Polar.LOGGER.debug("Added jawblade feature to wolf renderer");
-	    }
+        EntityRendererRegistry.INSTANCE.register(EntityRegistry.ANOMALY, AnomalyEntityRenderer::new);
+        BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.STABILISED_BLOCK, RenderLayer.getTranslucent());
+        ModelRegistry.registerModels();
+        PolarClientNetworking.initialise();
+        LivingEntityFeatureRendererRegistrationCallback.EVENT.register(this::registerFeatureRenderers);
+    }
+    
+    private void registerFeatureRenderers(EntityType<? extends LivingEntity> entityType, 
+        LivingEntityRenderer<?, ?> entityRenderer, RegistrationHelper registrationHelper, Context context)
+    {
+        if (entityType == EntityType.WOLF)
+        {
+            registrationHelper.register(new FeatureRendererJawblade((WolfEntityRenderer) entityRenderer));
+            Polar.LOGGER.debug("Added jawblade feature to wolf renderer");
+        }
     }
 }

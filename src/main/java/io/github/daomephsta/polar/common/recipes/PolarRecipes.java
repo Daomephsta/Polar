@@ -7,14 +7,14 @@ import net.minecraft.util.registry.Registry;
 
 public class PolarRecipes
 {
-	public static void initialise()
-	{
-		EnhancedRecipes.initialise();
-		registerRecipeSerialiser("crafting_special_charge_item", ChargeItemRecipe.SERIALIZER);
-	}
+    public static void initialise()
+    {
+        EnhancedRecipes.initialise();
+        registerRecipeSerialiser("crafting_special_charge_item", ChargeItemRecipe.SERIALIZER);
+    }
 
-	private static void registerRecipeSerialiser(String name, RecipeSerializer<?> serialiser)
-	{
-		Registry.register(Registry.RECIPE_SERIALIZER, Polar.id(name), serialiser);
-	}
+    private static void registerRecipeSerialiser(String name, RecipeSerializer<?> serialiser)
+    {
+        Registry.register(Registry.RECIPE_SERIALIZER, Polar.id(name), serialiser);
+    }
 }

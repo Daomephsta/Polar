@@ -3,8 +3,8 @@
   "package": "io.github.daomephsta.polar.common.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-	"MixinServerPlayerInteractionManager",
-	"MixinLivingEntity"
+    "MixinServerPlayerInteractionManager",
+    "MixinLivingEntity"
   ],
   "injectors": {
     "defaultRequire": 1

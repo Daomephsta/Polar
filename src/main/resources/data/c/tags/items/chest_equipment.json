@@ -1,11 +1,11 @@
 {
-	"values":
-	[
-		"leather_chestplate",
-		"chainmail_chestplate",
-		"iron_chestplate",
-		"diamond_chestplate",
-		"golden_chestplate",
-		"elytra"
-	]
+    "values":
+    [
+        "leather_chestplate",
+        "chainmail_chestplate",
+        "iron_chestplate",
+        "diamond_chestplate",
+        "golden_chestplate",
+        "elytra"
+    ]
 }

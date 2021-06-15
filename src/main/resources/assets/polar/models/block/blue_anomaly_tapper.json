@@ -1,9 +1,9 @@
 {
-	"parent": "block/cube_bottom_top",
-	"textures":
-	{
-		"top": "minecraft:block/blue_concrete",
-		"bottom": "minecraft:block/oak_planks",
-		"side": "minecraft:block/oak_planks"
-	}
+    "parent": "block/cube_bottom_top",
+    "textures":
+    {
+        "top": "minecraft:block/blue_concrete",
+        "bottom": "minecraft:block/oak_planks",
+        "side": "minecraft:block/oak_planks"
+    }
 }

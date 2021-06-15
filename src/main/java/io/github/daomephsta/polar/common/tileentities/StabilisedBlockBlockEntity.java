@@ -10,49 +10,49 @@ import net.minecraft.util.math.BlockPos;
 
 public class StabilisedBlockBlockEntity extends BlockEntity
 {
-	private BlockState camoBlockState = Blocks.AIR.getDefaultState();
-	
-	public StabilisedBlockBlockEntity(BlockPos pos, BlockState state)
-	{
-		super(PolarBlockEntityTypes.STABILISED_BLOCK, pos, state);
-	}
-	
-	public BlockState getCamoBlockState()
-	{
-		return camoBlockState;
-	}
+    private BlockState camoBlockState = Blocks.AIR.getDefaultState();
+    
+    public StabilisedBlockBlockEntity(BlockPos pos, BlockState state)
+    {
+        super(PolarBlockEntityTypes.STABILISED_BLOCK, pos, state);
+    }
+    
+    public BlockState getCamoBlockState()
+    {
+        return camoBlockState;
+    }
 
-	public void setCamoBlockState(BlockState camoBlockState)
-	{
-		this.camoBlockState = camoBlockState;
-	}
+    public void setCamoBlockState(BlockState camoBlockState)
+    {
+        this.camoBlockState = camoBlockState;
+    }
 
-	@Override
-	public void readNbt(NbtCompound compound)
-	{
-		super.readNbt(compound);
-		// No camostate Nbt available for reading immediately after placement
-		if (compound.contains("camo_blockstate"))
-			this.camoBlockState = NBTExtensions.getBlockState(compound, "camo_blockstate");
-	}
-	
-	@Override
-	public NbtCompound writeNbt(NbtCompound compound)
-	{
-		super.writeNbt(compound);
-		NBTExtensions.putBlockState(compound, "camo_blockstate", camoBlockState);
-		return compound;
-	}
-	
-	@Override
-	public BlockEntityUpdateS2CPacket toUpdatePacket()
-	{
-		return new BlockEntityUpdateS2CPacket(getPos(), 0, toInitialChunkDataNbt());
-	}
-	
-	@Override
-	public NbtCompound toInitialChunkDataNbt()
-	{
-		return writeNbt(new NbtCompound());
-	}
+    @Override
+    public void readNbt(NbtCompound compound)
+    {
+        super.readNbt(compound);
+        // No camostate Nbt available for reading immediately after placement
+        if (compound.contains("camo_blockstate"))
+            this.camoBlockState = NBTExtensions.getBlockState(compound, "camo_blockstate");
+    }
+    
+    @Override
+    public NbtCompound writeNbt(NbtCompound compound)
+    {
+        super.writeNbt(compound);
+        NBTExtensions.putBlockState(compound, "camo_blockstate", camoBlockState);
+        return compound;
+    }
+    
+    @Override
+    public BlockEntityUpdateS2CPacket toUpdatePacket()
+    {
+        return new BlockEntityUpdateS2CPacket(getPos(), 0, toInitialChunkDataNbt());
+    }
+    
+    @Override
+    public NbtCompound toInitialChunkDataNbt()
+    {
+        return writeNbt(new NbtCompound());
+    }
 }

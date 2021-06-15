@@ -13,10 +13,10 @@ import net.minecraft.entity.damage.DamageSource;
 @Mixin(LivingEntity.class)
 public class MixinLivingEntity
 {
-	@Inject(method = "damage", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/LivingEntity;despawnCounter:I"), cancellable = true)
-	public void polar_damage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> info)
-	{
-		if (!LivingEntityHurtCallback.EVENT.invoker().onLivingHurt((LivingEntity) (Object) this, source, amount))
-			info.setReturnValue(false);
-	}
+    @Inject(method = "damage", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/LivingEntity;despawnCounter:I"), cancellable = true)
+    public void polar_damage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> info)
+    {
+        if (!LivingEntityHurtCallback.EVENT.invoker().onLivingHurt((LivingEntity) (Object) this, source, amount))
+            info.setReturnValue(false);
+    }
 }

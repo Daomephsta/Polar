@@ -1,26 +1,26 @@
 {
-	"parent": "minecraft:adventure/root",
-	"display":
-	{
-		"icon":
-		{
-			"item": "book"
-		},
-		"title": {"translate": "polar.advancements.root.title"},
-		"description": {"translate": "polar.advancements.root.desc"},
-		"frame": "goal",
-		"announce_to_chat": false
-	},
-	"criteria":
-	{
-		"interact_anomaly":
-		{
-			"trigger": "polar:player_anomaly_interaction"
-		}
-	},
-	"rewards":
-	{
-		"recipes": ["polar:research_journal"],
-		"function": "polar:anomaly_discovery_message"
-	}
+    "parent": "minecraft:adventure/root",
+    "display":
+    {
+        "icon":
+        {
+            "item": "book"
+        },
+        "title": {"translate": "polar.advancements.root.title"},
+        "description": {"translate": "polar.advancements.root.desc"},
+        "frame": "goal",
+        "announce_to_chat": false
+    },
+    "criteria":
+    {
+        "interact_anomaly":
+        {
+            "trigger": "polar:player_anomaly_interaction"
+        }
+    },
+    "rewards":
+    {
+        "recipes": ["polar:research_journal"],
+        "function": "polar:anomaly_discovery_message"
+    }
 }

@@ -19,25 +19,25 @@
       "io.github.daomephsta.polar.common.Polar"
     ],
     "cardinal-components-entity": [
-    	"io.github.daomephsta.polar.common.Polar::registerEntityComponents"
+        "io.github.daomephsta.polar.common.Polar::registerEntityComponents"
     ],
     "cardinal-components-item": [
-    	"io.github.daomephsta.polar.common.Polar::registerItemComponents"
+        "io.github.daomephsta.polar.common.Polar::registerItemComponents"
     ],
-	"client": [
-		"io.github.daomephsta.polar.client.PolarClientInitializer"
-	]
+    "client": [
+        "io.github.daomephsta.polar.client.PolarClientInitializer"
+    ]
   },
   "mixins": [
     "polar-common-mixins.json",
-	{
-		"environment": "client",
-		"config": "polar-client-mixins.json"
-	},
-	{
-		"environment": "server",
-		"config": "polar-server-mixins.json"
-	}
+    {
+        "environment": "client",
+        "config": "polar-client-mixins.json"
+    },
+    {
+        "environment": "server",
+        "config": "polar-server-mixins.json"
+    }
   ],
   "depends": {
     "fabricloader": ">=0.11.3",
@@ -46,9 +46,9 @@
     "java": ">=16"
   },
   "custom": {
-  	"cardinal-components": [
-  		"polar:player_data",
-  		"polar:charge_storage"
-  	]
+      "cardinal-components": [
+          "polar:player_data",
+          "polar:charge_storage"
+      ]
   }
 }

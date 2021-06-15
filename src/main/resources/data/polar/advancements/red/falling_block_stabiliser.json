@@ -1,21 +1,21 @@
 {
     "parent": "polar:red/root_red",
-	"display":
-	{
-		"icon":
-		{
-			"item": "polar:falling_block_stabiliser"
-		},
-		"title": {"translate": "polar.advancements.red.falling_block_stabiliser.title"},
-		"description": {"translate": "polar.advancements.red.falling_block_stabiliser.desc"},
-		"frame": "goal",
-		"announce_to_chat": false
-	},
-	"criteria":
-	{
-		"observe_falling_block":
-		{
-			"trigger": "polar:observe_falling_block"
-		}
-	}
+    "display":
+    {
+        "icon":
+        {
+            "item": "polar:falling_block_stabiliser"
+        },
+        "title": {"translate": "polar.advancements.red.falling_block_stabiliser.title"},
+        "description": {"translate": "polar.advancements.red.falling_block_stabiliser.desc"},
+        "frame": "goal",
+        "announce_to_chat": false
+    },
+    "criteria":
+    {
+        "observe_falling_block":
+        {
+            "trigger": "polar:observe_falling_block"
+        }
+    }
 }

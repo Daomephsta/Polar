@@ -7,5 +7,5 @@ import io.github.daomephsta.polar.common.components.PolarChargeStorageComponent.
 @Deprecated
 public class Dummy
 {
-	public static final IPolarChargeStorage CHARGE_STORAGE = new Simple(Polarity.NONE, 0);
+    public static final IPolarChargeStorage CHARGE_STORAGE = new Simple(Polarity.NONE, 0);
 }

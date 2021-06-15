@@ -1,44 +1,44 @@
 {
-	"type": "enhanced_recipes:crafting_shapeless",
-	"processors": 
-	[	
-		{
-			"type": "enhanced_recipes:mark_output",
-			"output": {"tag": "c:melee_weapons"}
-		},
-		{
-			"type": "enhanced_recipes:limit_applications",
-			"max_applications": 1
-		},
-		{
-			"type": "enhanced_recipes:add_nbt",
-			"tag" :
-			{
-				"polarity": "BLUE",
-				"activates_on": ["WEARER_ATTACK"]
-			}
-			
-		},
-		{
-			"type": "enhanced_recipes:add_attribute_modifiers",
-			"modifiers":
-			{
-				"mainhand":
-				[
-					{
-						"uuid": "FA233E1C-4180-4865-B01B-BCCE9785ACA4",
-						"attribute_id": "generic.attack_damage",
-						"name": "polar.blue_sword_buff",
-						"operation": "ADDITION",
-						"amount": 1.0
-					}
-				]
-			}
-		}
-	],
-	"ingredients":
-	[
-		{"tag": "c:melee_weapons"},
-		{"item": "polar:blue_resource_basic"}
-	]
+    "type": "enhanced_recipes:crafting_shapeless",
+    "processors": 
+    [    
+        {
+            "type": "enhanced_recipes:mark_output",
+            "output": {"tag": "c:melee_weapons"}
+        },
+        {
+            "type": "enhanced_recipes:limit_applications",
+            "max_applications": 1
+        },
+        {
+            "type": "enhanced_recipes:add_nbt",
+            "tag" :
+            {
+                "polarity": "BLUE",
+                "activates_on": ["WEARER_ATTACK"]
+            }
+            
+        },
+        {
+            "type": "enhanced_recipes:add_attribute_modifiers",
+            "modifiers":
+            {
+                "mainhand":
+                [
+                    {
+                        "uuid": "FA233E1C-4180-4865-B01B-BCCE9785ACA4",
+                        "attribute_id": "generic.attack_damage",
+                        "name": "polar.blue_sword_buff",
+                        "operation": "ADDITION",
+                        "amount": 1.0
+                    }
+                ]
+            }
+        }
+    ],
+    "ingredients":
+    [
+        {"tag": "c:melee_weapons"},
+        {"item": "polar:blue_resource_basic"}
+    ]
 }

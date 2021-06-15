@@ -29,29 +29,29 @@ import net.minecraft.util.Identifier;
 
 
 public class Polar implements ModInitializer
-{	
-	public static final String MOD_ID = "polar";
-	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
-	
-	@Override
-	public void onInitialize()
-	{
-		PolarConfig.initialise();
-		BlockRegistry.initialize();
-		ItemRegistry.initialize();
-		EntityRegistry.initialise();
-		PolarTags.initialise();
-		CompatibilityTags.initialise();
-		PolarCriteria.initialise();
-		PolarBlockEntityTypes.initialize();
-		AnomalySpawningHandler.registerEventCallbacks();
-		JawbladeHandler.registerEventCallbacks();
-		ResidualPolarityHandler.registerEventCallbacks();
-		WearablesHandler.initialise();
-		ObserveFallingBlockHandler.initialise();
-		PolarRecipes.initialise();
+{    
+    public static final String MOD_ID = "polar";
+    public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
+    
+    @Override
+    public void onInitialize()
+    {
+        PolarConfig.initialise();
+        BlockRegistry.initialize();
+        ItemRegistry.initialize();
+        EntityRegistry.initialise();
+        PolarTags.initialise();
+        CompatibilityTags.initialise();
+        PolarCriteria.initialise();
+        PolarBlockEntityTypes.initialize();
+        AnomalySpawningHandler.registerEventCallbacks();
+        JawbladeHandler.registerEventCallbacks();
+        ResidualPolarityHandler.registerEventCallbacks();
+        WearablesHandler.initialise();
+        ObserveFallingBlockHandler.initialise();
+        PolarRecipes.initialise();
         initialiseApi();   
-	}
+    }
 
     public void initialiseApi()
     {
@@ -63,17 +63,17 @@ public class Polar implements ModInitializer
     }
 
     // Static entrypoint for cardinal-components-entity. See fabric.mod.json
-	public static void registerEntityComponents(EntityComponentFactoryRegistry registry)
-	{
-	    PolarPlayerDataComponent.register(registry);
-	    EntityAnomaly.registerComponents(registry);
-	}
-	
-	//  Static entrypoint for cardinal-components-item. See fabric.mod.json
-	public static void registerItemComponents(ItemComponentFactoryRegistry registry)
-	{
+    public static void registerEntityComponents(EntityComponentFactoryRegistry registry)
+    {
+        PolarPlayerDataComponent.register(registry);
+        EntityAnomaly.registerComponents(registry);
+    }
+    
+    //  Static entrypoint for cardinal-components-item. See fabric.mod.json
+    public static void registerItemComponents(ItemComponentFactoryRegistry registry)
+    {
         PolarChargeStorageComponent.register(registry);
-	}
+    }
 
     public static Identifier id(String name)
     {

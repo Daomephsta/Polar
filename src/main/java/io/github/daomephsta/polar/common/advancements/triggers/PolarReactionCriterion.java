@@ -16,62 +16,62 @@ import net.minecraft.util.JsonHelper;
 public class PolarReactionCriterion extends 
     AbstractCriterion<PolarReactionCriterion.Conditions, PolarReactionCriterion.Handler>
 {
-	public PolarReactionCriterion()
-	{
-		super(Polar.id("polar_reaction"), tracker -> new Handler());
-	}
+    public PolarReactionCriterion()
+    {
+        super(Polar.id("polar_reaction"), tracker -> new Handler());
+    }
 
-	public void handle(ServerPlayerEntity player, int reactionStrength)
-	{
-		Handler handler = getHandler(player.getAdvancementTracker());
-		if (handler != null)
-			handler.handle(player.getAdvancementTracker(), reactionStrength);
-	}
+    public void handle(ServerPlayerEntity player, int reactionStrength)
+    {
+        Handler handler = getHandler(player.getAdvancementTracker());
+        if (handler != null)
+            handler.handle(player.getAdvancementTracker(), reactionStrength);
+    }
 
-	@Override
-	public Conditions conditionsFromJson(JsonObject json, AdvancementEntityPredicateDeserializer deserializer)
-	{
-		return new Conditions(this, JsonHelper.getInt(json, "reaction_strength"));
-	}
+    @Override
+    public Conditions conditionsFromJson(JsonObject json, AdvancementEntityPredicateDeserializer deserializer)
+    {
+        return new Conditions(this, JsonHelper.getInt(json, "reaction_strength"));
+    }
 
-	static class Handler extends AbstractCriterion.AbstractHandler<Conditions> 
-	{
-		private void handle(PlayerAdvancementTracker advancementManager, int reactionStrength)
-		{
-			for (ConditionsContainer<Conditions> container : getContainers())
-			{
-				if (container.getConditions().test(reactionStrength))
-					container.grant(advancementManager);
-			}
-		}
-	}
+    static class Handler extends AbstractCriterion.AbstractHandler<Conditions> 
+    {
+        private void handle(PlayerAdvancementTracker advancementManager, int reactionStrength)
+        {
+            for (ConditionsContainer<Conditions> container : getContainers())
+            {
+                if (container.getConditions().test(reactionStrength))
+                    container.grant(advancementManager);
+            }
+        }
+    }
 
-	class Conditions implements CriterionConditions
-	{
-		private final PolarReactionCriterion nestOwner;
-		private final int reactionStrength;
+    class Conditions implements CriterionConditions
+    {
+        private final PolarReactionCriterion nestOwner;
+        private final int reactionStrength;
 
-		private Conditions(PolarReactionCriterion nestOwner, int reactionStrength)
-		{
-			this.nestOwner = nestOwner;
-			this.reactionStrength = reactionStrength;
-		}
+        private Conditions(PolarReactionCriterion nestOwner, int reactionStrength)
+        {
+            this.nestOwner = nestOwner;
+            this.reactionStrength = reactionStrength;
+        }
 
-		public boolean test(int reactionStrength)
-		{
-			return this.reactionStrength <= reactionStrength;
-		}
+        public boolean test(int reactionStrength)
+        {
+            return this.reactionStrength <= reactionStrength;
+        }
 
-		public int getReactionStrength()
-		{
-			return reactionStrength;
-		}
+        public int getReactionStrength()
+        {
+            return reactionStrength;
+        }
 
-		@Override
-		public Identifier getId()
-		{
-			return nestOwner.getId();
-		}
+        @Override
+        public Identifier getId()
+        {
+            return nestOwner.getId();
+        }
 
         @Override
         public JsonObject toJson(AdvancementEntityPredicateSerializer serializer)
@@ -80,5 +80,5 @@ public class PolarReactionCriterion extends
             json.addProperty("reaction_strength", reactionStrength);
             return json;
         }
-	}
+    }
 }

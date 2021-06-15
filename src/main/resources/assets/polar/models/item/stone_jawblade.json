@@ -1,9 +1,9 @@
 {
-	"parent": "item/generated",
-	"textures":
-	{
-		"layer0": "polar:items/jawblades/stone_jawblade"
-	},
+    "parent": "item/generated",
+    "textures":
+    {
+        "layer0": "polar:items/jawblades/stone_jawblade"
+    },
     "display":
     {
         "head":

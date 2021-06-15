@@ -13,93 +13,93 @@ import net.minecraft.nbt.NbtCompound;
 
 public class PolarChargeStorageComponent
 {   
-	public static void register(ItemComponentFactoryRegistry registry)
-	{
+    public static void register(ItemComponentFactoryRegistry registry)
+    {
         registry.register(ItemRegistry.FALLING_BLOCK_STABILISER, PolarApi.CHARGE_STORAGE,  
-	        Simple.forItem(Polarity.RED, PolarConfig.POLAR_CONFIG.charge().fallingBlockStabiliserMaxCharge(), 0));
+            Simple.forItem(Polarity.RED, PolarConfig.POLAR_CONFIG.charge().fallingBlockStabiliserMaxCharge(), 0));
         registry.register(ItemRegistry.FALLING_BLOCK_DESTROYER, PolarApi.CHARGE_STORAGE, 
-	        Simple.forItem(Polarity.RED, PolarConfig.POLAR_CONFIG.charge().fallingBlockDestroyerMaxCharge(), 0));
-	}
-	
+            Simple.forItem(Polarity.RED, PolarConfig.POLAR_CONFIG.charge().fallingBlockDestroyerMaxCharge(), 0));
+    }
+    
     public static ComponentFactory<ItemStack, ItemAdapter> 
         forItem(IPolarChargeStorage delegate)
     {
         return stack -> new ItemAdapter(stack, delegate);
     }
-	
-	public static class Simple implements IPolarChargeStorage
-	{
-		private final Polarity polarity;
-		private final int maxCharge;
-		private int storedCharge;
+    
+    public static class Simple implements IPolarChargeStorage
+    {
+        private final Polarity polarity;
+        private final int maxCharge;
+        private int storedCharge;
 
-		public Simple(Polarity polarity, int maxCharge)
-		{
-			this(polarity, maxCharge, 0);
-		}
+        public Simple(Polarity polarity, int maxCharge)
+        {
+            this(polarity, maxCharge, 0);
+        }
 
-		public Simple(Polarity polarity, int maxCharge, int initialCharge)
-		{
-			this.polarity = polarity;
-			this.maxCharge = maxCharge;
-			this.storedCharge = initialCharge;
-		}
+        public Simple(Polarity polarity, int maxCharge, int initialCharge)
+        {
+            this.polarity = polarity;
+            this.maxCharge = maxCharge;
+            this.storedCharge = initialCharge;
+        }
 
         public static ComponentFactory<ItemStack, ItemAdapter> 
-		    forItem(Polarity polarity, int maxCharge, int initialCharge)
+            forItem(Polarity polarity, int maxCharge, int initialCharge)
         {
             return PolarChargeStorageComponent.forItem(new Simple(polarity, maxCharge, initialCharge));
         }
 
         @Override
-		public int charge(Polarity polarity, int maxAmount, boolean simulate)
-		{
-			if (!canCharge() || this.polarity != polarity) return maxAmount;
-			int insertedCharge = Math.min(maxCharge - storedCharge, maxAmount);
-			if (!simulate) storedCharge += insertedCharge;
-			return maxAmount - insertedCharge;
-		}
+        public int charge(Polarity polarity, int maxAmount, boolean simulate)
+        {
+            if (!canCharge() || this.polarity != polarity) return maxAmount;
+            int insertedCharge = Math.min(maxCharge - storedCharge, maxAmount);
+            if (!simulate) storedCharge += insertedCharge;
+            return maxAmount - insertedCharge;
+        }
 
-		@Override
-		public int discharge(Polarity polarity, int maxAmount, boolean simulate)
-		{
-			if (!canDischarge() || this.polarity != polarity) return 0;
-			int extractedCharge = Math.min(storedCharge, maxAmount);
-			if (!simulate) storedCharge -= extractedCharge;
-			return extractedCharge;
-		}
+        @Override
+        public int discharge(Polarity polarity, int maxAmount, boolean simulate)
+        {
+            if (!canDischarge() || this.polarity != polarity) return 0;
+            int extractedCharge = Math.min(storedCharge, maxAmount);
+            if (!simulate) storedCharge -= extractedCharge;
+            return extractedCharge;
+        }
 
-		@Override
-		public int getStoredCharge()
-		{
-			return storedCharge;
-		}
+        @Override
+        public int getStoredCharge()
+        {
+            return storedCharge;
+        }
 
-		@Override
-		public Polarity getPolarity()
-		{
-			return polarity;
-		}
+        @Override
+        public Polarity getPolarity()
+        {
+            return polarity;
+        }
 
-		@Override
-		public int getMaxCharge()
-		{
-			return maxCharge;
-		}
-		
-		@Override
-		public void readFromNbt(NbtCompound nbt)
-		{
-			this.storedCharge = nbt.getInt("stored_charge");
-		}
+        @Override
+        public int getMaxCharge()
+        {
+            return maxCharge;
+        }
+        
+        @Override
+        public void readFromNbt(NbtCompound nbt)
+        {
+            this.storedCharge = nbt.getInt("stored_charge");
+        }
 
-		@Override
-		public void writeToNbt(NbtCompound nbt)
-		{
-			nbt.putInt("stored_charge", this.storedCharge);
-		}
-	}
-	
+        @Override
+        public void writeToNbt(NbtCompound nbt)
+        {
+            nbt.putInt("stored_charge", this.storedCharge);
+        }
+    }
+    
     public static class ItemAdapter extends ItemComponent implements IPolarChargeStorage
     {
         private final IPolarChargeStorage delegate;

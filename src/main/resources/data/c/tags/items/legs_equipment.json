@@ -1,10 +1,10 @@
 {
-	"values":
-	[
-		"leather_leggings",
-		"chainmail_leggings",
-		"iron_leggings",
-		"diamond_leggings",
-		"golden_leggings"
-	]
+    "values":
+    [
+        "leather_leggings",
+        "chainmail_leggings",
+        "iron_leggings",
+        "diamond_leggings",
+        "golden_leggings"
+    ]
 }

@@ -1,6 +1,6 @@
 {
-	"type": "minecraft:crafting_shaped",
-	"result": 
+    "type": "minecraft:crafting_shaped",
+    "result": 
     {
         "item": "polar:falling_block_stabiliser"
     },

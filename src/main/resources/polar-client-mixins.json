@@ -3,7 +3,7 @@
   "package": "io.github.daomephsta.polar.client.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-	"MixinClientPlayerInteractionManager"
+    "MixinClientPlayerInteractionManager"
   ],
   "injectors": {
     "defaultRequire": 1

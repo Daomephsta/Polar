@@ -1,6 +1,6 @@
 {
-  	"variants": 
-  	{
-		"normal": [{"polar:stabilised_block"}]
-  	}
+      "variants": 
+      {
+        "normal": [{"polar:stabilised_block"}]
+      }
 }

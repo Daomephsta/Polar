@@ -10,39 +10,39 @@ import net.minecraft.util.Identifier;
 
 public class AnomalyEntityRenderer extends EntityRenderer<EntityAnomaly>
 {
-	private static final Identifier 
-		TEXTURE_RED = Polar.id("textures/entity/anomaly_red.png"), 
-		TEXTURE_BLUE = Polar.id("textures/entity/anomaly_blue.png");
-	private final AnomalyModel model = new AnomalyModel();
+    private static final Identifier 
+        TEXTURE_RED = Polar.id("textures/entity/anomaly_red.png"), 
+        TEXTURE_BLUE = Polar.id("textures/entity/anomaly_blue.png");
+    private final AnomalyModel model = new AnomalyModel();
 
-	public AnomalyEntityRenderer(EntityRendererFactory.Context renderContext)
-	{
-		super(renderContext);
-	}
-	
-	@Override
-	public void render(EntityAnomaly entity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i)
-	{
-//		GlStateManager.pushMatrix();
-//		{
-//			this.bindEntityTexture(entity);
-//			GlStateManager.translated(x, y, z);
-//			model.setAngles(entity, 1.0F, 1.0F, entity.age, 1.0F, 1.0F, 0.1F);
-//			model.render(entity, 1.0F, 1.0F, entity.age, 1.0F, 1.0F, 0.1F);
-//			GlStateManager.color3f(1.0F, 1.0F, 1.0F);
-//		}
-//		GlStateManager.popMatrix();
-		super.render(entity, f, g, matrixStack, vertexConsumerProvider, i);
-	}
-	
-	@Override
+    public AnomalyEntityRenderer(EntityRendererFactory.Context renderContext)
+    {
+        super(renderContext);
+    }
+    
+    @Override
+    public void render(EntityAnomaly entity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i)
+    {
+//        GlStateManager.pushMatrix();
+//        {
+//            this.bindEntityTexture(entity);
+//            GlStateManager.translated(x, y, z);
+//            model.setAngles(entity, 1.0F, 1.0F, entity.age, 1.0F, 1.0F, 0.1F);
+//            model.render(entity, 1.0F, 1.0F, entity.age, 1.0F, 1.0F, 0.1F);
+//            GlStateManager.color3f(1.0F, 1.0F, 1.0F);
+//        }
+//        GlStateManager.popMatrix();
+        super.render(entity, f, g, matrixStack, vertexConsumerProvider, i);
+    }
+    
+    @Override
     public Identifier getTexture(EntityAnomaly entity)
-	{
-	    return switch (entity.getPolarity())   
-	    {
-	        case RED -> TEXTURE_RED;
-	        case BLUE -> TEXTURE_BLUE;
-	        default -> null;
+    {
+        return switch (entity.getPolarity())   
+        {
+            case RED -> TEXTURE_RED;
+            case BLUE -> TEXTURE_BLUE;
+            default -> null;
         };
-	}
+    }
 }

@@ -10,21 +10,21 @@ import net.minecraft.recipe.Ingredient;
 
 public class PolarApiImplementation implements PolarApi
 {
-	@Override
-	public void registerIrradiationRecipe(Polarity polarity, Ingredient input, Block output) 
-	{
-		AnomalyIrradiationCrafting.registerRecipe(polarity, input, output);
-	}
-	
-	@Override
-	public void registerIrradiationRecipe(Polarity polarity, Ingredient input, Item output) 
-	{
-		AnomalyIrradiationCrafting.registerRecipe(polarity, input, output);
-	}
-	
-	@Override
-	public void registerIrradiationRecipe(Polarity polarity, Ingredient input, ItemStack output) 
-	{
-		AnomalyIrradiationCrafting.registerRecipe(polarity, input, output);
-	}
+    @Override
+    public void registerIrradiationRecipe(Polarity polarity, Ingredient input, Block output) 
+    {
+        AnomalyIrradiationCrafting.registerRecipe(polarity, input, output);
+    }
+    
+    @Override
+    public void registerIrradiationRecipe(Polarity polarity, Ingredient input, Item output) 
+    {
+        AnomalyIrradiationCrafting.registerRecipe(polarity, input, output);
+    }
+    
+    @Override
+    public void registerIrradiationRecipe(Polarity polarity, Ingredient input, ItemStack output) 
+    {
+        AnomalyIrradiationCrafting.registerRecipe(polarity, input, output);
+    }
 }

@@ -1,28 +1,28 @@
 {
-	"parent": "polar:root",
-	"display":
-	{
-		"icon":
-		{
-			"item": "book"
-		},
-		"title": {"translate": "polar.advancements.shocking_discovery.title"},
-		"description": {"translate": "polar.advancements.shocking_discovery.desc"},
-		"frame": "goal"
-	},
-	"criteria":
-	{
-		"interact_anomaly":
-		{
-			"trigger": "polar:polar_reaction",
-			"conditions":
-			{
-				"reaction_strength": 0 
-			}
-		}
-	},
-	"rewards":
-	{
-		"function": "polar:reaction_discovery_message"
-	}
+    "parent": "polar:root",
+    "display":
+    {
+        "icon":
+        {
+            "item": "book"
+        },
+        "title": {"translate": "polar.advancements.shocking_discovery.title"},
+        "description": {"translate": "polar.advancements.shocking_discovery.desc"},
+        "frame": "goal"
+    },
+    "criteria":
+    {
+        "interact_anomaly":
+        {
+            "trigger": "polar:polar_reaction",
+            "conditions":
+            {
+                "reaction_strength": 0 
+            }
+        }
+    },
+    "rewards":
+    {
+        "function": "polar:reaction_discovery_message"
+    }
 }

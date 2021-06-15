@@ -16,31 +16,31 @@ import net.minecraft.world.World;
 
 public class FallingBlockDestroyer extends TrinketItem implements IPolarisedItem
 {
-	public FallingBlockDestroyer()
-	{
-		super(new Item.Settings()
-				.maxCount(1)
-				.group(PolarApi.TAB_BLUE));
-	}
+    public FallingBlockDestroyer()
+    {
+        super(new Item.Settings()
+                .maxCount(1)
+                .group(PolarApi.TAB_BLUE));
+    }
 
-	@Override
-	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext tooltipContext)
-	{
-		super.appendTooltip(stack, world, tooltip, tooltipContext);
-		IPolarChargeStorage chargeable = PolarApi.CHARGE_STORAGE.get(stack);
-		tooltip.add(Polar.translation("tooltip.charge", chargeable.getStoredCharge(), chargeable.getMaxCharge()));
-	}
+    @Override
+    public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext tooltipContext)
+    {
+        super.appendTooltip(stack, world, tooltip, tooltipContext);
+        IPolarChargeStorage chargeable = PolarApi.CHARGE_STORAGE.get(stack);
+        tooltip.add(Polar.translation("tooltip.charge", chargeable.getStoredCharge(), chargeable.getMaxCharge()));
+    }
 
     //TODO Implement coloured charge bars
-	@Override
-	public Polarity getPolarity(ItemStack stack)
-	{
-		return Polarity.BLUE;
-	}
-	
-	@Override
-	public boolean activatesOn(ActivatesOn trigger)
-	{
-		return false;
-	}
+    @Override
+    public Polarity getPolarity(ItemStack stack)
+    {
+        return Polarity.BLUE;
+    }
+    
+    @Override
+    public boolean activatesOn(ActivatesOn trigger)
+    {
+        return false;
+    }
 }

@@ -1,45 +1,45 @@
 {
-	"type": "enhanced_recipes:crafting_shapeless",
-	"processors": 
-	[	
-		{
-			"type": "enhanced_recipes:mark_output",
-			"output": {"tag": "c:head_equipment"}
-		},
-		{
-			"type": "enhanced_recipes:limit_applications",
-			"max_applications": 1
-		},
-		{
-			"type": "enhanced_recipes:add_nbt",
-			"tag" :
-			{
-				"polarity": "RED",
-				"activates_on": ["WEARER_ATTACKED"]
-			}
-			
-		},
-		{
-			"type": "enhanced_recipes:add_attribute_modifiers",
-			"modifiers":
-			{
-				"head":
-				[
-					{
-						"uuid": "4565926A-96F5-40E8-95E3-FD7EE0AA57A5",
-						"attribute_id": "generic.armor",
-						"name": "polar.red_armour_buff",
-						"operation": "ADDITION",
-						"amount": 0.5
-					}
-				]
-			}
-		}
-	]
-	,
-	"ingredients":
-	[	
-		{"tag": "c:head_equipment"},
-		{"item": "polar:red_resource_basic"}
-	]
+    "type": "enhanced_recipes:crafting_shapeless",
+    "processors": 
+    [    
+        {
+            "type": "enhanced_recipes:mark_output",
+            "output": {"tag": "c:head_equipment"}
+        },
+        {
+            "type": "enhanced_recipes:limit_applications",
+            "max_applications": 1
+        },
+        {
+            "type": "enhanced_recipes:add_nbt",
+            "tag" :
+            {
+                "polarity": "RED",
+                "activates_on": ["WEARER_ATTACKED"]
+            }
+            
+        },
+        {
+            "type": "enhanced_recipes:add_attribute_modifiers",
+            "modifiers":
+            {
+                "head":
+                [
+                    {
+                        "uuid": "4565926A-96F5-40E8-95E3-FD7EE0AA57A5",
+                        "attribute_id": "generic.armor",
+                        "name": "polar.red_armour_buff",
+                        "operation": "ADDITION",
+                        "amount": 0.5
+                    }
+                ]
+            }
+        }
+    ]
+    ,
+    "ingredients":
+    [    
+        {"tag": "c:head_equipment"},
+        {"item": "polar:red_resource_basic"}
+    ]
 }
