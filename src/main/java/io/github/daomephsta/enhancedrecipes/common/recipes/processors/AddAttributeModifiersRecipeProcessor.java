@@ -68,7 +68,7 @@ public class AddAttributeModifiersRecipeProcessor extends RecipeProcessor
 	private static class Serialiser implements RecipeProcessor.Serialiser<AddAttributeModifiersRecipeProcessor>
 	{
 		@Override
-		public AddAttributeModifiersRecipeProcessor read(String recipeId, JsonObject json)
+		public AddAttributeModifiersRecipeProcessor read(Identifier recipeId, JsonObject json)
 		{
 			Multimap<EntityAttribute, Entry<EntityAttributeModifier, EquipmentSlot>> modifiers = 
 			    ArrayListMultimap.create();
@@ -121,7 +121,7 @@ public class AddAttributeModifiersRecipeProcessor extends RecipeProcessor
 		}
 
 		@Override
-		public AddAttributeModifiersRecipeProcessor read(String recipeId, PacketByteBuf bytes)
+		public AddAttributeModifiersRecipeProcessor read(Identifier recipeId, PacketByteBuf bytes)
 		{
 			int uniqueKeys = bytes.readVarInt();
 			Multimap<EntityAttribute, Entry<EntityAttributeModifier, EquipmentSlot>> modifiers = 

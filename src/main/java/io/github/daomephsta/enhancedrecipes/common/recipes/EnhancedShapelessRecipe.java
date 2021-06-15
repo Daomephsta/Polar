@@ -77,7 +77,7 @@ public class EnhancedShapelessRecipe extends ShapelessRecipe
 					? ShapedRecipe.outputFromJson(JsonHelper.getObject(json, "result"))
 					: ItemStack.EMPTY;
 			List<RecipeProcessor> processors = Streams.stream(JsonHelper.getArray(json, "processors"))
-					.map(e -> RecipeProcessor.fromJson(JsonHelper.asObject(e, "processor")))
+					.map(e -> RecipeProcessor.fromJson(id, JsonHelper.asObject(e, "processor")))
 					.collect(Collectors.toList());
 			return new EnhancedShapelessRecipe(id, group, output, inputs, processors);
 		}
@@ -95,7 +95,7 @@ public class EnhancedShapelessRecipe extends ShapelessRecipe
 			ArrayList<RecipeProcessor> processors = new ArrayList<>(bytes.readVarInt());
 			for (int c = 0; c < processors.size(); c++)
 			{
-				processors.set(c, RecipeProcessor.fromBytes(bytes));
+				processors.set(c, RecipeProcessor.fromBytes(id, bytes));
 			}
 			return new EnhancedShapelessRecipe(id, group, output, inputs, processors);
 		}

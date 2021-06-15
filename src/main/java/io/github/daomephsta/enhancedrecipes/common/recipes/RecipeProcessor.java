@@ -27,26 +27,25 @@ public abstract class RecipeProcessor
             RegistryKey.ofRegistry(EnhancedRecipes.id(id)), Lifecycle.stable())).buildAndRegister();
     }
 
-	public static RecipeProcessor fromJson(JsonObject json)
+	public static RecipeProcessor fromJson(Identifier recipeId, JsonObject json)
 	{
 		Identifier conditionId = new Identifier(JsonHelper.getString(json, "type"));
 		Serialiser<?> serialiser = REGISTRY.get(conditionId);
 		if (serialiser == null)
 			throw new JsonSyntaxException("Unknown recipe processor type " + conditionId);
-		return serialiser.read(null, json);
+		return serialiser.read(recipeId, json);
 	}
 
-	public static RecipeProcessor fromBytes(PacketByteBuf bytes)
+	public static RecipeProcessor fromBytes(Identifier recipeId, PacketByteBuf bytes)
 	{
-	    
 		Serialiser<?> serialiser = REGISTRY.get(bytes.readIdentifier());
-		return serialiser.read(null, bytes);
+		return serialiser.read(recipeId, bytes);
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T extends RecipeProcessor> void toBytes(PacketByteBuf bytes, T condition)
+	public static <T extends RecipeProcessor> void toBytes(PacketByteBuf bytes, T processor)
 	{
-		((Serialiser<T>) condition.getSerialiser()).write(bytes, condition);
+		((Serialiser<T>) processor.getSerialiser()).write(bytes, processor);
 	}
 
 	public TestResult test(CraftingInventory inventory, World world, TestResult predictedOutput) 
@@ -63,9 +62,9 @@ public abstract class RecipeProcessor
 
 	public interface Serialiser<T extends RecipeProcessor>
 	{
-		public T read(String recipeId, JsonObject json);
+		public T read(Identifier recipeId, JsonObject json);
 
-		public T read(String recipeId, PacketByteBuf bytes);
+		public T read(Identifier recipeId, PacketByteBuf bytes);
 
 		public void write(PacketByteBuf bytes, T instance);
 	}

@@ -8,6 +8,7 @@ import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.world.World;
 
@@ -18,9 +19,9 @@ public class LimitApplicationsRecipeProcessor extends RecipeProcessor
 	private final String recipeId;
 	private final int maxApplications;
 
-	private LimitApplicationsRecipeProcessor(String recipeId, int maxApplications)
+	private LimitApplicationsRecipeProcessor(Identifier recipeId, int maxApplications)
 	{
-		this.recipeId = recipeId;
+		this.recipeId = recipeId.toString();
 		this.maxApplications = maxApplications;
 	}
 
@@ -63,13 +64,13 @@ public class LimitApplicationsRecipeProcessor extends RecipeProcessor
 	private static class Serialiser implements RecipeProcessor.Serialiser<LimitApplicationsRecipeProcessor>
 	{
 		@Override
-		public LimitApplicationsRecipeProcessor read(String recipeId, JsonObject json)
+		public LimitApplicationsRecipeProcessor read(Identifier recipeId, JsonObject json)
 		{
 			return new LimitApplicationsRecipeProcessor(recipeId, JsonHelper.getInt(json, "max_applications"));
 		}
 
 		@Override
-		public LimitApplicationsRecipeProcessor read(String recipeId, PacketByteBuf bytes)
+		public LimitApplicationsRecipeProcessor read(Identifier recipeId, PacketByteBuf bytes)
 		{
 			return new LimitApplicationsRecipeProcessor(recipeId, bytes.readInt());
 		}

@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.world.World;
 
@@ -44,14 +45,14 @@ public class AddNbtRecipeProcessor extends RecipeProcessor
 	private static class Serialiser implements RecipeProcessor.Serialiser<AddNbtRecipeProcessor>
 	{
 		@Override
-		public AddNbtRecipeProcessor read(String recipeId, JsonObject json)
+		public AddNbtRecipeProcessor read(Identifier recipeId, JsonObject json)
 		{
 			JsonObject tagJson = JsonHelper.getObject(json, "tag");
 			return new AddNbtRecipeProcessor((NbtCompound) JsonOps.INSTANCE.convertTo(NbtOps.INSTANCE, tagJson));
 		}
 
 		@Override
-		public AddNbtRecipeProcessor read(String recipeId, PacketByteBuf bytes)
+		public AddNbtRecipeProcessor read(Identifier recipeId, PacketByteBuf bytes)
 		{
 			return new AddNbtRecipeProcessor(bytes.readNbt());
 		}

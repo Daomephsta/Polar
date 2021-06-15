@@ -8,6 +8,7 @@ import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
 public class MarkOutputRecipeProcessor extends RecipeProcessor
@@ -58,7 +59,7 @@ public class MarkOutputRecipeProcessor extends RecipeProcessor
 	private static class Serialiser implements RecipeProcessor.Serialiser<MarkOutputRecipeProcessor>
 	{
 		@Override
-		public MarkOutputRecipeProcessor read(String recipeId, JsonObject json)
+		public MarkOutputRecipeProcessor read(Identifier recipeId, JsonObject json)
 		{
 			if (!json.has("output"))
 				throw new JsonSyntaxException("Missing output ingredient");
@@ -66,7 +67,7 @@ public class MarkOutputRecipeProcessor extends RecipeProcessor
 		}
 
 		@Override
-		public MarkOutputRecipeProcessor read(String recipeId, PacketByteBuf bytes)
+		public MarkOutputRecipeProcessor read(Identifier recipeId, PacketByteBuf bytes)
 		{
 			return new MarkOutputRecipeProcessor(Ingredient.fromPacket(bytes));
 		}
