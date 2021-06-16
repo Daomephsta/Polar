@@ -6,7 +6,7 @@ import dev.onyxstudios.cca.api.v3.item.ItemComponentFactoryRegistry;
 import io.github.daomephsta.polar.api.PolarApi;
 import io.github.daomephsta.polar.api.Polarity;
 import io.github.daomephsta.polar.api.components.IPolarChargeStorage;
-import io.github.daomephsta.polar.common.config.PolarConfig;
+import io.github.daomephsta.polar.common.Polar;
 import io.github.daomephsta.polar.common.items.ItemRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -16,9 +16,9 @@ public class PolarChargeStorageComponent
     public static void register(ItemComponentFactoryRegistry registry)
     {
         registry.register(ItemRegistry.FALLING_BLOCK_STABILISER, PolarApi.CHARGE_STORAGE,  
-            Simple.forItem(Polarity.RED, PolarConfig.POLAR_CONFIG.charge().fallingBlockStabiliserMaxCharge(), 0));
+            Simple.forItem(Polarity.RED, Polar.CONFIG.charge.fallingBlockStabiliserMaxCharge(), 0));
         registry.register(ItemRegistry.FALLING_BLOCK_DESTROYER, PolarApi.CHARGE_STORAGE, 
-            Simple.forItem(Polarity.RED, PolarConfig.POLAR_CONFIG.charge().fallingBlockDestroyerMaxCharge(), 0));
+            Simple.forItem(Polarity.RED, Polar.CONFIG.charge.fallingBlockDestroyerMaxCharge(), 0));
     }
     
     public static ComponentFactory<ItemStack, ItemAdapter> 

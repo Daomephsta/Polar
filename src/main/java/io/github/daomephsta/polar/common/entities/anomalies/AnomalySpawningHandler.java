@@ -1,12 +1,10 @@
 package io.github.daomephsta.polar.common.entities.anomalies;
 
-import static io.github.daomephsta.polar.common.config.PolarConfig.POLAR_CONFIG;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import io.github.daomephsta.polar.api.Polarity;
-import io.github.daomephsta.polar.common.config.PolarConfig;
+import io.github.daomephsta.polar.common.Polar;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -29,7 +27,7 @@ public class AnomalySpawningHandler
     {
         for (ServerWorld world : server.getWorlds())
         {
-            if (PolarConfig.POLAR_CONFIG.anomalies().isDimensionBlacklisted(world.getRegistryKey().getValue()))
+            if (Polar.CONFIG.anomalies.isDimensionBlacklisted(world.getRegistryKey().getValue()))
                 continue;
             if (world.getTimeOfDay() % 24000 == TimeOfDay.SUNRISE.getTicks() + 1)
                 spawnAnomalies(world, Polarity.BLUE);
@@ -49,8 +47,8 @@ public class AnomalySpawningHandler
         {
             for (int i = 0; i < perPlayerAnomalySpawns; i++)
             {
-                int r = POLAR_CONFIG.anomalies().minRadius() + 
-                        world.getRandom().nextInt(POLAR_CONFIG.anomalies().maxRadius() - POLAR_CONFIG.anomalies().minRadius());
+                int r = Polar.CONFIG.anomalies.minRadius() + 
+                        world.getRandom().nextInt(Polar.CONFIG.anomalies.maxRadius() - Polar.CONFIG.anomalies.minRadius());
                 double theta = world.getRandom().nextDouble() * 2.0D * Math.PI;
                 spawnAnomaly(world, player.getX() + r * Math.cos(theta), player.getZ() + r * Math.sin(theta), polarity);
             }
@@ -62,8 +60,8 @@ public class AnomalySpawningHandler
         //Find all the gaps along the y axis with air in them at the x z coordinates 
         IntList airRanges = new IntArrayList(6);
         BlockPos.Mutable pos = new BlockPos.Mutable(d, 0, e);
-        int maxY = Math.min(world.getHeight(), POLAR_CONFIG.anomalies().maxSpawnY());
-        for(int y = POLAR_CONFIG.anomalies().minSpawnY(); y < maxY; y++)
+        int maxY = Math.min(world.getHeight(), Polar.CONFIG.anomalies.maxSpawnY());
+        for(int y = Polar.CONFIG.anomalies.minSpawnY(); y < maxY; y++)
         {
             pos.setY(y);
             if (world.isAir(pos))

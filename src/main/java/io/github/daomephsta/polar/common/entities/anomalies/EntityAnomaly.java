@@ -1,10 +1,9 @@
 package io.github.daomephsta.polar.common.entities.anomalies;
 
-import static io.github.daomephsta.polar.common.config.PolarConfig.POLAR_CONFIG;
-
 import dev.onyxstudios.cca.api.v3.entity.EntityComponentFactoryRegistry;
 import io.github.daomephsta.polar.api.PolarApi;
 import io.github.daomephsta.polar.api.Polarity;
+import io.github.daomephsta.polar.common.Polar;
 import io.github.daomephsta.polar.common.PolarCommonNetworking;
 import io.github.daomephsta.polar.common.advancements.triggers.PolarCriteria;
 import io.github.daomephsta.polar.common.core.Constants;
@@ -41,7 +40,7 @@ public class EntityAnomaly extends Entity
         this(EntityRegistry.ANOMALY, world);
 
         this.polarity = polarity;
-        int days = POLAR_CONFIG.anomalies().minLifetime() + world.getRandom().nextInt(POLAR_CONFIG.anomalies().maxLifetime() - POLAR_CONFIG.anomalies().minLifetime()); // min to max - 1 days
+        int days = Polar.CONFIG.anomalies.minLifetime() + world.getRandom().nextInt(Polar.CONFIG.anomalies.maxLifetime() - Polar.CONFIG.anomalies.minLifetime()); // min to max - 1 days
         int additionalTicks = (int) Math.floor(world.getRandom().nextDouble() * Constants.MC_DAY_TICKS); // Random portion of a day
         // 3 - 8 days
         this.closingTimestamp = world.getTime() + days * Constants.MC_DAY_TICKS + additionalTicks;

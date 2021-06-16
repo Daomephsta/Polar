@@ -32,11 +32,11 @@ public class Polar implements ModInitializer
 {    
     public static final String MOD_ID = "polar";
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
+    public static final PolarConfig CONFIG = new PolarConfig();
     
     @Override
     public void onInitialize()
     {
-        PolarConfig.initialise();
         BlockRegistry.initialize();
         ItemRegistry.initialize();
         EntityRegistry.initialise();
@@ -50,7 +50,7 @@ public class Polar implements ModInitializer
         WearablesHandler.initialise();
         ObserveFallingBlockHandler.initialise();
         PolarRecipes.initialise();
-        initialiseApi();   
+        initialiseApi();
     }
 
     public void initialiseApi()
