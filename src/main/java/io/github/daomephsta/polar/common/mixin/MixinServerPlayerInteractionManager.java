@@ -20,7 +20,7 @@ public class MixinServerPlayerInteractionManager
     @Shadow
     public ServerPlayerEntity player;
     
-    @Inject(method = "tryBreakBlock", at = @At(value = "INVOKE", target = "net/minecraft/block/Block.onBreak"), cancellable = true)
+    @Inject(method = "tryBreakBlock", at = @At(value = "INVOKE", target = "net/minecraft/block/Block.onBreak(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;Lnet/minecraft/entity/player/PlayerEntity;)V"), cancellable = true)
     public void polar_tryBreakBlock(BlockPos pos, CallbackInfoReturnable<Boolean> info)
     {
         if (!PlayerBreakBlockCallback.EVENT.invoker().preBreakBlock(world, pos, player))
