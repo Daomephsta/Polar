@@ -23,19 +23,19 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class EntityAnomaly extends Entity
+public class AnomalyEntity extends Entity
 {
     private Polarity polarity;
     private long closingTimestamp;
     private boolean open = false;
 
-    public EntityAnomaly(EntityType<EntityAnomaly> entityType, World world)
+    public AnomalyEntity(EntityType<AnomalyEntity> entityType, World world)
     {
         super(entityType, world);
         setInvulnerable(true);
     }
 
-    public EntityAnomaly(World world, Polarity polarity)
+    public AnomalyEntity(World world, Polarity polarity)
     {
         this(EntityRegistry.ANOMALY, world);
 
@@ -150,7 +150,7 @@ public class EntityAnomaly extends Entity
     
     public static void registerComponents(EntityComponentFactoryRegistry registry)
     {
-        registry.registerFor(EntityAnomaly.class, PolarApi.CHARGE_STORAGE, 
+        registry.registerFor(AnomalyEntity.class, PolarApi.CHARGE_STORAGE, 
             entity -> new AnomalyChargeStorage(entity, 1000 + entity.random.nextInt(1000)));
     }
 

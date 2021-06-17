@@ -7,6 +7,7 @@ import dev.onyxstudios.cca.api.v3.entity.EntityComponentFactoryRegistry;
 import dev.onyxstudios.cca.api.v3.item.ItemComponentFactoryRegistry;
 import io.github.daomephsta.polar.api.PolarPlugin;
 import io.github.daomephsta.polar.common.advancements.triggers.PolarCriteria;
+import io.github.daomephsta.polar.common.blockentities.PolarBlockEntityTypes;
 import io.github.daomephsta.polar.common.blocks.BlockRegistry;
 import io.github.daomephsta.polar.common.components.PolarChargeStorageComponent;
 import io.github.daomephsta.polar.common.components.PolarPlayerDataComponent;
@@ -14,14 +15,13 @@ import io.github.daomephsta.polar.common.config.PolarConfig;
 import io.github.daomephsta.polar.common.core.PolarApiImplementation;
 import io.github.daomephsta.polar.common.entities.EntityRegistry;
 import io.github.daomephsta.polar.common.entities.anomalies.AnomalySpawningHandler;
-import io.github.daomephsta.polar.common.entities.anomalies.EntityAnomaly;
+import io.github.daomephsta.polar.common.entities.anomalies.AnomalyEntity;
 import io.github.daomephsta.polar.common.handlers.JawbladeHandler;
 import io.github.daomephsta.polar.common.handlers.ResidualPolarityHandler;
 import io.github.daomephsta.polar.common.handlers.research.ObserveFallingBlockHandler;
 import io.github.daomephsta.polar.common.handlers.wearables.WearablesHandler;
 import io.github.daomephsta.polar.common.items.ItemRegistry;
 import io.github.daomephsta.polar.common.recipes.PolarRecipes;
-import io.github.daomephsta.polar.common.tileentities.PolarBlockEntityTypes;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.text.TranslatableText;
@@ -66,7 +66,7 @@ public class Polar implements ModInitializer
     public static void registerEntityComponents(EntityComponentFactoryRegistry registry)
     {
         PolarPlayerDataComponent.register(registry);
-        EntityAnomaly.registerComponents(registry);
+        AnomalyEntity.registerComponents(registry);
     }
     
     //  Static entrypoint for cardinal-components-item. See fabric.mod.json

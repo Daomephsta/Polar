@@ -3,9 +3,9 @@ package io.github.daomephsta.polar.common.blocks;
 import java.util.Random;
 
 import io.github.daomephsta.polar.api.Polarity;
+import io.github.daomephsta.polar.common.blockentities.AnomalyTapperBlockEntity;
+import io.github.daomephsta.polar.common.blockentities.PolarBlockEntityTypes;
 import io.github.daomephsta.polar.common.items.itemblocks.AnomalyTapperBlockItem;
-import io.github.daomephsta.polar.common.tileentities.AnomalyTapperBlockEntity;
-import io.github.daomephsta.polar.common.tileentities.PolarBlockEntityTypes;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

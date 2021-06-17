@@ -1,4 +1,4 @@
-package io.github.daomephsta.polar.common.tileentities;
+package io.github.daomephsta.polar.common.blockentities;
 
 import io.github.daomephsta.polar.common.Polar;
 import io.github.daomephsta.polar.common.blocks.BlockRegistry;

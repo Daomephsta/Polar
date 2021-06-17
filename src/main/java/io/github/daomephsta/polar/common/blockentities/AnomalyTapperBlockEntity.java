@@ -1,4 +1,4 @@
-package io.github.daomephsta.polar.common.tileentities;
+package io.github.daomephsta.polar.common.blockentities;
 
 import java.util.function.BinaryOperator;
 
@@ -6,7 +6,7 @@ import io.github.daomephsta.polar.api.PolarApi;
 import io.github.daomephsta.polar.api.components.IPolarChargeStorage;
 import io.github.daomephsta.polar.common.blocks.AnomalyTapperBlock;
 import io.github.daomephsta.polar.common.entities.EntityRegistry;
-import io.github.daomephsta.polar.common.entities.anomalies.EntityAnomaly;
+import io.github.daomephsta.polar.common.entities.anomalies.AnomalyEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
@@ -19,7 +19,7 @@ import net.minecraft.world.World;
 
 public class AnomalyTapperBlockEntity extends BlockEntity
 {
-    private EntityAnomaly attachedAnomaly;
+    private AnomalyEntity attachedAnomaly;
     //Cached anomaly charge storage, because it won't change.
     private IPolarChargeStorage    anomalyChargeStorage;
     private int anomalyCheckCountdown = 10;
@@ -73,7 +73,7 @@ public class AnomalyTapperBlockEntity extends BlockEntity
             pos.getSquaredDistance(b.getPos(), true /*center*/));
     }
     
-    private void attachTo(EntityAnomaly anomaly)
+    private void attachTo(AnomalyEntity anomaly)
     {
         anomaly.open();
         this.attachedAnomaly = anomaly;
@@ -92,7 +92,7 @@ public class AnomalyTapperBlockEntity extends BlockEntity
         return attachedAnomaly != null;
     }
     
-    public EntityAnomaly getAttachedAnomaly()
+    public AnomalyEntity getAttachedAnomaly()
     {
         return attachedAnomaly;
     }

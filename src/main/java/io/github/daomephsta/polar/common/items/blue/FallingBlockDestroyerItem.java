@@ -14,9 +14,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
 
-public class FallingBlockDestroyer extends TrinketItem implements IPolarisedItem
+public class FallingBlockDestroyerItem extends TrinketItem implements IPolarisedItem
 {
-    public FallingBlockDestroyer()
+    public FallingBlockDestroyerItem()
     {
         super(new Item.Settings()
                 .maxCount(1)

@@ -1,7 +1,7 @@
 package io.github.daomephsta.polar.common.handlers;
 
 import io.github.daomephsta.polar.common.callbacks.LivingEntityHurtCallback;
-import io.github.daomephsta.polar.common.items.ItemJawblade;
+import io.github.daomephsta.polar.common.items.JawbladeItem;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
@@ -31,7 +31,7 @@ public class JawbladeHandler
             WolfEntity wolf = (WolfEntity) entity;
             //Only owners of wolves can give or take jawblades
             boolean canAccess = wolf.isOwner(player);
-            boolean validHandState = heldItem.getItem() instanceof ItemJawblade || (heldItem.isEmpty() && player.isSneaking());
+            boolean validHandState = heldItem.getItem() instanceof JawbladeItem || (heldItem.isEmpty() && player.isSneaking());
             if (validHandState && canAccess)
             {
                 ItemStack prevMainhandStack = setJawblade((WolfEntity) entity, heldItem.copy());
@@ -66,7 +66,7 @@ public class JawbladeHandler
     public static ItemStack getJawblade(WolfEntity wolf)
     {
         ItemStack mainhandStack = wolf.getEquippedStack(EquipmentSlot.MAINHAND);
-        return mainhandStack.getItem() instanceof ItemJawblade ? mainhandStack : ItemStack.EMPTY; 
+        return mainhandStack.getItem() instanceof JawbladeItem ? mainhandStack : ItemStack.EMPTY; 
     }
 
     private static ItemStack setJawblade(WolfEntity wolf, ItemStack newJawblade)

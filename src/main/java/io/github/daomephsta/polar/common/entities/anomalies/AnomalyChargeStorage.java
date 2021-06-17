@@ -4,7 +4,7 @@ import io.github.daomephsta.polar.common.components.PolarChargeStorageComponent;
 
 public class AnomalyChargeStorage extends PolarChargeStorageComponent.Simple
 {
-    public AnomalyChargeStorage(EntityAnomaly anomaly, int initialCharge)
+    public AnomalyChargeStorage(AnomalyEntity anomaly, int initialCharge)
     {
         super(anomaly.getPolarity(), 2000, initialCharge);
     }

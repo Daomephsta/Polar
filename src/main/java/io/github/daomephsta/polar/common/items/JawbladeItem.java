@@ -15,11 +15,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.recipe.Ingredient;
 
-public class ItemJawblade extends Item
+public class JawbladeItem extends Item
 {    
     private final ToolMaterial material;
 
-    public ItemJawblade(ToolMaterial material)
+    public JawbladeItem(ToolMaterial material)
     {
         super(new Item.Settings()
                 .group(PolarApi.TAB_OTHER)

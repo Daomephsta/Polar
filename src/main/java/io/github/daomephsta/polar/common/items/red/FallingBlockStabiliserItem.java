@@ -20,9 +20,9 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.world.World;
 
-public class FallingBlockStabiliser extends TrinketItem implements IPolarisedItem
+public class FallingBlockStabiliserItem extends TrinketItem implements IPolarisedItem
 {
-    public FallingBlockStabiliser()
+    public FallingBlockStabiliserItem()
     {
         super(new Item.Settings().group(PolarApi.TAB_RED));
     }

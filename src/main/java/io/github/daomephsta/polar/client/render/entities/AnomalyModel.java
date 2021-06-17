@@ -1,6 +1,6 @@
 package io.github.daomephsta.polar.client.render.entities;
 
-import io.github.daomephsta.polar.common.entities.anomalies.EntityAnomaly;
+import io.github.daomephsta.polar.common.entities.anomalies.AnomalyEntity;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
@@ -10,7 +10,7 @@ import net.minecraft.client.util.math.MatrixStack;
  * Created using Tabula 7.0.0
  */
 //TODO
-public class AnomalyModel extends EntityModel<EntityAnomaly> 
+public class AnomalyModel extends EntityModel<AnomalyEntity> 
 {
 //    private static final FloatBuffer STANDARD_LIGHTING_BUF = GlAllocationUtils.allocateFloatBuffer(16);
 //    private static final FloatBuffer GLOW_BUF = GlAllocationUtils.allocateFloatBuffer(4); 
@@ -77,7 +77,7 @@ public class AnomalyModel extends EntityModel<EntityAnomaly>
 //    }
     
     @Override
-    public void setAngles(EntityAnomaly anomaly, float f, float g, float h, float i, float j)
+    public void setAngles(AnomalyEntity anomaly, float f, float g, float h, float i, float j)
     {
 //        float speed = 0.05F;
 //        base.pitch = overlay.pitch = (float) (Math.PI * 0.5D * MathHelper.cos(speed * ageInTicks) + 0.5D); 

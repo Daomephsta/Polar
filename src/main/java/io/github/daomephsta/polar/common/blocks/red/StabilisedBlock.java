@@ -1,7 +1,7 @@
 package io.github.daomephsta.polar.common.blocks.red;
 
+import io.github.daomephsta.polar.common.blockentities.StabilisedBlockBlockEntity;
 import io.github.daomephsta.polar.common.blocks.IHasSpecialBlockItem;
-import io.github.daomephsta.polar.common.tileentities.StabilisedBlockBlockEntity;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;

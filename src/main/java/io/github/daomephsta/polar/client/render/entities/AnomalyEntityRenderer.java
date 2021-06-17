@@ -1,14 +1,14 @@
 package io.github.daomephsta.polar.client.render.entities;
 
 import io.github.daomephsta.polar.common.Polar;
-import io.github.daomephsta.polar.common.entities.anomalies.EntityAnomaly;
+import io.github.daomephsta.polar.common.entities.anomalies.AnomalyEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
-public class AnomalyEntityRenderer extends EntityRenderer<EntityAnomaly>
+public class AnomalyEntityRenderer extends EntityRenderer<AnomalyEntity>
 {
     private static final Identifier 
         TEXTURE_RED = Polar.id("textures/entity/anomaly_red.png"), 
@@ -21,7 +21,7 @@ public class AnomalyEntityRenderer extends EntityRenderer<EntityAnomaly>
     }
     
     @Override
-    public void render(EntityAnomaly entity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i)
+    public void render(AnomalyEntity entity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i)
     {
 //        GlStateManager.pushMatrix();
 //        {
@@ -36,7 +36,7 @@ public class AnomalyEntityRenderer extends EntityRenderer<EntityAnomaly>
     }
     
     @Override
-    public Identifier getTexture(EntityAnomaly entity)
+    public Identifier getTexture(AnomalyEntity entity)
     {
         return switch (entity.getPolarity())   
         {

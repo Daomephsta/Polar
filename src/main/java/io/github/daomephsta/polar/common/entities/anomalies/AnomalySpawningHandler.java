@@ -97,7 +97,7 @@ public class AnomalySpawningHandler
                 ? lowerBound + world.getRandom().nextInt(upperBound - lowerBound)
                 : lowerBound;
         
-        EntityAnomaly anomaly = new EntityAnomaly(world, polarity);
+        AnomalyEntity anomaly = new AnomalyEntity(world, polarity);
         anomaly.setPosition(d, y, e);
         world.spawnEntity(anomaly);
         LOGGER.debug("Spawned {} anomaly at {}, {}, {}", polarity.asString(), d, y, e);

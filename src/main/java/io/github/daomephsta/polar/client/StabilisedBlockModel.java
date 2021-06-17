@@ -13,7 +13,7 @@ import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 
 import io.github.daomephsta.polar.common.Polar;
-import io.github.daomephsta.polar.common.tileentities.StabilisedBlockBlockEntity;
+import io.github.daomephsta.polar.common.blockentities.StabilisedBlockBlockEntity;
 import net.fabricmc.fabric.api.client.model.ModelProviderContext;
 import net.fabricmc.fabric.api.client.model.ModelProviderException;
 import net.fabricmc.fabric.api.client.model.ModelVariantProvider;
