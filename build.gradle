@@ -50,6 +50,10 @@ repositories {
         url "https://maven.shedaniel.me/" 
     }
     jcenter()
+    maven {
+        name 'JitPack'
+        url 'https://jitpack.io'
+    }
 }
 
 dependencies {
@@ -61,6 +65,7 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     })
     modImplementation "me.zeroeightsix:fiber:${project.fiber_version}"
+    include(modRuntime('com.github.Daomephsta:modifier-tooltip-fix:v1.0.2'))
 }
 
 processResources {
