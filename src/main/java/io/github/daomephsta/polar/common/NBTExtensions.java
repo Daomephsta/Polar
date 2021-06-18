@@ -63,6 +63,6 @@ public class NBTExtensions
     
     public static boolean contains(NbtList list, String target)
     {
-        return Iterables.any(list, nbt -> nbt instanceof NbtString && ((NbtString) nbt).asString().equals(target));
+        return Iterables.any(list, nbt -> nbt instanceof NbtString && nbt.asString().equals(target));
     }
 }

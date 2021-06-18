@@ -2,9 +2,9 @@ package io.github.daomephsta.enhancedrecipes.common.recipes;
 
 import static java.util.stream.Collectors.toCollection;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import com.google.common.collect.Streams;
 import com.google.gson.JsonObject;
@@ -92,11 +92,9 @@ public class EnhancedShapelessRecipe extends ShapelessRecipe
                 inputs.set(i, Ingredient.fromPacket(bytes));
             }
             ItemStack output = bytes.readItemStack();
-            ArrayList<RecipeProcessor> processors = new ArrayList<>(bytes.readVarInt());
-            for (int c = 0; c < processors.size(); c++)
-            {
-                processors.set(c, RecipeProcessor.fromBytes(id, bytes));
-            }
+            List<RecipeProcessor> processors = IntStream.range(0, bytes.readVarInt())
+                    .mapToObj(i -> RecipeProcessor.fromBytes(id, bytes))
+                    .collect(Collectors.toList());
             return new EnhancedShapelessRecipe(id, group, output, inputs, processors);
         }
 

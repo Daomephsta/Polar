@@ -80,7 +80,7 @@ public class AddAttributeModifiersRecipeProcessor extends RecipeProcessor
                     JsonObject modifierJson = JsonHelper.asObject(element, "modifier");
                     UUID uuid = UUID.fromString(JsonHelper.getString(modifierJson, "uuid"));
                     String name = JsonHelper.getString(modifierJson, "name");
-                    double amount = getDouble(modifierJson, "amount");
+                    double amount = JsonHelper.getDouble(modifierJson, "amount");
                     Operation operation = getOperation(modifierJson);
                     EntityAttribute attributeId = Registry.ATTRIBUTE.get(new Identifier(
                         JsonHelper.getString(modifierJson, "attribute_id")));
@@ -101,23 +101,6 @@ public class AddAttributeModifiersRecipeProcessor extends RecipeProcessor
             {
                 throw new JsonSyntaxException("Operation must be one of " + Arrays.toString(Operation.values()));
             }
-        }
-
-        private double getDouble(JsonObject json, String key)
-        {
-            if (json.has(key))
-            {
-                JsonElement element = json.get(key); 
-                if (element.isJsonPrimitive() && element.getAsJsonPrimitive().isNumber())
-                    return element.getAsJsonPrimitive().getAsDouble();
-                else
-                {
-                    throw new JsonSyntaxException("Expected " + key + 
-                        " to be a double, was " + JsonHelper.getType(element));
-                }
-            }
-            else
-                throw new JsonSyntaxException("Missing " + key + ", expected to find a double");
         }
 
         @Override

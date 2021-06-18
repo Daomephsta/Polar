@@ -74,7 +74,7 @@ public class AnomalyEntity extends Entity
                 if (!world.isClient)
                 {
                     // Spawn full stacks
-                    for (int i = 0; i < output.getCount() / output.getCount(); i++)
+                    for (int i = 0; i < output.getCount() / output.getMaxCount(); i++)
                     {
                         ItemStack fullStack = output.copy();
                         fullStack.setCount(output.getMaxCount());

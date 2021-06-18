@@ -58,9 +58,7 @@ public class JawbladeItem extends Item
     public boolean canRepair(ItemStack toRepair, ItemStack repair)
     {
         Ingredient repairMaterial = material.getRepairIngredient();
-        return (!repairMaterial.isEmpty() && repairMaterial.test(repair)) 
-            ? true
-            : super.canRepair(toRepair, repair);
+        return !repairMaterial.isEmpty() && repairMaterial.test(repair);
     }
     
     //TODO Customise applicable enchantments

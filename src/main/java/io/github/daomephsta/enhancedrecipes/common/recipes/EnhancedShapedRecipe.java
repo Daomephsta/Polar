@@ -3,7 +3,6 @@ package io.github.daomephsta.enhancedrecipes.common.recipes;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toCollection;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
@@ -109,7 +108,7 @@ public class EnhancedShapedRecipe extends ShapedRecipe
                     throw new JsonSyntaxException("Row " + r + " has more than 3 keys");
                 if (row.length != expectedLength)
                     throw new JsonSyntaxException("Rows have differing key counts. Key Counts: " + 
-                            IntStream.range(0, pattern.length).mapToObj(i -> Integer.toString(i)).collect(joining(", ")));
+                            IntStream.range(0, pattern.length).mapToObj(Integer::toString).collect(joining(", ")));
             }
         }
         
@@ -139,11 +138,9 @@ public class EnhancedShapedRecipe extends ShapedRecipe
                 inputs.set(i, Ingredient.fromPacket(bytes));
             }
             ItemStack output = bytes.readItemStack();
-            ArrayList<RecipeProcessor> processors = new ArrayList<>(bytes.readVarInt());
-            for (int c = 0; c < processors.size(); c++)
-            {
-                processors.set(c, RecipeProcessor.fromBytes(id, bytes));
-            }
+            List<RecipeProcessor> processors = IntStream.range(0, bytes.readVarInt())
+                    .mapToObj(i -> RecipeProcessor.fromBytes(id, bytes))
+                    .collect(Collectors.toList());
             return new EnhancedShapedRecipe(id, group, width, height, inputs, output, processors);
         }
 

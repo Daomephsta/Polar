@@ -29,9 +29,8 @@ public class ObserveFallingBlockHandler
 
     private static void trackFallingBlock(ServerPlayerEntity entityPlayer, Entity entity)
     {
-        if (entity instanceof FallingBlockEntity)
+        if (entity instanceof FallingBlockEntity fallingBlock)
         {
-            FallingBlockEntity fallingBlock = (FallingBlockEntity) entity;;
             World world = fallingBlock .getEntityWorld();
             if (world.isClient)
                 return;

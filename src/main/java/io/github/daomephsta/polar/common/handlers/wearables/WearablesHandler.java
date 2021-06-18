@@ -57,7 +57,6 @@ public class WearablesHandler
      * @param lowChargeThreshold
      *            The Charge level below which charge is considered to be low.
      *            Must be greater than {@code cost}.
-     * @return
      * @return true if the stored Charge in {@code chargeable} of polarity
      *         {@code polarity} is greater than {@code cost}.
      */

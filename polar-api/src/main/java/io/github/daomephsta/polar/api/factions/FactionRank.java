@@ -16,7 +16,7 @@ public enum FactionRank
     JOURNEYMAN(3),
     MASTER(4);
     
-    public static final Comparator<FactionRank> COMPARATOR = (a, b) -> a.rankIndex - b.rankIndex;
+    public static final Comparator<FactionRank> COMPARATOR = Comparator.comparingInt(rank -> rank.rankIndex);
     //Used to compare ranks, can change
     private final int rankIndex;
     

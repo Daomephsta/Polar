@@ -26,9 +26,8 @@ public class JawbladeHandler
     private static ActionResult onEntityInteract(PlayerEntity player, World world, Hand hand, Entity entity, EntityHitResult hitResult)
     {
         ItemStack heldItem = player.getStackInHand(hand);
-        if (entity instanceof WolfEntity)
+        if (entity instanceof WolfEntity wolf)
         {
-            WolfEntity wolf = (WolfEntity) entity;
             //Only owners of wolves can give or take jawblades
             boolean canAccess = wolf.isOwner(player);
             boolean validHandState = heldItem.getItem() instanceof JawbladeItem || (heldItem.isEmpty() && player.isSneaking());
@@ -48,9 +47,8 @@ public class JawbladeHandler
     private static boolean onWolfAttack(LivingEntity living, DamageSource source, float amount)
     {
         Entity trueSource = source.getSource();
-        if (trueSource instanceof WolfEntity)
+        if (trueSource instanceof WolfEntity wolf)
         {
-            WolfEntity wolf = (WolfEntity) trueSource;
             ItemStack jawblade = JawbladeHandler.getJawblade(wolf);
             if (jawblade.isEmpty()) return true;
             else 
@@ -74,9 +72,8 @@ public class JawbladeHandler
         ItemStack mainhandStack = wolf.getEquippedStack(EquipmentSlot.MAINHAND); 
         if (!mainhandStack.isEmpty())
         {
-            ItemStack prevMainhandStack = mainhandStack;
             wolf.setStackInHand(Hand.MAIN_HAND, newJawblade);
-            return prevMainhandStack;
+            return mainhandStack;
         }
         else
         {

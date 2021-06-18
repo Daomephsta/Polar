@@ -43,7 +43,7 @@ public class PlayerAnomalyInteractionCriterion
         }
     }
 
-    class Conditions implements CriterionConditions
+    static class Conditions implements CriterionConditions
     {
         private final PlayerAnomalyInteractionCriterion nestOwner;
         

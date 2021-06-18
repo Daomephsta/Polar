@@ -26,7 +26,7 @@ public enum Polarity implements StringIdentifiable
     
     /**An immutable list of all polarities except {@code NONE}**/
     public static final List<Polarity> POLARISED;
-    private static final TrackedDataHandler<Polarity> DATA_SERIALIZER = new TrackedDataHandler<Polarity>()
+    private static final TrackedDataHandler<Polarity> DATA_SERIALIZER = new TrackedDataHandler<>()
     {
         @Override
         public void write(PacketByteBuf buf, Polarity value) 

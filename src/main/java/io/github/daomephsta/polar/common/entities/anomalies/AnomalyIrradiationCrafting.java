@@ -52,16 +52,11 @@ public class AnomalyIrradiationCrafting
      */
     public static void registerRecipe(Polarity polarity, Ingredient input, ItemStack output)
     {
-        switch(polarity)
+        switch (polarity)
         {
-        case BLUE:
-            blueRecipes.add(new Recipe(input, output));
-            break;
-        case RED:
-            redRecipes.add(new Recipe(input, output));
-            break;
-        default:
-            throw new IllegalArgumentException("Recipes can only be registered for red or blue polarities");
+            case BLUE -> blueRecipes.add(new Recipe(input, output));
+            case RED -> redRecipes.add(new Recipe(input, output));
+            default -> throw new IllegalArgumentException("Recipes can only be registered for red or blue polarities");
         }
     }
     

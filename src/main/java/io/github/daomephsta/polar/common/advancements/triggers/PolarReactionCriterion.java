@@ -46,7 +46,7 @@ public class PolarReactionCriterion extends
         }
     }
 
-    class Conditions implements CriterionConditions
+    static class Conditions implements CriterionConditions
     {
         private final PolarReactionCriterion nestOwner;
         private final int reactionStrength;

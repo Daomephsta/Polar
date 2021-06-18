@@ -43,7 +43,7 @@ public class ObserveFallingBlockCriterion
         }
     }
 
-    class Conditions implements CriterionConditions
+    static class Conditions implements CriterionConditions
     {
         private final ObserveFallingBlockCriterion nestOwner;
         

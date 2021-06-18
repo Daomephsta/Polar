@@ -49,7 +49,6 @@ repositories {
         name = "Shedaniel"
         url "https://maven.shedaniel.me/" 
     }
-    jcenter()
     maven {
         name 'JitPack'
         url 'https://jitpack.io'
