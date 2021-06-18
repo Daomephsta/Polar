@@ -33,7 +33,8 @@ public class JawbladeHandler
             boolean validHandState = heldItem.getItem() instanceof JawbladeItem || (heldItem.isEmpty() && player.isSneaking());
             if (validHandState && canAccess)
             {
-                ItemStack prevMainhandStack = setJawblade((WolfEntity) entity, heldItem.copy());
+                ItemStack prevMainhandStack = wolf.getEquippedStack(EquipmentSlot.MAINHAND); 
+                wolf.setStackInHand(Hand.MAIN_HAND, heldItem.copy());
                 if (!prevMainhandStack.isEmpty()) 
                     player.getInventory().insertStack(prevMainhandStack);
                 if (!player.isCreative()) 
@@ -50,13 +51,10 @@ public class JawbladeHandler
         if (trueSource instanceof WolfEntity wolf)
         {
             ItemStack jawblade = JawbladeHandler.getJawblade(wolf);
-            if (jawblade.isEmpty()) return true;
-            else 
-            {
+            if (jawblade.isEmpty()) 
+                return true;
+            else
                 jawblade.getItem().postHit(jawblade, living, wolf);
-                if (jawblade.isEmpty())
-                    setJawblade(wolf, ItemStack.EMPTY);
-            }
         }
         return true;
     }
@@ -65,20 +63,5 @@ public class JawbladeHandler
     {
         ItemStack mainhandStack = wolf.getEquippedStack(EquipmentSlot.MAINHAND);
         return mainhandStack.getItem() instanceof JawbladeItem ? mainhandStack : ItemStack.EMPTY; 
-    }
-
-    private static ItemStack setJawblade(WolfEntity wolf, ItemStack newJawblade)
-    {
-        ItemStack mainhandStack = wolf.getEquippedStack(EquipmentSlot.MAINHAND); 
-        if (!mainhandStack.isEmpty())
-        {
-            wolf.setStackInHand(Hand.MAIN_HAND, newJawblade);
-            return mainhandStack;
-        }
-        else
-        {
-            wolf.setStackInHand(Hand.OFF_HAND, newJawblade);
-            return ItemStack.EMPTY;
-        }
     }
 }
