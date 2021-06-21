@@ -1,7 +1,7 @@
 package io.github.daomephsta.polar.common.items;
 
+import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.MultimapBuilder;
 
 import io.github.daomephsta.polar.api.PolarApi;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -16,8 +16,9 @@ import net.minecraft.item.ToolMaterial;
 import net.minecraft.recipe.Ingredient;
 
 public class JawbladeItem extends Item
-{    
+{
     private final ToolMaterial material;
+    private final Multimap<EntityAttribute, EntityAttributeModifier> modifiers;
 
     public JawbladeItem(ToolMaterial material)
     {
@@ -26,6 +27,14 @@ public class JawbladeItem extends Item
                 .maxCount(1)
                 .maxDamage(material.getDurability()));
         this.material = material;
+        this.modifiers = ImmutableMultimap.<EntityAttribute, EntityAttributeModifier>builder()
+            .put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(
+                ATTACK_DAMAGE_MODIFIER_ID, "Jawblade Attack Damage Modifier", material.getAttackDamage(),
+                EntityAttributeModifier.Operation.ADDITION))
+            .put(EntityAttributes.GENERIC_ATTACK_SPEED, new EntityAttributeModifier(
+                ATTACK_SPEED_MODIFIER_ID, "Jawblade Attack Speed Modifier", -2.0D,
+                EntityAttributeModifier.Operation.ADDITION))
+            .build();
     }
 
     @Override
@@ -36,36 +45,25 @@ public class JawbladeItem extends Item
         if (fireAspectLevel > 0) target.setOnFireFor(fireAspectLevel * 4);
         return true;
     }
-    
+
     @Override
     public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(EquipmentSlot slot)
     {
-        Multimap<EntityAttribute, EntityAttributeModifier> modifiers = 
-            MultimapBuilder.hashKeys().arrayListValues().build();
-        if (slot == EquipmentSlot.MAINHAND)
-        {
-            modifiers.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(
-                ATTACK_DAMAGE_MODIFIER_ID, "Jawblade Attack Damage Modifier", material.getAttackDamage(), 
-                EntityAttributeModifier.Operation.ADDITION));
-            modifiers.put(EntityAttributes.GENERIC_ATTACK_SPEED, new EntityAttributeModifier(
-                ATTACK_SPEED_MODIFIER_ID, "Jawblade Attack Speed Modifier", -2.0D, 
-                EntityAttributeModifier.Operation.ADDITION));
-        }
-        return modifiers;
+        return slot == EquipmentSlot.MAINHAND ? modifiers : ImmutableMultimap.of();
     }
-    
+
     @Override
     public boolean canRepair(ItemStack toRepair, ItemStack repair)
     {
         Ingredient repairMaterial = material.getRepairIngredient();
         return !repairMaterial.isEmpty() && repairMaterial.test(repair);
     }
-    
+
     //TODO Customise applicable enchantments
-    
+
     @Override
     public int getEnchantability()
     {
-        return material.getEnchantability(); 
+        return material.getEnchantability();
     }
 }
