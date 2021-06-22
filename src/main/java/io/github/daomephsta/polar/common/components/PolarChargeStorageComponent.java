@@ -9,54 +9,48 @@ import io.github.daomephsta.polar.api.components.IPolarChargeStorage;
 import io.github.daomephsta.polar.common.Polar;
 import io.github.daomephsta.polar.common.items.ItemRegistry;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
 
 public class PolarChargeStorageComponent
-{   
+{
     public static void register(ItemComponentFactoryRegistry registry)
     {
-        registry.register(ItemRegistry.FALLING_BLOCK_STABILISER, PolarApi.CHARGE_STORAGE,  
-            Simple.forItem(Polarity.RED, Polar.CONFIG.charge.fallingBlockStabiliserMaxCharge(), 0));
-        registry.register(ItemRegistry.FALLING_BLOCK_DESTROYER, PolarApi.CHARGE_STORAGE, 
-            Simple.forItem(Polarity.RED, Polar.CONFIG.charge.fallingBlockDestroyerMaxCharge(), 0));
+        //Red
+        registry.register(ItemRegistry.FALLING_BLOCK_STABILISER, PolarApi.CHARGE_STORAGE,
+            SimpleItem.forItem(Polarity.RED, Polar.CONFIG.charge.fallingBlockStabiliserMaxCharge()));
+
+        //Blue
+        registry.register(ItemRegistry.FALLING_BLOCK_DESTROYER, PolarApi.CHARGE_STORAGE,
+            SimpleItem.forItem(Polarity.BLUE, Polar.CONFIG.charge.fallingBlockDestroyerMaxCharge()));
     }
-    
-    public static ComponentFactory<ItemStack, ItemAdapter> 
-        forItem(IPolarChargeStorage delegate)
+
+    public static class SimpleItem extends ItemComponent implements IPolarChargeStorage
     {
-        return stack -> new ItemAdapter(stack, delegate);
-    }
-    
-    public static class Simple implements IPolarChargeStorage
-    {
+        private static final String STORED_CHARGE = "stored_charge";
         private final Polarity polarity;
         private final int maxCharge;
-        private int storedCharge;
 
-        public Simple(Polarity polarity, int maxCharge)
+        public SimpleItem(ItemStack stack, Polarity polarity, int maxCharge)
         {
-            this(polarity, maxCharge, 0);
-        }
-
-        public Simple(Polarity polarity, int maxCharge, int initialCharge)
-        {
+            super(stack, PolarApi.CHARGE_STORAGE);
             this.polarity = polarity;
             this.maxCharge = maxCharge;
-            this.storedCharge = initialCharge;
         }
 
-        public static ComponentFactory<ItemStack, ItemAdapter> 
-            forItem(Polarity polarity, int maxCharge, int initialCharge)
+        public static ComponentFactory<ItemStack, SimpleItem> forItem(Polarity polarity, int maxCharge)
         {
-            return PolarChargeStorageComponent.forItem(new Simple(polarity, maxCharge, initialCharge));
+            return stack -> new SimpleItem(stack, polarity, maxCharge);
         }
 
         @Override
         public int charge(Polarity polarity, int maxAmount, boolean simulate)
         {
             if (!canCharge() || this.polarity != polarity) return maxAmount;
-            int insertedCharge = Math.min(maxCharge - storedCharge, maxAmount);
-            if (!simulate) storedCharge += insertedCharge;
+            int insertedCharge = Math.min(maxCharge - getInt(STORED_CHARGE), maxAmount);
+            if (!simulate)
+            {
+                putInt(STORED_CHARGE, getInt(STORED_CHARGE) + insertedCharge);
+                PolarApi.CHARGE_STORAGE.sync(stack);
+            }
             return maxAmount - insertedCharge;
         }
 
@@ -64,15 +58,19 @@ public class PolarChargeStorageComponent
         public int discharge(Polarity polarity, int maxAmount, boolean simulate)
         {
             if (!canDischarge() || this.polarity != polarity) return 0;
-            int extractedCharge = Math.min(storedCharge, maxAmount);
-            if (!simulate) storedCharge -= extractedCharge;
+            int extractedCharge = Math.min(getInt(STORED_CHARGE), maxAmount);
+            if (!simulate)
+            {
+                putInt(STORED_CHARGE, getInt(STORED_CHARGE) - extractedCharge);
+                PolarApi.CHARGE_STORAGE.sync(stack);
+            }
             return extractedCharge;
         }
 
         @Override
         public int getStoredCharge()
         {
-            return storedCharge;
+            return getInt(STORED_CHARGE);
         }
 
         @Override
@@ -85,74 +83,6 @@ public class PolarChargeStorageComponent
         public int getMaxCharge()
         {
             return maxCharge;
-        }
-        
-        @Override
-        public void readFromNbt(NbtCompound nbt)
-        {
-            this.storedCharge = nbt.getInt("stored_charge");
-        }
-
-        @Override
-        public void writeToNbt(NbtCompound nbt)
-        {
-            nbt.putInt("stored_charge", this.storedCharge);
-        }
-    }
-    
-    public static class ItemAdapter extends ItemComponent implements IPolarChargeStorage
-    {
-        private final IPolarChargeStorage delegate;
-
-        ItemAdapter(ItemStack stack, IPolarChargeStorage delegate)
-        {
-            super(stack, PolarApi.CHARGE_STORAGE);
-            this.delegate = delegate;
-            delegate.writeToNbt(getOrCreateRootTag());
-        }
-
-        public boolean canCharge()
-        {
-            return delegate.canCharge();
-        }
-
-        public int charge(Polarity polarity, int maxAmount, boolean simulate)
-        {
-            return delegate.charge(polarity, maxAmount, simulate);
-        }
-
-        public boolean canDischarge()
-        {
-            return delegate.canDischarge();
-        }
-
-        public int discharge(Polarity polarity, int maxAmount, boolean simulate)
-        {
-            return delegate.discharge(polarity, maxAmount, simulate);
-        }
-
-        public int getStoredCharge()
-        {
-            return delegate.getStoredCharge();
-        }
-
-        public Polarity getPolarity()
-        {
-            return delegate.getPolarity();
-        }
-
-        public int getMaxCharge()
-        {
-            return delegate.getMaxCharge();
-        }
-
-        @Override
-        public void onTagInvalidated()
-        {
-            super.onTagInvalidated();
-            // Apparently this is called before the component is fully initialised
-            if (delegate != null)
-                delegate.writeToNbt(getOrCreateRootTag());
         }
     }
 }
