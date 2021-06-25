@@ -1,7 +1,7 @@
 {
     "name": "Polaric Annihilation",
     "icon": "polar:textures/logo.png",
-    "category": "basics",
+    "category": "polar:basics",
     "advancement": "polar:shocking_discovery",
     "pages":
     [

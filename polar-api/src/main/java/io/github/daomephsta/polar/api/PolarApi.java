@@ -12,21 +12,23 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import vazkii.patchouli.api.PatchouliAPI;
 
 /** The main interface between Polar and other mods **/
 public interface PolarApi
 {
     /**ID of the mod providing the Polar API*/
     public static final String PROVIDER_MOD_ID = "polar";
-    public static final ItemGroup TAB_RED = FabricItemGroupBuilder.create(id("red"))
-                                    .icon(() -> new ItemStack(getItem("red_resource_basic")))
-                                    .build(),
-                                  TAB_BLUE = FabricItemGroupBuilder.create(id("blue"))
-                                      .icon(() -> new ItemStack(getItem("blue_resource_basic")))
-                                      .build(),
-                                  TAB_OTHER = FabricItemGroupBuilder.create(id("other"))
-                                  //.icon(() -> ItemModBook.forBook(PROVIDER_MOD_ID + ":research_journal"))
-                                  .build();
+    public static final ItemGroup 
+        TAB_RED = FabricItemGroupBuilder.create(id("red"))
+            .icon(() -> new ItemStack(getItem("red_resource_basic")))
+            .build(),
+        TAB_BLUE = FabricItemGroupBuilder.create(id("blue"))
+            .icon(() -> new ItemStack(getItem("blue_resource_basic")))
+            .build(),
+        TAB_OTHER = FabricItemGroupBuilder.create(id("other"))
+            .icon(() -> PatchouliAPI.get().getBookStack(id("research_journal")))
+            .build();
     public static final ComponentKey<IPolarPlayerData> PLAYER_DATA = 
         ComponentRegistry.getOrCreate(id("player_data"), IPolarPlayerData.class);
     public static final ComponentKey<IPolarChargeStorage> CHARGE_STORAGE = 

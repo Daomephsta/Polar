@@ -1,7 +1,7 @@
 {
     "name": "Improving Swords",
     "icon": "minecraft:iron_sword",
-    "category": "combat",
+    "category": "polar:combat",
     "advancement": "polar:blue/root_blue",
     "pages":
     [

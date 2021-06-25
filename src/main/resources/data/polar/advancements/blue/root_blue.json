@@ -20,7 +20,7 @@
             {
                 "items":
                 [
-                    {"item": "polar:blue_resource_basic"}
+                    {"items": ["polar:blue_resource_basic"]}
                 ]
             }
         }

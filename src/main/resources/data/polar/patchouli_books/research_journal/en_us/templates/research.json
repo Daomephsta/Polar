@@ -2,7 +2,7 @@
     "components": 
     [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "text": "#research_text",
             "x": -1,
             "y": -1,
@@ -10,7 +10,7 @@
             "negate_advancement": true
         },
         {
-            "type": "text",
+            "type": "patchouli:text",
             "text": "#finished_text",
             "x": -1,
             "y": -1,

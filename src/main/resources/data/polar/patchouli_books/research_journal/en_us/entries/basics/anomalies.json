@@ -1,7 +1,7 @@
 {
     "name": "Anomalies",
     "icon": "polar:textures/guide/icons/anomalies_thumb.png",
-    "category": "basics",
+    "category": "polar:basics",
     "advancement": "polar:root",
     "pages":
     [
@@ -17,13 +17,13 @@
             "type": "entity",
             "entity": "polar:anomaly{polarity: 'BLUE', closeIn: 10}",
             "name": "Azuras Anomaly",
-            "scale": 0.7
+            "offset": -0.55
         },
         {
             "type": "entity",
             "entity": "polar:anomaly{polarity: 'RED', closeIn: 10}",
             "name": "Vermillis Anomaly",
-            "scale": 0.7
+            "offset": -0.55
         }
     ]
 }

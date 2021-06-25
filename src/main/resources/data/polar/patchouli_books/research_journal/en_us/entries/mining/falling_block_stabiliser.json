@@ -1,16 +1,16 @@
 {
     "name": "Gravitic Stabiliser",
     "icon": "polar:falling_block_stabiliser",
-    "category": "mining",
+    "category": "polar:mining",
     "advancement": "polar:red/root_red",
     "pages":
     [
         {
-            "type": "research_title_page",
+            "type": "polar:research_title_page",
             "research_advancement": "polar:red/falling_block_stabiliser",
             "research_text": "While mining I often have trouble mining through deposits of gravel and other similar blocks. As soon as I mine one block, the gap is immediately filled by another falling from above!$(2br)To solve this problem, I'll need to understand gravity better. Dropping any gravity affected block at least 32 blocks should give me enough data.",
             "title": "Gravitic Stabiliser",
-            "finished_text": "$(br)To solve this problem I have designed a trinket that stabilises these blocks using the power of $(red_magic). My $(item)Gravitic Stabiliser$() stabilises any unstable block above any block I break, for a small $(thing)Charge$() cost. I can also stabilise unstable blocks by using it ($(k:use)) on them. It is charged by the method described in $(l:basics/item_charging)Charging Items$()."
+            "finished_text": "$(br)To ease mining deposits of gravity-affected blocks I have designed a trinket that stabilises them with $(red_magic). My $(item)Gravitic Stabiliser$() stabilises any unstable block above any block I break, for a small $(thing)Charge$() cost. I can also stabilise unstable blocks by using it ($(k:use)) on them. It is charged by the method described in $(l:basics/item_charging)Charging Items$()."
         },
         {
             "type": "crafting",

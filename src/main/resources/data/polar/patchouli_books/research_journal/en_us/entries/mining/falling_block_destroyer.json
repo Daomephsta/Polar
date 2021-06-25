@@ -1,7 +1,7 @@
 {
     "name": "Percussive Disintegrator",
     "icon": "polar:falling_block_destroyer",
-    "category": "mining",
+    "category": "polar:mining",
     "advancement": "polar:blue/root_blue",
     "pages":
     [

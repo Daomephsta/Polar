@@ -1,7 +1,7 @@
 {
     "name": "Progression",
     "icon": "minecraft:book",
-    "category": "basics",
+    "category": "polar:basics",
     "pages":
     [
         {
