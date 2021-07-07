@@ -62,10 +62,11 @@ repositories {
 
 dependencies {
     implementation project('polar-api')
-    modImplementation "dev.emi:trinkets:${project.trinkets_version}"
-    modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:${project.cardinal_components_version}"
-    modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-item:${project.cardinal_components_version}"
-    modImplementation "me.zeroeightsix:fiber:${project.fiber_version}"
+    modImplementation("dev.emi:trinkets:${project.trinkets_version}")
+    // Only include implementation detail dependencies to reduce JAR size
+    include(modImplementation("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:${project.cardinal_components_version}"))
+    include(modImplementation("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-item:${project.cardinal_components_version}"))
+    include(modImplementation("me.zeroeightsix:fiber:${project.fiber_version}"))
     include(modRuntime('com.github.Daomephsta:modifier-tooltip-fix:v1.0.2'))
 }
 
