@@ -65,9 +65,6 @@ dependencies {
     modImplementation "dev.emi:trinkets:${project.trinkets_version}"
     modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:${project.cardinal_components_version}"
     modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-item:${project.cardinal_components_version}"
-    include(modImplementation("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
-        exclude(group: "net.fabricmc.fabric-api")
-    })
     modImplementation "me.zeroeightsix:fiber:${project.fiber_version}"
     include(modRuntime('com.github.Daomephsta:modifier-tooltip-fix:v1.0.2'))
 }
