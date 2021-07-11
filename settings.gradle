@@ -6,7 +6,11 @@ pluginManagement {
         }
         gradlePluginPortal()
     }
+    plugins {
+        id 'fabric-loom' version '0.8-SNAPSHOT'
+    }
 }
 
 rootProject.name = 'polar'
 include 'polar-api'
+include 'Inscribe'

@@ -1,14 +1,14 @@
 plugins {
     id 'java'
     id 'maven-publish'
-    id 'fabric-loom' version '0.8-SNAPSHOT'
+    id 'fabric-loom'
 }
 
 archivesBaseName = project.archives_base_name
 version = "${rootProject.mod_version}+MC${rootProject.minecraft_version}"
 group = project.maven_group
 
-allprojects {
+allprojects { current ->
     apply plugin: 'java'
     apply plugin: 'fabric-loom'
 
@@ -28,7 +28,9 @@ allprojects {
     
     dependencies {
         minecraft "com.mojang:minecraft:${project.minecraft_version}"
-        mappings "net.fabricmc:yarn:${project.yarn_mappings}"
+        // Allow Inscribe to use independent mappings
+        if (current.name != 'Inscribe')
+            mappings "net.fabricmc:yarn:${project.yarn_mappings}"
         modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
         modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
         modApi "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:${project.cardinal_components_version}"
@@ -36,12 +38,12 @@ allprojects {
     }
 
     configurations.all {
-           resolutionStrategy {
-              force 'com.google.guava:guava:21.0'
-              force "net.fabricmc:fabric-loader:${project.loader_version}"
-              force "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-              force "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:${project.cardinal_components_version}"
-           }
+        resolutionStrategy {
+           force 'com.google.guava:guava:21.0'
+           force "net.fabricmc:fabric-loader:${project.loader_version}"
+           force "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+           force "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:${project.cardinal_components_version}"
+        }
     }
 }
 
@@ -64,6 +66,7 @@ dependencies {
     implementation project('polar-api')
     modImplementation("dev.emi:trinkets:${project.trinkets_version}")
     // Only include implementation detail dependencies to reduce JAR size
+    include(modImplementation(project('Inscribe')))
     include(modImplementation("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:${project.cardinal_components_version}"))
     include(modImplementation("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-item:${project.cardinal_components_version}"))
     include(modImplementation("me.zeroeightsix:fiber:${project.fiber_version}"))
