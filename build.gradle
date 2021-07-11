@@ -19,10 +19,16 @@ allprojects { current ->
         maven {
             name = "Ladysnake Libs"
             url = "https://ladysnake.jfrog.io/artifactory/mods"
+            content {
+                includeGroup 'io.github.onyxstudios.Cardinal-Components-API'
+            }
         }   
         maven {
             name 'Jared' 
             url 'https://maven.blamejared.com' 
+            content {
+                includeGroup 'vazkii.patchouli'
+            }
         }
     }
     
@@ -51,14 +57,16 @@ repositories {
     maven {
         name = "TerraformersMC"
         url = "https://maven.terraformersmc.com/"
-    }
-    maven { 
-        name = "Shedaniel"
-        url "https://maven.shedaniel.me/" 
+        content {
+            includeGroup 'dev.emi'
+        }
     }
     maven {
         name 'JitPack'
         url 'https://jitpack.io'
+        content {
+            includeGroup 'com.github.Daomephsta'
+        }
     }
 }
 
@@ -66,7 +74,7 @@ dependencies {
     implementation project('polar-api')
     modImplementation("dev.emi:trinkets:${project.trinkets_version}")
     // Only include implementation detail dependencies to reduce JAR size
-    include(modImplementation(project('Inscribe')))
+    include(project('Inscribe'))
     include(modImplementation("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:${project.cardinal_components_version}"))
     include(modImplementation("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-item:${project.cardinal_components_version}"))
     include(modImplementation("me.zeroeightsix:fiber:${project.fiber_version}"))
