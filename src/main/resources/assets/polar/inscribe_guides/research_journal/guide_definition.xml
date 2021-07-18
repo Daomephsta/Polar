@@ -1,0 +1,7 @@
+<?parser_version 1.0.0?>
+<guide>
+	<main_table_of_contents location="toc.xml"/>
+	<access_method>
+		<guide_item item_group="polar.other" model="polar:item/research_journal"/>
+	</access_method>
+</guide>

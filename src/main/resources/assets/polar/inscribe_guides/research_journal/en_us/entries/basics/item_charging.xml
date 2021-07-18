@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?parser_version 1.0.0?>
+<entry>
+	<page>
+	# Charging Items
+    Certain items, such as the  
+    Gravitic Stabiliser, require Polar  
+    magic to function. Vermillis and  
+    Azuras items are charged by  
+    crafting them with Azurane and  
+    Vermillium, respectively.  
+    The Charge stored in an item is  
+    displayed in its tooltip.
+	</page>
+</entry>

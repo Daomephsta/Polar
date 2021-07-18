@@ -1,0 +1,22 @@
+{
+    "type": "enhanced_recipes:crafting_shapeless",
+    "processors": 
+    [
+        {
+            "type": "enhanced_recipes:add_nbt",
+            "tag": {"guide_id": "polar:research_journal"}
+        }
+    ],
+    "ingredients":
+    [
+        {"item": "minecraft:book"},
+        [
+            {"item": "polar:blue_resource_basic"},
+            {"item": "polar:red_resource_basic"}
+        ]
+    ],
+    "result": 
+    {
+        "item": "inscribe:guide"
+    }
+}

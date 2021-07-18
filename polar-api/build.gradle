@@ -1,1 +1,11 @@
 version = "${rootProject.api_version}+POLAR${rootProject.mod_version}.MC${rootProject.minecraft_version}"
+
+dependencies {
+    def inscribe = project(':Inscribe');
+    def remappedPrefix = "net_fabricmc_yarn_${inscribe.minecraft_version}_${inscribe.yarn_mappings}_v2"
+        .replaceAll('[^A-z0-9]', '_')
+    implementation(inscribe) {
+        exclude module: 'fabric-loader'
+        exclude group: "${remappedPrefix}.net.fabricmc.fabric-api"
+    }
+}

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?parser_version 1.0.0?>
+<entry>
+	<page>
+	# Percussive
+	# Disintegrator
+	While mining I often have trouble  
+	mining through deposits of  
+	gravel and other similar blocks.  
+	As soon as I mine one block, the  
+	gap is immediately filled by  
+	another falling from above!  
+	To solve this problem I have  
+	designed an Azuras trinket that  
+	destroys an entire column of  
+	these blocks at once.  
+    The Percussive Disintegrator  
+    uses a small amount of Charge  
+    per block destroyed, and is  
+    charged by the method described  
+    in [Charging Items](inscribe://polar:research_journal/basics/item_charging).
+	</page>
+    <page>
+        <h2 hAlign="center">Recipe</h2>
+        <recipe id="polar:blue/falling_block_destroyer"/>
+    </page>
+</entry>

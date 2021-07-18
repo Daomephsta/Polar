@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?parser_version 1.0.0?>
+<entry>
+	<page>
+	# Gravitic
+    # Stabiliser
+	To ease mining deposits of  
+	gravity-affected blocks I have  
+	designed a Vermillis trinket to  
+	stabilise them.  
+	My Gravitic Stabiliser stabilises  
+	any unstable block above any  
+	block I break, for a small Charge  
+	cost. I can also stabilise blocks  
+	by using it on them.  
+	It is charged by the method  
+	described in [Charging Items](inscribe://polar:research_journal/basics/item_charging).  
+    The stabilising enchantment is  
+    fragile, it'll stand up to walking  
+    and jumping; but a good hit will  
+    break it, causing the stabilised  
+    block to fall.
+    </page>
+    <page>
+        <h2 hAlign="center">Recipe</h2>
+        <recipe id="polar:red/falling_block_stabiliser"/>
+	</page>
+</entry>

@@ -14,7 +14,7 @@
     "block.polar.jo_rune": "Jo Rune",
     "block.polar.tir_rune": "Tir Rune",
 
-    "item.polar.research_journal.name": "Research Journal",
+    "polar.guide.research_journal.name": "Research Journal",
     "item.polar.falling_block_stabiliser": "Gravitic Stabiliser",
     "item.polar.falling_block_destroyer": "Percussive Disintegrator",
     "item.polar.red_resource_basic": "Flawed Vermillium",

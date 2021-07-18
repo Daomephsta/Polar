@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?parser_version 1.0.0?>
+<entry>
+	<page>
+	# Anomalies
+	While exploring I've found  
+	strange objects that radiate an  
+	unknown form of energy.  
+	There are two colours of these  
+	'anomalies'; blue anomalies, which  
+	appear near sunrise;  
+	and red anomalies, which appear  
+	near sunset.
+	
+	After a few days, anomalies   
+	disappear naturally.  
+	I suspect it is possible to  
+	prevent or hasten this event.  
+	My next step is to find a way to  
+	focus their power.  
+	I will leave samples of materials  
+	near each kind.  
+	Redstone, lapis, glowstone, and  
+	gold seem like good candidates.
+	</page>
+	<page>
+	<h1 hAlign="center">Red Anomaly</h1>
+	<entity_display entity="polar:anomaly" tag="{polarity: RED}" size="64px">
+	   <transform>
+	       <translate x="0" y="-32" z="0"/>
+	   </transform>
+       <animate>
+           <rotate_around axis="y" speed="0.75"/>
+       </animate>
+	</entity_display>
+	<h1 hAlign="center">Blue Anomaly</h1>
+    <entity_display entity="polar:anomaly" tag="{polarity: BLUE}" size="64px">
+       <transform>
+           <translate x="0" y="-32" z="0"/>
+       </transform>
+       <animate>
+           <rotate_around axis="y" speed="0.75"/>
+       </animate>
+    </entity_display>
+	</page>
+</entry>

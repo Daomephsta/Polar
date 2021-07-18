@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?parser_version 1.0.0?>
+<toc link_style="text">
+    <link name="Progression" destination="/progression"/>
+    <link name="Anomalies" destination="/anomalies"/>
+    <link name="Charging Items" destination="/item_charging"/>
+    <link name="Polaric Annihilation" destination="/red_blue_reaction"/>
+</toc>

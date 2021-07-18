@@ -2,6 +2,7 @@ package io.github.daomephsta.polar.api;
 
 import dev.onyxstudios.cca.api.v3.component.ComponentKey;
 import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
+import io.github.daomephsta.inscribe.api.InscribeApi;
 import io.github.daomephsta.polar.api.components.IPolarChargeStorage;
 import io.github.daomephsta.polar.api.components.IPolarPlayerData;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
@@ -12,7 +13,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-import vazkii.patchouli.api.PatchouliAPI;
 
 /** The main interface between Polar and other mods **/
 public interface PolarApi
@@ -27,8 +27,9 @@ public interface PolarApi
             .icon(() -> new ItemStack(getItem("blue_resource_basic")))
             .build(),
         TAB_OTHER = FabricItemGroupBuilder.create(id("other"))
-            .icon(() -> PatchouliAPI.get().getBookStack(id("research_journal")))
+            .icon(() -> InscribeApi.stackOfGuide(id("research_journal")))
             .build();
+
     public static final ComponentKey<IPolarPlayerData> PLAYER_DATA = 
         ComponentRegistry.getOrCreate(id("player_data"), IPolarPlayerData.class);
     public static final ComponentKey<IPolarChargeStorage> CHARGE_STORAGE = 

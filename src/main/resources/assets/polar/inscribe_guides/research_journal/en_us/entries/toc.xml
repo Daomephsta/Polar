@@ -1,0 +1,12 @@
+<?parser_version 1.0.0?>
+<toc link_style="icon_with_text">
+    <link name="Basics" destination="/basics/index">
+        <image src="polar:textures/guide/icons/anomalies.png" width="16" height="16" alt_text="Basics"/>
+    </link>
+    <link name="Combat" destination="/combat/index">
+        <itemstack item="minecraft:iron_sword"/>
+    </link>
+    <link name="Mining" destination="/mining/index">
+        <itemstack item="minecraft:iron_pickaxe"/>
+    </link>
+</toc>
