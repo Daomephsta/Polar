@@ -9,4 +9,7 @@
     <link name="Mining" destination="/mining/index">
         <itemstack item="minecraft:iron_pickaxe"/>
     </link>
+    <link name="Guide Usage" destination="inscribe:std/usage">
+        <itemstack item="minecraft:book"/>
+    </link>
 </toc>
