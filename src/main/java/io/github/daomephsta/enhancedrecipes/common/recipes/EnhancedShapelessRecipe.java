@@ -26,11 +26,14 @@ public class EnhancedShapelessRecipe extends ShapelessRecipe
 {
     public static final RecipeSerializer<EnhancedShapelessRecipe> SERIALIZER = new Serializer();
     private final List<RecipeProcessor> processors;
+    private final boolean excludeFromRecipeBook;
 
-    private EnhancedShapelessRecipe(Identifier id, String group, ItemStack output, DefaultedList<Ingredient> inputs, List<RecipeProcessor> processors)
+    private EnhancedShapelessRecipe(Identifier id, String group, ItemStack output, 
+        DefaultedList<Ingredient> inputs, List<RecipeProcessor> processors, boolean excludeFromRecipeBook)
     {
         super(id, group, output, inputs);
         this.processors = processors;
+        this.excludeFromRecipeBook = excludeFromRecipeBook;
     }
 
     @Override
@@ -64,6 +67,12 @@ public class EnhancedShapelessRecipe extends ShapelessRecipe
         return SERIALIZER;
     }    
     
+    @Override
+    public boolean isIgnoredInRecipeBook()
+    {
+        return excludeFromRecipeBook;
+    }
+    
     private static class Serializer implements RecipeSerializer<EnhancedShapelessRecipe>
     {
         @Override
@@ -79,7 +88,15 @@ public class EnhancedShapelessRecipe extends ShapelessRecipe
             List<RecipeProcessor> processors = Streams.stream(JsonHelper.getArray(json, "processors"))
                     .map(e -> RecipeProcessor.fromJson(id, JsonHelper.asObject(e, "processor")))
                     .collect(Collectors.toList());
-            return new EnhancedShapelessRecipe(id, group, output, inputs, processors);
+            boolean excludeFromRecipeBook = false;
+            for (var processor : processors)
+            {
+                if (processor instanceof StackOnlyRecipeProcessor pure)
+                    output = pure.apply(output);
+                else
+                    excludeFromRecipeBook = true;
+            }
+            return new EnhancedShapelessRecipe(id, group, output, inputs, processors, excludeFromRecipeBook);
         }
 
         @Override
@@ -95,7 +112,8 @@ public class EnhancedShapelessRecipe extends ShapelessRecipe
             List<RecipeProcessor> processors = IntStream.range(0, bytes.readVarInt())
                     .mapToObj(i -> RecipeProcessor.fromBytes(id, bytes))
                     .collect(Collectors.toList());
-            return new EnhancedShapelessRecipe(id, group, output, inputs, processors);
+            boolean excludeFromRecipeBook = bytes.readBoolean();
+            return new EnhancedShapelessRecipe(id, group, output, inputs, processors, excludeFromRecipeBook);
         }
 
         @Override
@@ -109,15 +127,9 @@ public class EnhancedShapelessRecipe extends ShapelessRecipe
             }
             bytes.writeItemStack(recipe.getOutput());
             bytes.writeVarInt(recipe.processors.size());
-            for (RecipeProcessor condition : recipe.processors)
-            {
-                RecipeProcessor.toBytes(bytes, condition);
-            }
-            bytes.writeVarInt(recipe.processors.size());
-            for (RecipeProcessor function : recipe.processors)
-            {
-                RecipeProcessor.toBytes(bytes, function);
-            }
+            for (var processor : recipe.processors)
+                RecipeProcessor.toBytes(bytes, processor);
+            bytes.writeBoolean(recipe.excludeFromRecipeBook);
         }    
     }
 }

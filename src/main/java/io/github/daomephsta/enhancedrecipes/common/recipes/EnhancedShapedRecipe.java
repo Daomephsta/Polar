@@ -31,11 +31,15 @@ public class EnhancedShapedRecipe extends ShapedRecipe
 {
     public static final RecipeSerializer<EnhancedShapedRecipe> SERIALIZER = new Serializer();
     private final List<RecipeProcessor> processors;
+    private final boolean excludeFromRecipeBook;
 
-    private EnhancedShapedRecipe(Identifier id, String group, int width, int height, DefaultedList<Ingredient> inputs, ItemStack output, List<RecipeProcessor> processors)
+    private EnhancedShapedRecipe(Identifier id, String group, int width, int height, 
+        DefaultedList<Ingredient> inputs, ItemStack output, List<RecipeProcessor> processors, 
+        boolean excludeFromRecipeBook)
     {
         super(id, group, width, height, inputs, output);
         this.processors = processors;
+        this.excludeFromRecipeBook = excludeFromRecipeBook;
     }
 
     @Override
@@ -62,6 +66,12 @@ public class EnhancedShapedRecipe extends ShapedRecipe
             result = processor.apply(inventory, result);
         }
         return result;
+    }
+    
+    @Override
+    public boolean isIgnoredInRecipeBook()
+    {
+        return excludeFromRecipeBook;
     }
 
     public RecipeSerializer<?> getSerializer()
@@ -95,7 +105,15 @@ public class EnhancedShapedRecipe extends ShapedRecipe
             List<RecipeProcessor> processors = Streams.stream(JsonHelper.getArray(json, "processors"))
                     .map(e -> RecipeProcessor.fromJson(id, JsonHelper.asObject(e, "processor")))
                     .collect(Collectors.toList());
-            return new EnhancedShapedRecipe(id, group, width, height, inputs, output, processors);
+            boolean dynamic = false;
+            for (var processor : processors)
+            {
+                if (processor instanceof StackOnlyRecipeProcessor pure)
+                    output = pure.apply(output);
+                else
+                    dynamic = true;
+            }
+            return new EnhancedShapedRecipe(id, group, width, height, inputs, output, processors, dynamic);
         }
         
         private void validatePattern(char[][] pattern)
@@ -141,7 +159,9 @@ public class EnhancedShapedRecipe extends ShapedRecipe
             List<RecipeProcessor> processors = IntStream.range(0, bytes.readVarInt())
                     .mapToObj(i -> RecipeProcessor.fromBytes(id, bytes))
                     .collect(Collectors.toList());
-            return new EnhancedShapedRecipe(id, group, width, height, inputs, output, processors);
+            boolean excludeFromRecipeBook = bytes.readBoolean();
+            return new EnhancedShapedRecipe(id, group, width, height, 
+                inputs, output, processors, excludeFromRecipeBook);
         }
 
         @Override
@@ -156,15 +176,9 @@ public class EnhancedShapedRecipe extends ShapedRecipe
             }
             bytes.writeItemStack(recipe.getOutput());
             bytes.writeVarInt(recipe.processors.size());
-            for (RecipeProcessor condition : recipe.processors)
-            {
-                RecipeProcessor.toBytes(bytes, condition);
-            }
-            bytes.writeVarInt(recipe.processors.size());
-            for (RecipeProcessor function : recipe.processors)
-            {
-                RecipeProcessor.toBytes(bytes, function);
-            }
+            for (var processor : recipe.processors)
+                RecipeProcessor.toBytes(bytes, processor);
+            bytes.writeBoolean(recipe.excludeFromRecipeBook);
         }    
     }
 }

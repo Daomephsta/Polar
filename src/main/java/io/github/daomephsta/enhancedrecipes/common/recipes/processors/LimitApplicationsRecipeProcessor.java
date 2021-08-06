@@ -2,17 +2,16 @@ package io.github.daomephsta.enhancedrecipes.common.recipes.processors;
 
 import com.google.gson.JsonObject;
 
+import io.github.daomephsta.enhancedrecipes.common.recipes.StackOnlyRecipeProcessor;
 import io.github.daomephsta.enhancedrecipes.common.recipes.RecipeProcessor;
 import io.github.daomephsta.polar.common.Polar;
-import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
-import net.minecraft.world.World;
 
-public class LimitApplicationsRecipeProcessor extends RecipeProcessor
+public class LimitApplicationsRecipeProcessor extends StackOnlyRecipeProcessor
 {
     public static final RecipeProcessor.Serialiser<?> SERIALISER = new Serialiser();
     private static final String TAG_APPLIED_RECIPES = Polar.MOD_ID + "_applied_recipes";
@@ -26,7 +25,7 @@ public class LimitApplicationsRecipeProcessor extends RecipeProcessor
     }
 
     @Override
-    public TestResult test(CraftingInventory inventory, World world, TestResult predictedOutput)
+    public TestResult test(TestResult predictedOutput)
     {
         if (getApplicationCount(predictedOutput.getPredictedStack()) == maxApplications)
             return TestResult.fail();
@@ -35,7 +34,7 @@ public class LimitApplicationsRecipeProcessor extends RecipeProcessor
     }
     
     @Override
-    public ItemStack apply(CraftingInventory inventory, ItemStack output)
+    public ItemStack apply(ItemStack output)
     {
         incrementApplicationCount(output);
         return output;

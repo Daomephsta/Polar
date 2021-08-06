@@ -10,10 +10,9 @@
     "ingredients":
     [
         {"item": "minecraft:book"},
-        [
-            {"item": "polar:blue_resource_basic"},
-            {"item": "polar:red_resource_basic"}
-        ]
+        {"item": "minecraft:red_dye"},
+        {"item": "minecraft:blue_dye"},
+        {"item": "minecraft:ink_sac"}
     ],
     "result": 
     {

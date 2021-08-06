@@ -3,17 +3,16 @@ package io.github.daomephsta.enhancedrecipes.common.recipes.processors;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.JsonOps;
 
+import io.github.daomephsta.enhancedrecipes.common.recipes.StackOnlyRecipeProcessor;
 import io.github.daomephsta.enhancedrecipes.common.recipes.RecipeProcessor;
-import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
-import net.minecraft.world.World;
 
-public class AddNbtRecipeProcessor extends RecipeProcessor
+public class AddNbtRecipeProcessor extends StackOnlyRecipeProcessor
 {
     public static final RecipeProcessor.Serialiser<?> SERIALISER = new Serialiser();
     protected final NbtCompound tag;
@@ -24,13 +23,13 @@ public class AddNbtRecipeProcessor extends RecipeProcessor
     }
 
     @Override
-    public TestResult test(CraftingInventory inventory, World world, TestResult predictedOutput)
+    public TestResult test(TestResult predictedOutput)
     {
         return predictedOutput.withPredictedTag(tag);
     }
     
     @Override
-    public ItemStack apply(CraftingInventory inventory, ItemStack output)
+    public ItemStack apply(ItemStack output)
     {
         output.getOrCreateTag().copyFrom(tag);
         return output;

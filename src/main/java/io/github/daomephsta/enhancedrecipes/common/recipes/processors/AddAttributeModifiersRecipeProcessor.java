@@ -13,20 +13,19 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
+import io.github.daomephsta.enhancedrecipes.common.recipes.StackOnlyRecipeProcessor;
 import io.github.daomephsta.enhancedrecipes.common.recipes.RecipeProcessor;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributeModifier.Operation;
-import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.World;
 
-public class AddAttributeModifiersRecipeProcessor extends RecipeProcessor
+public class AddAttributeModifiersRecipeProcessor extends StackOnlyRecipeProcessor
 {
     public static final RecipeProcessor.Serialiser<?> SERIALISER = new Serialiser();
     private final Multimap<EntityAttribute, Entry<EntityAttributeModifier, EquipmentSlot>> modifiers;
@@ -37,13 +36,13 @@ public class AddAttributeModifiersRecipeProcessor extends RecipeProcessor
     }
 
     @Override
-    public TestResult test(CraftingInventory inventory, World world, TestResult predictedOutput)
+    public TestResult test(TestResult predictedOutput)
     {
         return predictedOutput;
     }
     
     @Override
-    public ItemStack apply(CraftingInventory inventory, ItemStack output)
+    public ItemStack apply(ItemStack output)
     {
         for (EquipmentSlot slot : EquipmentSlot.values())
         {

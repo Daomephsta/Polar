@@ -4,7 +4,8 @@
     {
         "icon":
         {
-            "item": "book"
+            "item": "inscribe:guide",
+            "nbt": "{guide_id: 'polar:research_journal'}"
         },
         "title": {"translate": "polar.advancements.root.title"},
         "description": {"translate": "polar.advancements.root.desc"},
