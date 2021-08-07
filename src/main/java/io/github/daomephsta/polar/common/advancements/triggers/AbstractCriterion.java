@@ -1,54 +1,50 @@
 
 package io.github.daomephsta.polar.common.advancements.triggers;
 
-import java.util.Map;
+import java.util.Collection;
 import java.util.Set;
-import java.util.function.Function;
 
-import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
 
-import io.github.daomephsta.polar.common.advancements.triggers.AbstractCriterion.AbstractHandler;
 import net.minecraft.advancement.PlayerAdvancementTracker;
 import net.minecraft.advancement.criterion.Criterion;
 import net.minecraft.advancement.criterion.CriterionConditions;
 import net.minecraft.util.Identifier;
 
-public abstract class AbstractCriterion<T extends CriterionConditions, H extends AbstractHandler<T>> implements Criterion<T>
+public abstract class AbstractCriterion<T extends CriterionConditions> implements Criterion<T>
 {
     private final Identifier id;
-    private final Function<PlayerAdvancementTracker, H> handlerFactory;
-    private final Map<PlayerAdvancementTracker, H> handlers = Maps.newHashMap();
+    private final Multimap<PlayerAdvancementTracker, ConditionsContainer<T>> handlers = 
+        MultimapBuilder.hashKeys().hashSetValues().build();
 
-    protected AbstractCriterion(Identifier id, Function<PlayerAdvancementTracker, H> handlerFactory)
+    protected AbstractCriterion(Identifier id)
     {
         this.id = id;
-        this.handlerFactory = handlerFactory;
     }
 
     @Override
     public void beginTrackingCondition(PlayerAdvancementTracker tracker, ConditionsContainer<T> container)
     {
-        handlers.computeIfAbsent(tracker, handlerFactory).addContainer(container);
+        handlers.get(tracker).add(container);
     }
     
     @Override
     public void endTrackingCondition(PlayerAdvancementTracker tracker, ConditionsContainer<T> container)
     {
-        H handler = handlers.get(tracker);
-        if (handler != null)
-        {
-            handler.removeContainer(container);
-            if (handler.isEmpty())
-                handlers.remove(tracker);
-        }
+        Collection<ConditionsContainer<T>> handler = handlers.get(tracker);
+        handler.remove(container);
+        if (handler.isEmpty())
+            handlers.removeAll(tracker);
     }
     
     @Override
     public void endTracking(PlayerAdvancementTracker tracker)
     {
-        handlers.remove(tracker);
+        handlers.removeAll(tracker);
     }
+
     @Override
     public Identifier getId()
     {
@@ -60,7 +56,7 @@ public abstract class AbstractCriterion<T extends CriterionConditions, H extends
         return handlers.containsKey(tracker);
     }
     
-    public H getHandler(PlayerAdvancementTracker tracker)
+    public Collection<ConditionsContainer<T>> getHandler(PlayerAdvancementTracker tracker)
     {
         return handlers.get(tracker);
     }

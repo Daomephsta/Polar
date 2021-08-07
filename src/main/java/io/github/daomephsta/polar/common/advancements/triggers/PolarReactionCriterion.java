@@ -1,4 +1,3 @@
-
 package io.github.daomephsta.polar.common.advancements.triggers;
 
 import com.google.gson.JsonObject;
@@ -12,20 +11,21 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 
-
-public class PolarReactionCriterion extends 
-    AbstractCriterion<PolarReactionCriterion.Conditions, PolarReactionCriterion.Handler>
+public class PolarReactionCriterion extends AbstractCriterion<PolarReactionCriterion.Conditions>
 {
     public PolarReactionCriterion()
     {
-        super(Polar.id("polar_reaction"), tracker -> new Handler());
+        super(Polar.id("polar_reaction"));
     }
 
     public void handle(ServerPlayerEntity player, int reactionStrength)
     {
-        Handler handler = getHandler(player.getAdvancementTracker());
-        if (handler != null)
-            handler.handle(player.getAdvancementTracker(), reactionStrength);
+        PlayerAdvancementTracker advancements = player.getAdvancementTracker();
+        for (ConditionsContainer<Conditions> container : getHandler(advancements))
+        {
+            if (container.getConditions().reactionStrength <= reactionStrength)
+                container.grant(advancements);
+        }
     }
 
     @Override
@@ -34,43 +34,12 @@ public class PolarReactionCriterion extends
         return new Conditions(this, JsonHelper.getInt(json, "reaction_strength"));
     }
 
-    static class Handler extends AbstractCriterion.AbstractHandler<Conditions> 
+    record Conditions(PolarReactionCriterion owner, int reactionStrength) implements CriterionConditions
     {
-        private void handle(PlayerAdvancementTracker advancementManager, int reactionStrength)
-        {
-            for (ConditionsContainer<Conditions> container : getContainers())
-            {
-                if (container.getConditions().test(reactionStrength))
-                    container.grant(advancementManager);
-            }
-        }
-    }
-
-    static class Conditions implements CriterionConditions
-    {
-        private final PolarReactionCriterion nestOwner;
-        private final int reactionStrength;
-
-        private Conditions(PolarReactionCriterion nestOwner, int reactionStrength)
-        {
-            this.nestOwner = nestOwner;
-            this.reactionStrength = reactionStrength;
-        }
-
-        public boolean test(int reactionStrength)
-        {
-            return this.reactionStrength <= reactionStrength;
-        }
-
-        public int getReactionStrength()
-        {
-            return reactionStrength;
-        }
-
         @Override
         public Identifier getId()
         {
-            return nestOwner.getId();
+            return owner.getId();
         }
 
         @Override

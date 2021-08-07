@@ -1,4 +1,3 @@
-
 package io.github.daomephsta.polar.common.advancements.triggers;
 
 import com.google.gson.JsonObject;
@@ -11,19 +10,19 @@ import net.minecraft.predicate.entity.AdvancementEntityPredicateSerializer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
-public class PlayerAnomalyInteractionCriterion 
-    extends AbstractCriterion<PlayerAnomalyInteractionCriterion.Conditions, PlayerAnomalyInteractionCriterion.Handler>            
+public class PlayerAnomalyInteractionCriterion
+    extends AbstractCriterion<PlayerAnomalyInteractionCriterion.Conditions>            
 {
     public PlayerAnomalyInteractionCriterion()
     {
-        super(Polar.id("player_anomaly_interaction"), tracker -> new Handler());
+        super(Polar.id("player_anomaly_interaction"));
     }
 
     public void handle(ServerPlayerEntity player)
     {
-        Handler handler = getHandler(player.getAdvancementTracker());
-        if (handler != null)
-            handler.handle(player.getAdvancementTracker());
+        PlayerAdvancementTracker advancements = player.getAdvancementTracker();
+        for (ConditionsContainer<Conditions> container : getHandler(advancements))
+            container.grant(advancements);
     }
 
     @Override
@@ -32,26 +31,8 @@ public class PlayerAnomalyInteractionCriterion
         return new Conditions(this);
     }
 
-    static class Handler extends AbstractCriterion.AbstractHandler<Conditions> 
+    record Conditions(PlayerAnomalyInteractionCriterion owner) implements CriterionConditions
     {
-        private void handle(PlayerAdvancementTracker advancementManager)
-        {
-            for (ConditionsContainer<Conditions> container : getContainers())
-            {
-                container.grant(advancementManager);
-            }
-        }
-    }
-
-    static class Conditions implements CriterionConditions
-    {
-        private final PlayerAnomalyInteractionCriterion nestOwner;
-        
-        private Conditions(PlayerAnomalyInteractionCriterion nestOwner)
-        {
-            this.nestOwner = nestOwner;
-        }
-
         @Override
         public JsonObject toJson(AdvancementEntityPredicateSerializer advancementEntityPredicateSerializer)
         {
@@ -61,7 +42,7 @@ public class PlayerAnomalyInteractionCriterion
         @Override
         public Identifier getId()
         {
-            return nestOwner.getId();
+            return owner.getId();
         }
     }
 }
