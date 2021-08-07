@@ -1,5 +1,4 @@
 {
-    "parent": "minecraft:adventure/root",
     "display":
     {
         "icon":
@@ -9,6 +8,7 @@
         },
         "title": {"translate": "polar.advancements.root.title"},
         "description": {"translate": "polar.advancements.root.desc"},
+        "background": "polar:textures/gui/advancements/background_mixed.png",
         "frame": "goal",
         "announce_to_chat": false
     },

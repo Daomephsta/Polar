@@ -1,4 +1,5 @@
 {
+    "parent": "polar:root",
     "display":
     {
         "icon":

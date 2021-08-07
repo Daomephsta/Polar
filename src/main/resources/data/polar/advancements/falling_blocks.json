@@ -1,0 +1,21 @@
+{
+    "parent": "polar:root",
+    "display":
+    {
+        "icon":
+        {
+            "item": "minecraft:gravel"
+        },
+        "title": {"translate": "polar.advancements.research.falling_blocks.title"},
+        "description": {"translate": "polar.advancements.research.falling_blocks.desc"},
+        "frame": "goal",
+        "announce_to_chat": false
+    },
+    "criteria":
+    {
+        "observe_falling_block":
+        {
+            "trigger": "polar:observe_falling_block"
+        }
+    }
+}

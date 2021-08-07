@@ -38,8 +38,8 @@
     "polar.advancements.blue.root.desc": "Insert witty description here",
     "polar.advancements.red.root.title": "Vermillis Magic",
     "polar.advancements.red.root.desc": "I am very good at writing descriptions",
-    "polar.advancements.red.falling_block_stabiliser.title": "Gravitic Stabiliser",
-    "polar.advancements.red.falling_block_stabiliser.desc": "Research the Gravitic Stabiliser",
+    "polar.advancements.research.falling_blocks.title": "Gravel & Other Problems",
+    "polar.advancements.research.falling_blocks.desc": "Watch a block fall from 32 blocks or more",
 
     "itemGroup.polar.red": "Vermillis Magic (Polar)",
     "itemGroup.polar.blue": "Azuras Magic (Polar)",
