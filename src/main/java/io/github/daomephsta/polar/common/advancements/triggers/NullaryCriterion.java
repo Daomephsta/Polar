@@ -2,7 +2,6 @@ package io.github.daomephsta.polar.common.advancements.triggers;
 
 import com.google.gson.JsonObject;
 
-import io.github.daomephsta.polar.common.Polar;
 import net.minecraft.advancement.PlayerAdvancementTracker;
 import net.minecraft.advancement.criterion.CriterionConditions;
 import net.minecraft.predicate.entity.AdvancementEntityPredicateDeserializer;
@@ -10,18 +9,17 @@ import net.minecraft.predicate.entity.AdvancementEntityPredicateSerializer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
-public class PlayerAnomalyInteractionCriterion
-    extends AbstractCriterion<PlayerAnomalyInteractionCriterion.Conditions>            
+public class NullaryCriterion extends AbstractCriterion<NullaryCriterion.Conditions>
 {
-    public PlayerAnomalyInteractionCriterion()
+    public NullaryCriterion(Identifier id)
     {
-        super(Polar.id("player_anomaly_interaction"));
+        super(id);
     }
 
     public void handle(ServerPlayerEntity player)
     {
         PlayerAdvancementTracker advancements = player.getAdvancementTracker();
-        for (ConditionsContainer<Conditions> container : getHandler(advancements))
+        for (var container : getContainers(advancements))
             container.grant(advancements);
     }
 
@@ -31,7 +29,7 @@ public class PlayerAnomalyInteractionCriterion
         return new Conditions(this);
     }
 
-    record Conditions(PlayerAnomalyInteractionCriterion owner) implements CriterionConditions
+    record Conditions(NullaryCriterion owner) implements CriterionConditions
     {
         @Override
         public JsonObject toJson(AdvancementEntityPredicateSerializer advancementEntityPredicateSerializer)

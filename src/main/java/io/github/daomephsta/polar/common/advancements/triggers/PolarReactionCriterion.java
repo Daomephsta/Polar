@@ -21,7 +21,7 @@ public class PolarReactionCriterion extends AbstractCriterion<PolarReactionCrite
     public void handle(ServerPlayerEntity player, int reactionStrength)
     {
         PlayerAdvancementTracker advancements = player.getAdvancementTracker();
-        for (ConditionsContainer<Conditions> container : getHandler(advancements))
+        for (ConditionsContainer<Conditions> container : getContainers(advancements))
         {
             if (container.getConditions().reactionStrength <= reactionStrength)
                 container.grant(advancements);

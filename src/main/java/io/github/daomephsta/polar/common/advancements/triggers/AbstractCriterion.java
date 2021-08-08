@@ -16,7 +16,7 @@ import net.minecraft.util.Identifier;
 public abstract class AbstractCriterion<T extends CriterionConditions> implements Criterion<T>
 {
     private final Identifier id;
-    private final Multimap<PlayerAdvancementTracker, ConditionsContainer<T>> handlers = 
+    private final Multimap<PlayerAdvancementTracker, ConditionsContainer<T>> conditions =
         MultimapBuilder.hashKeys().hashSetValues().build();
 
     protected AbstractCriterion(Identifier id)
@@ -27,22 +27,22 @@ public abstract class AbstractCriterion<T extends CriterionConditions> implement
     @Override
     public void beginTrackingCondition(PlayerAdvancementTracker tracker, ConditionsContainer<T> container)
     {
-        handlers.get(tracker).add(container);
+        conditions.get(tracker).add(container);
     }
     
     @Override
     public void endTrackingCondition(PlayerAdvancementTracker tracker, ConditionsContainer<T> container)
     {
-        Collection<ConditionsContainer<T>> handler = handlers.get(tracker);
+        Collection<ConditionsContainer<T>> handler = conditions.get(tracker);
         handler.remove(container);
         if (handler.isEmpty())
-            handlers.removeAll(tracker);
+            conditions.removeAll(tracker);
     }
     
     @Override
     public void endTracking(PlayerAdvancementTracker tracker)
     {
-        handlers.removeAll(tracker);
+        conditions.removeAll(tracker);
     }
 
     @Override
@@ -51,14 +51,14 @@ public abstract class AbstractCriterion<T extends CriterionConditions> implement
         return id;
     }
     
-    public boolean hasHandler(PlayerAdvancementTracker tracker)
+    public boolean isTrackedBy(PlayerAdvancementTracker tracker)
     {
-        return handlers.containsKey(tracker);
+        return conditions.containsKey(tracker);
     }
     
-    public Collection<ConditionsContainer<T>> getHandler(PlayerAdvancementTracker tracker)
+    public Collection<ConditionsContainer<T>> getContainers(PlayerAdvancementTracker tracker)
     {
-        return handlers.get(tracker);
+        return conditions.get(tracker);
     }
     
     protected static abstract class AbstractHandler<T extends CriterionConditions> 

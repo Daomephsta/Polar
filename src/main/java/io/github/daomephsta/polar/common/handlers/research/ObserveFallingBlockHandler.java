@@ -34,7 +34,7 @@ public class ObserveFallingBlockHandler
             World world = fallingBlock .getEntityWorld();
             if (world.isClient)
                 return;
-            if (PolarCriteria.OBSERVE_FALLING_BLOCK.hasHandler(entityPlayer.getAdvancementTracker()))
+            if (PolarCriteria.OBSERVE_FALLING_BLOCK.isTrackedBy(entityPlayer.getAdvancementTracker()))
                 getTrackers(fallingBlock.getEntityWorld()).add(new FallingBlockTracker(entityPlayer, fallingBlock));
         }
     }
