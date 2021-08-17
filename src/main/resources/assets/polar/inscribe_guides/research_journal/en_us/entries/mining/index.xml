@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?parser_version 1.0.0?>
 <toc link_style="icon_with_text">
-	<link name="Gravitic Stabiliser" destination="/falling_block_stabiliser" if="polar:falling_blocks">    
-	    <itemstack item="polar:falling_block_stabiliser"></itemstack>            
-	</link>                                                                      
-	<link name="Percussive Disintegrator" destination="/falling_block_destroyer" if="polar:falling_blocks">
-	    <itemstack item="polar:falling_block_destroyer"></itemstack>             
-	</link>
-    <link name="Gravel &amp; Other Problems" destination="/falling_blocks" if_not="polar:falling_blocks">
-        <itemstack item="minecraft:gravel"></itemstack>
+    <link
+        name="Gravitic Stabiliser"
+        destination="/falling_block_stabiliser"
+        if="polar:research/falling_blocks">
+        <itemstack item="polar:falling_block_stabiliser"/>
+    </link>
+    <link
+        name="Percussive Disintegrator"
+        destination="/falling_block_destroyer"
+        if="polar:research/falling_blocks">
+        <itemstack item="polar:falling_block_destroyer"/>
+    </link>
+    <link
+        name="Gravel &amp; Other Problems"
+        destination="/falling_blocks"
+        if_not="polar:research/falling_blocks">
+        <itemstack item="minecraft:gravel"/>
     </link>
 </toc>

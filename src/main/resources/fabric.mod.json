@@ -5,7 +5,7 @@
   "name": "Polar",
   "description": "A magic mod about two opposing schools of magic",
   "authors": [
-    "Daomephsta - Developer", 
+    "Daomephsta - Developer",
     "NotAWallplan - Artist"
   ],
   "contact": {
@@ -26,6 +26,9 @@
     ],
     "client": [
         "io.github.daomephsta.polar.client.PolarClientInitializer"
+    ],
+    "inscribe:configure/polar/research_journal": [
+        "io.github.daomephsta.polar.client.research.ResearchJournal::INSTANCE"
     ]
   },
   "mixins": [

@@ -2,8 +2,9 @@
 <?parser_version 1.0.0?>
 <toc link_style="icon_with_text">
     <link name="Improving Armour" destination="/buff_armour">
-    	<itemstack item="minecraft:iron_chestplate"></itemstack>
+        <itemstack item="minecraft:iron_chestplate"/>
     </link>
     <link name="Improving Weapons" destination="/buff_weapon">
-    	<itemstack item="minecraft:iron_sword"></itemstack></link>
+        <itemstack item="minecraft:iron_sword"/>
+    </link>
 </toc>

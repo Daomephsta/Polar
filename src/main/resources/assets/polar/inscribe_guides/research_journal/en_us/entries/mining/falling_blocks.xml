@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?parser_version 1.0.0?>
+<?import polar:research_journal/research?>
 <entry>
 	<page>
 	# Gravel &amp;
-	# Other Problems
-	While mining I often have trouble  
-	mining through deposits of  
-	gravel and other similar blocks.  
-	As soon as I mine one block, the  
-	gap is immediately filled by  
-	another falling from above!
+    # Other Problems
+    While mining I often have trouble  
+    mining through deposits of  
+    gravel and other similar blocks.  
+    As soon as I mine one block, the  
+    gap is immediately filled by  
+    another falling from above!
+    <research research="polar:falling_blocks">
+    Observe a block falling 32 blocks
+    </research>
 	</page>
 </entry>

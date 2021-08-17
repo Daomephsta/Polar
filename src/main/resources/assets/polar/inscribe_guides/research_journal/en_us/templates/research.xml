@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?parser_version 1.0.0?>
+<template processor="io.github.daomephsta.polar.client.research.ResearchJournal::processTemplate">
+<if condition="${in_progress_flag}">
+    <contents/>
+    <else>
+    	<if condition="${completed_flag}">
+    		Research complete, new entries  
+    		unlocked. This entry will  
+    		become inaccessible once closed.
+    		<else>
+        		<button 
+            	handler="io.github.daomephsta.polar.client.research.StartResearch"
+            	research="${research}"
+        		>Start Research</button>
+    		</else>
+		</if>
+	</else>
+</if>
+</template>

@@ -49,7 +49,7 @@ public class NBTExtensions
         int x = posNbt.getInt("x"),
             y = posNbt.getInt("y"),
             z = posNbt.getInt("z");
-        return new BlockPos(x, y, z);
+        return new BlockPos(x, y, z);   
     }
     
     public static void putPosition(NbtCompound nbt, String key, BlockPos pos)

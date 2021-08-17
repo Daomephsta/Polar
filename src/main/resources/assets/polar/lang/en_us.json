@@ -30,6 +30,8 @@
     "polar.message.research_journal_prompt": "What a strange object! I think I should make a research journal to record my findings as I investigate it.",
     "polar.message.polar_reaction": "Ow! What was that?",
 
+    "polar.research.complete": "Research Complete",
+    "polar.research.falling_blocks": "Gravel & Other Problems",
     "polar.advancements.root.title": "Polar",
     "polar.advancements.root.desc": "Discover an anomaly",
     "polar.advancements.shocking_discovery.title": "A Shocking Discovery",
@@ -38,8 +40,6 @@
     "polar.advancements.blue.root.desc": "Insert witty description here",
     "polar.advancements.red.root.title": "Vermillis Magic",
     "polar.advancements.red.root.desc": "I am very good at writing descriptions",
-    "polar.advancements.research.falling_blocks.title": "Gravel & Other Problems",
-    "polar.advancements.research.falling_blocks.desc": "Watch a block fall from 32 blocks or more",
 
     "itemGroup.polar.red": "Vermillis Magic (Polar)",
     "itemGroup.polar.blue": "Azuras Magic (Polar)",

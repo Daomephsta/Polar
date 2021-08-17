@@ -10,10 +10,8 @@ public class PolarCriteria
         CriterionRegistry.register(new NullaryCriterion(Polar.id("player_anomaly_interaction")));
     public static final PolarReactionCriterion POLAR_REACTION =
         CriterionRegistry.register(new PolarReactionCriterion());
-    public static final NullaryCriterion OBSERVE_FALLING_BLOCK =
-        CriterionRegistry.register(new NullaryCriterion(Polar.id("observe_falling_block")));
- 
-    public static void initialise() 
+
+    public static void initialise()
     {
         // Dummy method to force static init
     }

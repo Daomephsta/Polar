@@ -18,22 +18,23 @@ import io.github.daomephsta.polar.common.entities.anomalies.AnomalySpawningHandl
 import io.github.daomephsta.polar.common.entities.anomalies.AnomalyEntity;
 import io.github.daomephsta.polar.common.handlers.JawbladeHandler;
 import io.github.daomephsta.polar.common.handlers.ResidualPolarityHandler;
-import io.github.daomephsta.polar.common.handlers.research.ObserveFallingBlockHandler;
 import io.github.daomephsta.polar.common.handlers.wearables.WearablesHandler;
 import io.github.daomephsta.polar.common.items.ItemRegistry;
 import io.github.daomephsta.polar.common.recipes.PolarRecipes;
+import io.github.daomephsta.polar.common.research.ResearchManager;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 
 
 public class Polar implements ModInitializer
-{    
+{
     public static final String MOD_ID = "polar";
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
     public static final PolarConfig CONFIG = new PolarConfig();
-    
+
     @Override
     public void onInitialize()
     {
@@ -48,8 +49,13 @@ public class Polar implements ModInitializer
         JawbladeHandler.registerEventCallbacks();
         ResidualPolarityHandler.registerEventCallbacks();
         WearablesHandler.initialise();
-        ObserveFallingBlockHandler.initialise();
         PolarRecipes.initialise();
+        PolarCommonNetworking.initialise();
+        ServerLifecycleEvents.SERVER_STARTED.register(server ->
+        {
+            PolarCommand.register(server.getCommandManager().getDispatcher());
+        });
+        ResearchManager.INSTANCE.initialise();
         initialiseApi();
     }
 
@@ -68,7 +74,7 @@ public class Polar implements ModInitializer
         PolarPlayerDataComponent.register(registry);
         AnomalyEntity.registerComponents(registry);
     }
-    
+
     //  Static entrypoint for cardinal-components-item. See fabric.mod.json
     public static void registerItemComponents(ItemComponentFactoryRegistry registry)
     {
