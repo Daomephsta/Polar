@@ -8,43 +8,33 @@ archivesBaseName = project.archives_base_name
 version = "${rootProject.mod_version}+MC${rootProject.minecraft_version}"
 group = project.maven_group
 
-allprojects { current ->
-    apply plugin: 'java'
-    apply plugin: 'fabric-loom'
-
+ext.polarCommonRepos = {
+	maven {
+	    name = "Ladysnake Libs"
+	    url = "https://ladysnake.jfrog.io/artifactory/mods"
+	    content {
+	        includeGroup 'io.github.onyxstudios.Cardinal-Components-API'
+	    }
+	}
+}
+ext.polarCommonDeps = {
+    minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
+    mappings "net.fabricmc:yarn:${rootProject.yarn_mappings}"
+    modImplementation "net.fabricmc:fabric-loader:${rootProject.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_version}"
+    modApi "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:${rootProject.cardinal_components_version}"
+}
+allprojects {
     sourceCompatibility = JavaVersion.VERSION_16
     targetCompatibility = JavaVersion.VERSION_16
     
-    repositories {
-        maven {
-            name = "Ladysnake Libs"
-            url = "https://ladysnake.jfrog.io/artifactory/mods"
-            content {
-                includeGroup 'io.github.onyxstudios.Cardinal-Components-API'
-            }
-        }
-    }
-    
-    dependencies {
-        minecraft "com.mojang:minecraft:${project.minecraft_version}"
-        // Allow Inscribe to use independent mappings
-        if (current.name != 'Inscribe')
-            mappings "net.fabricmc:yarn:${project.yarn_mappings}"
-        modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-        modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-        modApi "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:${project.cardinal_components_version}"
-    }
-
     configurations.all {
         resolutionStrategy {
-           force 'com.google.guava:guava:21.0'
-           force "net.fabricmc:fabric-loader:${rootProject.loader_version}"
            force "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_version}"
-           force "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:${rootProject.cardinal_components_version}"
         }
     }
 }
-
+repositories ext.polarCommonRepos
 repositories {
     maven {
         name = "TerraformersMC"
@@ -62,6 +52,7 @@ repositories {
     }
 }
 
+dependencies ext.polarCommonDeps
 dependencies {
     implementation project('polar-api')
     modImplementation("dev.emi:trinkets:${project.trinkets_version}")
