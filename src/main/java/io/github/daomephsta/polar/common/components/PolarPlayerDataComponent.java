@@ -152,7 +152,7 @@ public class PolarPlayerDataComponent
         {
             var reader = NbtReader.create(nbt);
             this.faction = reader.enumValue("faction", FactionAlignment.class);
-            this.rank = reader.enumValue("faction", FactionRank.class);
+            this.rank = reader.enumValue("rank", FactionRank.class);
             this.residualPolarity = reader.enumValue("residual_polarity", Polarity.class);
             this.researchProgress = reader.<Identifier, Research.Progress, NbtInt>map("research_progress",
                 (key, value, map) ->
