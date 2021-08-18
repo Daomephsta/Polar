@@ -10,14 +10,16 @@ import io.github.daomephsta.polar.api.components.IPolarPlayerData;
 import io.github.daomephsta.polar.api.factions.FactionAlignment;
 import io.github.daomephsta.polar.api.factions.FactionRank;
 import io.github.daomephsta.polar.client.PolarClientNetworking;
-import io.github.daomephsta.polar.common.NBTExtensions;
 import io.github.daomephsta.polar.common.PolarCommonNetworking;
 import io.github.daomephsta.polar.common.PolarCommonNetworking.S2CResearchPacketAction;
 import io.github.daomephsta.polar.common.research.Research;
 import io.github.daomephsta.polar.common.research.Research.Progress;
+import io.github.daomephsta.polar.common.util.nbt.NbtReader;
+import io.github.daomephsta.polar.common.util.nbt.NbtWriter;
 import io.github.daomephsta.polar.common.research.ResearchManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtInt;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
@@ -39,7 +41,7 @@ public class PolarPlayerDataComponent
         private FactionRank rank = FactionRank.NONE;
         // The player's residual charge. Defaults to none;
         private Polarity residualPolarity = Polarity.NONE;
-        private final Map<Identifier, Research.Progress> researchProgress = new HashMap<>();
+        private Map<Identifier, Research.Progress> researchProgress = new HashMap<>();
 
         public PolarPlayerData(PlayerEntity player)
         {
@@ -148,31 +150,29 @@ public class PolarPlayerDataComponent
         @Override
         public void readFromNbt(NbtCompound nbt)
         {
-            this.faction = NBTExtensions.getEnumConstant(nbt, FactionAlignment.class, "faction");
-            this.rank = NBTExtensions.getEnumConstant(nbt, FactionRank.class, "rank");
-            this.residualPolarity = NBTExtensions.getEnumConstant(nbt, Polarity.class, "residual_polarity");
-            researchProgress.clear();
-            var researchProgressNbt = nbt.getCompound("research_progress");
-            for (String key : researchProgressNbt.getKeys())
-            {
-                Identifier researchId = new Identifier(key);
-                Research research = ResearchManager.INSTANCE.get(researchId);
-                Progress tracker = research.createTracker(player, researchProgressNbt.getInt(key));
-                if (!tracker.isComplete()) tracker.startTracking();
-                researchProgress.put(researchId, tracker);
-            }
+            var reader = NbtReader.create(nbt);
+            this.faction = reader.enumValue("faction", FactionAlignment.class);
+            this.rank = reader.enumValue("faction", FactionRank.class);
+            this.residualPolarity = reader.enumValue("residual_polarity", Polarity.class);
+            this.researchProgress = reader.<Identifier, Research.Progress, NbtInt>map("research_progress",
+                (key, value, map) ->
+                {
+                    Identifier researchId = new Identifier(key);
+                    Research research = ResearchManager.INSTANCE.get(researchId);
+                    Progress tracker = research.createTracker(player, value.intValue());
+                    if (!tracker.isComplete()) tracker.startTracking();
+                    map.accept(researchId, tracker);
+                });
         }
 
         @Override
         public void writeToNbt(NbtCompound nbt)
         {
-            NBTExtensions.putEnumConstant(nbt, "faction", this.faction);
-            NBTExtensions.putEnumConstant(nbt, "rank", this.rank);
-            NBTExtensions.putEnumConstant(nbt, "residual_polarity", this.residualPolarity);
-            var researchProgressNbt = new NbtCompound();
-            for (var progress : researchProgress.entrySet())
-                researchProgressNbt.put(progress.getKey().toString(), progress.getValue().writeToNbt());
-            nbt.put("research_progress", researchProgressNbt);
+            NbtWriter.create(nbt)
+                .enumValue("faction", faction)
+                .enumValue("rank", rank)
+                .enumValue("residual_polarity", residualPolarity)
+                .map("research_progress", researchProgress, Identifier::toString, Progress::writeToNbt);
         }
     }
 }

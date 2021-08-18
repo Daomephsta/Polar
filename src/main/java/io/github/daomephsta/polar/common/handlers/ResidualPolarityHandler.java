@@ -3,10 +3,10 @@ package io.github.daomephsta.polar.common.handlers;
 import io.github.daomephsta.polar.api.CommonWords;
 import io.github.daomephsta.polar.api.IPolarisedItem;
 import io.github.daomephsta.polar.api.Polarity;
-import io.github.daomephsta.polar.common.NBTExtensions;
 import io.github.daomephsta.polar.common.advancements.triggers.PolarCriteria;
 import io.github.daomephsta.polar.common.callbacks.LivingEntityHurtCallback;
 import io.github.daomephsta.polar.common.components.PolarPlayerDataComponent.PolarPlayerData;
+import io.github.daomephsta.polar.common.util.nbt.NbtTags;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
@@ -125,7 +125,7 @@ public class ResidualPolarityHandler
         if (!stack.getTag().contains(CommonWords.ACTIVATES_ON))
             return false;
         NbtList activatesOn = stack.getTag().getList(CommonWords.ACTIVATES_ON, NbtType.STRING);
-        return NBTExtensions.contains(activatesOn, trigger.name());
+        return NbtTags.contains(activatesOn, trigger.name());
     }
 
     public static void itemActivated(ItemStack stack, PlayerEntity player) 
