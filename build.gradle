@@ -55,15 +55,11 @@ repositories {
 dependencies ext.polarCommonDeps
 dependencies {
     implementation project('polar-api')
-    modImplementation("dev.emi:trinkets:${project.trinkets_version}")
+    modImplementation("dev.emi:trinkets:${project.trinkets_version}") {
+		exclude group: 'io.github.onyxstudios.Cardinal-Components-API'
+    }
     // Only include implementation detail dependencies to reduce JAR size
-    def inscribe = project('Inscribe');
-    def remappedPrefix = "net_fabricmc_yarn_${inscribe.minecraft_version}_${inscribe.yarn_mappings}_v2"
-        .replaceAll('[^A-z0-9]', '_')
-    include(implementation(inscribe) {
-        exclude module: 'fabric-loader'
-        exclude group: "${remappedPrefix}.net.fabricmc.fabric-api"
-    })
+    include(implementation(project('Inscribe')))
     include(modImplementation("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:${project.cardinal_components_version}"))
     include(modImplementation("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-item:${project.cardinal_components_version}"))
     include(modImplementation("me.zeroeightsix:fiber:${project.fiber_version}"))

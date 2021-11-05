@@ -27,11 +27,11 @@ public class AddNbtRecipeProcessor extends StackOnlyRecipeProcessor
     {
         return predictedOutput.withPredictedTag(tag);
     }
-    
+
     @Override
     public ItemStack apply(ItemStack output)
     {
-        output.getOrCreateTag().copyFrom(tag);
+        output.getOrCreateNbt().copyFrom(tag);
         return output;
     }
 
@@ -60,6 +60,6 @@ public class AddNbtRecipeProcessor extends StackOnlyRecipeProcessor
         public void write(PacketByteBuf bytes, AddNbtRecipeProcessor instance)
         {
             bytes.writeNbt(instance.tag);
-        }    
+        }
     }
 }

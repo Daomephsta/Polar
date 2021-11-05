@@ -32,25 +32,25 @@ public class LimitApplicationsRecipeProcessor extends StackOnlyRecipeProcessor
         incrementApplicationCount(predictedOutput.getPredictedStack());
         return predictedOutput;
     }
-    
+
     @Override
     public ItemStack apply(ItemStack output)
     {
         incrementApplicationCount(output);
         return output;
     }
-    
+
     private int getApplicationCount(ItemStack stack)
     {
-        NbtCompound nbt = stack.getOrCreateTag();
+        NbtCompound nbt = stack.getOrCreateNbt();
         if (!nbt.contains(TAG_APPLIED_RECIPES))
             return 0;
         return nbt.getCompound(TAG_APPLIED_RECIPES).getInt(recipeId);
     }
-    
+
     private void incrementApplicationCount(ItemStack stack)
     {
-        NbtCompound appliedRecipes = stack.getOrCreateSubTag(TAG_APPLIED_RECIPES);
+        NbtCompound appliedRecipes = stack.getOrCreateSubNbt(TAG_APPLIED_RECIPES);
         appliedRecipes.putInt(recipeId, appliedRecipes.getInt(recipeId) + 1);
     }
 
@@ -78,6 +78,6 @@ public class LimitApplicationsRecipeProcessor extends StackOnlyRecipeProcessor
         public void write(PacketByteBuf bytes, LimitApplicationsRecipeProcessor instance)
         {
             bytes.writeInt(instance.maxApplications);
-        }    
+        }
     }
 }

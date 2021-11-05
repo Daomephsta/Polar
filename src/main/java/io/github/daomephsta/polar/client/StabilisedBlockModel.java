@@ -48,14 +48,14 @@ public class StabilisedBlockModel implements UnbakedModel
         SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, Polar.id("blocks/red/stabilised_block_overlay"));
 
     @Override
-    public BakedModel bake(ModelLoader loader, Function<SpriteIdentifier, Sprite> spriteGetter, 
+    public BakedModel bake(ModelLoader loader, Function<SpriteIdentifier, Sprite> spriteGetter,
         ModelBakeSettings settings, Identifier identifier)
     {
         return new Baked(spriteGetter.apply(STABILISED_BLOCK_OVERLAY));
     }
-    
+
     @Override
-    public Collection<SpriteIdentifier> getTextureDependencies(Function<Identifier, UnbakedModel> modelGetter, 
+    public Collection<SpriteIdentifier> getTextureDependencies(Function<Identifier, UnbakedModel> modelGetter,
         Set<Pair<String, String>> textures)
     {
         return ImmutableSet.of(STABILISED_BLOCK_OVERLAY);
@@ -83,9 +83,9 @@ public class StabilisedBlockModel implements UnbakedModel
         {
             return Collections.emptyList();
         }
-        
+
         @Override
-        public void emitBlockQuads(BlockRenderView blockView, BlockState state, BlockPos pos, 
+        public void emitBlockQuads(BlockRenderView blockView, BlockState state, BlockPos pos,
             Supplier<Random> randomSupplier, RenderContext context)
         {
             BlockEntity blockEntity = blockView.getBlockEntity(pos);
@@ -100,7 +100,7 @@ public class StabilisedBlockModel implements UnbakedModel
             }
         }
 
-        public void emitQuads(BlockRenderView blockView, BlockPos pos, Supplier<Random> randomSupplier, 
+        public void emitQuads(BlockRenderView blockView, BlockPos pos, Supplier<Random> randomSupplier,
             RenderContext context, BlockState camoState, BakedModel model)
         {
             if (model instanceof FabricBakedModel)
@@ -135,7 +135,7 @@ public class StabilisedBlockModel implements UnbakedModel
         {
             return true;
         }
-        
+
         @Override
         public boolean hasDepth()
         {
@@ -149,7 +149,7 @@ public class StabilisedBlockModel implements UnbakedModel
         }
 
         @Override
-        public Sprite getSprite()
+        public Sprite getParticleSprite()
         {
             return overlay;
         }
@@ -171,7 +171,7 @@ public class StabilisedBlockModel implements UnbakedModel
         {
             return ModelTransformation.NONE;
         }
-        
+
         @Override
         public boolean isSideLit()
         {

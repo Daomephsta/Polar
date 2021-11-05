@@ -40,20 +40,20 @@ public class ResidualPolarityHandler
         UseEntityCallback.EVENT.register(ResidualPolarityHandler::handleUseItemOnEntity);
         LivingEntityHurtCallback.EVENT.register(ResidualPolarityHandler::handleArmour);
     }
-    
-    private static boolean handleArmour(LivingEntity living, DamageSource source, float amount) 
+
+    private static boolean handleArmour(LivingEntity living, DamageSource source, float amount)
     {
         /*Ignore unblockable damage sources because they ignore armour, so are not
-          considered to "activate" it; and to avoid stack overflow*/ 
-        if (living instanceof PlayerEntity && source.isUnblockable()) 
-        { 
-            for (ItemStack armour : living.getArmorItems()) 
-            { 
-                if (Polarity.isStackPolarised(armour) && activatesOn(armour, IPolarisedItem.ActivatesOn.WEARER_ATTACKED)) 
-                { 
-                    itemActivated(armour, (PlayerEntity) living); 
-                } 
-            } 
+          considered to "activate" it; and to avoid stack overflow*/
+        if (living instanceof PlayerEntity && source.isUnblockable())
+        {
+            for (ItemStack armour : living.getArmorItems())
+            {
+                if (Polarity.isStackPolarised(armour) && activatesOn(armour, IPolarisedItem.ActivatesOn.WEARER_ATTACKED))
+                {
+                    itemActivated(armour, (PlayerEntity) living);
+                }
+            }
         }
         return true;
     }
@@ -67,7 +67,7 @@ public class ResidualPolarityHandler
         }
         return ActionResult.PASS;
     }
-    
+
     private static ActionResult handleAttackBlock(PlayerEntity player, World world, Hand hand, BlockPos pos, Direction direction)
     {
         ItemStack stack = player.getMainHandStack();
@@ -77,7 +77,7 @@ public class ResidualPolarityHandler
         }
         return ActionResult.PASS;
     }
-    
+
     private static TypedActionResult<ItemStack> handleUseItem(PlayerEntity player, World world, Hand hand)
     {
         ItemStack stack = player.getMainHandStack();
@@ -87,7 +87,7 @@ public class ResidualPolarityHandler
         }
         return TypedActionResult.pass(stack);
     }
-    
+
     private static ActionResult handleUseItemOnBlock(PlayerEntity player, World world, Hand hand, BlockHitResult hitResult)
     {
         ItemStack stack = player.getMainHandStack();
@@ -97,7 +97,7 @@ public class ResidualPolarityHandler
         }
         return ActionResult.PASS;
     }
-    
+
     private static ActionResult handleUseItemOnEntity(PlayerEntity player, World world, Hand hand, Entity entity, EntityHitResult hitResult)
     {
         ItemStack stack = player.getMainHandStack();
@@ -120,35 +120,35 @@ public class ResidualPolarityHandler
     {
         if (stack.getItem() instanceof IPolarisedItem)
             return ((IPolarisedItem) stack.getItem()).activatesOn(trigger);
-        if (!stack.hasTag())
+        if (!stack.hasNbt())
             return false;
-        if (!stack.getTag().contains(CommonWords.ACTIVATES_ON))
+        if (!stack.getNbt().contains(CommonWords.ACTIVATES_ON))
             return false;
-        NbtList activatesOn = stack.getTag().getList(CommonWords.ACTIVATES_ON, NbtType.STRING);
+        NbtList activatesOn = stack.getNbt().getList(CommonWords.ACTIVATES_ON, NbtType.STRING);
         return NbtTags.contains(activatesOn, trigger.name());
     }
 
-    public static void itemActivated(ItemStack stack, PlayerEntity player) 
-    { 
+    public static void itemActivated(ItemStack stack, PlayerEntity player)
+    {
         PolarPlayerData playerData = PolarPlayerData.get(player);
         Polarity residualCharge = playerData.getResidualPolarity(),
-                 itemPolarity = Polarity.ofStack(stack); 
+                 itemPolarity = Polarity.ofStack(stack);
         // Ifs are nested to avoid shocking if a residual charge is not left, regardless of polarities
-        if (residualCharge == Polarity.NONE) 
-        { 
+        if (residualCharge == Polarity.NONE)
+        {
 
             /* 1 in 10 activations should leave a residual charge. This is determined server side and synced
-             * with a packet as sequences from Randoms are not the same between server and client, though the seeds are.*/ 
+             * with a packet as sequences from Randoms are not the same between server and client, though the seeds are.*/
             if (!player.world.isClient && player.world.getRandom().nextFloat() <= 0.9F)
-                playerData.setResidualPolarity(itemPolarity); 
-        } 
-        else if (residualCharge != itemPolarity) 
-        { 
+                playerData.setResidualPolarity(itemPolarity);
+        }
+        else if (residualCharge != itemPolarity)
+        {
             // Damage source must be unblockable to avoid stack overflow
             player.damage(DamageSource.MAGIC, 1.0F);
             playerData.setResidualPolarity(Polarity.NONE);
             if (player instanceof ServerPlayerEntity)
-                PolarCriteria.POLAR_REACTION.handle((ServerPlayerEntity) player, 0); 
+                PolarCriteria.POLAR_REACTION.handle((ServerPlayerEntity) player, 0);
         }
     }
 }

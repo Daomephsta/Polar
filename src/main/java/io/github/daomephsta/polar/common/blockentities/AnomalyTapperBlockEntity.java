@@ -21,17 +21,18 @@ public class AnomalyTapperBlockEntity extends BlockEntity
 {
     private AnomalyEntity attachedAnomaly;
     //Cached anomaly charge storage, because it won't change.
-    private IPolarChargeStorage    anomalyChargeStorage;
+    @SuppressWarnings("unused") // Future implementation
+    private IPolarChargeStorage anomalyChargeStorage;
     private int anomalyCheckCountdown = 10;
-    
+
     public AnomalyTapperBlockEntity(BlockPos pos, BlockState state)
     {
         super(PolarBlockEntityTypes.ANOMALY_TAPPER, pos, state);
     }
-    
+
     public static void tick(World world, BlockPos pos, BlockState state, AnomalyTapperBlockEntity self)
     {
-        //Decrement anomalyCheckCountdown, wrapping around to 10 when 0 is reached 
+        //Decrement anomalyCheckCountdown, wrapping around to 10 when 0 is reached
         self.anomalyCheckCountdown = Math.floorMod(self.anomalyCheckCountdown - 1, 10);
         if(self.anomalyCheckCountdown == 0 && !self.validateAnomaly())
         {
@@ -40,69 +41,69 @@ public class AnomalyTapperBlockEntity extends BlockEntity
             self.searchForAnomaly(world, pos, state);
         }
     }
-    
+
     private boolean validateAnomaly()
     {
-        return attached() && attachedAnomaly.isAlive() && 
+        return attached() && attachedAnomaly.isAlive() &&
             world.isChunkLoaded(attachedAnomaly.getBlockPos());
     }
-    
+
     public void searchForAnomaly(World world, BlockPos pos, BlockState state)
     {
         Direction facing = state.get(AnomalyTapperBlock.FACING);
-        //Search 3 blocks "forward" of the "back" of the tapper, and 0.5 blocks to either side 
+        //Search 3 blocks "forward" of the "back" of the tapper, and 0.5 blocks to either side
         Box anomalySearchArea = new Box(
-            pos.getX() - 0.5D, 
-            pos.getY() + 1.0D, 
-            pos.getZ() - 0.5D, 
-            pos.getX() + facing.getOffsetX() * 3.0D + 1.5D, 
-            pos.getY() + facing.getOffsetY() * 3.0D, 
+            pos.getX() - 0.5D,
+            pos.getY() + 1.0D,
+            pos.getZ() - 0.5D,
+            pos.getX() + facing.getOffsetX() * 3.0D + 1.5D,
+            pos.getY() + facing.getOffsetY() * 3.0D,
             pos.getZ() + facing.getOffsetZ() * 3.0D + 1.5D);
         //Find the closest anomaly in the search area that is of the correct polarity, and attach to it
-        world.getEntitiesByType(EntityRegistry.ANOMALY, anomalySearchArea, anomaly -> 
+        world.getEntitiesByType(EntityRegistry.ANOMALY, anomalySearchArea, anomaly ->
                 anomaly.getPolarity() == ((AnomalyTapperBlock) state.getBlock()).getPolarity())
             .stream()
             .reduce(BinaryOperator.minBy(this::closestEntity))
             .ifPresent(this::attachTo);
     }
-    
+
     private int closestEntity(Entity a, Entity b)
     {
         return Double.compare(
-            pos.getSquaredDistance(a.getPos(), true /*center*/), 
+            pos.getSquaredDistance(a.getPos(), true /*center*/),
             pos.getSquaredDistance(b.getPos(), true /*center*/));
     }
-    
+
     private void attachTo(AnomalyEntity anomaly)
     {
         anomaly.open();
         this.attachedAnomaly = anomaly;
         this.anomalyChargeStorage = PolarApi.CHARGE_STORAGE.get(anomaly);
     }
-    
+
     private void detachFromAnomaly()
     {
         attachedAnomaly.close();
         this.attachedAnomaly = null;
         this.anomalyChargeStorage = null;
     }
-    
+
     private boolean attached()
     {
         return attachedAnomaly != null;
     }
-    
+
     public AnomalyEntity getAttachedAnomaly()
     {
         return attachedAnomaly;
     }
-    
+
     @Override
     public BlockEntityUpdateS2CPacket toUpdatePacket()
     {
         return new BlockEntityUpdateS2CPacket(getPos(), 0, toInitialChunkDataNbt());
     }
-    
+
     @Override
     public NbtCompound toInitialChunkDataNbt()
     {

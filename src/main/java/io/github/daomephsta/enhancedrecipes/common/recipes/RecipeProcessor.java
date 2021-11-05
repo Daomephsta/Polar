@@ -48,12 +48,12 @@ public abstract class RecipeProcessor
         ((Serialiser<T>) processor.getSerialiser()).write(bytes, processor);
     }
 
-    public TestResult test(CraftingInventory inventory, World world, TestResult predictedOutput) 
+    public TestResult test(CraftingInventory inventory, World world, TestResult predictedOutput)
     {
         return predictedOutput;
     }
 
-    public ItemStack apply(CraftingInventory inventory, ItemStack output) 
+    public ItemStack apply(CraftingInventory inventory, ItemStack output)
     {
         return output;
     }
@@ -68,39 +68,39 @@ public abstract class RecipeProcessor
 
         public void write(PacketByteBuf bytes, T instance);
     }
-    
+
     public static class TestResult
     {
         private final ItemStack predictedStack;
         private final boolean matches;
-        
+
         private TestResult(ItemStack predictedStack, boolean matches)
         {
             this.predictedStack = predictedStack;
             this.matches = matches;
         }
-        
+
         public static TestResult fail()
         {
             return new TestResult(ItemStack.EMPTY, false);
         }
-        
+
         static TestResult pass()
         {
             return new TestResult(ItemStack.EMPTY, true);
         }
-        
+
         public TestResult withPredictedStack(ItemStack predictedOutput)
         {
             return new TestResult(predictedOutput, true);
         }
-        
+
         public TestResult withPredictedTag(NbtCompound tag)
         {
-            predictedStack.getOrCreateTag().copyFrom(tag);
+            predictedStack.getOrCreateNbt().copyFrom(tag);
             return this;
         }
-        
+
         public ItemStack getPredictedStack()
         {
             return predictedStack;

@@ -1,6 +1,6 @@
 package io.github.daomephsta.polar.common;
 
-import net.fabricmc.fabric.api.tag.TagRegistry;
+import net.fabricmc.fabric.api.tag.TagFactory;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.tag.Tag;
@@ -16,7 +16,7 @@ public class CompatibilityTags
                                   LEGS_EQUIPMENT = registerItemTag("legs_equipment"),
                                   FEET_EQUIPMENT = registerItemTag("feet_equipment");
     public static final Tag<Block> GRAVITY_AFFECTED = registerBlockTag("gravity_affected");
-    
+
     public static void initialise()
     {
         //Dummy method to force static init
@@ -24,11 +24,11 @@ public class CompatibilityTags
 
     private static Tag<Item> registerItemTag(String name)
     {
-        return TagRegistry.item(new Identifier("c", name));
+        return TagFactory.ITEM.create(new Identifier("c", name));
     }
-    
+
     private static Tag<Block> registerBlockTag(String name)
     {
-        return TagRegistry.block(new Identifier("c", name));
+        return TagFactory.BLOCK.create(new Identifier("c", name));
     }
 }
