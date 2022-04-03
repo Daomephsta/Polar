@@ -12,5 +12,7 @@ repositories rootProject.polarCommonRepos
 
 dependencies rootProject.polarCommonDeps
 dependencies {
-    implementation(project(':Inscribe'))
+    implementation(project(':Inscribe')) {
+    	transitive = false
+    }
 }

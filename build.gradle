@@ -46,12 +46,16 @@ repositories {
 
 dependencies ext.polarCommonDeps
 dependencies {
-    implementation project('polar-api')
+    implementation(project('polar-api')) {
+    	transitive = false
+    }
     modImplementation("dev.emi:trinkets:${project.trinkets_version}") {
 		exclude group: 'io.github.onyxstudios.Cardinal-Components-API'
     }
     // Only include implementation detail dependencies to reduce JAR size
-    include(implementation(project('Inscribe')))
+    include(implementation(project('Inscribe')) {
+    	transitive = false
+    })
     include(modImplementation("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:${project.cardinal_components_version}"))
     include(modImplementation("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-item:${project.cardinal_components_version}"))
     include(modImplementation("me.zeroeightsix:fiber:${project.fiber_version}"))
