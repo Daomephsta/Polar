@@ -40,19 +40,20 @@ public class StabilisedBlock extends Block implements IHasSpecialBlockItem, Bloc
         }
         super.afterBreak(world, player, pos, state, blockEntity, tool);
     }
-    
+
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView blockView, BlockPos pos, ShapeContext context)
     {
-        BlockEntity blockEntity = blockView.getBlockEntity(pos);
-        if (blockEntity  instanceof StabilisedBlockBlockEntity)
+        if (blockView.getBlockEntity(pos) instanceof StabilisedBlockBlockEntity stabilised)
         {
-            return ((StabilisedBlockBlockEntity) blockEntity).getCamoBlockState()
+            return stabilised.getCamoBlockState()
                 .getOutlineShape(blockView, pos, context);
         }
-        return super.getOutlineShape(state, blockView, pos, context);
+        @SuppressWarnings("deprecation")
+        VoxelShape superCall = super.getOutlineShape(state, blockView, pos, context);
+        return superCall;
     }
-    
+
     @Override
     public BlockItem createBlockItem()
     {

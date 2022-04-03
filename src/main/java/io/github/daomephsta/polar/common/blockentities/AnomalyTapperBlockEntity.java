@@ -14,7 +14,9 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.ChunkSectionPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class AnomalyTapperBlockEntity extends BlockEntity
@@ -44,8 +46,9 @@ public class AnomalyTapperBlockEntity extends BlockEntity
 
     private boolean validateAnomaly()
     {
-        return attached() && attachedAnomaly.isAlive() &&
-            world.isChunkLoaded(attachedAnomaly.getBlockPos());
+        return attached() && attachedAnomaly.isAlive() && world.isChunkLoaded(
+            ChunkSectionPos.getSectionCoord(attachedAnomaly.getBlockPos().getX()),
+            ChunkSectionPos.getSectionCoord(attachedAnomaly.getBlockPos().getZ()));
     }
 
     public void searchForAnomaly(World world, BlockPos pos, BlockState state)
@@ -70,8 +73,8 @@ public class AnomalyTapperBlockEntity extends BlockEntity
     private int closestEntity(Entity a, Entity b)
     {
         return Double.compare(
-            pos.getSquaredDistance(a.getPos(), true /*center*/),
-            pos.getSquaredDistance(b.getPos(), true /*center*/));
+            Vec3d.ofCenter(pos).distanceTo(a.getPos()),
+            Vec3d.ofCenter(pos).distanceTo(b.getPos()));
     }
 
     private void attachTo(AnomalyEntity anomaly)
@@ -101,12 +104,12 @@ public class AnomalyTapperBlockEntity extends BlockEntity
     @Override
     public BlockEntityUpdateS2CPacket toUpdatePacket()
     {
-        return new BlockEntityUpdateS2CPacket(getPos(), 0, toInitialChunkDataNbt());
+        return BlockEntityUpdateS2CPacket.create(this);
     }
 
     @Override
     public NbtCompound toInitialChunkDataNbt()
     {
-        return writeNbt(new NbtCompound());
+        return createNbt();
     }
 }

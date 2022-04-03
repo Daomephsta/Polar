@@ -33,7 +33,7 @@ public class FallingBlockStabiliserHandler
 
     public static boolean isUnstableBlock(BlockState state)
     {
-        return CompatibilityTags.GRAVITY_AFFECTED.contains(state.getBlock());
+        return state.isIn(CompatibilityTags.GRAVITY_AFFECTED);
     }
 
     public static boolean placeStabilisedBlock(PlayerEntity player, ItemStack wearableStack, World world, BlockPos pos, BlockState camo)

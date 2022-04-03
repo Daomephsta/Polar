@@ -1,4 +1,3 @@
-
 package io.github.daomephsta.polar.client;
 
 import java.util.Collection;
@@ -32,10 +31,10 @@ import net.minecraft.client.render.model.UnbakedModel;
 import net.minecraft.client.render.model.json.ModelOverrideList;
 import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.texture.Sprite;
-import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -45,7 +44,7 @@ public class StabilisedBlockModel implements UnbakedModel
 {
     public static final StabilisedBlockModel INSTANCE = new StabilisedBlockModel();
     private static final SpriteIdentifier STABILISED_BLOCK_OVERLAY = new SpriteIdentifier(
-        SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, Polar.id("blocks/red/stabilised_block_overlay"));
+        PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Polar.id("blocks/red/stabilised_block_overlay"));
 
     @Override
     public BakedModel bake(ModelLoader loader, Function<SpriteIdentifier, Sprite> spriteGetter,

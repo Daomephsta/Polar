@@ -1,6 +1,5 @@
 package io.github.daomephsta.polar.api.components;
 
-import dev.onyxstudios.cca.api.v3.component.ComponentProvider;
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
 import io.github.daomephsta.polar.api.PolarApi;
 import io.github.daomephsta.polar.api.factions.FactionAlignment;
@@ -13,7 +12,7 @@ public interface IPolarPlayerData extends AutoSyncedComponent
 {
     public static IPolarPlayerData get(PlayerEntity player)
     {
-        return PolarApi.PLAYER_DATA.get(ComponentProvider.fromEntity(player));
+        return PolarApi.PLAYER_DATA.get(player);
     }
 
     public FactionAlignment getFaction();

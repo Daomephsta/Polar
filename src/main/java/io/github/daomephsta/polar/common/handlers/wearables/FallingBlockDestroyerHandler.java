@@ -21,7 +21,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class FallingBlockDestroyerHandler
-{    
+{
     static boolean destroyFallingBlocks(World world, PlayerEntity player, BlockPos pos, BlockState state)
     {
         BlockState stateAbove = world.getBlockState(pos.up());
@@ -48,7 +48,7 @@ public class FallingBlockDestroyerHandler
             }
             toDestroy.push(columnBottomPos.down());
         }
-        
+
         IPolarChargeStorage chargeable = PolarApi.CHARGE_STORAGE.get(wearableStack);
         int cost = toDestroy.size() * Polar.CONFIG.charge.fallingBlockDestroyerActivationCost();
         if (WearablesHandler.checkCharge(player, wearableStack, Polarity.BLUE, cost, Polar.CONFIG.charge.fallingBlockDestroyerActivationCost() * 8))
@@ -71,7 +71,7 @@ public class FallingBlockDestroyerHandler
             double z = pos.getZ() + world.getRandom().nextDouble();
             world.addParticle(ParticleTypes.EXPLOSION, x, pos.getY(), z, 0.0D, 0.0D, 0.0D);
         }
-    
+
         world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 0.1F,
                 (1.0F + (world.getRandom().nextFloat() - world.getRandom().nextFloat())
                         * 0.2F) * 0.7F);
@@ -80,7 +80,7 @@ public class FallingBlockDestroyerHandler
 
     private static boolean isSoftUnstableBlock(World world, BlockState state, BlockPos pos)
     {
-        boolean unstableBlock = CompatibilityTags.GRAVITY_AFFECTED.contains(state.getBlock());
+        boolean unstableBlock = state.isIn(CompatibilityTags.GRAVITY_AFFECTED);
         boolean softBlock = state.getHardness(world, pos) <= 0.6F;
         return unstableBlock && softBlock;
     }

@@ -31,29 +31,30 @@ public class StabilisedBlockBlockEntity extends BlockEntity
     @Override
     public void readNbt(NbtCompound compound)
     {
-        var reader = NbtReader.create(super.writeNbt(compound));
+        super.writeNbt(compound);
+        var reader = NbtReader.create(compound);
         // camo_state NBT isn't available for reading immediately after placement
         if (compound.contains("camo_blockstate"))
             this.camoBlockState = reader.blockState("camo_blockstate");
     }
 
     @Override
-    public NbtCompound writeNbt(NbtCompound compound)
+    public void writeNbt(NbtCompound compound)
     {
-        NbtWriter.create(super.writeNbt(compound))
+        super.writeNbt(compound);
+        NbtWriter.create(compound)
             .blockState("camo_blockstate", camoBlockState);
-        return compound;
     }
 
     @Override
     public BlockEntityUpdateS2CPacket toUpdatePacket()
     {
-        return new BlockEntityUpdateS2CPacket(getPos(), 0, toInitialChunkDataNbt());
+        return BlockEntityUpdateS2CPacket.create(this);
     }
 
     @Override
     public NbtCompound toInitialChunkDataNbt()
     {
-        return writeNbt(new NbtCompound());
+        return createNbt();
     }
 }
