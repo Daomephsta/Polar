@@ -4,7 +4,8 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "MixinServerPlayerInteractionManager",
-    "MixinLivingEntity"
+    "MixinLivingEntity",
+    "ChargeBarTrait"
   ],
   "injectors": {
     "defaultRequire": 1

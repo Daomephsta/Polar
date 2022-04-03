@@ -8,7 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ToolMaterials;
 import net.minecraft.util.registry.Registry;
 
-public class ItemRegistry 
+public class ItemRegistry
 {
     // Red
     public static final Item RED_RESOURCE_BASIC = register(new Item(new Item.Settings().group(PolarApi.TAB_RED)), "red_resource_basic");
@@ -21,12 +21,12 @@ public class ItemRegistry
     public static final JawbladeItem GOLD_JAWBLADE = register(new JawbladeItem(ToolMaterials.GOLD), "gold_jawblade");
     public static final JawbladeItem IRON_JAWBLADE = register(new JawbladeItem(ToolMaterials.IRON), "iron_jawblade");
     public static final JawbladeItem DIAMOND_JAWBLADE = register(new JawbladeItem(ToolMaterials.DIAMOND), "diamond_jawblade");
-    
+
     private static <T extends Item> T register(T item, String name)
     {
         return Registry.register(Registry.ITEM, Polar.id(name), item);
     }
-    
+
     public static void initialize()
     {
         //Dummy method to force static init

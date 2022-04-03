@@ -10,7 +10,6 @@ import io.github.daomephsta.polar.api.components.IPolarChargeStorage;
 import io.github.daomephsta.polar.common.Polar;
 import io.github.daomephsta.polar.common.handlers.ResidualPolarityHandler;
 import io.github.daomephsta.polar.common.handlers.wearables.FallingBlockStabiliserHandler;
-import io.github.daomephsta.polar.common.items.ChargeBar;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.Item;
@@ -23,8 +22,6 @@ import net.minecraft.world.World;
 
 public class FallingBlockStabiliserItem extends TrinketItem implements IPolarisedItem
 {
-    private final ChargeBar chargeBar = new ChargeBar(Polarity.RED);
-
     public FallingBlockStabiliserItem()
     {
         super(new Item.Settings().group(PolarApi.TAB_RED));
@@ -51,24 +48,6 @@ public class FallingBlockStabiliserItem extends TrinketItem implements IPolarise
         IPolarChargeStorage chargeable = PolarApi.CHARGE_STORAGE.get(stack);
         tooltip.add(new TranslatableText(Polar.MOD_ID + ".tooltip.charge",
             chargeable.getStoredCharge(), chargeable.getMaxCharge()));
-    }
-
-    @Override
-    public boolean isItemBarVisible(ItemStack stack)
-    {
-        return chargeBar.isVisible(stack);
-    }
-
-    @Override
-    public int getItemBarStep(ItemStack stack)
-    {
-        return chargeBar.getValue(stack);
-    }
-
-    @Override
-    public int getItemBarColor(ItemStack stack)
-    {
-        return chargeBar.getColour(stack);
     }
 
     @Override
