@@ -54,7 +54,7 @@ class NbtReaderWriterImpl implements NbtReader, NbtWriter
         {
             @SuppressWarnings("unchecked")
             N value = (N) subCompound.get(subCompoundKey);
-            mapper.accept(key, value, map::put);
+            mapper.accept(subCompoundKey, value, map::put);
         }
         return map;
     }
