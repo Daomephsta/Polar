@@ -3,6 +3,9 @@ package io.github.daomephsta.polar.common.components;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import dev.onyxstudios.cca.api.v3.entity.EntityComponentFactoryRegistry;
 import io.github.daomephsta.polar.api.PolarApi;
 import io.github.daomephsta.polar.api.Polarity;
@@ -14,9 +17,9 @@ import io.github.daomephsta.polar.common.PolarCommonNetworking;
 import io.github.daomephsta.polar.common.PolarCommonNetworking.S2CResearchPacketAction;
 import io.github.daomephsta.polar.common.research.Research;
 import io.github.daomephsta.polar.common.research.Research.Progress;
+import io.github.daomephsta.polar.common.research.ResearchManager;
 import io.github.daomephsta.polar.common.util.nbt.NbtReader;
 import io.github.daomephsta.polar.common.util.nbt.NbtWriter;
-import io.github.daomephsta.polar.common.research.ResearchManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtInt;
@@ -34,6 +37,7 @@ public class PolarPlayerDataComponent
     /**Stores data associated with a player. Non-API class, other mods should access player data through {@link PolarApi#getPlayerData(PlayerEntity)}**/
     public static class PolarPlayerData implements IPolarPlayerData
     {
+        private static final Logger LOGGER = LoggerFactory.getLogger("Inscribe");
         private final PlayerEntity player;
         // The faction the player is aligned with. Defaults to unaligned.
         private FactionAlignment faction = FactionAlignment.UNALIGNED;
@@ -159,6 +163,11 @@ public class PolarPlayerDataComponent
                 {
                     Identifier researchId = new Identifier(key);
                     Research research = ResearchManager.INSTANCE.get(researchId);
+                    if (research == null)
+                    {
+                        LOGGER.warn("Ignored progress for unknown research {}", researchId);
+                        return;
+                    }
                     Progress tracker = research.createTracker(player, value.intValue());
                     if (!tracker.isComplete()) tracker.startTracking();
                     map.accept(researchId, tracker);
