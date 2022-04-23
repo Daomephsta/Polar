@@ -20,9 +20,9 @@ public abstract class RecipeProcessor
         createRegistry(Serialiser.class, "recipe_processor_serialiser");
 
     @SuppressWarnings("unchecked")
-    private static <T> Registry<T> createRegistry(Class<? extends T> clazz, String id)
+    private static <T, R extends Registry<? extends T>> R createRegistry(Class<T> clazz, String id)
     {
-        return (Registry<T>) FabricRegistryBuilder.createSimple(clazz, EnhancedRecipes.id(id)).buildAndRegister();
+        return (R) FabricRegistryBuilder.createSimple(clazz, EnhancedRecipes.id(id)).buildAndRegister();
     }
 
     public static RecipeProcessor fromJson(Identifier recipeId, JsonObject json)
