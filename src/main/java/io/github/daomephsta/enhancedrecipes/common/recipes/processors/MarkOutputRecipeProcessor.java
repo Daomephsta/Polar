@@ -9,31 +9,19 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Identifier;
-import net.minecraft.world.World;
 
 public class MarkOutputRecipeProcessor extends RecipeProcessor
 {
     public static final RecipeProcessor.Serialiser<?> SERIALISER = new Serialiser();
     private final Ingredient outputMatcher;
-    
+
     private MarkOutputRecipeProcessor(Ingredient outputMatcher)
     {
         this.outputMatcher = outputMatcher;
     }
 
     @Override
-    public TestResult test(CraftingInventory inventory, World world, TestResult predictedOutput)
-    {
-        return predictedOutput.withPredictedStack(findOutput(inventory));
-    }
-    
-    @Override
     public ItemStack apply(CraftingInventory inventory, ItemStack output)
-    {
-        return findOutput(inventory);
-    }
-
-    private ItemStack findOutput(CraftingInventory inventory)
     {
         ItemStack match = ItemStack.EMPTY;
         for (int s = 0; s < inventory.size(); s++)
@@ -76,6 +64,6 @@ public class MarkOutputRecipeProcessor extends RecipeProcessor
         public void write(PacketByteBuf bytes, MarkOutputRecipeProcessor instance)
         {
             instance.outputMatcher.write(bytes);
-        }    
+        }
     }
 }

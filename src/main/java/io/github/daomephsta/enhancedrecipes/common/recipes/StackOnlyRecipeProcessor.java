@@ -7,18 +7,21 @@ import net.minecraft.world.World;
 public abstract class StackOnlyRecipeProcessor extends RecipeProcessor
 {
     @Override
-    public final TestResult test(CraftingInventory inventory, World world, TestResult predictedOutput)
+    public final boolean test(CraftingInventory inventory, World world, ItemStack predictedOutput)
     {
         return test(predictedOutput);
     }
-    
-    protected abstract TestResult test(TestResult predictedOutput);
-    
+
+    protected boolean test(ItemStack predictedOutput)
+    {
+        return true;
+    }
+
     @Override
     public final ItemStack apply(CraftingInventory inventory, ItemStack output)
     {
         return apply(output);
     }
-    
+
     protected abstract ItemStack apply(ItemStack output);
 }

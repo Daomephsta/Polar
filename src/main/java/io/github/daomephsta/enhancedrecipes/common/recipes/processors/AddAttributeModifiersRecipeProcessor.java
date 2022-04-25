@@ -29,18 +29,12 @@ public class AddAttributeModifiersRecipeProcessor extends StackOnlyRecipeProcess
 {
     public static final RecipeProcessor.Serialiser<?> SERIALISER = new Serialiser();
     private final Multimap<EntityAttribute, Entry<EntityAttributeModifier, EquipmentSlot>> modifiers;
-    
+
     private AddAttributeModifiersRecipeProcessor(Multimap<EntityAttribute, Entry<EntityAttributeModifier, EquipmentSlot>> modifiers)
     {
         this.modifiers = modifiers;
     }
 
-    @Override
-    public TestResult test(TestResult predictedOutput)
-    {
-        return predictedOutput;
-    }
-    
     @Override
     public ItemStack apply(ItemStack output)
     {
@@ -69,7 +63,7 @@ public class AddAttributeModifiersRecipeProcessor extends StackOnlyRecipeProcess
         @Override
         public AddAttributeModifiersRecipeProcessor read(Identifier recipeId, JsonObject json)
         {
-            Multimap<EntityAttribute, Entry<EntityAttributeModifier, EquipmentSlot>> modifiers = 
+            Multimap<EntityAttribute, Entry<EntityAttributeModifier, EquipmentSlot>> modifiers =
                 ArrayListMultimap.create();
             for (Entry<String, JsonElement> entry : JsonHelper.getObject(json, "modifiers").entrySet())
             {
@@ -83,7 +77,7 @@ public class AddAttributeModifiersRecipeProcessor extends StackOnlyRecipeProcess
                     Operation operation = getOperation(modifierJson);
                     EntityAttribute attributeId = Registry.ATTRIBUTE.get(new Identifier(
                         JsonHelper.getString(modifierJson, "attribute_id")));
-                    modifiers.put(attributeId, 
+                    modifiers.put(attributeId,
                         Pair.of(new EntityAttributeModifier(uuid, name, amount, operation), slot));
                 }
             }
@@ -106,7 +100,7 @@ public class AddAttributeModifiersRecipeProcessor extends StackOnlyRecipeProcess
         public AddAttributeModifiersRecipeProcessor read(Identifier recipeId, PacketByteBuf bytes)
         {
             int uniqueKeys = bytes.readVarInt();
-            Multimap<EntityAttribute, Entry<EntityAttributeModifier, EquipmentSlot>> modifiers = 
+            Multimap<EntityAttribute, Entry<EntityAttributeModifier, EquipmentSlot>> modifiers =
                 ArrayListMultimap.create();
             for (int i = 0; i < uniqueKeys; i++)
             {
@@ -133,7 +127,7 @@ public class AddAttributeModifiersRecipeProcessor extends StackOnlyRecipeProcess
             for (EntityAttribute attribute : instance.modifiers.keySet())
             {
                 bytes.writeIdentifier(Registry.ATTRIBUTE.getId(attribute));
-                Collection<Entry<EntityAttributeModifier, EquipmentSlot>> attributeModifiers = 
+                Collection<Entry<EntityAttributeModifier, EquipmentSlot>> attributeModifiers =
                     instance.modifiers.get(attribute);
                 bytes.writeVarInt(attributeModifiers.size());
                 for (Entry<EntityAttributeModifier, EquipmentSlot> entry : attributeModifiers)
@@ -147,6 +141,6 @@ public class AddAttributeModifiersRecipeProcessor extends StackOnlyRecipeProcess
                     bytes.writeVarInt(slot.ordinal());
                 }
             }
-        }    
+        }
     }
 }

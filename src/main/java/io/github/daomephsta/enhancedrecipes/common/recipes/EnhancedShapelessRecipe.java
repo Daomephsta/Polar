@@ -9,7 +9,6 @@ import java.util.stream.IntStream;
 import com.google.common.collect.Streams;
 import com.google.gson.JsonObject;
 
-import io.github.daomephsta.enhancedrecipes.common.recipes.RecipeProcessor.TestResult;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
@@ -28,7 +27,7 @@ public class EnhancedShapelessRecipe extends ShapelessRecipe
     private final List<RecipeProcessor> processors;
     private final boolean excludeFromRecipeBook;
 
-    private EnhancedShapelessRecipe(Identifier id, String group, ItemStack output, 
+    private EnhancedShapelessRecipe(Identifier id, String group, ItemStack output,
         DefaultedList<Ingredient> inputs, List<RecipeProcessor> processors, boolean excludeFromRecipeBook)
     {
         super(id, group, output, inputs);
@@ -41,38 +40,37 @@ public class EnhancedShapelessRecipe extends ShapelessRecipe
     {
         if (!super.matches(inventory, world))
             return false;
-        TestResult result = TestResult.pass();
+        ItemStack result = ItemStack.EMPTY;
         for (RecipeProcessor processor : processors)
         {
-            result = processor.test(inventory, world, result);
-            if (!result.matches())
+            if (!processor.test(inventory, world, result))
                 return false;
+            result = processor.apply(inventory, result);
         }
         return true;
     }
-    
+
     @Override
     public ItemStack craft(CraftingInventory inventory)
     {
         ItemStack result = super.craft(inventory);
         for (RecipeProcessor processor : processors)
-        {
             result = processor.apply(inventory, result);
-        }
         return result;
     }
 
+    @Override
     public RecipeSerializer<?> getSerializer()
     {
         return SERIALIZER;
-    }    
-    
+    }
+
     @Override
     public boolean isIgnoredInRecipeBook()
     {
         return excludeFromRecipeBook;
     }
-    
+
     private static class Serializer implements RecipeSerializer<EnhancedShapelessRecipe>
     {
         @Override
@@ -82,7 +80,7 @@ public class EnhancedShapelessRecipe extends ShapelessRecipe
             DefaultedList<Ingredient> inputs = Streams.stream(JsonHelper.getArray(json, "ingredients"))
                     .map(Ingredient::fromJson)
                     .collect(toCollection(DefaultedList::of));
-            ItemStack output = json.has("result") 
+            ItemStack output = json.has("result")
                     ? ShapedRecipe.outputFromJson(JsonHelper.getObject(json, "result"))
                     : ItemStack.EMPTY;
             List<RecipeProcessor> processors = Streams.stream(JsonHelper.getArray(json, "processors"))
@@ -105,9 +103,7 @@ public class EnhancedShapelessRecipe extends ShapelessRecipe
             String group = bytes.readString();
             DefaultedList<Ingredient> inputs = DefaultedList.ofSize(bytes.readVarInt(), Ingredient.EMPTY);
             for (int i = 0; i < inputs.size(); i++)
-            {
                 inputs.set(i, Ingredient.fromPacket(bytes));
-            }
             ItemStack output = bytes.readItemStack();
             List<RecipeProcessor> processors = IntStream.range(0, bytes.readVarInt())
                     .mapToObj(i -> RecipeProcessor.fromBytes(id, bytes))
@@ -122,14 +118,12 @@ public class EnhancedShapelessRecipe extends ShapelessRecipe
             bytes.writeString(recipe.getGroup());
             bytes.writeVarInt(recipe.getIngredients().size());
             for (Ingredient input : recipe.getIngredients())
-            {
                 input.write(bytes);
-            }
             bytes.writeItemStack(recipe.getOutput());
             bytes.writeVarInt(recipe.processors.size());
             for (var processor : recipe.processors)
                 RecipeProcessor.toBytes(bytes, processor);
             bytes.writeBoolean(recipe.excludeFromRecipeBook);
-        }    
+        }
     }
 }

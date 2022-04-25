@@ -2,9 +2,9 @@ package io.github.daomephsta.enhancedrecipes.common.recipes.processors;
 
 import com.google.gson.JsonObject;
 
-import io.github.daomephsta.enhancedrecipes.common.recipes.StackOnlyRecipeProcessor;
+import io.github.daomephsta.enhancedrecipes.common.EnhancedRecipes;
 import io.github.daomephsta.enhancedrecipes.common.recipes.RecipeProcessor;
-import io.github.daomephsta.polar.common.Polar;
+import io.github.daomephsta.enhancedrecipes.common.recipes.StackOnlyRecipeProcessor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
@@ -14,7 +14,7 @@ import net.minecraft.util.JsonHelper;
 public class LimitApplicationsRecipeProcessor extends StackOnlyRecipeProcessor
 {
     public static final RecipeProcessor.Serialiser<?> SERIALISER = new Serialiser();
-    private static final String TAG_APPLIED_RECIPES = Polar.MOD_ID + "_applied_recipes";
+    private static final String TAG_APPLIED_RECIPES = EnhancedRecipes.MOD_ID + "_applied_recipes";
     private final String recipeId;
     private final int maxApplications;
 
@@ -25,33 +25,19 @@ public class LimitApplicationsRecipeProcessor extends StackOnlyRecipeProcessor
     }
 
     @Override
-    public TestResult test(TestResult predictedOutput)
+    public boolean test(ItemStack predictedOutput)
     {
-        if (getApplicationCount(predictedOutput.getPredictedStack()) == maxApplications)
-            return TestResult.fail();
-        incrementApplicationCount(predictedOutput.getPredictedStack());
-        return predictedOutput;
+        NbtCompound nbt = predictedOutput.getSubNbt(TAG_APPLIED_RECIPES);
+        if (nbt == null) return true; // 0 applications
+        return nbt.getInt(recipeId) < maxApplications;
     }
 
     @Override
     public ItemStack apply(ItemStack output)
     {
-        incrementApplicationCount(output);
-        return output;
-    }
-
-    private int getApplicationCount(ItemStack stack)
-    {
-        NbtCompound nbt = stack.getOrCreateNbt();
-        if (!nbt.contains(TAG_APPLIED_RECIPES))
-            return 0;
-        return nbt.getCompound(TAG_APPLIED_RECIPES).getInt(recipeId);
-    }
-
-    private void incrementApplicationCount(ItemStack stack)
-    {
-        NbtCompound appliedRecipes = stack.getOrCreateSubNbt(TAG_APPLIED_RECIPES);
+        NbtCompound appliedRecipes = output.getOrCreateSubNbt(TAG_APPLIED_RECIPES);
         appliedRecipes.putInt(recipeId, appliedRecipes.getInt(recipeId) + 1);
+        return output;
     }
 
     @Override

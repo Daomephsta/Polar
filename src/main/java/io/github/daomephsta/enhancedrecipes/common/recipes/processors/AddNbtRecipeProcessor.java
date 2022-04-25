@@ -3,8 +3,8 @@ package io.github.daomephsta.enhancedrecipes.common.recipes.processors;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.JsonOps;
 
-import io.github.daomephsta.enhancedrecipes.common.recipes.StackOnlyRecipeProcessor;
 import io.github.daomephsta.enhancedrecipes.common.recipes.RecipeProcessor;
+import io.github.daomephsta.enhancedrecipes.common.recipes.StackOnlyRecipeProcessor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtOps;
@@ -20,12 +20,6 @@ public class AddNbtRecipeProcessor extends StackOnlyRecipeProcessor
     protected AddNbtRecipeProcessor(NbtCompound tag)
     {
         this.tag = tag;
-    }
-
-    @Override
-    public TestResult test(TestResult predictedOutput)
-    {
-        return predictedOutput.withPredictedTag(tag);
     }
 
     @Override

@@ -7,7 +7,6 @@ import io.github.daomephsta.enhancedrecipes.common.EnhancedRecipes;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
@@ -46,9 +45,9 @@ public abstract class RecipeProcessor
         ((Serialiser<T>) processor.getSerialiser()).write(bytes, processor);
     }
 
-    public TestResult test(CraftingInventory inventory, World world, TestResult predictedOutput)
+    public boolean test(CraftingInventory inventory, World world, ItemStack predictedOutput)
     {
-        return predictedOutput;
+        return true;
     }
 
     public ItemStack apply(CraftingInventory inventory, ItemStack output)
@@ -65,48 +64,5 @@ public abstract class RecipeProcessor
         public T read(Identifier recipeId, PacketByteBuf bytes);
 
         public void write(PacketByteBuf bytes, T instance);
-    }
-
-    public static class TestResult
-    {
-        private final ItemStack predictedStack;
-        private final boolean matches;
-
-        private TestResult(ItemStack predictedStack, boolean matches)
-        {
-            this.predictedStack = predictedStack;
-            this.matches = matches;
-        }
-
-        public static TestResult fail()
-        {
-            return new TestResult(ItemStack.EMPTY, false);
-        }
-
-        static TestResult pass()
-        {
-            return new TestResult(ItemStack.EMPTY, true);
-        }
-
-        public TestResult withPredictedStack(ItemStack predictedOutput)
-        {
-            return new TestResult(predictedOutput, true);
-        }
-
-        public TestResult withPredictedTag(NbtCompound tag)
-        {
-            predictedStack.getOrCreateNbt().copyFrom(tag);
-            return this;
-        }
-
-        public ItemStack getPredictedStack()
-        {
-            return predictedStack;
-        }
-
-        public boolean matches()
-        {
-            return matches;
-        }
     }
 }

@@ -13,7 +13,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
-import io.github.daomephsta.enhancedrecipes.common.recipes.RecipeProcessor.TestResult;
 import it.unimi.dsi.fastutil.chars.Char2ObjectMap;
 import it.unimi.dsi.fastutil.chars.Char2ObjectOpenHashMap;
 import net.minecraft.inventory.CraftingInventory;
@@ -33,8 +32,8 @@ public class EnhancedShapedRecipe extends ShapedRecipe
     private final List<RecipeProcessor> processors;
     private final boolean excludeFromRecipeBook;
 
-    private EnhancedShapedRecipe(Identifier id, String group, int width, int height, 
-        DefaultedList<Ingredient> inputs, ItemStack output, List<RecipeProcessor> processors, 
+    private EnhancedShapedRecipe(Identifier id, String group, int width, int height,
+        DefaultedList<Ingredient> inputs, ItemStack output, List<RecipeProcessor> processors,
         boolean excludeFromRecipeBook)
     {
         super(id, group, width, height, inputs, output);
@@ -47,38 +46,37 @@ public class EnhancedShapedRecipe extends ShapedRecipe
     {
         if (!super.matches(inventory, world))
             return false;
-        TestResult result = TestResult.pass();
+        ItemStack result = ItemStack.EMPTY;
         for (RecipeProcessor processor : processors)
         {
-            result = processor.test(inventory, world, result);
-            if (!result.matches())
+            if (!processor.test(inventory, world, result))
                 return false;
+            result = processor.apply(inventory, result);
         }
         return true;
     }
-    
+
     @Override
     public ItemStack craft(CraftingInventory inventory)
     {
         ItemStack result = super.craft(inventory);
         for (RecipeProcessor processor : processors)
-        {
             result = processor.apply(inventory, result);
-        }
         return result;
     }
-    
+
     @Override
     public boolean isIgnoredInRecipeBook()
     {
         return excludeFromRecipeBook;
     }
 
+    @Override
     public RecipeSerializer<?> getSerializer()
     {
         return SERIALIZER;
-    }    
-    
+    }
+
     private static class Serializer implements RecipeSerializer<EnhancedShapedRecipe>
     {
         @Override
@@ -90,16 +88,16 @@ public class EnhancedShapedRecipe extends ShapedRecipe
                     .toArray(char[][]::new);
             validatePattern(pattern);
             Char2ObjectMap<Ingredient> key = readKey(JsonHelper.getObject(json, "key"));
-            int width = pattern[0].length, 
-                height = pattern.length; 
+            int width = pattern[0].length,
+                height = pattern.length;
             DefaultedList<Ingredient> inputs = IntStream.range(0, width * height)
-                    .mapToObj(i -> 
+                    .mapToObj(i ->
                     {
                         char c = pattern[i / width][i % width - 1];
                         return c == ' ' ? Ingredient.EMPTY : key.get((c));
                     })
                     .collect(toCollection(DefaultedList::of));
-            ItemStack output = json.has("result") 
+            ItemStack output = json.has("result")
                     ? ShapedRecipe.outputFromJson(JsonHelper.getObject(json, "result"))
                     : ItemStack.EMPTY;
             List<RecipeProcessor> processors = Streams.stream(JsonHelper.getArray(json, "processors"))
@@ -115,7 +113,7 @@ public class EnhancedShapedRecipe extends ShapedRecipe
             }
             return new EnhancedShapedRecipe(id, group, width, height, inputs, output, processors, dynamic);
         }
-        
+
         private void validatePattern(char[][] pattern)
         {
             int expectedLength = pattern[0].length;
@@ -125,11 +123,11 @@ public class EnhancedShapedRecipe extends ShapedRecipe
                 if (row.length > 3)
                     throw new JsonSyntaxException("Row " + r + " has more than 3 keys");
                 if (row.length != expectedLength)
-                    throw new JsonSyntaxException("Rows have differing key counts. Key Counts: " + 
+                    throw new JsonSyntaxException("Rows have differing key counts. Key Counts: " +
                             IntStream.range(0, pattern.length).mapToObj(Integer::toString).collect(joining(", ")));
             }
         }
-        
+
         private Char2ObjectMap<Ingredient> readKey(JsonObject key)
         {
             Char2ObjectMap<Ingredient> ret = new Char2ObjectOpenHashMap<>(key.size());
@@ -152,15 +150,13 @@ public class EnhancedShapedRecipe extends ShapedRecipe
                 height = bytes.readVarInt();
             DefaultedList<Ingredient> inputs = DefaultedList.ofSize(width * height, Ingredient.EMPTY);
             for (int i = 0; i < inputs.size(); i++)
-            {
                 inputs.set(i, Ingredient.fromPacket(bytes));
-            }
             ItemStack output = bytes.readItemStack();
             List<RecipeProcessor> processors = IntStream.range(0, bytes.readVarInt())
                     .mapToObj(i -> RecipeProcessor.fromBytes(id, bytes))
                     .collect(Collectors.toList());
             boolean excludeFromRecipeBook = bytes.readBoolean();
-            return new EnhancedShapedRecipe(id, group, width, height, 
+            return new EnhancedShapedRecipe(id, group, width, height,
                 inputs, output, processors, excludeFromRecipeBook);
         }
 
@@ -171,14 +167,12 @@ public class EnhancedShapedRecipe extends ShapedRecipe
             bytes.writeVarInt(recipe.getWidth());
             bytes.writeVarInt(recipe.getHeight());
             for (Ingredient input : recipe.getIngredients())
-            {
                 input.write(bytes);
-            }
             bytes.writeItemStack(recipe.getOutput());
             bytes.writeVarInt(recipe.processors.size());
             for (var processor : recipe.processors)
                 RecipeProcessor.toBytes(bytes, processor);
             bytes.writeBoolean(recipe.excludeFromRecipeBook);
-        }    
+        }
     }
 }
