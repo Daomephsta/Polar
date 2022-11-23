@@ -12,7 +12,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.FacingBlock;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemPlacementContext;
@@ -23,11 +22,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
-public class AnomalyTapperBlock extends FacingBlock 
+public class AnomalyTapperBlock extends FacingBlock
     implements IHasSpecialBlockItem, BlockEntityHost<AnomalyTapperBlockEntity>
 {
     private final Polarity polarity;
-    
+
     public AnomalyTapperBlock(Polarity polarity)
     {
         super(FabricBlockSettings.of(Material.WOOD)
@@ -37,7 +36,7 @@ public class AnomalyTapperBlock extends FacingBlock
         this.polarity = polarity;
         setDefaultState(getDefaultState().with(FACING, Direction.UP));
     }
-    
+
     @Override
     public void randomDisplayTick(BlockState stateIn, World world, BlockPos pos, Random rand)
     {
@@ -48,9 +47,9 @@ public class AnomalyTapperBlock extends FacingBlock
             double travelTime = 25.0D;
             for(int p = 0; p < 8; p++)
             {
-                world.addParticle(ParticleTypes.CLOUD, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, 
-                    (tapper.getAttachedAnomaly().getX() - pos.getX() - 0.5D) / travelTime, 
-                    (tapper.getAttachedAnomaly().getY() - pos.getY()) / travelTime, 
+                world.addParticle(ParticleTypes.CLOUD, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D,
+                    (tapper.getAttachedAnomaly().getX() - pos.getX() - 0.5D) / travelTime,
+                    (tapper.getAttachedAnomaly().getY() - pos.getY()) / travelTime,
                     (tapper.getAttachedAnomaly().getZ() - pos.getZ() - 0.5D) / travelTime);
             }
         }
@@ -61,13 +60,13 @@ public class AnomalyTapperBlock extends FacingBlock
     {
         return PolarBlockEntityTypes.ANOMALY_TAPPER;
     }
-    
+
     @Override
     protected void appendProperties(Builder<Block, BlockState> builder)
     {
           builder.add(FACING);
     }
-    
+
     @Override
     public BlockState getPlacementState(ItemPlacementContext placementContext)
     {
@@ -79,7 +78,7 @@ public class AnomalyTapperBlock extends FacingBlock
     {
         return new AnomalyTapperBlockItem(this, getPolarity());
     }
-    
+
     @Override
     public BlockEntity createBlockEntity(BlockPos blockPos, BlockState blockState)
     {
