@@ -55,13 +55,7 @@ public class AnomalyTapperBlock extends FacingBlock
             }
         }
     }
-    
-    @Override
-    public BlockEntityTicker<AnomalyTapperBlockEntity> getTickDelegate()
-    {
-        return AnomalyTapperBlockEntity::tick;
-    }
-    
+
     @Override
     public BlockEntityType<AnomalyTapperBlockEntity> getBlockEntityType()
     {
