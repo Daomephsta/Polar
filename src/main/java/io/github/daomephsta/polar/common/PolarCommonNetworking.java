@@ -2,7 +2,7 @@
 
 import io.github.daomephsta.polar.api.Polarity;
 import io.github.daomephsta.polar.common.components.PolarPlayerDataComponent.PolarPlayerData;
-import io.netty.buffer.Unpooled;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
@@ -29,7 +29,7 @@ public class PolarCommonNetworking
 
     public static Packet<?> createEntitySpawnPacket(Entity entity)
     {
-        PacketByteBuf bytes = new PacketByteBuf(Unpooled.buffer());
+        var bytes = PacketByteBufs.create();
         bytes.writeVarInt(Registry.ENTITY_TYPE.getRawId(entity.getType()));
         bytes.writeInt(entity.getId());
         bytes.writeNbt(entity.writeNbt(new NbtCompound()));
@@ -38,7 +38,7 @@ public class PolarCommonNetworking
 
     public static void sendResidualChargePacket(ServerPlayerEntity recipient, Polarity polarity)
     {
-        PacketByteBuf bytes = new PacketByteBuf(Unpooled.buffer());
+        var bytes = PacketByteBufs.create();
         bytes.writeInt(polarity.getIndex());
         ServerPlayNetworking.send(recipient, SET_RESIDUAL_CHARGE, bytes);
     }
@@ -50,7 +50,7 @@ public class PolarCommonNetworking
 
     public static void sendResearchPacket(ServerPlayerEntity recipient, Identifier research, S2CResearchPacketAction action)
     {
-        PacketByteBuf bytes = new PacketByteBuf(Unpooled.buffer());
+        var bytes = PacketByteBufs.create();
         bytes.writeIdentifier(research);
         bytes.writeEnumConstant(action);
         ServerPlayNetworking.send(recipient, PolarCommonNetworking.RESEARCH, bytes);

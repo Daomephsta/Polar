@@ -4,12 +4,11 @@ import io.github.daomephsta.polar.api.Polarity;
 import io.github.daomephsta.polar.common.PolarCommonNetworking;
 import io.github.daomephsta.polar.common.PolarCommonNetworking.S2CResearchPacketAction;
 import io.github.daomephsta.polar.common.components.PolarPlayerDataComponent.PolarPlayerData;
-import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.NbtCompound;
@@ -38,10 +37,9 @@ public class PolarClientNetworking
 
         client.execute(() ->
         {
-            ClientWorld world = MinecraftClient.getInstance().world;
-            Entity entity = entityType.create(world);
+            Entity entity = entityType.create(client.world);
             entity.readNbt(nbt);
-            world.addEntity(entityId, entity);
+            client.world.addEntity(entityId, entity);
         });
     }
 
@@ -57,7 +55,7 @@ public class PolarClientNetworking
 
     public static void sendStartResearchPacket(Identifier research)
     {
-        PacketByteBuf bytes = new PacketByteBuf(Unpooled.buffer());
+        var bytes = PacketByteBufs.create();
         bytes.writeIdentifier(research);
         ClientPlayNetworking.send(PolarCommonNetworking.RESEARCH, bytes);
     }
