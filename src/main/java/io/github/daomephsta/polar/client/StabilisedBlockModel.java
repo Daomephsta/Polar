@@ -1,27 +1,22 @@
 package io.github.daomephsta.polar.client;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 
 import io.github.daomephsta.polar.common.Polar;
-import io.github.daomephsta.polar.common.blockentities.StabilisedBlockBlockEntity;
 import net.fabricmc.fabric.api.client.model.ModelProviderContext;
 import net.fabricmc.fabric.api.client.model.ModelProviderException;
-import net.fabricmc.fabric.api.client.model.ModelVariantProvider;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView;
 import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
-import net.fabricmc.fabric.api.renderer.v1.render.RenderContext.QuadTransform;
+import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachedBlockView;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.BakedQuad;
@@ -57,73 +52,62 @@ public class StabilisedBlockModel implements UnbakedModel
     public Collection<SpriteIdentifier> getTextureDependencies(Function<Identifier, UnbakedModel> modelGetter,
         Set<Pair<String, String>> textures)
     {
-        return ImmutableSet.of(STABILISED_BLOCK_OVERLAY);
+        return Set.of(STABILISED_BLOCK_OVERLAY);
     }
 
     @Override
     public Collection<Identifier> getModelDependencies()
     {
-        return Collections.emptyList();
+        return List.of();
+    }
+
+    public static UnbakedModel variantProvider(ModelIdentifier modelId, ModelProviderContext context) throws ModelProviderException
+    {
+        return modelId.getNamespace().equals(Polar.MOD_ID) && modelId.getPath().equals("stabilised_block")
+                ? StabilisedBlockModel.INSTANCE
+                : null;
     }
 
     private static final class Baked implements BakedModel, FabricBakedModel
     {
         private final Sprite overlay;
-        private final QuadTransform retextureTransform;
 
         private Baked(Sprite overlay)
         {
             this.overlay = overlay;
-            retextureTransform = new RetextureTransform(overlay);
         }
 
         @Override
         public List<BakedQuad> getQuads(BlockState state, Direction side, Random random)
         {
-            return Collections.emptyList();
+            return List.of();
         }
 
         @Override
-        public void emitBlockQuads(BlockRenderView blockView, BlockState state, BlockPos pos,
-            Supplier<Random> randomSupplier, RenderContext context)
+        public void emitBlockQuads(BlockRenderView blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context)
         {
-            BlockEntity blockEntity = blockView.getBlockEntity(pos);
-            if (blockEntity instanceof StabilisedBlockBlockEntity)
-            {
-                BlockState camoState = ((StabilisedBlockBlockEntity) blockEntity).getCamoBlockState();
-                BakedModel model = MinecraftClient.getInstance().getBlockRenderManager().getModel(camoState);
-                emitQuads(blockView, pos, randomSupplier, context, camoState, model);
-                context.pushTransform(retextureTransform);
-                emitQuads(blockView, pos, randomSupplier, context, camoState, model);
-                context.popTransform();
-            }
+            BlockState camoState = (BlockState) ((RenderAttachedBlockView) blockView).getBlockEntityRenderAttachment(pos);
+            BakedModel model = MinecraftClient.getInstance().getBlockRenderManager().getModel(camoState);
+            emitQuads(blockView, pos, randomSupplier, context, camoState, model);
+            context.pushTransform(this::retextureTransform);
+            emitQuads(blockView, pos, randomSupplier, context, camoState, model);
+            context.popTransform();
         }
 
         public void emitQuads(BlockRenderView blockView, BlockPos pos, Supplier<Random> randomSupplier,
             RenderContext context, BlockState camoState, BakedModel model)
         {
-            if (model instanceof FabricBakedModel)
-                ((FabricBakedModel) model).emitBlockQuads(blockView, camoState, pos, randomSupplier, context);
+            if (model instanceof FabricBakedModel fabricModel)
+                fabricModel.emitBlockQuads(blockView, camoState, pos, randomSupplier, context);
             else
                 context.fallbackConsumer().accept(model);
         }
 
-        private static class RetextureTransform implements QuadTransform
+        private boolean retextureTransform(MutableQuadView quadView)
         {
-            private final Sprite newTexture;
-
-            private RetextureTransform(Sprite newTexture)
-            {
-                this.newTexture = newTexture;
-            }
-
-            @Override
-            public boolean transform(MutableQuadView quadView)
-            {
-                quadView.spriteBake(0, newTexture, MutableQuadView.BAKE_LOCK_UV)
-                    .colorIndex(-1);
-                return true;
-            }
+            quadView.spriteBake(0, overlay, MutableQuadView.BAKE_LOCK_UV)
+                .colorIndex(-1);
+            return true;
         }
 
         @Override
@@ -175,19 +159,6 @@ public class StabilisedBlockModel implements UnbakedModel
         public boolean isSideLit()
         {
             return false;
-        }
-    }
-
-    public static enum VariantProvider implements ModelVariantProvider
-    {
-        INSTANCE;
-
-        @Override
-        public UnbakedModel loadModelVariant(ModelIdentifier modelId, ModelProviderContext context) throws ModelProviderException
-        {
-            return modelId.getNamespace().equals(Polar.MOD_ID) && modelId.getPath().equals("stabilised_block")
-                    ? StabilisedBlockModel.INSTANCE
-                    : null;
         }
     }
 }

@@ -1,7 +1,10 @@
 package io.github.daomephsta.polar.common.blockentities;
 
+import org.jetbrains.annotations.Nullable;
+
 import io.github.daomephsta.polar.common.util.nbt.NbtReader;
 import io.github.daomephsta.polar.common.util.nbt.NbtWriter;
+import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachmentBlockEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
@@ -9,7 +12,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.util.math.BlockPos;
 
-public class StabilisedBlockBlockEntity extends BlockEntity
+public class StabilisedBlockBlockEntity extends BlockEntity implements RenderAttachmentBlockEntity
 {
     private BlockState camoBlockState = Blocks.AIR.getDefaultState();
 
@@ -26,6 +29,12 @@ public class StabilisedBlockBlockEntity extends BlockEntity
     public void setCamoBlockState(BlockState camoBlockState)
     {
         this.camoBlockState = camoBlockState;
+    }
+
+    @Override
+    public @Nullable Object getRenderAttachmentData()
+    {
+        return getCamoBlockState();
     }
 
     @Override
