@@ -1,6 +1,6 @@
 plugins {
-    id 'maven-publish'
-    id 'fabric-loom'
+	id 'fabric-loom'
+	id 'maven-publish'
 }
 
 archivesBaseName = project.archives_base_name
